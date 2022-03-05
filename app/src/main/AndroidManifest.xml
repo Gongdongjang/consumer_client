@@ -9,6 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Consumer_client">
+        <activity android:name=".user.LoginActivity" />
+        <activity android:name=".user.RegisterActivity" />
+        <activity android:name=".user.StartActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -17,7 +20,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
+
     </application>
 
 </manifest>
