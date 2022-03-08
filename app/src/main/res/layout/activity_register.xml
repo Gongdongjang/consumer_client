@@ -99,7 +99,7 @@
                         android:orientation="horizontal">
 
                         <EditText
-                            android:id="@+id/signID"
+                            android:id="@+id/mobile_no"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
                             android:layout_marginBottom="10dp"
@@ -131,19 +131,27 @@
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
 
-                        <RadioButton
-                            android:id="@+id/female"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                        <RadioGroup
+                            android:id="@+id/gender"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="여" />
+                            android:orientation="horizontal">
 
-                        <RadioButton
-                            android:id="@+id/male"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="남" />
+                            <RadioButton
+                                android:id="@+id/female"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="여" />
+
+                            <RadioButton
+                                android:id="@+id/male"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="남" />
+                        </RadioGroup>
 
                     </LinearLayout>
 
