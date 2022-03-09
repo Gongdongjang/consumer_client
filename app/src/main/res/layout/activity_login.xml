@@ -19,8 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginBottom="100dp"
-            android:gravity="center_horizontal"
-            android:background="@drawable/ic_baseline_image_24" />
+            android:background="@drawable/ic_baseline_image_24"
+            android:gravity="center_horizontal" />
 
         <EditText
             android:id="@+id/editID"
@@ -65,8 +65,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1.7"
                 android:layout_marginLeft="5dp"
+                android:layout_weight="1.7"
                 android:text="자동로그인"
                 android:textColor="@color/black"
                 android:textSize="11dp" />
@@ -98,13 +98,13 @@
             android:id="@+id/signin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
-            android:layout_gravity="center_horizontal"
             android:text="회원가입"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="11dp"  />
+            android:textSize="11dp" />
 
         <TextView
             android:id="@+id/textView5"
@@ -115,7 +115,7 @@
             android:text="SNS로 간편 로그인"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="11dp"  />
+            android:textSize="11dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -159,5 +159,21 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
+
+<!--        <ImageView-->
+<!--            android:id="@+id/ll_naver_login"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_constraintBottom_toBottomOf="parent"-->
+<!--            android:layout_constraintEnd_toEndOf="@+id/tv_kakao2"-->
+<!--            android:layout_constraintStart_toStartOf="parent"-->
+<!--            android:layout_constraintTop_toTopOf="parent"-->
+<!--            android:src="@drawable/sns_naver" />-->
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 </FrameLayout>

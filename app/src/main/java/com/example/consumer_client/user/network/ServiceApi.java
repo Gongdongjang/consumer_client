@@ -1,5 +1,7 @@
 package com.example.consumer_client.user.network;
 
+import com.example.consumer_client.user.data.GoogleLoginData;
+import com.example.consumer_client.user.data.GoogleLoginResponse;
 import com.example.consumer_client.user.data.LoginData;
 import com.example.consumer_client.user.data.LoginResponse;
 import com.example.consumer_client.user.data.RegisterData;
@@ -15,4 +17,7 @@ public interface ServiceApi {
 
     @POST("/signup")
     Call<RegisterResponse> userRegister(@Body RegisterData data);
+
+    @POST("/googleLogin")
+    Call<GoogleLoginResponse> userGoogleLogin(@Body GoogleLoginData data);
 }

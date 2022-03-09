@@ -32,7 +32,6 @@ public class RegisterActivity extends AppCompatActivity {
     private RadioButton female;
     private Button registerButton;
     private ServiceApi service;
-//    private ProgressBar mProgressView; //이거 왜 필요한 건지 모르겠음
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,6 @@ public class RegisterActivity extends AppCompatActivity {
         male = (RadioButton) findViewById(R.id.male);
         female = (RadioButton) findViewById(R.id.female);
         registerButton = findViewById(R.id.signupbutton);
-//        mProgressView = (ProgressBar) findViewById(R.id.join_progress);
 
         service = RetrofitClient.getClient().create(ServiceApi.class);
 
@@ -119,7 +117,6 @@ public class RegisterActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             startRegister(new RegisterData(uid, upassword, uname, umobile_no, nickname, gender));
-//            showProgress(true);
         }
     }
 
@@ -129,7 +126,6 @@ public class RegisterActivity extends AppCompatActivity {
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 RegisterResponse result = response.body();
                 Toast.makeText(RegisterActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
-//                showProgress(false);
 
                 if (result.getCode() == 200) {
                     //회원가입 버튼 클릭시, 회원가입 완료 페이지로 이동
@@ -142,7 +138,6 @@ public class RegisterActivity extends AppCompatActivity {
             public void onFailure(Call<RegisterResponse> call, Throwable t) {
                 Toast.makeText(RegisterActivity.this, "회원가입 에러 발생", Toast.LENGTH_SHORT).show();
                 Log.e("회원가입 에러 발생", t.getMessage());
-//                showProgress(false);
             }
         });
     }
@@ -151,10 +146,4 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean isPasswordValid(String password) {
         return password.length() >= 6; //비밀번호 길이 6자리 이상
     }
-
-//    //여기 이해 못함
-//    private void showProgress(boolean show) {
-//        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-//    }
-
 }

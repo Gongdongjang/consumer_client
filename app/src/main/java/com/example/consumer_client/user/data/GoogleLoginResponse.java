@@ -2,8 +2,7 @@ package com.example.consumer_client.user.data;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RegisterResponse {
-
+public class GoogleLoginResponse {
     @SerializedName("code")
     private int code;
 
