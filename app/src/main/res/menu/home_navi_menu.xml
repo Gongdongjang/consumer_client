@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/tab_total"
+        android:icon="@drawable/ic_baseline_totalmenu_24"
+        android:title="햄버거"/>
+    <item android:id="@+id/tab_keep"
+        android:icon="@drawable/ic_baseline_keep_24"
+        android:title="찜"/>
+    <item android:id="@+id/tab_home"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="홈"/>
+    <item android:id="@+id/tab_order"
+        android:icon="@drawable/ic_baseline_order_24"
+        android:title="주문내역"/>
+    <item android:id="@+id/tab_mypage"
+        android:icon="@drawable/ic_baseline_mypage_24"
+        android:title="마이페이지"/>
+
+</menu>

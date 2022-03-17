@@ -4,10 +4,23 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.15" />
+        <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.242" />
         <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/drawable/ic_baseline_image_24.xml" value="0.138" />
+        <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/drawable/ic_baseline_keep_24.xml" value="0.187" />
+        <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/drawable/ic_baseline_mypage_24.xml" value="0.187" />
+        <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/drawable/ic_baseline_order_24.xml" value="0.187" />
+        <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/drawable/ic_baseline_radio_button_checked_24.xml" value="0.242" />
+        <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/drawable/ic_baseline_totalmenu_24.xml" value="0.187" />
         <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/layout/activity_login.xml" value="0.11481481481481481" />
-        <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/layout/activity_main.xml" value="0.11481481481481481" />
+        <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/layout/activity_register.xml" value="0.26197916666666665" />
         <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/layout/activity_start.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/layout/fragment_home.xml" value="0.26197916666666665" />
+        <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/layout/fragment_keep.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/layout/fragment_my_page.xml" value="0.26197916666666665" />
+        <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/layout/fragment_order.xml" value="0.26197916666666665" />
+        <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/layout/fragment_total_list.xml" value="0.26197916666666665" />
+        <entry key="..\:/Users/jiwoo/Desktop/consumer_client/app/src/main/res/menu/home_navi_menu.xml" value="0.22" />
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/drawable/ic_baseline_image_24.xml" value="0.234" />
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/drawable/ic_baseline_radio_button_unchecked_24.xml" value="0.2445" />
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/drawable/ic_launcher_background.xml" value="0.131" />
