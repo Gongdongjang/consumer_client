@@ -3,6 +3,8 @@ package com.example.consumer_client;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,71 +19,97 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    Fragment frag1;
-    Fragment frag2;
-    Fragment frag3;
-    Fragment frag4;
-    Fragment frag5;
+    private BottomNavigationView bottomNavigation;
+    private FragmentManager fm;
+    private FragmentTransaction ft;
+    private TotalList frag1;
+    private Keep frag2;
+    private Home frag3;
+    private Order frag4;
+    private MyPage frag5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        frag1= new TotalList();
-        frag2= new Keep();
-        frag3= new Home();
-        frag4= new Order();
-        frag5= new MyPage();
+        //getSupportFragmentManager().beginTransaction().replace(R.id.HomeNavi,frag3).commit();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.HomeNavi,frag3).commit();
-
-        BottomNavigationView bottomNavigation = findViewById(R.id.bottom_navi);
+        bottomNavigation = findViewById(R.id.bottom_navi);
         bottomNavigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item){
                         switch (item.getItemId()) {
                             case R.id.tab_total:
-                                //Toast.makeText(getApplicationContext(), "첫번째", Toast.LENGTH_SHORT).show();
-                                getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.HomeNavi, frag1)
-                                        .commit();
-                                return true;
+                                setFrag(0);
+                                break;
 
                             case R.id.tab_keep:
-                                //Toast.makeText(getApplicationContext(), "두번째", Toast.LENGTH_SHORT).show();
-                                getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.HomeNavi, frag2)
-                                        .commit();
-                                return true;
+                                setFrag(1);
+                                break;
 
                             case R.id.tab_home:
-                                //Toast.makeText(getApplicationContext(), "두번째", Toast.LENGTH_SHORT).show();
-                                getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.HomeNavi, frag3)
-                                        .commit();
-                                return true;
+                                setFrag(2);
+                                break;
 
                             case R.id.tab_order:
-                                //Toast.makeText(getApplicationContext(), "두번째", Toast.LENGTH_SHORT).show();
-                                getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.HomeNavi, frag4)
-                                        .commit();
-                                return true;
+                                setFrag(3);
+                                break;
 
                             case R.id.tab_mypage:
-                                //Toast.makeText(getApplicationContext(), "두번째", Toast.LENGTH_SHORT).show();
-                                getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.HomeNavi, frag5)
-                                        .commit();
-                                return true;
+                                setFrag(4);
+                                break;
                         }
 
-                        return false;
+                        return true;
                     }
-
                 });
+                frag1= new TotalList();
+                frag2= new Keep();
+                frag3= new Home();
+                frag4= new Order();
+                frag5= new MyPage();
+
+                setFrag(2); // 첫 프래그먼트 화면을 무엇으로 지정해줄 것인지 선택
 
     }
+
+    private void setFrag(int n) {
+        fm = getSupportFragmentManager();
+        ft = fm.beginTransaction(); //실제 교체 시 ..
+        switch (n) {
+            case 0:
+                Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
+                ft.replace(R.id.Main_Frame, frag1);
+                ft.commit();
+                break;
+            case 1:
+                Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
+                ft.replace(R.id.Main_Frame, frag2);
+                ft.commit();
+                break;
+            case 2:
+                Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
+                ft.replace(R.id.Main_Frame, frag3);
+                ft.commit();
+                break;
+            case 3:
+                Toast.makeText(this, "4", Toast.LENGTH_SHORT).show();
+                ft.replace(R.id.Main_Frame, frag4);
+                ft.commit();
+                break;
+            case 4:
+                Toast.makeText(this, "5", Toast.LENGTH_SHORT).show();
+                ft.replace(R.id.Main_Frame, frag5);
+                ft.commit();
+                break;
+        }
+
+    }
+
+
+
+
+
 }

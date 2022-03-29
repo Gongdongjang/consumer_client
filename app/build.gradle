@@ -42,9 +42,12 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     //카카오 SDK 모듈 설정
     implementation "com.kakao.sdk:v2-user:2.8.6" // 카카오 로그인
+    //카카오 맵 모듈
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files('libs/libDaumMapAndroid.jar')
 
 //    //네이버 로그인
-//    implementation 'com.naver.nid:naveridlogin-android-sdk:4.2.6'   // import from jcenter
+    implementation 'com.naver.nid:naveridlogin-android-sdk:4.2.6'   // import from jcenter
 //
 //    // naveridlogin dependencies
 //    def android_x_version = "1.0.0"

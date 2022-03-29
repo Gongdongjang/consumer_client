@@ -117,6 +117,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //네이버
+
+
         //간편로그인(카카오)
         Function2<OAuthToken, Throwable, Unit> callback = new Function2<OAuthToken, Throwable, Unit>() {
             @Override public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
