@@ -33,9 +33,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //getSupportFragmentManager().beginTransaction().replace(R.id.HomeNavi,frag3).commit();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.HomeNavi,frag3).commit();
 
         bottomNavigation = findViewById(R.id.bottom_navi);
+
         bottomNavigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 frag4= new Order();
                 frag5= new MyPage();
 
-                setFrag(2); // 첫 프래그먼트 화면을 무엇으로 지정해줄 것인지 선택
+                setFrag(0); // 첫 프래그먼트 화면을 무엇으로 지정해줄 것인지 선택
 
     }
 
@@ -80,27 +81,27 @@ public class MainActivity extends AppCompatActivity {
         ft = fm.beginTransaction(); //실제 교체 시 ..
         switch (n) {
             case 0:
-                Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
                 ft.replace(R.id.Main_Frame, frag1);
                 ft.commit();
                 break;
             case 1:
-                Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
                 ft.replace(R.id.Main_Frame, frag2);
                 ft.commit();
                 break;
             case 2:
-                Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
                 ft.replace(R.id.Main_Frame, frag3);
                 ft.commit();
                 break;
             case 3:
-                Toast.makeText(this, "4", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "4", Toast.LENGTH_SHORT).show();
                 ft.replace(R.id.Main_Frame, frag4);
                 ft.commit();
                 break;
             case 4:
-                Toast.makeText(this, "5", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "5", Toast.LENGTH_SHORT).show();
                 ft.replace(R.id.Main_Frame, frag5);
                 ft.commit();
                 break;
