@@ -2,23 +2,22 @@ package com.example.consumer_client.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.consumer_client.R;
 import com.example.consumer_client.homeRecycler.HomeProductAdapter;
 import com.example.consumer_client.homeRecycler.HomeProductItem;
 
+import java.util.ArrayList;
+
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
-
-import java.util.ArrayList;
 
 
 public class Home extends Fragment {
