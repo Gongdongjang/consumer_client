@@ -4,7 +4,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-   private final static String BASE_URL = "http://각자ip추가하기:3000/"; //나중에 각자 ip로 바꿔주세요
+   private final static String BASE_URL = "http://192. :3000/"; //나중에 각자 ip로 바꾸기
    private static Retrofit retrofit = null;
 
    private RetrofitClient(){

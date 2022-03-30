@@ -20,9 +20,9 @@ public class KakaoLoginData {
     String refresh_token;
 
     @SerializedName("gender")
-    Gender gender;
+    String gender;
 
-    public KakaoLoginData(String user_id, String user_name, String nickname, String sns_type,String refresh_token, Gender gender) {
+    public KakaoLoginData(String user_id, String user_name, String nickname, String sns_type,String refresh_token, String gender) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.nickname = nickname;

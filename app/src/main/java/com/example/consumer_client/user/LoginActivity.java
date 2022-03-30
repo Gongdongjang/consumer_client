@@ -117,6 +117,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //네이버
+
+
         //간편로그인(카카오)
         Function2<OAuthToken, Throwable, Unit> callback = new Function2<OAuthToken, Throwable, Unit>() {
             @Override public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
@@ -134,13 +137,12 @@ public class LoginActivity extends AppCompatActivity {
                                 String username=user.getKakaoAccount().getProfile().getNickname();
                                 String nickname= user.getKakaoAccount().getProfile().getNickname();
                                 String refresh_token= oAuthToken.getRefreshToken();
-                                Gender gender= user.getKakaoAccount().getGender();
-
+                                String gender= String.valueOf(user.getKakaoAccount().getGender()); //성별받기
+                                //String email=user.getKakaoAccount().getEmail();
 
                                 Log.i(TAG, "username " + username); // 유저의 고유 아이디를 불러옵니다.
                                 Log.i(TAG, "invoke: nickname=" + user.getKakaoAccount().getProfile().getNickname()); // 유저의 닉네임을 불러옵니다.
                                 Log.i(TAG, "gender " + gender);
-                                // 이 부분에는 로그인이 정상적으로 되었을 경우 어떤 일을 수행할 지 적으면 됩니다.
 
                                 KakaoLoginData kakaoD= new KakaoLoginData(userid, username, nickname,"kakao", refresh_token, gender);
                                // Log.d("kakaoD", String.valueO;
@@ -374,6 +376,7 @@ public class LoginActivity extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
+            Log.d("test","구글로그인확인" );
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
