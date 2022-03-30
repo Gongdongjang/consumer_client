@@ -3,30 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="clip_vertical"
     android:background="#ffffff">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="40dp"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="30dp"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginBottom="100dp"
-            android:background="@drawable/ic_baseline_image_24"
+            android:layout_height="250dp"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/kakaotalk_20220324_152807451"
             android:gravity="center_horizontal" />
 
         <EditText
             android:id="@+id/editID"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_gravity="center"
             android:layout_marginBottom="10dp"
             android:background="@color/white"
             android:ems="10"
@@ -38,7 +39,6 @@
             android:id="@+id/editPassword"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_gravity="center"
             android:background="@color/white"
             android:ems="10"
             android:hint="비밀번호"
@@ -64,7 +64,6 @@
                 android:id="@+id/autologin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1.7"
                 android:text="자동로그인"
@@ -75,7 +74,6 @@
                 android:id="@+id/find"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:text="아이디 / 비밀번호 찾기"
                 android:textColor="@color/black"
                 android:textSize="11dp" />
@@ -86,7 +84,6 @@
             android:id="@+id/loginbutton"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:background="@color/purple_200"
             android:text="로그인"
@@ -98,7 +95,6 @@
             android:id="@+id/signin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:text="회원가입"
@@ -130,7 +126,6 @@
                 android:id="@+id/naverbutton"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_gravity="center"
                 android:background="#47C83E"
                 android:text="네이버"
                 android:textColor="@color/white"
@@ -141,7 +136,6 @@
                 android:id="@+id/kakaobutton"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_gravity="center"
                 android:background="#FFE400"
                 android:text="카카오"
                 android:textColor="@color/black"
@@ -152,7 +146,6 @@
                 android:id="@+id/googlebutton"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_gravity="center"
                 android:background="#6799FF"
                 android:text="구글"
                 android:textColor="@color/white"
@@ -161,15 +154,15 @@
         </LinearLayout>
 
 
-<!--        <ImageView-->
-<!--            android:id="@+id/ll_naver_login"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_constraintBottom_toBottomOf="parent"-->
-<!--            android:layout_constraintEnd_toEndOf="@+id/tv_kakao2"-->
-<!--            android:layout_constraintStart_toStartOf="parent"-->
-<!--            android:layout_constraintTop_toTopOf="parent"-->
-<!--            android:src="@drawable/sns_naver" />-->
+        <!--        <ImageView-->
+        <!--            android:id="@+id/ll_naver_login"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            android:layout_constraintEnd_toEndOf="@+id/tv_kakao2"-->
+        <!--            android:layout_constraintStart_toStartOf="parent"-->
+        <!--            android:layout_constraintTop_toTopOf="parent"-->
+        <!--            android:src="@drawable/sns_naver" />-->
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"
