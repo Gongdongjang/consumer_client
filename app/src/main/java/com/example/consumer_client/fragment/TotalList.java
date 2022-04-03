@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.consumer_client.Adapter.hamburger.FarmActivity;
+import com.example.consumer_client.Adapter.hamburger.StoreActivity;
 import com.example.consumer_client.R;
 
 public class TotalList extends Fragment {
     private View view;
-    private TextView totalFarmTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,6 +29,15 @@ public class TotalList extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FarmActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        TextView totalStoreTextView = (TextView) view.findViewById(R.id.showTotalStore);
+        totalStoreTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), StoreActivity.class);
                 startActivity(intent);
             }
         });

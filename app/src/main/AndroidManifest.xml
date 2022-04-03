@@ -28,6 +28,7 @@
         <activity android:name=".user.RegisterActivity" />
         <activity android:name=".user.StartActivity" />
         <activity android:name=".Adapter.hamburger.FarmActivity" />
+        <activity android:name=".Adapter.hamburger.StoreActivity" />
 
         <activity
             android:name=".user.LoginActivity"
