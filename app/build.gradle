@@ -3,12 +3,12 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 29
 
     defaultConfig {
         applicationId "com.example.consumer_client"
-        minSdk 31
-        targetSdk 31
+        minSdk 29
+        targetSdk 29
         versionCode 1
         versionName "1.0"
 
@@ -45,6 +45,16 @@ dependencies {
     //카카오 맵 모듈
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/libDaumMapAndroid.jar')
+
+//    //네이버 로그인
+   // implementation 'com.naver.nid:naveridlogin-android-sdk:4.2.6'   // import from jcenter
+//
+//    // naveridlogin dependencies
+    //def android_x_version = "1.0.0"
+    //implementation "androidx.appcompat:appcompat:$android_x_version"
+   // implementation "androidx.legacy:legacy-support-core-utils:$android_x_version"
+    //implementation "androidx.browser:browser:$android_x_version"
+    //implementation "androidx.legacy:legacy-support-v4:$android_x_version"
 
     //구글 로그인
     implementation 'com.google.android.gms:play-services-auth:20.1.0'

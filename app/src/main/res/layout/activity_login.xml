@@ -125,7 +125,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/naverbutton"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="match_parent"
                 android:background="#47C83E"
                 android:text="네이버"
                 android:textColor="@color/white"
