@@ -15,6 +15,18 @@ import com.example.consumer_client.R;
 import java.util.ArrayList;
 
 public class StoreTotalAdapter extends RecyclerView.Adapter<StoreTotalAdapter.ViewHolder> {
+    private ArrayList<String> mData = null;
+
+    public interface OnItemClickListener{
+        void onItemClick(View v, int pos);
+    }
+
+    private StoreTotalAdapter.OnItemClickListener mListener = null;
+
+    public void setOnItemClickListener(StoreTotalAdapter.OnItemClickListener listener){
+        this.mListener= listener;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView storeProdImgView;
         TextView storeName;
@@ -26,7 +38,18 @@ public class StoreTotalAdapter extends RecyclerView.Adapter<StoreTotalAdapter.Vi
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            // 아이템 클릭 이벤트 처리.
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition() ;
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null){
+                            mListener.onItemClick(v, pos);
+                        }
+                    }
+                }
+            });
             storeProdImgView = (ImageView) itemView.findViewById(R.id.StoreProdImg);
             storeName = (TextView) itemView.findViewById(R.id.StoreName);
             storeLocationFromMe = (TextView) itemView.findViewById(R.id.StoreLocationFromMe);

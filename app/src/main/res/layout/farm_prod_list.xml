@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/FarmProdImg_item"
+            android:id="@+id/FarmDetailProdImg_item"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="top" />
@@ -28,18 +28,29 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/FarmName"
+                    android:id="@+id/FarmDetailName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:text="농장이름"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
+                    android:text="농장명"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text=" | "/>
+
+                <TextView
+                    android:id="@+id/VegetableName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text="채소"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -47,50 +58,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/FarmProdName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="판매물품"
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:id="@+id/FarmFeature"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="특징"
-                        android:textColor="@color/black" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/FarmProdName_item"
+                <TextView
+                        android:id="@+id/FarmDetailProdName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="판매물품"
-                        android:textColor="@color/black" />
+                        android:text="제품명"
+                        android:textColor="@color/black"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/FarmFeature_info"
+               <TextView
+                        android:id="@+id/FarmDetailProdExplain"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="특징"
+                        android:text="짧은 제품 설명"
                         android:textColor="@color/black" />
-                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -100,23 +85,56 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/ProdNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="현재 "
+                    android:text=" "
                     android:textColor="@color/black"/>
 
                 <TextView
-                    android:id="@+id/FarmSituation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:text="개 "
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/ProdPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" 개의 공동구매 진행 중"
+                    android:text=" "
                     android:textColor="@color/black"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="원 / "
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/ProdNum1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" "
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="개 "
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/ProdPrice1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" "
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="원 "
+                    android:textColor="@color/black" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
