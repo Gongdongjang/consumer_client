@@ -1,24 +1,58 @@
 package com.example.consumer_client.Adapter.hamburger;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.consumer_client.FarmData;
+import com.example.consumer_client.FarmGet;
+import com.example.consumer_client.FarmResponse;
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
+import com.example.consumer_client.user.LoginActivity;
+import com.example.consumer_client.user.data.LoginResponse;
+import com.example.consumer_client.user.network.RetrofitClient;
+import com.example.consumer_client.user.network.ServiceApi;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
+import net.daum.mf.map.api.MapView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class FarmActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
+    //    private ArrayList<FarmTotalInfo> mList;
     private ArrayList<FarmTotalInfo> mList;
     private FarmTotalAdapter mFarmTotalAdapter;
     Context mContext;
+    String[] farmNameL = new String[3]; //나중에 숫자 바꾸기
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,19 +63,65 @@ public class FarmActivity extends AppCompatActivity {
 
         firstInit();
 
-        //추후에 제품 이름 가져올 예정
-        for(int i=0;i<10;i++){
-            addFarm("product Img", "농가 이름" + i, "농가 제품 이름" + i, "농가 특징" + i, "" + i);
-        }
+//        //어뎁터 적용
+//        mFarmTotalAdapter = new FarmTotalAdapter(mList);
+//        mRecyclerView.setAdapter(mFarmTotalAdapter);
+//
+//        //세로로 세팅
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        mRecyclerView.setLayoutManager(linearLayoutManager);
 
-        //어뎁터 적용
-        mFarmTotalAdapter = new FarmTotalAdapter(mList);
-        mRecyclerView.setAdapter(mFarmTotalAdapter);
+//        addFarm("product Img", "", "농가 제품 이름", "농가 특징", "");
 
-        //세로로 세팅
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+        ServiceApi service = RetrofitClient.getClient().create(ServiceApi.class);
+        Call<FarmGet> call = service.getFarmData();
+        call.enqueue(new Callback<FarmGet>() {
+            @Override
+            public void onResponse(Call<FarmGet> call, Response<FarmGet> response) {
+
+                if (response.isSuccessful()) {
+                    FarmGet result = response.body();
+                    List farm = result.getFarm();
+                    for (int i = 0; i < Integer.parseInt(result.getCount()); i++) {
+//                        Object obj = farm.get(i);
+                        String str = farm.get(i).toString();
+//                        Log.d("77행", result.getFarm_name());
+//                        Log.d("78행", result.getFarm_info());
+//                        Log.d("79행", result.getFarm_mainItem());
+                        String[] list = str.split(", ");
+                        Log.d("82행", list[1].substring(10));
+                        farmNameL[i] = list[1].substring(10);
+//                        count++;
+                        Log.d("92행", farmNameL[i].getClass().toString());
+//                        Toast.makeText(FarmActivity.this, "로딩중", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<FarmGet> call, Throwable t) {
+                Toast.makeText(FarmActivity.this, "농가 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Handler mHandler = new Handler();
+        mHandler.postDelayed( new Runnable() {
+            public void run() { // 0.1초 후에 받아오도록 설정 , 바로 시작 시 에러남
+                //어뎁터 적용
+                mFarmTotalAdapter = new FarmTotalAdapter(mList);
+                mRecyclerView.setAdapter(mFarmTotalAdapter);
+
+                //세로로 세팅
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                mRecyclerView.setLayoutManager(linearLayoutManager);
+                
+                for(int i=0;i<2;i++){
+                    Log.d("farmName", farmNameL[i]);
+                    String s = farmNameL[i];
+                    addFarm("product Img", s, "농가 제품 이름" + i, "농가 특징" + i, "" + i);
+                }
+            } }, 100 ); // 1000 = 1초
     }
 
     public void firstInit(){
