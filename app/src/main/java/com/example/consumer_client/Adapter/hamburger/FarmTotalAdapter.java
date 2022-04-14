@@ -1,6 +1,7 @@
 package com.example.consumer_client.Adapter.hamburger;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,18 @@ import com.example.consumer_client.R;
 import java.util.ArrayList;
 
 public class FarmTotalAdapter extends RecyclerView.Adapter<FarmTotalAdapter.ViewHolder> {
+    private ArrayList<String> mData = null;
+
+    public interface OnItemClickListener{
+        void onItemClick(View v, int pos);
+    }
+
+    private OnItemClickListener mListener = null;
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.mListener= listener;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView farmProdImgView;
         TextView farmName;
@@ -24,7 +37,18 @@ public class FarmTotalAdapter extends RecyclerView.Adapter<FarmTotalAdapter.View
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            // 아이템 클릭 이벤트 처리.
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition() ;
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null){
+                            mListener.onItemClick(v, pos);
+                        }
+                    }
+                }
+            });
             farmProdImgView = (ImageView) itemView.findViewById(R.id.FarmProdImg_item);
             farmName = (TextView) itemView.findViewById(R.id.FarmName);
             farmProdName = (TextView) itemView.findViewById(R.id.FarmProdName_item);

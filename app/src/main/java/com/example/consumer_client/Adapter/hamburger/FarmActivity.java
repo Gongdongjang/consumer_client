@@ -1,7 +1,9 @@
 package com.example.consumer_client.Adapter.hamburger;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
@@ -42,6 +44,16 @@ public class FarmActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
+
+        mFarmTotalAdapter.setOnItemClickListener(
+                new FarmTotalAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View v, int pos) {
+                        Intent intent = new Intent(FarmActivity.this, FarmDetailActivity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
     }
 
     public void firstInit(){

@@ -1,7 +1,9 @@
 package com.example.consumer_client.Adapter.hamburger;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
@@ -21,11 +23,7 @@ public class StoreActivity extends AppCompatActivity {
     private ArrayList<StoreTotalInfo> mList;
     private StoreTotalAdapter mStoreTotalAdapter;
     Context mContext;
-//    Calendar cal = Calendar.getInstance();
-//    Date date = cal.getTime();
-//    int year = cal.get(Calendar.YEAR);
-//    int month = cal.get(Calendar.MONTH);
-//    int day = cal.get(Calendar.DATE);
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +46,16 @@ public class StoreActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mStoreRecyclerView.setLayoutManager(linearLayoutManager);
+
+        mStoreTotalAdapter.setOnItemClickListener(
+                new StoreTotalAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View v, int pos) {
+                        Intent intent = new Intent(StoreActivity.this, StoreDetailActivity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
     }
 
     public void firstInit(){
