@@ -15,6 +15,7 @@
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/activity_farm_detail.xml" value="0.1" />
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/activity_farm_total_list.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/activity_login.xml" value="0.264" />
+        <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/activity_register.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/activity_start.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/activity_store_detail.xml" value="0.25364583333333335" />
@@ -22,8 +23,10 @@
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/activity_total_farm_list.xml" value="0.25377800937988537" />
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/farm_prod_list.xml" value="0.2" />
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/farm_total_list.xml" value="0.4" />
-        <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/fragment_home.xml" value="0.18704710144927536" />
-        <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/fragment_keep.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/fragment_home.xml" value="0.20108695652173914" />
+        <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/fragment_keep.xml" value="0.11203703703703703" />
+        <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/fragment_my_page.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/fragment_mypage.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/fragment_order.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/fragment_total_list.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/item_farm.xml" value="0.25364583333333335" />
