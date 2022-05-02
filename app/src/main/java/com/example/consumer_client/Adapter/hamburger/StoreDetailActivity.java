@@ -1,7 +1,10 @@
 package com.example.consumer_client.Adapter.hamburger;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +30,16 @@ public class StoreDetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_detail);
+
+        //진행중인공동구매 이동
+        TextView textViewJP = (TextView) findViewById(R.id.JP);
+        textViewJP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), JointPurchaseActivity.class);
+                startActivity(intent);
+            }
+        });
 
         mContext = this;
 
