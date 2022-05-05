@@ -5,17 +5,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class StoreGet {
-    @SerializedName("store")
-    public List store;
+//    @SerializedName("store")
+//    public List store;
 
-    @SerializedName("store_name")
-    private String store_name;
+    @SerializedName("st_arr")
+    private List st_arr;
 
-    @SerializedName("store_info")
-    private String store_info;
-
-//    @SerializedName("farm_mainItem")
-//    private String farm_mainItem;
+    @SerializedName("md_arr")
+    private List md_arr;
 
     private int code;
     public int getCode(){
@@ -33,26 +30,19 @@ public class StoreGet {
         this.message = message;
     }
 
-    public String getStore_name(){
-        return store_name;
+    public List getMd_arr(){
+        return md_arr;
     }
-    public void setStore_name(){
-        this.store_name = store_name;
-    }
-
-    public String getStore_info(){
-        return store_info;
-    }
-    public void setStore_info(){
-        this.store_info = store_info;
+    public void setMd_arr(){
+        this.md_arr = md_arr;
     }
 
-//    public String getFarm_mainItem(){
-//        return farm_mainItem;
-//    }
-//    public void setFarm_mainItem(){
-//        this.farm_mainItem = farm_mainItem;
-//    }
+    public List getSt_arr(){
+        return st_arr;
+    }
+    public void setSt_arr(){
+        this.st_arr = st_arr;
+    }
 
     @SerializedName("count")
     private String count;
@@ -63,11 +53,11 @@ public class StoreGet {
         this.count = count;
     }
 
-    public List getStore(){
-        return store;
-    }
-    public void setStore(){
-        this.store = store;
-    }
+//    public List getStore(){
+//        return store;
+//    }
+//    public void setStore(){
+//        this.store = store;
+//    }
 
 }
