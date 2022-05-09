@@ -50,11 +50,10 @@ public class StoreActivity extends AppCompatActivity {
     String[] storeNameL = new String[30];
     String[] mdNameL = new String[30];
     int count;
-//    Calendar cal = Calendar.getInstance();
-//    Date date = cal.getTime();
-//    int year = cal.get(Calendar.YEAR);
-//    int month = cal.get(Calendar.MONTH);
-//    int day = cal.get(Calendar.DATE);
+    String[] pu_startL = new String[30];
+    String[] pu_endL = new String[30];
+    List<List<String>> storeL = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,9 +76,24 @@ public class StoreActivity extends AppCompatActivity {
                     for (int i = 0; i < count; i++) {
                         storeNameL[i] = result.getSt_arr().get(i).toString();
                         mdNameL[i] = result.getMd_arr().get(i).toString();
+                        pu_startL[i] = result.getPu_start().get(i).toString();
+                        pu_endL[i] = result.getPu_end().get(i).toString();
+//                        Log.d("85행", Arrays.stream(result.getStore().toArray()).toArray().toString());
                     }
-//                    Log.d("85행", result.getMd_arr().toString());
+
                     Toast.makeText(StoreActivity.this, "로딩중", Toast.LENGTH_SHORT).show();
+
+                    for(int i = 0; i < count; i++){
+                        List<String> storeInfo = new ArrayList<>();
+                        for(int j = 0; j < count; j++){
+                            storeInfo.add(storeNameL[i]);
+                            storeInfo.add(mdNameL[i]);
+                            storeInfo.add(pu_startL[i]);
+                            storeInfo.add(pu_endL[i]);
+                        }
+                        storeL.add(storeInfo);
+                    }
+                   Log.d("85행", storeL.toString());
                 }
                 catch(Exception e){
                     e.printStackTrace();
@@ -105,7 +119,7 @@ public class StoreActivity extends AppCompatActivity {
                 mStoreRecyclerView.setLayoutManager(linearLayoutManager);
 
                 for(int i=0;i<count;i++){
-                    addStore("product Img", storeNameL[i], "" + 100 + i, mdNameL[i], "" + i, "" + i + "000", "2000.04.0" + i);
+                    addStore("product Img", storeL.get(i).get(0), "" + 100 + i, storeL.get(i).get(1), "" + i, "" + i + "000", storeL.get(i).get(2) +" ~ " + storeL.get(i).get(3));
                 }
             } }, 1000 ); // 1000 = 1초
     }
