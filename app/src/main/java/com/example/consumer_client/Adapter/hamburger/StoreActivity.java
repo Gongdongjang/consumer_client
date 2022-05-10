@@ -3,9 +3,7 @@ package com.example.consumer_client.Adapter.hamburger;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.JsonReader;
 import android.util.Log;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -13,29 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.consumer_client.FarmGet;
 import com.example.consumer_client.R;
 import com.example.consumer_client.StoreGet;
 import com.example.consumer_client.user.network.RetrofitClient;
 import com.example.consumer_client.user.network.ServiceApi;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 
-import org.xml.sax.Parser;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
+
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,29 +51,24 @@ public class StoreActivity extends AppCompatActivity {
         call.enqueue(new Callback<StoreGet>() {
             @Override
             public void onResponse(Call<StoreGet> call, Response<StoreGet> response) {
-                Log.d("70행", "여기까지함..");
                 try{
                     StoreGet result = response.body();
                     count = Integer.parseInt(result.getCount());
-//                    List store = result.getStore();
                     for (int i = 0; i < count; i++) {
                         storeNameL[i] = result.getSt_arr().get(i).toString();
                         mdNameL[i] = result.getMd_arr().get(i).toString();
                         pu_startL[i] = result.getPu_start().get(i).toString();
                         pu_endL[i] = result.getPu_end().get(i).toString();
-//                        Log.d("85행", Arrays.stream(result.getStore().toArray()).toArray().toString());
                     }
 
                     Toast.makeText(StoreActivity.this, "로딩중", Toast.LENGTH_SHORT).show();
 
                     for(int i = 0; i < count; i++){
                         List<String> storeInfo = new ArrayList<>();
-                        for(int j = 0; j < count; j++){
-                            storeInfo.add(storeNameL[i]);
-                            storeInfo.add(mdNameL[i]);
-                            storeInfo.add(pu_startL[i]);
-                            storeInfo.add(pu_endL[i]);
-                        }
+                        storeInfo.add(storeNameL[i]);
+                        storeInfo.add(mdNameL[i]);
+                        storeInfo.add(pu_startL[i]);
+                        storeInfo.add(pu_endL[i]);
                         storeL.add(storeInfo);
                     }
                    Log.d("85행", storeL.toString());

@@ -34,7 +34,6 @@ public class FarmActivity extends AppCompatActivity {
     Context mContext;
 
     int count;
-    //String[] farm_listArray = new String[30];
     String[] farmNameL = new String[30];
     String[] farmItemL = new String[30];
     String[] farmInfoL = new String[30];
@@ -71,17 +70,13 @@ public class FarmActivity extends AppCompatActivity {
 
                     for(int i = 0; i < count; i++){
                         List<String> farmList = new ArrayList<>();
-                        //for(int j = 0; j < count; j++){   //2중for문 안해도 된다 지우기!!!!
-                            //farm_listArray[i]=result.getFarm_listArr.toString();
-                            farmList.add(farmNameL[i]);
-                            farmList.add(farmItemL[i]);
-                            farmList.add(farmInfoL[i]);
-                            farmList.add(farmLocL[i]);
-                        //}
+                        farmList.add(farmNameL[i]);
+                        farmList.add(farmItemL[i]);
+                        farmList.add(farmInfoL[i]);
+                        farmList.add(farmLocL[i]);
                         farmL.add(farmList);
                     }
                     Log.d("85행", farmL.toString());
-                    //Log.d("85행", farm_listArray.toString());
                 }
                 catch(Exception e){
                     e.printStackTrace();
