@@ -30,10 +30,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.consumer_client.Adapter.hamburger.StoreActivity;
 import com.example.consumer_client.MainActivity;
+import com.example.consumer_client.MdGet;
 import com.example.consumer_client.R;
+import com.example.consumer_client.StoreGet;
 import com.example.consumer_client.homeRecycler.HomeProductAdapter;
 import com.example.consumer_client.homeRecycler.HomeProductItem;
+import com.example.consumer_client.user.network.RetrofitClient;
+import com.example.consumer_client.user.network.ServiceApi;
 import com.google.android.gms.common.internal.Constants;
 
 import net.daum.mf.map.api.MapPoint;
@@ -41,6 +46,11 @@ import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class Home extends Fragment implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener {
@@ -63,6 +73,10 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     private double mCurrentLng; //Long = X, Lat = Yㅌ
     private double mCurrentLat;
     boolean isTrackingMode = false;
+    String[] stNameL = new String[30];
+    String[] mdNameL = new String[30];
+    List<List<String>> mdL = new ArrayList<>();
+    int count;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,28 +104,62 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
             checkRunTimePermission();
         }
 
+        ServiceApi service = RetrofitClient.getClient().create(ServiceApi.class);
+        Call<MdGet> call = service.getMdMainData();
+        call.enqueue(new Callback<MdGet>() {
+            @Override
+            public void onResponse(Call<MdGet> call, Response<MdGet> response) {
+                try{
+                    MdGet result = response.body();
+                    count = Integer.parseInt(result.getCount());
+                    for (int i = 0; i < count; i++) {
+                        stNameL[i] = result.getSt_name().get(i).toString();
+                        mdNameL[i] = result.getMd_name().get(i).toString();
+                    }
+
+                    Toast.makeText(mActivity, "로딩중", Toast.LENGTH_SHORT).show();
+
+                    for(int i = 0; i < count; i++){
+                        List<String> mdInfo = new ArrayList<>();
+                        mdInfo.add(stNameL[i]);
+                        mdInfo.add(mdNameL[i]);
+                        mdL.add(mdInfo);
+                    }
+                    Log.d("85행", mdL.toString());
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                    throw e;
+                }
+            }
+            @Override
+            public void onFailure(Call<MdGet> call, Throwable t) {
+                Toast.makeText(mActivity, "농가 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         Handler mHandler = new Handler();
         mHandler.postDelayed( new Runnable() {
             public void run() { // 3초 후에 현재위치를 받아오도록 설정 , 바로 시작 시 에러남
+
+                //어뎁터 적용
+                mHomeProductAdapter = new HomeProductAdapter(mList);
+                mRecyclerView.setAdapter(mHomeProductAdapter);
+
+                //가로로 세팅
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                mRecyclerView.setLayoutManager(linearLayoutManager);
+
                 mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading );
-            } }, 4000 ); // 1000 = 1초
+
+                //추후에 제품 이름 가져올 예정
+                for(int i=0;i<count;i++){
+                    addItem("product Img", stNameL[i], mdNameL[i]);
+                }
+            } }, 1000 ); // 1000 = 1초
         lm = (LocationManager) mActivity.getApplicationContext().getSystemService( Context.LOCATION_SERVICE );
 
-
-
-        //추후에 제품 이름 가져올 예정
-        for(int i=0;i<5;i++){
-            addItem("product Img", "가게 이름" + i, "제품 이름" + i);
-        }
-
-        //어뎁터 적용
-        mHomeProductAdapter = new HomeProductAdapter(mList);
-        mRecyclerView.setAdapter(mHomeProductAdapter);
-
-        //가로로 세팅
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
 
         //전체 fragment home return
         return view;
