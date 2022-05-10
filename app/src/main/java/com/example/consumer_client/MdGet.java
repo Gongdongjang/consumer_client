@@ -5,20 +5,11 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class MdGet {
-    @SerializedName("md")
-    public List md;
-
-    @SerializedName("farm_name")
-    public List farm_name;
+    @SerializedName("st_name")
+    public List st_name;
 
     @SerializedName("md_name")
-    private String md_name;
-
-//    @SerializedName("farm_info")
-//    private String farm_info;
-
-//    @SerializedName("farm_name")
-//    private String farm_name;
+    private List md_name;
 
     private int code;
     public int getCode(){
@@ -36,14 +27,14 @@ public class MdGet {
         this.message = message;
     }
 
-    public List getFarm_name(){
-        return farm_name;
+    public List getSt_name(){
+        return st_name;
     }
-    public void setFarm_name(){
-        this.farm_name = farm_name;
+    public void setSt_name(){
+        this.st_name = st_name;
     }
 
-    public String getMd_name(){
+    public List getMd_name(){
         return md_name;
     }
     public void setMd_name(){
@@ -59,10 +50,4 @@ public class MdGet {
         this.count = count;
     }
 
-    public List getMd(){
-        return md;
-    }
-    public void setMd(){
-        this.md = md;
-    }
 }
