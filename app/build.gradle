@@ -46,6 +46,9 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/libDaumMapAndroid.jar')
 
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+
 //    //네이버 로그인
    // implementation 'com.naver.nid:naveridlogin-android-sdk:4.2.6'   // import from jcenter
 //

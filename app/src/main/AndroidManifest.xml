@@ -29,6 +29,9 @@
         <activity android:name=".user.StartActivity" />
         <activity android:name=".Adapter.hamburger.FarmActivity" />
         <activity android:name=".Adapter.hamburger.StoreActivity" />
+        <activity android:name=".Adapter.hamburger.FarmDetailActivity" />
+        <activity android:name=".Adapter.hamburger.StoreDetailActivity" />
+        <activity android:name=".Adapter.hamburger.JointPurchaseActivity" />
 
         <activity
             android:name=".user.LoginActivity"

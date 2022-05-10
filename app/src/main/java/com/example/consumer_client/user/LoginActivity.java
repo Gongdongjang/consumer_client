@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //Log.d("GET_KEYHASH",getKeyHash()); //해시값 가져올때 사용
+        Log.d("GET_KEYHASH",getKeyHash()); //해시값 가져올때 사용
 
 
         //회원가입 버튼

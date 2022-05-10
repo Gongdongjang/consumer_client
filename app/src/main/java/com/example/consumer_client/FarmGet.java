@@ -2,21 +2,21 @@ package com.example.consumer_client;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FarmGet {
-    @SerializedName("farm")
-    public List farm;
 
-    @SerializedName("farm_name")
-    private String farm_name;
-
-    @SerializedName("farm_info")
-    private String farm_info;
+    @SerializedName("farm_arr")
+    private List farm_arr;
 
     @SerializedName("farm_mainItem")
-    private String farm_mainItem;
+    private List farm_mainItem;
+
+    @SerializedName("farm_info")
+    private List farm_info;
+
+    @SerializedName("farm_loc")
+    private List farm_loc;
 
     private int code;
     public int getCode(){
@@ -34,25 +34,33 @@ public class FarmGet {
         this.message = message;
     }
 
-    public String getFarm_name(){
-        return farm_name;
+    //농가이름
+    public List getFarm_arr(){ return farm_arr; }
+    public void setFarm_arr(){
+        this.farm_arr = farm_arr;
     }
-    public void setFarm_name(){
-        this.farm_name = farm_name;
+    //농가 판매 물품
+    public List getFarm_mainItem(){
+        return farm_mainItem;
     }
-
-    public String getFarm_info(){
+    public void setFarm_mainItem(){
+        this.farm_mainItem = farm_mainItem;
+    }
+    //농가info
+    public List getFarm_info(){
         return farm_info;
     }
     public void setFarm_info(){
         this.farm_info = farm_info;
     }
 
-    public String getFarm_mainItem(){
-        return farm_mainItem;
+    //농가위치
+    public List getFarm_loc(){
+        return farm_loc;
     }
-    public void setFarm_mainItem(){
-        this.farm_mainItem = farm_mainItem;
+    public void setFarm_loc(){
+
+        this.farm_loc = farm_loc;
     }
 
     @SerializedName("count")
@@ -63,12 +71,4 @@ public class FarmGet {
     public void setCount(){
         this.count = count;
     }
-
-    public List getFarm(){
-        return farm;
-    }
-    public void setFarm(){
-        this.farm = farm;
-    }
-
 }
