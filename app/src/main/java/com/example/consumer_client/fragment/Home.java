@@ -30,10 +30,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.consumer_client.Adapter.hamburger.StoreActivity;
+import com.example.consumer_client.Adapter.hamburger.StoreTotalAdapter;
 import com.example.consumer_client.MainActivity;
+import com.example.consumer_client.MdGet;
 import com.example.consumer_client.R;
+import com.example.consumer_client.StoreGet;
 import com.example.consumer_client.homeRecycler.HomeProductAdapter;
 import com.example.consumer_client.homeRecycler.HomeProductItem;
+import com.example.consumer_client.user.network.RetrofitClient;
+import com.example.consumer_client.user.network.ServiceApi;
 import com.google.android.gms.common.internal.Constants;
 
 import net.daum.mf.map.api.MapPoint;
@@ -41,6 +47,11 @@ import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class Home extends Fragment implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener {
@@ -49,6 +60,10 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     private RecyclerView mRecyclerView;
     private ArrayList<HomeProductItem> mList;
     private HomeProductAdapter mHomeProductAdapter;
+    Context mContext;
+    String[] mdNameL = new String[15]; //나중에 숫자 바꾸기 - 동적할당으로
+    String[] farmNameL = new String[15]; //나중에 숫자 바꾸기 - 동적할당으로
+    int count;
 
     //카카오맵 위치
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
@@ -97,21 +112,81 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
             } }, 4000 ); // 1000 = 1초
          lm = (LocationManager) mActivity.getApplicationContext().getSystemService( Context.LOCATION_SERVICE );
 
+//         Log.d("됐냐?", "안돼?");
+        ServiceApi service = RetrofitClient.getClient().create(ServiceApi.class);
+        Call<MdGet> call = service.getMdMainData();
+        call.enqueue(new Callback<MdGet>() {
+            @Override
+            public void onResponse(Call<MdGet> call, Response<MdGet> response) {
+//                Log.d("됐냐?", "121행");
+                if (response.isSuccessful()) {
+//                    Log.d("됐냐?", "123행");
+                    MdGet result = response.body();
+                    List md = result.getMd();
+                    List farm = result.getFarm_name();
+                    count = Integer.parseInt(result.getCount());
+                    for (int i = 0; i < Integer.parseInt(result.getCount()); i++) {
+//                        Object obj = farm.get(i);
+                        String str = md.get(i).toString();
+                        String f = farm.get(i).toString();
+//                        Log.d("77행", result.getFarm_name());
+//                        Log.d("78행", result.getFarm_info());
+//                        Log.d("79행", result.getFarm_mainItem());
+                        String[] list = str.split(", ");
+                        String[] listF = f.split(", ");
+                        Log.d("82행", list[1].substring(11));
+                        mdNameL[i] = list[1].substring(10);
+                        farmNameL[i] = list[1].substring(10);
+//                        count++;
+                        Log.d("92행", mdNameL[i].getClass().toString());
+//                        Toast.makeText(FarmActivity.this, "로딩중", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+//                    Log.d("됐냐?", "146행");
+                }
+            }
+            @Override
+            public void onFailure(Call<MdGet> call, Throwable t) {
+//                Log.d("됐냐?", "148행");
+                Toast.makeText(getActivity(), "md 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
+            }
+        });
 
+        Handler mdHandler = new Handler();
+        mdHandler.postDelayed( new Runnable() {
+            public void run() { // 0.1초 후에 받아오도록 설정 , 바로 시작 시 에러남
+                //어뎁터 적용
+                mHomeProductAdapter = new HomeProductAdapter(mList);
+                mRecyclerView.setAdapter(mHomeProductAdapter);
 
-        //추후에 제품 이름 가져올 예정
-        for(int i=0;i<5;i++){
-            addItem("product Img", "가게 이름" + i, "제품 이름" + i);
-        }
+                //가로로 세팅
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                mRecyclerView.setLayoutManager(linearLayoutManager);
 
-        //어뎁터 적용
-        mHomeProductAdapter = new HomeProductAdapter(mList);
-        mRecyclerView.setAdapter(mHomeProductAdapter);
+                for(int i=0;i<count;i++){
+                    Log.d("MdName", mdNameL[i]);
+                    Log.d("farmName", farmNameL[i]);
+                    String f = farmNameL[i];
+                    String m = mdNameL[i];
+                    addItem("product Img", f, m);
+                }
+            } }, 100 ); // 1000 = 1초
 
-        //가로로 세팅
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+//        //추후에 제품 이름 가져올 예정
+//        for(int i=0;i<5;i++){
+//            addItem("product Img", "가게 이름" + i, "제품 이름" + i);
+//        }
+//
+//        //어뎁터 적용
+//        mHomeProductAdapter = new HomeProductAdapter(mList);
+//        mRecyclerView.setAdapter(mHomeProductAdapter);
+//
+//        //가로로 세팅
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+//        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+//        mRecyclerView.setLayoutManager(linearLayoutManager);
 
         //전체 fragment home return
         return view;

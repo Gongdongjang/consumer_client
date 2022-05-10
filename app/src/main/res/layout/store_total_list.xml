@@ -84,7 +84,7 @@
                         android:id="@+id/StorePickUpDate"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="픽업예정일"
+                        android:text="픽업기간"
                         android:textColor="@color/black" />
 
                 </LinearLayout>

@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        getSupportFragmentManager().beginTransaction().replace(R.id.HomeNavi,frag3).commit();
 
         bottomNavigation = findViewById(R.id.bottom_navi);
 
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 frag4= new Order();
                 frag5= new MyPage();
 
-                setFrag(0); // 첫 프래그먼트 화면을 무엇으로 지정해줄 것인지 선택
+                setFrag(2); // 첫 프래그먼트 화면을 무엇으로 지정해줄 것인지 선택
 
     }
 

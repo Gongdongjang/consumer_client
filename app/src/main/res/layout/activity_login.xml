@@ -135,7 +135,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/kakaobutton"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="match_parent"
                 android:background="#FFE400"
                 android:text="카카오"
                 android:textColor="@color/black"
@@ -144,8 +144,8 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/googlebutton"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="#6799FF"
                 android:text="구글"
                 android:textColor="@color/white"
