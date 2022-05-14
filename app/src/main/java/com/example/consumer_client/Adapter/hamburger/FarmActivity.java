@@ -38,6 +38,10 @@ public class FarmActivity extends AppCompatActivity {
     String[] farmItemL = new String[30];
     String[] farmInfoL = new String[30];
     String[] farmLocL = new String[30];
+    String[] farmLatL = new String[30];
+    String[] farmLongL = new String[30];
+    String[] farmHoursL = new String[30];
+
     List<List<String>> farmL = new ArrayList<>();
 
     @Override
@@ -65,15 +69,21 @@ public class FarmActivity extends AppCompatActivity {
                         farmItemL[i] = result.getFarm_mainItem().get(i).toString();
                         farmInfoL[i] = result.getFarm_info().get(i).toString();
                         farmLocL[i]= result.getFarm_loc().get(i).toString();
+                        farmLatL[i]= result.getFarm_lat().get(i).toString();
+                        farmLongL[i]= result.getFarm_long().get(i).toString();
+                        farmHoursL[i]= result.getFarm_hours().get(i).toString();
                     }
                     Toast.makeText(FarmActivity.this, "로딩중", Toast.LENGTH_SHORT).show();
 
                     for(int i = 0; i < count; i++){
                         List<String> farmList = new ArrayList<>();
-                        farmList.add(farmNameL[i]);
-                        farmList.add(farmItemL[i]);
-                        farmList.add(farmInfoL[i]);
-                        farmList.add(farmLocL[i]);
+                        farmList.add(farmNameL[i]); //0 농장이름
+                        farmList.add(farmItemL[i]); //1 판매물품
+                        farmList.add(farmInfoL[i]); //2 소개
+                        farmList.add(farmLocL[i]);  //3 위치주소
+                        farmList.add(farmLatL[i]);  //4 위도
+                        farmList.add(farmLongL[i]); //5 경도
+                        farmList.add(farmHoursL[i]); //6 영업시간
                         farmL.add(farmList);
                     }
                     Log.d("85행", farmL.toString());
@@ -114,10 +124,13 @@ public class FarmActivity extends AppCompatActivity {
                                 Log.d("120행", farmL.get(pos).toString()); //클릭한 item 정보 보이기
                                 Intent intent = new Intent(FarmActivity.this, FarmDetailActivity.class);
 
-                                //배열로 보내고 싶은데... 각각 보내는게 맞나...?
+                                //배열로 보내고 싶은데... 각각 보내는게 맞나...? 일단 putExtra로 값 보내기
                                 intent.putExtra("farmName", farmL.get(pos).get(0));
                                 intent.putExtra("farmInfo",farmL.get(pos).get(2));
                                 intent.putExtra("farmLoc",farmL.get(pos).get(3));
+                                intent.putExtra("farmLat",farmL.get(pos).get(4));
+                                intent.putExtra("farmLong",farmL.get(pos).get(5));
+                                intent.putExtra("farmHours",farmL.get(pos).get(6));
                                 startActivity(intent);
                             }
                         }

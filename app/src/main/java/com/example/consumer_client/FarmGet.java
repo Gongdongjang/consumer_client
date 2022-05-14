@@ -18,7 +18,18 @@ public class FarmGet {
     @SerializedName("farm_loc")
     private List farm_loc;
 
+    @SerializedName("farm_lat")
+    private List farm_lat;
+
+    @SerializedName("farm_long")
+    private List farm_long;
+
+    @SerializedName("farm_hours")
+    private List farm_hours;
+
+
     private int code;
+
     public int getCode(){
         return code;
     }
@@ -53,15 +64,20 @@ public class FarmGet {
     public void setFarm_info(){
         this.farm_info = farm_info;
     }
-
     //농가위치
     public List getFarm_loc(){
         return farm_loc;
     }
-    public void setFarm_loc(){
-
-        this.farm_loc = farm_loc;
-    }
+    public void setFarm_loc(){ this.farm_loc = farm_loc; }
+    //농가위도
+    public List getFarm_lat() { return farm_lat; }
+    public void setFarm_lat() { this.farm_lat = farm_lat; }
+    //농가경도
+    public List getFarm_long() { return farm_long; }
+    public void setFarm_long() { this.farm_long = farm_long; }
+    //농가 영업시간
+    public List getFarm_hours() { return farm_hours; }
+    public void setFarm_hours() { this.farm_hours = farm_hours; }
 
     @SerializedName("count")
     private String count;

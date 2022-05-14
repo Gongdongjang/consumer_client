@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.R;
 
+import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class FarmDetailActivity extends AppCompatActivity {
@@ -37,29 +39,64 @@ public class FarmDetailActivity extends AppCompatActivity {
 
         //intent로 값 넘길때
         Intent intent;
-        String farm_name, farm_info, farm_loc;
+        String farm_name, farm_info, farm_loc, farm_hours;
+        Double farm_lat,farm_long;
 
         intent=getIntent(); //intent 값 받기
 
         farm_name=intent.getStringExtra("farmName");
         farm_info=intent.getStringExtra("farmInfo");
         farm_loc=intent.getStringExtra("farmLoc");
+        farm_hours=intent.getStringExtra("farmHours");
+
+        farm_lat=Double.parseDouble(intent.getStringExtra("farmLat")); //위도-> double 형변환
+        farm_long=Double.parseDouble(intent.getStringExtra("farmLong")); //경도
 
         TextView FarmName = (TextView) findViewById(R.id.FarmName);
         TextView FarmExplain = (TextView) findViewById(R.id.FarmExplain);
         TextView FarmLocation = (TextView) findViewById(R.id.FarmLocation);
+        TextView FarmHourTime = (TextView) findViewById(R.id.FarmHourTime);
 
         FarmName.setText(farm_name);
         FarmExplain.setText(farm_info);
         FarmLocation.setText(farm_loc);
+        FarmHourTime.setText(farm_hours);
+
 
         //지도
         MapView mapView = new MapView(mContext);
-        // 중심점 변경 (농가위치 받아오면 위도, 경도 띄우게 하기) // 일단 나주농장 되는지 확인
-        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(35.01426900000000, 126.7169940), true);
+        // 중심점 변경
+        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(35.01426900000000, 126.7169940), true);
+        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(farm_lat, farm_long), true);
+
+        // 줌 레벨 변경
+        mapView.setZoomLevel(1, true);
+        // 줌 인
+        mapView.zoomIn(true);
+        // 줌 아웃
+        mapView.zoomOut(true);
 
         ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.farm_map_view);
         mapViewContainer.addView(mapView);
+
+        //농가위치 마커 아이콘 띄우기
+        MapPoint f_MarkPoint = MapPoint.mapPointWithGeoCoord(farm_lat, farm_long);  //마커찍기
+
+        MapPOIItem farm_marker=new MapPOIItem();
+        farm_marker.setItemName(farm_name); //클릭했을때 농가이름 나오기
+        farm_marker.setTag(0);
+        farm_marker.setMapPoint(f_MarkPoint);   //좌표입력받아 현위치로 출력
+
+        //  (클릭 전)기본으로 제공하는 BluePin 마커 모양의 색.
+        farm_marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+        // (클릭 후) 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+        farm_marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+        // 지도화면 위에 추가되는 아이콘을 추가하기 위한 호출(말풍선 모양)
+        mapView.addPOIItem(farm_marker);
+
+        //나중에 농가위치 마커 커스텀 이미지로 바꾸기
+        //farm_marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
+        //farm_marker.setCustomImageResourceId(R.drawable.homeshape);
 
 
         //----------세부페이지에 있는 진행중인 공동구매 리사이클러뷰 띄우게하기
