@@ -11,8 +11,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/StoreMap"
+        <RelativeLayout
+            android:id="@+id/store_map_view"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_gravity="top" />
@@ -117,27 +117,27 @@
                         android:textColor="#000000"/>
 
                     <TextView
-                        android:id="@+id/StoreOpenTime"
+                        android:id="@+id/StoreHourTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:text=" "
                         android:textColor="#000000"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text=" - "
-                        android:textColor="#000000"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginLeft="10dp"-->
+<!--                        android:text=" - "-->
+<!--                        android:textColor="#000000"/>-->
 
-                    <TextView
-                        android:id="@+id/StoreCloseTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text=" "
-                        android:textColor="#000000"/>
+<!--                    <TextView-->
+<!--                        android:id="@+id/StoreCloseTime"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginLeft="10dp"-->
+<!--                        android:text=" "-->
+<!--                        android:textColor="#000000"/>-->
                 </LinearLayout>
 
             </LinearLayout>
