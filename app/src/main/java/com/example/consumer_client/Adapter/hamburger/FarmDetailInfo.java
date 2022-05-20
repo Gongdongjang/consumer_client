@@ -1,82 +1,50 @@
 package com.example.consumer_client.Adapter.hamburger;
 
+import android.widget.ImageView;
+import android.widget.TextView;
+
 public class FarmDetailInfo {
-    private String farmDetailProdImgView;
-    private String farmDetailName;
-    private String vegetableName;
-    private String farmDetailProdName;
-    private String farmDetailProdExplain;
-    private String prodNum;
-    private String prodPrice;
-    private String prodNum1;
-    private String prodPrice1;
+    private String prodImg;
+    private String farmName;
+    private String prodName;
+    private String storeName;
+    private String paySchedule;
+    private String puTerm;
 
-    public String getFarmDetailProdImgView() {
-        return farmDetailProdImgView;
+    public String getFarmName() {
+        return farmName;
     }
 
-    public void setFarmDetailProdImgView(String farmDetailProdImgView) {
-        this.farmDetailProdImgView = farmDetailProdImgView;
+    public void setFarmName(String farmName) {
+        this.farmName = farmName;
     }
 
-    public String getFarmDetailName() {
-        return farmDetailName;
+    public String getProdName() {
+        return prodName;
     }
 
-    public void setFarmDetailName(String farmDetailName) {
-        this.farmDetailName = farmDetailName;
+    public void setProdName(String prodName) {this.prodName = prodName; }
+
+    public String getStoreName() {
+        return storeName;
     }
 
-    public String getVegetableName() {
-        return vegetableName;
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 
-    public void setVegetableName(String vegetableName) {this.vegetableName = vegetableName; }
-
-    public String getFarmDetailProdName() {
-        return farmDetailProdName;
+    public String getPaySchedule() {
+        return paySchedule;
     }
 
-    public void setFarmDetailProdName(String farmDetailProdName) {
-        this.farmDetailProdName = farmDetailProdName;
+    public void setPaySchedule(String paySchedule) {this.paySchedule = paySchedule;}
+
+    public String getPuTerm() {
+        return puTerm;
     }
 
-    public String getFarmDetailProdExplain() {
-        return farmDetailProdExplain;
+    public void setPuTerm(String puTerm) {
+        this.puTerm = puTerm;
     }
 
-    public void setFarmDetailProdExplain(String farmDetailProdExplain) {this.farmDetailProdExplain = farmDetailProdExplain;}
-
-    public String getProdNum() {
-        return prodNum;
-    }
-
-    public void setProdNum(String prodNum) {
-        this.prodNum = prodNum;
-    }
-
-
-    public String getProdPrice() {
-        return prodPrice;
-    }
-
-    public void setProdPrice(String prodPrice) {
-        this.prodPrice = prodPrice;
-    }
-
-    public String getProdNum1() {
-        return prodNum1;
-    }
-
-    public void setProdNum1(String prodNum1) {
-        this.prodNum1 = prodNum1;
-    }
-
-    public String getProdPrice1() {
-        return prodPrice1;
-    }
-
-    public void setProdPrice1(String prodPrice2) {
-        this.prodPrice1 = prodPrice1;
-    }
 }

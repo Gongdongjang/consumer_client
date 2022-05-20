@@ -16,31 +16,45 @@ import java.util.ArrayList;
 
 public class FarmDetailAdapter extends RecyclerView.Adapter<FarmDetailAdapter.ViewHolder> {
     private ArrayList<String> mData = null;
-    private ItemClickListener mItemClickListener;
+
+    public interface OnItemClickListener{
+        void onItemClick(View v, int pos);
+    }
+
+    private FarmDetailAdapter.OnItemClickListener mListener = null;
+
+    public void setOnItemClickListener(FarmDetailAdapter.OnItemClickListener listener){
+        this.mListener= listener;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView farmDetailProdImgView;
-        TextView farmDetailName;
-        TextView vegetableName;
-        TextView farmDetailProdName;
-        TextView farmDetailProdExplain;
-        TextView prodNum;
-        TextView prodPrice;
-        TextView prodNum1;
-        TextView prodPrice1;
+        ImageView prodImg;
+        TextView farmName;
+        TextView prodName;
+        TextView storeName;
+        TextView paySchedule;
+        TextView puTerm;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            farmDetailProdImgView = (ImageView) itemView.findViewById(R.id.FarmDetailProdImg_item);
-            farmDetailName = (TextView) itemView.findViewById(R.id.FarmDetailName);
-            vegetableName = (TextView) itemView.findViewById(R.id.VegetableName);
-            farmDetailProdName = (TextView) itemView.findViewById(R.id.FarmDetailProdName);
-            farmDetailProdExplain = (TextView) itemView.findViewById(R.id.FarmDetailProdExplain);
-            prodNum = (TextView) itemView.findViewById(R.id.ProdNum);
-            prodPrice = (TextView) itemView.findViewById(R.id.ProdPrice);
-            prodNum1 = (TextView) itemView.findViewById(R.id.ProdNum1);
-            prodPrice1 = (TextView) itemView.findViewById(R.id.ProdPrice1);
+            // 아이템 클릭 이벤트 처리.
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition() ;
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null){
+                            mListener.onItemClick(v, pos);
+                        }
+                    }
+                }
+            });
+            prodImg = (ImageView) itemView.findViewById(R.id.ProdImg);
+            farmName = (TextView) itemView.findViewById(R.id.FarmName);
+            prodName = (TextView) itemView.findViewById(R.id.ProdName);
+            storeName = (TextView) itemView.findViewById(R.id.StoreName);
+            paySchedule = (TextView) itemView.findViewById(R.id.PaySchedule);
+            puTerm = (TextView) itemView.findViewById(R.id.PuTerm);
         }
     }
 
@@ -66,19 +80,12 @@ public class FarmDetailAdapter extends RecyclerView.Adapter<FarmDetailAdapter.Vi
     public void onBindViewHolder(@NonNull FarmDetailAdapter.ViewHolder holder, int position) {
         FarmDetailInfo item = mList.get(position);
 
-        holder.farmDetailProdImgView.setImageResource(R.drawable.ic_launcher_background);   // 사진 없어서 기본 파일로 이미지 띄움
-        holder.farmDetailName.setText(item.getFarmDetailName());
-        holder.vegetableName.setText(item.getVegetableName());
-        holder.farmDetailProdName.setText(item.getFarmDetailProdName());
-        holder.farmDetailProdExplain.setText(item.getFarmDetailProdExplain());
-        holder.prodNum.setText(item.getProdNum());
-        holder.prodPrice.setText(item.getProdPrice());
-        holder.prodNum1.setText(item.getProdNum1());
-        holder.prodPrice1.setText(item.getProdPrice1());
-    }
-
-    public interface ItemClickListener{
-        void onItemClick(FarmTotalInfo details,String pos);
+        holder.prodImg.setImageResource(R.drawable.ic_launcher_background);   // 사진 없어서 기본 파일로 이미지 띄움
+        holder.farmName.setText(item.getFarmName());
+        holder.prodName.setText(item.getProdName());
+        holder.storeName.setText(item.getStoreName());
+        holder.paySchedule.setText(item.getPaySchedule());
+        holder.puTerm.setText(item.getPuTerm());
     }
 
     @Override

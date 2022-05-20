@@ -3,9 +3,12 @@ package com.example.consumer_client.Adapter.hamburger;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,13 +16,21 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.consumer_client.MdGet;
 import com.example.consumer_client.R;
+import com.example.consumer_client.user.network.RetrofitClient;
+import com.example.consumer_client.user.network.ServiceApi;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class StoreDetailActivity extends AppCompatActivity {
 
@@ -30,21 +41,26 @@ public class StoreDetailActivity extends AppCompatActivity {
     private FarmDetailAdapter mFarmDetailAdapter;
     private StoreReviewAdapter mStoreReviewAdapter;
     Context mContext;
+    int count;
+    //현재페이지
+    String[] farmNameL = new String[30];
+    String[] mdNameL = new String[30];
+    String[] storeNameL = new String[30];
+    String[] payScheduleL = new String[30];
+    String[] puTermL = new String[30];
+    //세부페이지
+    String[] buying_countL = new String[30];
+    String[] goal_peopleL = new String[30];
+    String[] farmerNameL = new String[30];
+    String[] farmDescL = new String[30];
+    String[] storeDescL = new String[30];
+
+    List<List<String>> mdL = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_detail);
-
-        //진행중인공동구매 이동
-        TextView textViewJP = (TextView) findViewById(R.id.JP);
-        textViewJP.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), JointPurchaseActivity.class);
-                startActivity(intent);
-            }
-        });
 
         mContext = this;
 
@@ -113,31 +129,107 @@ public class StoreDetailActivity extends AppCompatActivity {
         /// 세부페이지에 있는 리사이클러뷰
         firstInit();
 
-        //추후에 제품 이름 가져올 예정
-        for(int i=0;i<10;i++){
-            addFarmJointPurchase("product Img", "농가 이름" + i, "농가 제품 이름" + i, "농가 특징" + i, "" + i);
-        }
-        for(int i=0;i<10;i++){
-            addReview("product Img", "@id " + i, "제품명" + i, "" + i, "제품리뷰 제품리뷰 제품리뷰 제품리뷰 제품리뷰 제품리뷰 제품리뷰 제품리뷰 " + i);
-        }
+        ServiceApi service = RetrofitClient.getClient().create(ServiceApi.class);
+        Call<MdGet> call = service.getMdMainData();
+        call.enqueue(new Callback<MdGet>() {
+            @Override
+            public void onResponse(Call<MdGet> call, Response<MdGet> response) {
+                try{
+                    MdGet result = response.body();
+                    count = Integer.parseInt(result.getCount());
+                    for (int i = 0; i < count; i++) {
+                        //현재
+                        farmNameL[i] = result.getFarm_name().get(i).toString();
+                        mdNameL[i] = result.getMd_name().get(i).toString();
+                        storeNameL[i] = result.getSt_name().get(i).toString();
+                        payScheduleL[i] = result.getPay_schedule().get(i).toString();
+                        puTermL[i] = result.getPu_term().get(i).toString();
+                        //세부
+                        buying_countL[i] = result.getBuying_count().get(i).toString();
+                        goal_peopleL[i] =result.getGoal_people().get(i).toString();
+                        farmerNameL[i] = result.getFarmer_name().get(i).toString();
+                        farmDescL[i] = result.getFarm_desc().get(i).toString();
+                        storeDescL[i] = result.getSt_desc().get(i).toString();
+                    }
+                    Toast.makeText(StoreDetailActivity.this, "로딩중", Toast.LENGTH_SHORT).show();
 
-        //어뎁터 적용
-        mFarmDetailAdapter = new FarmDetailAdapter(mList);
-        mRecyclerView.setAdapter(mFarmDetailAdapter);
+                    for(int i = 0; i < count; i++){
+                        List<String> mdInfo = new ArrayList<>();
+                        mdInfo.add(farmNameL[i]);   //0
+                        mdInfo.add(mdNameL[i]);      //1
+                        mdInfo.add(storeNameL[i]);    //2
+                        mdInfo.add(payScheduleL[i]);      //3
+                        mdInfo.add(puTermL[i]);   //4 스토어설명
+                        //세부
+                        mdInfo.add(buying_countL[i]);  //5
+                        mdInfo.add(goal_peopleL[i]);   //6
+                        mdInfo.add(farmerNameL[i]);  //7
+                        mdInfo.add(farmDescL[i]);   //8
+                        mdInfo.add(storeDescL[i]);  //9
+                        mdL.add(mdInfo);
+                    }
+                    Log.d("제품리스트 출력", mdL.toString());
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                    throw e;
+                }
+            }
+            @Override
+            public void onFailure(Call<MdGet> call, Throwable t) {
+                Toast.makeText(StoreDetailActivity.this, "스토어 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        //세로로 세팅
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+        Handler mHandler = new Handler();
+        mHandler.postDelayed( new Runnable() {
+            public void run() { // 0.1초 후에 받아오도록 설정 , 바로 시작 시 에러남
+                //어뎁터 적용
+                mFarmDetailAdapter = new FarmDetailAdapter(mList);
+                mRecyclerView.setAdapter(mFarmDetailAdapter);
 
-        //어뎁터 적용
-        mStoreReviewAdapter = new StoreReviewAdapter(mReviewList);
-        reviewRecyclerView.setAdapter(mStoreReviewAdapter);
+                //세로로 세팅
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                mRecyclerView.setLayoutManager(linearLayoutManager);
 
-        //두 칸으로 세팅
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2,
-                GridLayoutManager.VERTICAL, true);
-        reviewRecyclerView.setLayoutManager(gridLayoutManager);
+                //어뎁터 적용
+                mStoreReviewAdapter = new StoreReviewAdapter(mReviewList);
+                reviewRecyclerView.setAdapter(mStoreReviewAdapter);
+
+                //두 칸으로 세팅
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(StoreDetailActivity.this, 2, GridLayoutManager.VERTICAL, true);
+                reviewRecyclerView.setLayoutManager(gridLayoutManager);
+
+                for(int i=0;i<10;i++){
+                    addFarmJointPurchase("농가명" + i, "제품 이름" + i, "스토어 이름" + i, "결제예정일" + i, "픽업기간" + i);
+                }
+                for(int i=0;i<10;i++){
+                    addReview("product Img", "@id " + i, "제품명" + i, "" + i, "제품리뷰 제품리뷰 제품리뷰 제품리뷰 제품리뷰 제품리뷰 제품리뷰 제품리뷰 " + i);
+                }
+
+                mFarmDetailAdapter.setOnItemClickListener(
+                        new FarmDetailAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View v, int pos) {
+                                Log.d("216행", mdL.get(pos).toString()); //클릭한 item 정보 보이기
+                                Intent intent = new Intent(StoreDetailActivity.this, JointPurchaseActivity.class);
+
+                                intent.putExtra("farmName", mdL.get(pos).get(0));
+                                intent.putExtra("mdName",mdL.get(pos).get(1));
+                                intent.putExtra("storeName",mdL.get(pos).get(2));
+                                intent.putExtra("paySchedule",mdL.get(pos).get(3));
+                                intent.putExtra("puTerm",mdL.get(pos).get(4));
+                                intent.putExtra("buyingCount",mdL.get(pos).get(5));
+                                intent.putExtra("goalPeople",mdL.get(pos).get(6));
+                                intent.putExtra("storeDesc",mdL.get(pos).get(7));
+                                intent.putExtra("farmDesc",mdL.get(pos).get(8));
+                                intent.putExtra("storeDesc",mdL.get(pos).get(9));
+                                startActivity(intent);
+                            }
+                        }
+                );
+            } }, 1000 ); // 1000 = 1초
 
     }
 
@@ -148,12 +240,14 @@ public class StoreDetailActivity extends AppCompatActivity {
         mReviewList = new ArrayList<>();
     }
 
-    public void addFarmJointPurchase(String farmProdImg, String farmName, String farmProdName, String farmFeature, String farmSituation){
+    public void addFarmJointPurchase(String farmName, String prodName, String storeName, String paySchedule, String puTerm){
         FarmDetailInfo farmDetail = new FarmDetailInfo();
 
-        farmDetail.setFarmDetailProdImgView(farmProdImg);
-        farmDetail.setFarmDetailName(farmName);
-        farmDetail.setFarmDetailProdName(farmProdName);
+        farmDetail.setFarmName(farmName);
+        farmDetail.setProdName(prodName);
+        farmDetail.setStoreName(storeName);
+        farmDetail.setPaySchedule(paySchedule);
+        farmDetail.setPuTerm(puTerm);
 
         mList.add(farmDetail);
     }
