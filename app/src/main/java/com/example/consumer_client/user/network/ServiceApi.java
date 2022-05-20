@@ -1,4 +1,6 @@
 package com.example.consumer_client.user.network;
+import com.example.consumer_client.FarmDetailData;
+import com.example.consumer_client.FarmDetailResponse;
 import com.example.consumer_client.FarmGet;
 import com.example.consumer_client.MdGet;
 import com.example.consumer_client.StoreGet;
@@ -37,4 +39,7 @@ public interface ServiceApi {
 
     @GET("/mdView_main")
     Call<MdGet> getMdMainData();
+
+    @POST("/farmDetail")
+    Call<FarmDetailResponse> farmDetail(@Body FarmDetailData data);
 }

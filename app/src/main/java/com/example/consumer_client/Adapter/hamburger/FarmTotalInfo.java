@@ -5,7 +5,7 @@ public class FarmTotalInfo {
     private String farmName;
     private String farmProdName;
     private String farmFeature;
-    private String farmSituation;
+    private int farmSituation;
 
     public String getFarmProdImgView() {
         return farmProdImgView;
@@ -38,11 +38,11 @@ public class FarmTotalInfo {
         this.farmFeature = farmFeature;
     }
 
-    public String getFarmSituation() {
+    public int getFarmSituation() {
         return farmSituation;
     }
 
-    public void setFarmSituation(String farmSituation) {
+    public void setFarmSituation(int farmSituation) {
         this.farmSituation = farmSituation;
     }
 }

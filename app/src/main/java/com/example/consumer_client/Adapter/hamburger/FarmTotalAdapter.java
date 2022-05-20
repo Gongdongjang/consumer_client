@@ -83,7 +83,7 @@ public class FarmTotalAdapter extends RecyclerView.Adapter<FarmTotalAdapter.View
         holder.farmName.setText(item.getFarmName());
         holder.farmProdName.setText(item.getFarmProdName());
         holder.farmFeature.setText(item.getFarmFeature());
-        holder.farmSituation.setText(item.getFarmSituation());
+        holder.farmSituation.setText(String.valueOf(item.getFarmSituation()));
     }
 
     @Override
