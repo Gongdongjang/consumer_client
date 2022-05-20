@@ -85,14 +85,14 @@ public class FarmDetailActivity extends AppCompatActivity {
         TextView FarmExplain = (TextView) findViewById(R.id.FarmExplain);
         TextView FarmLocation = (TextView) findViewById(R.id.FarmLocation);
         TextView FarmHourTime = (TextView) findViewById(R.id.FarmHourTime);
-//        TextView FarmJointPurchaseCount = (TextView) findViewById(R.id.FarmJointPurchaseCount);
+        TextView FarmJointPurchaseCount = (TextView) findViewById(R.id.FarmJointPurchaseCount);
 //        TextView FarmId = (TextView) findViewById(R.id.FarmId);
 
         FarmName.setText(farm_name);
         FarmExplain.setText(farm_info);
         FarmLocation.setText(farm_loc);
         FarmHourTime.setText(farm_hours);
-//        FarmJointPurchaseCount.setText(String.valueOf(md_count));
+        FarmJointPurchaseCount.setText(String.valueOf(md_count));
 //        FarmId.setText(String.valueOf(farm_id));
 
         //지도
@@ -131,11 +131,8 @@ public class FarmDetailActivity extends AppCompatActivity {
         //farm_marker.setCustomImageResourceId(R.drawable.homeshape);
 
         firstInit();
-
         //----------세부페이지에 있는 진행중인 공동구매 리사이클러뷰 띄우게하기
         send_farm_id(new FarmDetailData(farm_id, md_count));
-
-
     }
 
     public void firstInit(){
@@ -176,7 +173,7 @@ public class FarmDetailActivity extends AppCompatActivity {
 
 //                추후에 제품 이름 가져올 예정
                     for(int i=0;i<md_count;i++){
-                        addFarmJointPurchase("product Img", result.getMd_name().get(i).toString(), result.getStore_name().get(i).toString() , result.getPay_schedule().get(i).toString(), result.getPu_start().get(i).toString() + "~" + result.getPu_end().get(i).toString());
+                        addFarmJointPurchase(farm_name, result.getMd_name().get(i).toString(), result.getStore_name().get(i).toString() , result.getPay_schedule().get(i).toString(), result.getPu_start().get(i).toString() + "~" + result.getPu_end().get(i).toString());
                     }
 
                 }
