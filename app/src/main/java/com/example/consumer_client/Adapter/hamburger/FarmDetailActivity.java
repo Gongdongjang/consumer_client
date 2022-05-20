@@ -143,12 +143,14 @@ public class FarmDetailActivity extends AppCompatActivity {
         mList = new ArrayList<>();
     }
 
-    public void addFarmJointPurchase(String farmProdImg, String farmName, String farmProdName, String farmFeature, String farmSituation){
+    public void addFarmJointPurchase(String farmName, String prodName, String storeName, String paySchedule, String puTerm){
         FarmDetailInfo farmDetail = new FarmDetailInfo();
 
-        farmDetail.setFarmDetailProdImgView(farmProdImg);
-        farmDetail.setFarmDetailName(farmName);
-        farmDetail.setFarmDetailProdName(farmProdName);
+        farmDetail.setFarmName(farmName);
+        farmDetail.setProdName(prodName);
+        farmDetail.setStoreName(storeName);
+        farmDetail.setPaySchedule(paySchedule);
+        farmDetail.setPuTerm(puTerm);
 
         mList.add(farmDetail);
     }
