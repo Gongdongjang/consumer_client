@@ -176,7 +176,7 @@ public class FarmDetailActivity extends AppCompatActivity {
 
 //                추후에 제품 이름 가져올 예정
                     for(int i=0;i<md_count;i++){
-                        addFarmJointPurchase("product Img", farm_name , result.getMd_name().get(i).toString(), result.getMd_start().get(i).toString() + "~" + result.getMd_end().get(i).toString(), "" + i);
+                        addFarmJointPurchase("product Img", result.getMd_name().get(i).toString(), farm_name, result.getMd_start().get(i).toString() + "~" + result.getMd_end().get(i).toString(), "" + i);
                     }
 
                 }
