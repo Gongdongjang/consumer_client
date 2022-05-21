@@ -160,7 +160,7 @@ public class FarmDetailActivity extends AppCompatActivity {
                 Toast.makeText(FarmDetailActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
 
                 if (result.getCode() == 200) {
-                    Log.d("171", result.getMd_name().toString());
+//                    Log.d("171", result.getMd_name().toString());
 
                     //어뎁터 적용
                     mFarmDetailAdapter = new FarmDetailAdapter(mList);

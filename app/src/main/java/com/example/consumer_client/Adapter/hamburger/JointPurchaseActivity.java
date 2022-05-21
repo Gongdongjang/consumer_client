@@ -29,39 +29,44 @@ public class JointPurchaseActivity extends AppCompatActivity {
         mContext = this;
 
         Intent intent;
-        String farm_name, md_name, store_name, pay_schedule, pu_term, buying_count, goal_people, farmer_name, farm_desc, store_desc;
+        String farm_name, md_name, store_name, pay_schedule, pu_term, pu_start, pu_end, buying_count, goal_people, farmer_name, farm_desc, store_desc;
 
         intent=getIntent(); //intent 값 받기
 
-        farmer_name=intent.getStringExtra("farmName");
+        farm_name=intent.getStringExtra("farmName");
         md_name=intent.getStringExtra("mdName");
         pay_schedule=intent.getStringExtra("paySchedule");
-        pu_term=intent.getStringExtra("puTerm");
+//        pu_term=intent.getStringExtra("puTerm");
+        pu_start = intent.getStringExtra("puStart");
+        pu_end = intent.getStringExtra("puEnd");
         buying_count = intent.getStringExtra("buyingCount");
         goal_people = intent.getStringExtra("goalPeople");
-        farm_name=intent.getStringExtra("farmerName");
+
+//        farm_name=intent.getStringExtra("farmerName");
         farm_desc=intent.getStringExtra("farmDesc");
         store_name=intent.getStringExtra("storeName");
         store_desc=intent.getStringExtra("storeDesc");
 
         TextView FarmerName = (TextView) findViewById(R.id.FarmerName);
-        TextView MdName = (TextView) findViewById(R.id.JP_FarmName_Main);
+        TextView MdName = (TextView) findViewById(R.id.ProdName);
+        TextView FarmName = (TextView) findViewById(R.id.JP_FarmName_Main);
         TextView PaySchedule = (TextView) findViewById(R.id.JP_PayDate);
         TextView PuTerm = (TextView) findViewById(R.id.JP_PUTerm);
         TextView BuyingCount = (TextView) findViewById(R.id.JP_Paying_People);
         TextView GoalPeople = (TextView) findViewById(R.id.JP_Goal_People);
-        TextView FarmName = (TextView) findViewById(R.id.JP_FarmName);
+        TextView FarmNamePic = (TextView) findViewById(R.id.JP_FarmName);
         TextView FarmDesc = (TextView) findViewById(R.id.JP_FarmDesc);
         TextView StoreName = (TextView) findViewById(R.id.JP_StoreName);
         TextView StoreDesc = (TextView) findViewById(R.id.JP_StoreDesc);
 
-        FarmerName.setText(farmer_name);
+//        FarmerName.setText(farmer_name);
         MdName.setText(md_name);
         PaySchedule.setText(pay_schedule);
-        PuTerm.setText(pu_term);
+        FarmName.setText(farm_name);
+        PuTerm.setText(pu_start + "~\n" + pu_end);
         BuyingCount.setText(buying_count);
         GoalPeople.setText(goal_people);
-        FarmName.setText(farm_name);
+        FarmNamePic.setText(farm_name);
         FarmDesc.setText(farm_desc);
         StoreName.setText(store_name);
         StoreDesc.setText(store_desc);

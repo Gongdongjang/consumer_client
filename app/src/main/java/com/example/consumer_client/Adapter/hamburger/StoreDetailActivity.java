@@ -47,7 +47,8 @@ public class StoreDetailActivity extends AppCompatActivity {
     String[] mdNameL = new String[30];
     String[] storeNameL = new String[30];
     String[] payScheduleL = new String[30];
-    String[] puTermL = new String[30];
+    String[] puStartL = new String[30];
+    String[] puEndL = new String[30];
     //세부페이지
     String[] buying_countL = new String[30];
     String[] goal_peopleL = new String[30];
@@ -143,7 +144,8 @@ public class StoreDetailActivity extends AppCompatActivity {
                         mdNameL[i] = result.getMd_name().get(i).toString();
                         storeNameL[i] = result.getSt_name().get(i).toString();
                         payScheduleL[i] = result.getPay_schedule().get(i).toString();
-                        puTermL[i] = result.getPu_term().get(i).toString();
+                        puStartL[i] = result.getPu_start().get(i).toString();
+                        puEndL[i] = result.getPu_end().get(i).toString();
                         //세부
                         buying_countL[i] = result.getBuying_count().get(i).toString();
                         goal_peopleL[i] =result.getGoal_people().get(i).toString();
@@ -159,7 +161,8 @@ public class StoreDetailActivity extends AppCompatActivity {
                         mdInfo.add(mdNameL[i]);      //1
                         mdInfo.add(storeNameL[i]);    //2
                         mdInfo.add(payScheduleL[i]);      //3
-                        mdInfo.add(puTermL[i]);   //4 스토어설명
+                        mdInfo.add(puStartL[i]);   //4
+                        mdInfo.add(puEndL[i]);   //5 스토어설명
                         //세부
                         mdInfo.add(buying_countL[i]);  //5
                         mdInfo.add(goal_peopleL[i]);   //6
@@ -219,12 +222,13 @@ public class StoreDetailActivity extends AppCompatActivity {
                                 intent.putExtra("mdName",mdL.get(pos).get(1));
                                 intent.putExtra("storeName",mdL.get(pos).get(2));
                                 intent.putExtra("paySchedule",mdL.get(pos).get(3));
-                                intent.putExtra("puTerm",mdL.get(pos).get(4));
-                                intent.putExtra("buyingCount",mdL.get(pos).get(5));
-                                intent.putExtra("goalPeople",mdL.get(pos).get(6));
-                                intent.putExtra("storeDesc",mdL.get(pos).get(7));
-                                intent.putExtra("farmDesc",mdL.get(pos).get(8));
-                                intent.putExtra("storeDesc",mdL.get(pos).get(9));
+                                intent.putExtra("puStart",mdL.get(pos).get(4));
+                                intent.putExtra("puEnd",mdL.get(pos).get(5));
+                                intent.putExtra("buyingCount",mdL.get(pos).get(6));
+                                intent.putExtra("goalPeople",mdL.get(pos).get(7));
+                                intent.putExtra("storeDesc",mdL.get(pos).get(8));
+                                intent.putExtra("farmDesc",mdL.get(pos).get(9));
+                                intent.putExtra("storeDesc",mdL.get(pos).get(10));
                                 startActivity(intent);
                             }
                         }
