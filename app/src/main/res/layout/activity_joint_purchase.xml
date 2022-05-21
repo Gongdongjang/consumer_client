@@ -34,15 +34,37 @@
                 android:textColor="#000000"
                 android:textSize="25dp"
                 android:textStyle="bold" />
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:layout_marginTop="20dp"
-                android:text="농부님의 제품명"
-                android:textColor="#000000"
-                android:textSize="25dp"
-                android:textStyle="bold" />
+                android:layout_marginLeft="5dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:text="농부님의"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/ProdName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:text="제품명"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="5dp"
+                    />
+
+            </LinearLayout>
+
             <View
             android:layout_width="0dp"
             android:layout_height="0dp"

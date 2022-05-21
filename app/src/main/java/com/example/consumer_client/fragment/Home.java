@@ -28,11 +28,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.consumer_client.Adapter.hamburger.StoreActivity;
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.MdGet;
+import com.example.consumer_client.MdListMainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.StoreGet;
 import com.example.consumer_client.homeRecycler.HomeProductAdapter;
@@ -77,6 +79,7 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     String[] mdNameL = new String[30];
     List<List<String>> mdL = new ArrayList<>();
     int count;
+    private TextView productList; //제품리스트 클릭하는 텍스트트
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,6 +93,18 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         view= inflater.inflate(R.layout.fragment_home, container, false);
 
         mapView = new MapView(mActivity);
+
+        //제품리스트 누르면 제품리스트(메인) 화면으로
+        productList = view.findViewById(R.id.productList);
+        productList.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Log.d("클릭", "확인");
+                Intent intent = new Intent(mActivity, MdListMainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         //product recyclerview 초기화
         firstInit();
 
