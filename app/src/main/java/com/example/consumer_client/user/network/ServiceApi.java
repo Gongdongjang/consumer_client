@@ -3,6 +3,8 @@ import com.example.consumer_client.FarmDetailData;
 import com.example.consumer_client.FarmDetailResponse;
 import com.example.consumer_client.FarmGet;
 import com.example.consumer_client.MdGet;
+import com.example.consumer_client.StoreDetailData;
+import com.example.consumer_client.StoreDetailResponse;
 import com.example.consumer_client.StoreGet;
 import com.example.consumer_client.user.data.KakaoLoginData;
 import com.example.consumer_client.user.data.KakaoLoginResponse;
@@ -42,4 +44,7 @@ public interface ServiceApi {
 
     @POST("/farmDetail")
     Call<FarmDetailResponse> farmDetail(@Body FarmDetailData data);
+
+    @POST("/storeDetail")
+    Call<StoreDetailResponse> storeDetail(@Body StoreDetailData data);
 }

@@ -17,8 +17,11 @@ public class MdGet {
     @SerializedName("pay_schedule")
     private List pay_schedule;
 
-    @SerializedName("pu_term")
-    private List pu_term;
+    @SerializedName("pu_start")
+    private List pu_start;
+
+    @SerializedName("pu_end")
+    private List pu_end;
 
     @SerializedName("buying_count")
     private List buying_count;
@@ -77,12 +80,17 @@ public class MdGet {
         this.pay_schedule = pay_schedule;
     }
 
-    public List getPu_term(){
-        return pu_term;
+    public List getPu_start(){
+        return pu_start;
     }
-    public void setPu_term(){
-        this.pu_term = pu_term;
+    public void setPu_start(){
+        this.pu_start = pu_start; }
+
+    public List getPu_end(){
+        return pu_end;
     }
+    public void setPu_end(){
+        this.pu_end = pu_end; }
 
     public List getBuying_count(){
         return buying_count;

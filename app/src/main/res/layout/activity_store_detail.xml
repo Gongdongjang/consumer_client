@@ -170,6 +170,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
                 android:text="현재 "
                 android:textColor="#000000"/>
 
@@ -177,14 +178,12 @@
                 android:id="@+id/StoreJointPurchaseCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:text=" "
                 android:textColor="#000000"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:text="가지 작물을 진행 중입니다."
                 android:textColor="#000000"/>
         </LinearLayout>

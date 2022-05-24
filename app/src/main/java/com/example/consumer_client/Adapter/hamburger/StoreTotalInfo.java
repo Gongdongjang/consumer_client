@@ -4,10 +4,10 @@ public class StoreTotalInfo {
     private String storeProdImgView;
     private String storeName;
     private String storeLocationFromMe;
-    private String storeProdName;
-    private String storeProdNum;
-    private String storeProdPrice;
-    private String storePickUpDate;
+    private String storeInfo;
+    private String storeRestDays;
+    private String storeHours;
+    private int storeSituation;
 
     public String getStoreProdImgView() {
         return storeProdImgView;
@@ -25,12 +25,12 @@ public class StoreTotalInfo {
         this.storeName = storeName;
     }
 
-    public String getStoreProdName() {
-        return storeProdName;
+    public String getStoreInfo() {
+        return storeInfo;
     }
 
-    public void setStoreProdName(String storeProdName) {
-        this.storeProdName = storeProdName;
+    public void setStoreInfo(String storeInfo) {
+        this.storeInfo = storeInfo;
     }
 
     public String getStoreLocationFromMe() {
@@ -39,25 +39,26 @@ public class StoreTotalInfo {
 
     public void setStoreLocationFromMe(String storeLocationFromMe) {this.storeLocationFromMe = storeLocationFromMe;}
 
-    public String getStoreProdNum() {
-        return storeProdNum;
+    public String getStoreRestDays() {
+        return storeRestDays;
     }
 
-    public void setStoreProdNum(String storeProdNum) {
-        this.storeProdNum = storeProdNum;
+    public void setStoreRestDays(String storeRestDays) {
+        this.storeRestDays = storeRestDays;
     }
 
-    public String getStoreProdPrice() {
-        return storeProdPrice;
+    public String getStoreHours() {
+        return storeHours;
     }
 
-    public void setStoreProdPrice(String storeProdPrice) {
-        this.storeProdPrice = storeProdPrice;
+    public void setStoreHours(String storeHours) {
+        this.storeHours = storeHours;
     }
 
-    public String getStorePickUpDate() {
-        return storePickUpDate;
+    public int getStoreSituation() {
+        return storeSituation;
     }
-
-    public void setStorePickUpDate(String storePickUpDate) {this.storePickUpDate = storePickUpDate;}
+    public void setStoreSituation(int storeSituation) {
+        this.storeSituation = storeSituation;
+    }
 }
