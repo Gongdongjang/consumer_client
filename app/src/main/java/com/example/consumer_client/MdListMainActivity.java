@@ -38,12 +38,12 @@ public class MdListMainActivity extends AppCompatActivity {
 
     //제품 가져올 때 필요한 변수
     int count;
-    String[] farmNameL = new String[30];
-    String[] mdNameL = new String[30];
-    String[] storeNameL = new String[30];
-    String[] payScheduleL = new String[30];
-    String[] puStartL = new String[30];
-    String[] puEndL = new String[30];
+    String[] farmNameL = new String[100];
+    String[] mdNameL = new String[100];
+    String[] storeNameL = new String[100];
+    String[] payScheduleL = new String[100];
+    String[] puStartL = new String[100];
+    String[] puEndL = new String[100];
 
     List<List<String>> mdL = new ArrayList<>();
 
@@ -155,7 +155,7 @@ public class MdListMainActivity extends AppCompatActivity {
                         }
                 );
 
-            } }, 1000 ); // 1000 = 1초
+            } }, 2000 ); // 1000 = 1초
 
 
 
