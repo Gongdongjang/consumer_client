@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.consumer_client.Adapter.hamburger.JointPurchaseActivity;
 import com.example.consumer_client.Adapter.hamburger.StoreActivity;
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.MdGet;
@@ -77,8 +78,15 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     boolean isTrackingMode = false;
     String[] stNameL = new String[100];
     String[] mdNameL = new String[100];
+    String[] farmNameL = new String[100];
+    String[] payScheduleL = new String[100];
+    String[] puStartL = new String[100];
+    String[] puEndL = new String[100];
     List<List<String>> mdL = new ArrayList<>();
+
+    //제품 가져올 때 필요한 변수
     int count;
+
     private TextView productList; //제품리스트 클릭하는 텍스트트
 
     @Override
@@ -130,14 +138,23 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                     for (int i = 0; i < count; i++) {
                         stNameL[i] = result.getSt_name().get(i).toString();
                         mdNameL[i] = result.getMd_name().get(i).toString();
+                        farmNameL[i]=result.getFarm_name().get(i).toString();
+                        payScheduleL[i]= result.getPay_schedule().get(i).toString();
+                        puStartL[i]= result.getPu_start().get(i).toString();
+                        puEndL[i]= result.getPu_end().get(i).toString();
                     }
 
                     Toast.makeText(mActivity, "로딩중", Toast.LENGTH_SHORT).show();
 
                     for(int i = 0; i < count; i++){
                         List<String> mdInfo = new ArrayList<>();
-                        mdInfo.add(stNameL[i]);
-                        mdInfo.add(mdNameL[i]);
+                        mdInfo.add(stNameL[i]); //0
+                        mdInfo.add(mdNameL[i]); //1
+                        mdInfo.add(farmNameL[i]); // 2농장이름
+                        mdInfo.add(payScheduleL[i]);  //3 결제 예정일
+                        mdInfo.add(puStartL[i]);  //4 픽업 시작 시점
+                        mdInfo.add(puEndL[i]); //5 픽업 끝나는 시점
+
                         mdL.add(mdInfo);
                     }
                     Log.d("85행", mdL.toString());
@@ -149,7 +166,7 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
             }
             @Override
             public void onFailure(Call<MdGet> call, Throwable t) {
-                Toast.makeText(mActivity, "농가 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "메인 제품리스트 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -172,7 +189,28 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                 for(int i=0;i<count;i++){
                     addItem("product Img", stNameL[i], mdNameL[i]);
                 }
+
+                //메인제품리스트 리사이클러뷰 누르면 나오는
+                mHomeProductAdapter.setOnItemClickListener(
+                        new HomeProductAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View v, int pos) {
+                                //Log.d("120행", farmL.get(pos).toString()); //클릭한 item 정보 보이기
+                                Intent intent = new Intent(mActivity, JointPurchaseActivity.class);
+//                                //배열로 보내고 싶은데..putExtra로 보내기
+                                intent.putExtra("storeName", mdL.get(pos).get(0));
+                                intent.putExtra("mdName",mdL.get(pos).get(1));
+                                intent.putExtra("farmName",mdL.get(pos).get(2));
+                                intent.putExtra("paySchedule",mdL.get(pos).get(3));
+                                intent.putExtra("puStart",mdL.get(pos).get(4));
+                                intent.putExtra("puEnd",mdL.get(pos).get(5));
+                                startActivity(intent);
+                            }
+                        }
+                );
+
             } }, 2000 ); // 1000 = 1초
+
         lm = (LocationManager) mActivity.getApplicationContext().getSystemService( Context.LOCATION_SERVICE );
 
 
@@ -285,4 +323,3 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
 
     }
 }
-
