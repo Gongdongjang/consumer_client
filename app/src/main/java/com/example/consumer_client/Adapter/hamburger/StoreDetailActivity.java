@@ -43,18 +43,18 @@ public class StoreDetailActivity extends AppCompatActivity {
     Context mContext;
     int count;
     //현재페이지
-    String[] farmNameL = new String[30];
-    String[] mdNameL = new String[30];
-    String[] storeNameL = new String[30];
-    String[] payScheduleL = new String[30];
-    String[] puStartL = new String[30];
-    String[] puEndL = new String[30];
+    String[] farmNameL = new String[100];
+    String[] mdNameL = new String[100];
+    String[] storeNameL = new String[100];
+    String[] payScheduleL = new String[100];
+    String[] puStartL = new String[100];
+    String[] puEndL = new String[100];
     //세부페이지
-    String[] buying_countL = new String[30];
-    String[] goal_peopleL = new String[30];
-    String[] farmerNameL = new String[30];
-    String[] farmDescL = new String[30];
-    String[] storeDescL = new String[30];
+    String[] buying_countL = new String[100];
+    String[] goal_peopleL = new String[100];
+    String[] farmerNameL = new String[100];
+    String[] farmDescL = new String[100];
+    String[] storeDescL = new String[100];
 
     List<List<String>> mdL = new ArrayList<>();
 

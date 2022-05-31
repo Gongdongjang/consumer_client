@@ -34,13 +34,13 @@ public class FarmActivity extends AppCompatActivity {
     Context mContext;
 
     int count;
-    String[] farmNameL = new String[30];
-    String[] farmItemL = new String[30];
-    String[] farmInfoL = new String[30];
-    String[] farmLocL = new String[30];
-    String[] farmLatL = new String[30];
-    String[] farmLongL = new String[30];
-    String[] farmHoursL = new String[30];
+    String[] farmNameL = new String[100];
+    String[] farmItemL = new String[100];
+    String[] farmInfoL = new String[100];
+    String[] farmLocL = new String[100];
+    String[] farmLatL = new String[100];
+    String[] farmLongL = new String[100];
+    String[] farmHoursL = new String[100];
 
     List<List<String>> farmL = new ArrayList<>();
     List<List<Double>> mdCL = new ArrayList<>();
@@ -57,8 +57,8 @@ public class FarmActivity extends AppCompatActivity {
 //    String[] pu_endL = new String[30];
 
 //    List<Integer> md_count = new ArrayList<>();
-    Double[] md_count = new Double[30];
-    Double[] farmIdL = new Double[30];
+    Double[] md_count = new Double[100];
+    Double[] farmIdL = new Double[100];
 
 
     @Override

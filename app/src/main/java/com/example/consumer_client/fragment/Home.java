@@ -75,8 +75,8 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     private double mCurrentLng; //Long = X, Lat = Yㅌ
     private double mCurrentLat;
     boolean isTrackingMode = false;
-    String[] stNameL = new String[30];
-    String[] mdNameL = new String[30];
+    String[] stNameL = new String[100];
+    String[] mdNameL = new String[100];
     List<List<String>> mdL = new ArrayList<>();
     int count;
     private TextView productList; //제품리스트 클릭하는 텍스트트
@@ -172,7 +172,7 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                 for(int i=0;i<count;i++){
                     addItem("product Img", stNameL[i], mdNameL[i]);
                 }
-            } }, 1000 ); // 1000 = 1초
+            } }, 2000 ); // 1000 = 1초
         lm = (LocationManager) mActivity.getApplicationContext().getSystemService( Context.LOCATION_SERVICE );
 
 

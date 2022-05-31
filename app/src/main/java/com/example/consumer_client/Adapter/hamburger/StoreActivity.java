@@ -32,19 +32,19 @@ public class StoreActivity extends AppCompatActivity {
     private ArrayList<StoreTotalInfo> mList;
     private StoreTotalAdapter mStoreTotalAdapter;
     Context mContext;
-    String[] storeNameL = new String[30];
-    String[] mdNameL = new String[30];
+    String[] storeNameL = new String[100];
+    String[] mdNameL = new String[100];
     int count;
    // int store_count;
-    String[] pu_startL = new String[30];
-    String[] pu_endL = new String[30];
+    String[] pu_startL = new String[100];
+    String[] pu_endL = new String[100];
     //세부페이지
-    String[] storeInfoL = new String[30];
-    String[] storeHoursL = new String[30];
-    String[] storeRestDaysL = new String[30];
-    String[] storeLocL = new String[30];
-    String[] storeLatL = new String[30];
-    String[] storeLongL = new String[30];
+    String[] storeInfoL = new String[100];
+    String[] storeHoursL = new String[100];
+    String[] storeRestDaysL = new String[100];
+    String[] storeLocL = new String[100];
+    String[] storeLatL = new String[100];
+    String[] storeLongL = new String[100];
 
     List<List<String>> storeL = new ArrayList<>();
 
