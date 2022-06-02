@@ -1,5 +1,7 @@
 package com.example.consumer_client.homeRecycler;
 
+//필요 없어 보임
+
 public class HomeProductItem {
     private String homeProdImg;
     private String homeProdName;
