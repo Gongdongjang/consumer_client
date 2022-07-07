@@ -13,7 +13,7 @@
     app:umanoShadowHeight="10dp">
 
     <!--    app:umanoScrollableView="@id/listView"-->
-    
+
     <!-- gravity 를 bottom으로 하면 아래에서 위로 드래그, top으로 하면 위에서 아래로 드래그 할 수 있다.
          umanoDragView 드래그 해서 보여줄 view를 선택
          umanoScrollableView  슬라이딩 패널에 내용물이 패널에 표시되는것보다 많을 때 스크롤 해서 보여줄 view 부분
