@@ -145,15 +145,15 @@ public class StoreGet {
 //        this.pu_end = pu_end;
 //    }
 
-    //StoreView Detail 세부페이지 Store테이블에서 받아오는
-    @SerializedName("store_count")
-    private String store_count;
-    public String getStore_Count(){
-        return store_count;
-    }public void setStore_Count(){
-        this.store_count = store_count;
-    }
-/*
+//    //StoreView Detail 세부페이지 Store테이블에서 받아오는
+//    @SerializedName("store_count")
+//    private String store_count;
+//    public String getStore_Count(){
+//        return store_count;
+//    }public void setStore_Count(){
+//        this.store_count = store_count;
+//    }
+
     @SerializedName("count")
     private String count;
     public String getCount(){
@@ -161,7 +161,7 @@ public class StoreGet {
     }
     public void setCount(){
         this.count = count;
-    }*/
+    }
 
     //제품명
     public List getMd_name() { return md_name; }

@@ -32,19 +32,16 @@ public class StoreActivity extends AppCompatActivity {
     private ArrayList<StoreTotalInfo> mList;
     private StoreTotalAdapter mStoreTotalAdapter;
     Context mContext;
-    String[] storeNameL = new String[30];
-    String[] mdNameL = new String[30];
+    String[] storeNameL = new String[100];
+    String[] mdNameL = new String[100];
     int count;
-   // int store_count;
-    //String[] pu_startL = new String[30];
-    //String[] pu_endL = new String[30];
     //세부페이지
-    String[] storeInfoL = new String[30];
-    String[] storeHoursL = new String[30];
-    String[] storeRestDaysL = new String[30];
-    String[] storeLocL = new String[30];
-    String[] storeLatL = new String[30];
-    String[] storeLongL = new String[30];
+    String[] storeInfoL = new String[100];
+    String[] storeHoursL = new String[100];
+    String[] storeRestDaysL = new String[100];
+    String[] storeLocL = new String[100];
+    String[] storeLatL = new String[100];
+    String[] storeLongL = new String[100];
 
     List<List<String>> storeL = new ArrayList<>();
 
@@ -55,8 +52,8 @@ public class StoreActivity extends AppCompatActivity {
     List<List<String>> pu_startL = new ArrayList<>();
     List<List<String>> pu_endL = new ArrayList<>();
 
-    Double[] md_count = new Double[30];
-    Double[] storeIdL = new Double[30];
+    Double[] md_count = new Double[100];
+    Integer[] storeIdL = new Integer[100];
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,25 +71,19 @@ public class StoreActivity extends AppCompatActivity {
             public void onResponse(Call<StoreGet> call, Response<StoreGet> response) {
                 try{
                     StoreGet result = response.body();
-//                    Log.d("store_count", String.valueOf(Integer.parseInt(result.getStore_Count())));
-//                    count = Integer.parseInt(result.getStore_Count());
-
-                    count = 3;
+                    count = Integer.parseInt(result.getCount());
                     for (int i = 0; i < count; i++) {
                         storeNameL[i] = result.getSt_arr().get(i).toString();
-//                        mdNameL[i] = result.getMd_arr().get(i).toString();
-                        //pu_startL[i] = result.getPu_start().get(i).toString();
-                        //pu_endL[i] = result.getPu_end().get(i).toString();
-                        //세부
+                        storeIdL[i] = (Integer) result.getStore_id().get(i);
                         storeInfoL[i] = result.getStore_info().get(i).toString();
                         storeHoursL[i] = result.getStore_hours().get(i).toString();
                         storeRestDaysL[i] = result.getStore_restDays().get(i).toString();
-//                        storeLocL[i] = result.getStore_loc().get(i).toString();
-//                        storeLatL[i] = result.getStore_lat().get(i).toString();
-//                        storeLongL[i] = result.getStore_long().get(i).toString();
+                        storeLocL[i] = result.getStore_loc().get(i).toString();
+                        storeLatL[i] = result.getStore_lat().get(i).toString();
+                        storeLongL[i] = result.getStore_long().get(i).toString();
 
                         //백구현 완료하고 실행하기
-                        //md_count[i] = (Double) result.getMd_count().get(i); //얘는 잘 돼
+//                        md_count[i] = (Double) result.getMd_count().get(i); //얘는 잘 돼
                         //storeIdL[i] = (Double) result.getStore_id().get(i);
 //                        md_nameL.get(i) = result.getMd_name().get().toString();
                         //Log.d("93행", storeIdL[i].toString());
@@ -103,19 +94,18 @@ public class StoreActivity extends AppCompatActivity {
                     for(int i = 0; i < count; i++){
                         List<String> storeInfo = new ArrayList<>();
                         //List<String> mdNameL = new ArrayList<>();
-                        List<String> mdCountL = new ArrayList<>();
+                        List<Double> mdCountL = new ArrayList<>();
                         storeInfo.add(storeNameL[i]);   //0 스토어이름
-//                        storeInfo.add(mdNameL[i]);      //1
-                        //storeInfo.add(pu_startL[i]);    //2
-                        //storeInfo.add(pu_endL[i]);      //3
-                        //세부
-                        storeInfo.add(storeInfoL[i]);   //4 스토어설명
-                        storeInfo.add(storeHoursL[i]);  //5 스토어운영시간
-                        storeInfo.add(storeRestDaysL[i]);   //6 스토어휴무일
-//                        storeInfo.add(storeLocL[i]);  //7 스토어위치
-//                        storeInfo.add(storeLatL[i]); //8 스토어 위도
-//                        storeInfo.add(storeLongL[i]); //9 스토어 경도
+                        storeInfo.add(storeInfoL[i]);   //1 스토어설명
+                        storeInfo.add(storeHoursL[i]);  //2 스토어운영시간
+                        storeInfo.add(storeRestDaysL[i]);   //3 스토어휴무일
+                        storeInfo.add(storeLocL[i]);  //4 스토어위치
+                        storeInfo.add(storeLatL[i]); //5 스토어 위도
+                        storeInfo.add(storeLongL[i]); //6 스토어 경도
                         storeL.add(storeInfo);
+                        //세부
+//                        mdCountL.add(md_count[i]);
+//                        mdCL.add(mdCountL);
                     }
                    //Log.d("스토어리스트 출력", storeL.toString());
                 }
@@ -143,9 +133,7 @@ public class StoreActivity extends AppCompatActivity {
                 mStoreRecyclerView.setLayoutManager(linearLayoutManager);
 
                 for(int i=0;i<count;i++){
-                    //addStore("product Img", storeL.get(i).get(0), "" + 100 + i, storeL.get(i).get(1), "" + i, "" + i + "000", storeL.get(i).get(2) +" ~ " + storeL.get(i).get(3), md_count[i].intValue());
-                    addStore("스토어 이미지", storeL.get(i).get(0),  storeL.get(i).get(1), storeL.get(i).get(2), storeL.get(i).get(3), 3);
-                    //addStore("스토어 이미지", storeL.get(i).get(0), i + "m", "store info", "store days", "storeHours", md_count[i].intValue());
+                    addStore("스토어 이미지", storeL.get(i).get(0),  storeL.get(i).get(1), storeL.get(i).get(3), storeL.get(i).get(2), 3);
                     //나중에 추가
                 }
 
@@ -153,18 +141,18 @@ public class StoreActivity extends AppCompatActivity {
                         new StoreTotalAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(View v, int pos) {
-                                Log.d("120행", storeL.get(pos).toString()); //클릭한 item 정보 보이기
+                                Log.d("152행", storeL.get(pos).toString()); //클릭한 item 정보 보이기
                                 Intent intent = new Intent(StoreActivity.this, StoreDetailActivity.class);
 
                                 //배열로 보내고 싶은데.. 일단 putExtra로 값 보내기
                                 intent.putExtra("storeName", storeL.get(pos).get(0));
-                                intent.putExtra("storeInfo",storeL.get(pos).get(4));
-                                intent.putExtra("storeLoc",storeL.get(pos).get(7));
-                                intent.putExtra("storeLat",storeL.get(pos).get(8));
-                                intent.putExtra("storeLong",storeL.get(pos).get(9));
-                                intent.putExtra("storeHours",storeL.get(pos).get(5));
-                                intent.putExtra("storeRestDays",storeL.get(pos).get(6));
-                                intent.putExtra("storeId",storeL.get(pos).get(7));
+                                intent.putExtra("storeInfo",storeL.get(pos).get(1));
+                                intent.putExtra("storeLoc",storeL.get(pos).get(4));
+                                intent.putExtra("storeLat",storeL.get(pos).get(5));
+                                intent.putExtra("storeLong",storeL.get(pos).get(6));
+                                intent.putExtra("storeHours",storeL.get(pos).get(2));
+                                intent.putExtra("storeRestDays",storeL.get(pos).get(3));
+//                                intent.putExtra("storeId",storeL.get(pos).get(7));
                                 intent.putExtra("mdCount", mdCL.get(pos).get(0).toString());
                                 startActivity(intent);
                             }

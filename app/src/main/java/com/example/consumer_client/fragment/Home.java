@@ -73,8 +73,8 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     private double mCurrentLng; //Long = X, Lat = Yㅌ
     private double mCurrentLat;
     boolean isTrackingMode = false;
-    String[] stNameL = new String[30];
-    String[] mdNameL = new String[30];
+    String[] stNameL = new String[100];
+    String[] mdNameL = new String[100];
     List<List<String>> mdL = new ArrayList<>();
     int count;
 
@@ -134,7 +134,7 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
             }
             @Override
             public void onFailure(Call<MdGet> call, Throwable t) {
-                Toast.makeText(mActivity, "농가 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "메인에서 제품 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
             }
         });
 
