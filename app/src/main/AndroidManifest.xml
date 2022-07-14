@@ -56,5 +56,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".PopupOrderActivity"
+            android:theme="@style/popupTheme" android:screenOrientation="portrait"></activity>
     </application>
 </manifest>

@@ -37,7 +37,7 @@
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/keep_recyclear"
+        android:id="@+id/keep_recycler"
         android:layout_width="match_parent"
         android:layout_height="497dp"
         android:layout_marginTop="70dp"/>
