@@ -1,9 +1,11 @@
 package com.example.consumer_client.user.network;
+import com.example.consumer_client.address.AddressData;
 import com.example.consumer_client.FarmDetailData;
 import com.example.consumer_client.FarmDetailResponse;
 import com.example.consumer_client.FarmGet;
 import com.example.consumer_client.MdGet;
 import com.example.consumer_client.StoreGet;
+import com.example.consumer_client.address.AddressResponse;
 import com.example.consumer_client.user.data.KakaoLoginData;
 import com.example.consumer_client.user.data.KakaoLoginResponse;
 import com.example.consumer_client.user.data.GoogleLoginData;
@@ -42,4 +44,7 @@ public interface ServiceApi {
 
     @POST("/farmDetail")
     Call<FarmDetailResponse> farmDetail(@Body FarmDetailData data);
+
+    @POST("/register_address")
+    Call<AddressResponse> addressRegister(@Body AddressData data);
 }
