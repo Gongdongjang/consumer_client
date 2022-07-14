@@ -41,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
         boolean checkFirst = pref.getBoolean("checkFirst", false);
 
         // false일 경우 최초 실행
-       //if(!checkFirst)
-        if(checkFirst)  //test해야해서 ! 없앴음.
+       if(!checkFirst)
         {
             // 앱 최초 실행시 근처동네 찾기 세팅하기
             SharedPreferences.Editor editor = pref.edit();
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
             finish();
 
-            Intent intent = new Intent(MainActivity.this, FindTownActivity.class);
+            Intent intent = new Intent(MainActivity.this, TutorialActivity.class);
             startActivity(intent);
         }
 

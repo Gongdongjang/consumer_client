@@ -25,6 +25,8 @@
             android:value="@string/kakao_app_key"/>
 
         <activity android:name=".user.LoginActivity"/>
+        <activity android:name=".TutorialActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity android:name=".FindTownActivity"/>
         <activity android:name=".PlusAddressActivity"/>
         <activity android:name=".MainActivity"/>
