@@ -43,20 +43,42 @@ import com.example.consumer_client.homeRecycler.HomeProductItem;
 import com.example.consumer_client.user.network.RetrofitClient;
 import com.example.consumer_client.user.network.ServiceApi;
 import com.google.android.gms.common.internal.Constants;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Query;
 
+interface GetService {
+    @GET("getid")
+    Call<ResponseBody> getId(@Query("data") String data);
+
+}
 
 public class Home extends Fragment implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener {
+
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("http://192.168.35.84:3000/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+    com.example.consumer_client.fragment.GetService service = retrofit.create(com.example.consumer_client.fragment.GetService.class);
+    JsonParser jsonParser = new JsonParser();
 
     private View view;
     private RecyclerView mRecyclerView;
@@ -127,48 +149,74 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
             checkRunTimePermission();
         }
 
-        ServiceApi service = RetrofitClient.getClient().create(ServiceApi.class);
-        Call<MdGet> call = service.getMdMainData();
-        call.enqueue(new Callback<MdGet>() {
+        Call<ResponseBody> call_get = service.getId("id");
+        call_get.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<MdGet> call, Response<MdGet> response) {
-                try{
-                    MdGet result = response.body();
-                    count = Integer.parseInt(result.getCount());
-                    for (int i = 0; i < count; i++) {
-                        stNameL[i] = result.getSt_name().get(i).toString();
-                        mdNameL[i] = result.getMd_name().get(i).toString();
-                        farmNameL[i]=result.getFarm_name().get(i).toString();
-                        payScheduleL[i]= result.getPay_schedule().get(i).toString();
-                        puStartL[i]= result.getPu_start().get(i).toString();
-                        puEndL[i]= result.getPu_end().get(i).toString();
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response){
+                Log.d("156", response.toString());
+                if (response.isSuccessful()) {
+                    try {
+                        String result = response.body().string();
+                        Log.v(TAG, "result = " + result);
+                        Toast.makeText(mActivity, result, Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-
-                    Toast.makeText(mActivity, "로딩중", Toast.LENGTH_SHORT).show();
-
-                    for(int i = 0; i < count; i++){
-                        List<String> mdInfo = new ArrayList<>();
-                        mdInfo.add(stNameL[i]); //0
-                        mdInfo.add(mdNameL[i]); //1
-                        mdInfo.add(farmNameL[i]); // 2농장이름
-                        mdInfo.add(payScheduleL[i]);  //3 결제 예정일
-                        mdInfo.add(puStartL[i]);  //4 픽업 시작 시점
-                        mdInfo.add(puEndL[i]); //5 픽업 끝나는 시점
-
-                        mdL.add(mdInfo);
-                    }
-                    Log.d("85행", mdL.toString());
-                }
-                catch(Exception e){
-                    e.printStackTrace();
-                    throw e;
+                } else {
+                    Log.v(TAG, "error = " + String.valueOf(response.code()));
+                    Toast.makeText(mActivity, "error = " + String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
-            public void onFailure(Call<MdGet> call, Throwable t) {
-                Toast.makeText(mActivity, "메인 제품리스트 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.v(TAG, "Fail");
+                Toast.makeText(mActivity, "Response Fail", Toast.LENGTH_SHORT).show();
             }
         });
+
+//        ServiceApi service = RetrofitClient.getClient().create(ServiceApi.class);
+//        Call<MdGet> call = service.getMdMainData();
+//        call.enqueue(new Callback<MdGet>() {
+//            @Override
+//            public void onResponse(Call<MdGet> call, Response<MdGet> response) {
+//                try{
+//                    MdGet result = response.body();
+//                    count = Integer.parseInt(result.getCount());
+//                    for (int i = 0; i < count; i++) {
+//                        stNameL[i] = result.getSt_name().get(i).toString();
+//                        mdNameL[i] = result.getMd_name().get(i).toString();
+//                        farmNameL[i]=result.getFarm_name().get(i).toString();
+//                        payScheduleL[i]= result.getPay_schedule().get(i).toString();
+//                        puStartL[i]= result.getPu_start().get(i).toString();
+//                        puEndL[i]= result.getPu_end().get(i).toString();
+//                    }
+//
+//                    Toast.makeText(mActivity, "로딩중", Toast.LENGTH_SHORT).show();
+//
+//                    for(int i = 0; i < count; i++){
+//                        List<String> mdInfo = new ArrayList<>();
+//                        mdInfo.add(stNameL[i]); //0
+//                        mdInfo.add(mdNameL[i]); //1
+//                        mdInfo.add(farmNameL[i]); // 2농장이름
+//                        mdInfo.add(payScheduleL[i]);  //3 결제 예정일
+//                        mdInfo.add(puStartL[i]);  //4 픽업 시작 시점
+//                        mdInfo.add(puEndL[i]); //5 픽업 끝나는 시점
+//
+//                        mdL.add(mdInfo);
+//                    }
+//                    Log.d("85행", mdL.toString());
+//                }
+//                catch(Exception e){
+//                    e.printStackTrace();
+//                    throw e;
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<MdGet> call, Throwable t) {
+//                Toast.makeText(mActivity, "메인 제품리스트 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         Handler mHandler = new Handler();
         mHandler.postDelayed( new Runnable() {

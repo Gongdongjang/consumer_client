@@ -48,23 +48,16 @@ public class RegisterActivity extends AppCompatActivity {
     String TAG = RegisterActivity.class.getSimpleName();
 
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://:3000/")
+            .baseUrl("http://192.168.35.84:3000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
     SignUpService service = retrofit.create(SignUpService.class);
     JsonParser jsonParser = new JsonParser();
 
     private TextView code_verify_txt, id_verify_txt, pwd_verify_txt;
-    private EditText name;
-    private EditText mobile_no;
-    private String nickname;
-    private EditText id, code_verify_input;
-    private EditText password;
-    private EditText pwConfirm;
-    private RadioButton male;
-    private RadioButton female;
+    private EditText id, code_verify_input, password, pwConfirm, name, mobile_no;
+    private RadioButton male, female, infoOk, pushOk;
     private Button registerButton, phone_verify_btn, code_verify_btn, id_verify_btn;
-//    private ServiceApi service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,12 +68,11 @@ public class RegisterActivity extends AppCompatActivity {
         name = (EditText) findViewById(R.id.signName);
         mobile_no = (EditText) findViewById(R.id.mobile_no);
         phone_verify_btn = findViewById(R.id.mobileAuth);
-//        id = (EditText) findViewById(R.id.userId);
-//        password = (EditText) findViewById(R.id.password);
-//        password_confirm = (EditText) findViewById(R.id.pwConfirm);
         male = (RadioButton) findViewById(R.id.male);
         female = (RadioButton) findViewById(R.id.female);
         registerButton = findViewById(R.id.signupbutton);
+        infoOk = (RadioButton) findViewById(R.id.infoOk);
+        pushOk = (RadioButton) findViewById(R.id.pushOk);
 
         phone_verify_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,11 +149,11 @@ public class RegisterActivity extends AppCompatActivity {
     void phoneCheck(String phone_number) {
         JsonObject body = new JsonObject();
         body.addProperty("phone_number", phone_number);
-
         Call<ResponseBody> call = service.checkPhone(body);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("response", response.toString());
                 if (response.isSuccessful()) {
                     try {
                         JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
@@ -254,8 +246,6 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-
-
     private void tryRegister(String uid, String pwd) {
         name.setError(null); //오류 있으면 or 비어있으면 멘트 띄우는 거 일단 null로
         mobile_no.setError(null); //오류 있으면 or 비어있으면 멘트 띄우기
@@ -264,10 +254,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         String uname = name.getText().toString();
         String umobile_no = mobile_no.getText().toString();
-//        String uid = id.getText().toString();  = uid
-//        String upassword = password.getText().toString(); = pwd
 
-//        nickname = uid;
         String gender = "";
         if(male.isChecked()){
             gender = "남";
@@ -307,6 +294,22 @@ public class RegisterActivity extends AppCompatActivity {
             cancel = true;
         }
 
+        //개인 정보 수집 동의 if 동의x 시 체크해달라고 표시하기기
+        if(!(infoOk.isChecked())){
+            Toast.makeText(RegisterActivity.this, "개인정보수집에 동의해주세요", Toast.LENGTH_SHORT).show();
+            cancel = true;
+            focusView = infoOk;
+        }
+
+        // 푸쉬 알림 동의 -> 일단은 1이나 0이나 상관없이 그냥 저장되게 만듦 즉, 체크하지 않아도 넘어가게 함
+        int push_allow;
+        if(pushOk.isChecked()){
+            push_allow = 1;
+        }
+        else{
+            push_allow = 0;
+        }
+
         if (cancel) {
             focusView.requestFocus();
         } else {
@@ -317,6 +320,7 @@ public class RegisterActivity extends AppCompatActivity {
             body.addProperty("phone_number", umobile_no);
             body.addProperty("gender", gender);
             body.addProperty("name", uname);
+            body.addProperty("push_allow", push_allow);
 
             Call<ResponseBody> call = service.signUp(body);
             call.enqueue(new Callback<ResponseBody>() {
@@ -326,6 +330,10 @@ public class RegisterActivity extends AppCompatActivity {
                         try {
                             JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
                             Log.d(TAG, res.get("id").getAsString());
+
+                            //회원가입 버튼 클릭시, 회원가입 완료 페이지로 이동
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(intent);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

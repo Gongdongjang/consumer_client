@@ -314,7 +314,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        android:text="마케팅 정보 수신 및 활용 동의"
+                        android:text="개인 정보 수집 및 푸쉬 알림 동의"
                         android:textColor="@color/black"
                         android:textSize="18dp"
                         android:textStyle="bold" />
@@ -330,11 +330,11 @@
                             android:orientation="horizontal">
 
                             <RadioButton
-                                android:id="@+id/smsOk"
+                                android:id="@+id/infoOk"
                                 android:layout_width="match_parent"
                                 android:layout_height="30dp"
                                 android:layout_marginBottom="5dp"
-                                android:text="문자메세지 수신 동의" />
+                                android:text="개인 정보 수집 동의" />
 
                             <View
                                 android:id="@+id/view2"
@@ -358,24 +358,26 @@
                             android:orientation="horizontal">
 
                             <RadioButton
-                                android:id="@+id/emailOk"
+                                android:id="@+id/pushOk"
                                 android:layout_width="match_parent"
                                 android:layout_height="30dp"
-                                android:layout_marginBottom="10dp"
-                                android:text="이메일 수신 동의" />
+                                android:layout_marginBottom="5dp"
+                                android:layout_weight="0"
+                                android:text="푸쉬 알림 동의" />
 
                             <View
                                 android:id="@+id/view"
-                                android:layout_width="150dp"
+                                android:layout_width="154dp"
                                 android:layout_height="0dp"
                                 android:layout_weight="0" />
 
                             <TextView
-                                android:id="@+id/emailOkContent"
+                                android:id="@+id/smsOkContent2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="내용 보기" />
+
                         </LinearLayout>
 
                     </LinearLayout>
