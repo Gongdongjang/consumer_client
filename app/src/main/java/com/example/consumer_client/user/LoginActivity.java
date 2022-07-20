@@ -73,8 +73,6 @@ interface LoginService {
 
 public class LoginActivity extends AppCompatActivity {
 
-    //String BaseUrl=String.valueOf((R.string.ip_address));
-
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://:3000/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -91,7 +89,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText id;
     private EditText password;
     private Button registerButton;
-    private ServiceApi service3;
     private GoogleSignInClient mGoogleSignInClient;
     private SignInButton google_sign_in_button;
     private final int RC_SIGN_IN = 1;
@@ -106,17 +103,9 @@ public class LoginActivity extends AppCompatActivity {
 
         //회원가입 버튼
         sign = findViewById(R.id.signin);
-//        id = (EditText) findViewById(R.id.editID);
-//        password = (EditText) findViewById(R.id.editPassword);
         loginbutton = (Button) findViewById(R.id.loginbutton);
         kakaobutton= (Button) findViewById(R.id.kakaobutton);
-//        mProgressView = (ProgressBar) findViewById(R.id.login_progress); //이거 왜 필요한지 모르겠음 == 회원가입도
         signup = findViewById(R.id.signin); //회원가입
-        //바꿈
-        //LoginService service = (LoginService) RetrofitClient.getClient().create(ServiceApi.class);
-
-
-//        kakaoLoginService servicekakao = (kakaoLoginService) RetrofitClient.getClient().create(ServiceApi.class);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -177,8 +166,6 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.i(TAG, "invoke: nickname=" + user.getKakaoAccount().getProfile().getNickname()); // 유저의 닉네임을 불러옵니다.
                                 Log.i(TAG, "gender " + gender);
 
-                                //KakaoLoginData kakaoD= new KakaoLoginData(userid, username, nickname,"kakao", refresh_token, gender);
-                                // Log.d("kakaoD", String.valueO;
                                 Log.d("id1",userid);
                                 JsonObject body = new JsonObject();
                                 body.addProperty("id", userid);
@@ -193,32 +180,11 @@ public class LoginActivity extends AppCompatActivity {
                                 call.enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        Log.d("194행",response.toString());
-
-                                        //Log.d("id2",userid);
-                                        //                                        KakaoLoginResponse result = response.body();
-                                        //                                        Log.d("result", String.valueOf(result));
-                                        //                                        Toast.makeText(LoginActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
-                                        //                                        Log.d("id4",userid);
-                                        //
-                                        //                                        if (result.getCode() == 200) {
-                                        //                                            //로그인 버튼 클릭시, 메인 페이지로 이동
-                                        //                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                        //                                            startActivity(intent);
-                                        //                                        }
-                                        //                                        else{
-                                        //                                            //같은 화면 다시 띄우기
-                                        //                                        }
-                                        //                                    }
-                                        //                                    @Override
-                                        //                                    public void onFailure(Call<KakaoLoginResponse> call, Throwable t) {
-                                        //                                        Toast.makeText(LoginActivity.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();
-                                        //                                        Log.e("로그인 에러 발생", t.getMessage());
-                                        //                                    }
+//                                        Log.d("194행",response.toString());
                                         if (response.isSuccessful()) {
                                             try {
                                                 JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
-                                                Log.d("217행",res.toString());
+//                                                Log.d("217행",res.toString());
                                                 Log.d(TAG, res.get("id").getAsString());
 
                                                 //로그인 버튼 클릭시, 메인 페이지로 이동
@@ -242,10 +208,6 @@ public class LoginActivity extends AppCompatActivity {
                                         Log.e(TAG, "onFailure: e " + t.getMessage());
                                     }
                                 });
-
-
-                                //Intent intent=new Intent(getApplicationContext(), MainActivity.class); //메인화면으로 이동
-                                //startActivity(intent);
                             }
                             if (throwable != null) { // 로그인 시 오류 났을 때
                                 // 키해시가 등록 안 되어 있으면 오류 납니다.
@@ -277,7 +239,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
 //        //여긴 로그정보 있으면 실행되는건가...??
 ////        Intent intent=new Intent(getApplicationContext(), MainActivity.class); //메인화면으로 이동
 ////        startActivity(intent);
@@ -287,8 +248,6 @@ public class LoginActivity extends AppCompatActivity {
     void login() {
         id = (EditText) findViewById(R.id.editID);
         password = (EditText) findViewById(R.id.editPassword);
-        //id_input = findViewById(R.id.login_id_input);
-        //pwd_input = findViewById(R.id.login_pwd_input);
         JsonObject body = new JsonObject();
         body.addProperty("id", id.getText().toString());
         body.addProperty("password", password.getText().toString());
@@ -297,7 +256,7 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("261", response.toString());
+//                Log.d("261", response.toString());
                 if (response.isSuccessful()) {
                     try {
                         JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
@@ -390,9 +349,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         return null;
     }
-    //    private void showProgress(boolean show) {
-//        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-//    }
+
     private void googleSignIn(){
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -402,64 +359,60 @@ public class LoginActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
             Log.d("test","구글로그인확인" );
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
     }
 
+    //구글 로그인
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
-            // Signed in successfully, show authenticated UI.
-//            updateUI(account);
-
-            String email = account.getEmail();
             String familyName = account.getFamilyName();
             String givenName = account.getGivenName();
             String displayName = account.getDisplayName();
             String id = account.getId();
+            String id_token = account.getIdToken();
+            String server_auth_code = account.getServerAuthCode();
 
-            Log.d("email", email);
-            Log.d("familyName", familyName);
-            Log.d("givenName", givenName);
-            Log.d("displayName", displayName);
-            Log.d("id", id);
+            JsonObject body = new JsonObject();
+            body.addProperty("id", id);
+            body.addProperty("username", familyName+givenName);
+            body.addProperty("nickname", displayName);
+//            body.addProperty("id_token", id_token);
+//            body.addProperty("server_auth_code", server_auth_code);
+            body.addProperty("sns_type", "google");
 
-            String name = familyName+givenName;
 
-            GoogleLoginData googleD = new GoogleLoginData(id, name, displayName);
-
-            service3.userGoogleLogin(googleD).enqueue(new Callback<GoogleLoginResponse>() {
+            Call<ResponseBody> call = service.userGoogleLogin(body);
+            call.enqueue(new Callback<ResponseBody>() {
                 @Override
-                public void onResponse(Call<GoogleLoginResponse> call, Response<GoogleLoginResponse> response) {
-                    GoogleLoginResponse result = response.body();
-                    Toast.makeText(LoginActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        try{
+                            JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                            Toast.makeText(LoginActivity.this, res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
 
-                    if (result.getCode() == 200) {
-                        //로그인 버튼 클릭시, 메인 페이지로 이동
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                    }
-                    else{
-                        //같은 화면 다시 띄우기
+                            //로그인 버튼 클릭시, 메인 페이지로 이동
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                        }
+                        catch(IOException e){
+                            e.printStackTrace();
+                        }
                     }
                 }
 
                 @Override
-                public void onFailure(Call<GoogleLoginResponse> call, Throwable t) {
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
                     Toast.makeText(LoginActivity.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();
                     Log.e("로그인 에러 발생", t.getMessage());
                 }
             });
         } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w("failed", "signInResult:failed code=" + e.getStatusCode());
         }
     }
