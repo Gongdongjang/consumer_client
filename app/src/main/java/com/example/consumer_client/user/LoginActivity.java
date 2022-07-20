@@ -64,18 +64,19 @@ interface LoginService {
     @POST("login")
     Call<ResponseBody> login(@Body JsonObject body);
 
+    @POST("kakaoLogin")
+    Call<ResponseBody> kakaoLogin(@Body JsonObject body);
+
     @POST("/googleLogin")
     Call<ResponseBody> userGoogleLogin(@Body JsonObject body);
 }
-//interface kakaoLoginService {
-//    @POST("kakaoLogin")
-//    Call<KakaoLoginResponse> userKakaoLogin(KakaoLoginData kakaoD);
-//}
 
 public class LoginActivity extends AppCompatActivity {
 
+    //String BaseUrl=String.valueOf((R.string.ip_address));
+
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.35.84:3000/")
+            .baseUrl("http://:3000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
     LoginService service = retrofit.create(LoginService.class);
@@ -149,99 +150,138 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(intent);
             }
-        });}
-
+        });
         //네이버
 
-
         //간편로그인(카카오)
-//        Function2<OAuthToken, Throwable, Unit> callback = new Function2<OAuthToken, Throwable, Unit>() {
-//            @Override public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
-//                //String refresh_token="";
-//                if (oAuthToken != null) {
-//                    Log.i("user", oAuthToken.getAccessToken() + " " + oAuthToken.getRefreshToken());
-//                    //refresh_token=oAuthToken.getRefreshToken();
-//
-//                    UserApiClient.getInstance().me(new Function2<User, Throwable, Unit>() {
-//                        @Override public Unit invoke(User user, Throwable throwable) {
-//
-//                            if (user != null) { // 유저 정보가 정상 전달 되었을 경우
-//
-//                                String userid=Long.toString(user.getId());
-//                                String username=user.getKakaoAccount().getProfile().getNickname();
-//                                String nickname= user.getKakaoAccount().getProfile().getNickname();
-//                                String refresh_token= oAuthToken.getRefreshToken();
-//                                String gender= String.valueOf(user.getKakaoAccount().getGender()); //성별받기
-//                                //String email=user.getKakaoAccount().getEmail();
-//
-//                                Log.i(TAG, "username " + username); // 유저의 고유 아이디를 불러옵니다.
-//                                Log.i(TAG, "invoke: nickname=" + user.getKakaoAccount().getProfile().getNickname()); // 유저의 닉네임을 불러옵니다.
-//                                Log.i(TAG, "gender " + gender);
+        Function2<OAuthToken, Throwable, Unit> callback = new Function2<OAuthToken, Throwable, Unit>() {
+            @Override public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
+                //String refresh_token="";
+                if (oAuthToken != null) {
+                    Log.i("user", oAuthToken.getAccessToken() + " " + oAuthToken.getRefreshToken());
+                    //refresh_token=oAuthToken.getRefreshToken();
 
-//                                KakaoLoginData kakaoD= new KakaoLoginData(userid, username, nickname,"kakao", refresh_token, gender);
-//                                // Log.d("kakaoD", String.valueO;
-//                                Log.d("id1",userid);
-//                                servicekakao.userKakaoLogin(kakaoD).enqueue(new Callback<KakaoLoginResponse>() {
-//                                    @Override
-//                                    public void onResponse(Call<KakaoLoginResponse> call, Response<KakaoLoginResponse> response) {
-//                                        //Log.d("id2",userid);
-//                                        KakaoLoginResponse result = response.body();
-//                                        Log.d("result", String.valueOf(result));
-//                                        Toast.makeText(LoginActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
-//                                        Log.d("id4",userid);
-//
-//                                        if (result.getCode() == 200) {
-//                                            //로그인 버튼 클릭시, 메인 페이지로 이동
-//                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//                                            startActivity(intent);
-//                                        }
-//                                        else{
-//                                            //같은 화면 다시 띄우기
-//                                        }
-//                                    }
-//                                    @Override
-//                                    public void onFailure(Call<KakaoLoginResponse> call, Throwable t) {
-//                                        Toast.makeText(LoginActivity.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();
-//                                        Log.e("로그인 에러 발생", t.getMessage());
-//                                    }
-//                                });
+                    UserApiClient.getInstance().me(new Function2<User, Throwable, Unit>() {
+                        @Override public Unit invoke(User user, Throwable throwable) {
+
+                            if (user != null) { // 유저 정보가 정상 전달 되었을 경우
+
+                                String userid=Long.toString(user.getId());
+                                String username=user.getKakaoAccount().getProfile().getNickname();
+                                String nickname= user.getKakaoAccount().getProfile().getNickname();
+                                String refresh_token= oAuthToken.getRefreshToken();
+                                String gender= String.valueOf(user.getKakaoAccount().getGender()); //성별받기
+                                //String email=user.getKakaoAccount().getEmail();
+
+                                Log.i(TAG, "username " + username); // 유저의 고유 아이디를 불러옵니다.
+                                Log.i(TAG, "invoke: nickname=" + user.getKakaoAccount().getProfile().getNickname()); // 유저의 닉네임을 불러옵니다.
+                                Log.i(TAG, "gender " + gender);
+
+                                //KakaoLoginData kakaoD= new KakaoLoginData(userid, username, nickname,"kakao", refresh_token, gender);
+                                // Log.d("kakaoD", String.valueO;
+                                Log.d("id1",userid);
+                                JsonObject body = new JsonObject();
+                                body.addProperty("id", userid);
+                                body.addProperty("username", username);
+                                body.addProperty("nickname", nickname);
+                                body.addProperty("sns_type", "kakao");
+                                body.addProperty("refresh_token", refresh_token);
+                                body.addProperty("gender", gender);
+
+                                Call<ResponseBody> call = service.kakaoLogin(body);
+
+                                call.enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        Log.d("194행",response.toString());
+
+                                        //Log.d("id2",userid);
+                                        //                                        KakaoLoginResponse result = response.body();
+                                        //                                        Log.d("result", String.valueOf(result));
+                                        //                                        Toast.makeText(LoginActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                                        //                                        Log.d("id4",userid);
+                                        //
+                                        //                                        if (result.getCode() == 200) {
+                                        //                                            //로그인 버튼 클릭시, 메인 페이지로 이동
+                                        //                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        //                                            startActivity(intent);
+                                        //                                        }
+                                        //                                        else{
+                                        //                                            //같은 화면 다시 띄우기
+                                        //                                        }
+                                        //                                    }
+                                        //                                    @Override
+                                        //                                    public void onFailure(Call<KakaoLoginResponse> call, Throwable t) {
+                                        //                                        Toast.makeText(LoginActivity.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();
+                                        //                                        Log.e("로그인 에러 발생", t.getMessage());
+                                        //                                    }
+                                        if (response.isSuccessful()) {
+                                            try {
+                                                JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
+                                                Log.d("217행",res.toString());
+                                                Log.d(TAG, res.get("id").getAsString());
+
+                                                //로그인 버튼 클릭시, 메인 페이지로 이동
+                                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                startActivity(intent);
+
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            try {
+                                                Log.d(TAG, "Fail " + response.errorBody().string());
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                        Log.e(TAG, "onFailure: e " + t.getMessage());
+                                    }
+                                });
 
 
                                 //Intent intent=new Intent(getApplicationContext(), MainActivity.class); //메인화면으로 이동
                                 //startActivity(intent);
-//                            }
-//                            if (throwable != null) { // 로그인 시 오류 났을 때
-//                                // 키해시가 등록 안 되어 있으면 오류 납니다.
-//                                Log.w(TAG, "invoke: " + throwable.getLocalizedMessage());
-//                            }
-//                            return null;
-//                        }
-//                    });
-//
-//
-//                } if (throwable != null) { // TBD
-//                    Log.w(TAG, "invoke: " + throwable.getLocalizedMessage());
-//                }
-//                //updateKakaoLoginUi(refresh_token);  //refresh_token 전달하는게 괜찮나..?
-//                return null;
-//            }
-//        };
-//        kakaobutton = findViewById(R.id.kakaobutton); //
-//        kakaobutton.setOnClickListener(new View.OnClickListener() {//로그인 버튼 클릭 시
-//            @Override public void onClick(View v) {
-//                if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)) {
-//                    // 카카오톡이 있을 경우?
-//                    UserApiClient.getInstance().loginWithKakaoTalk(LoginActivity.this, callback);
-//                } else { //카카오톡 없으면 카카오계정으로
-//                    UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callback);
-//                }
-//            }
-//        });
+                            }
+                            if (throwable != null) { // 로그인 시 오류 났을 때
+                                // 키해시가 등록 안 되어 있으면 오류 납니다.
+                                Log.w(TAG, "invoke: " + throwable.getLocalizedMessage());
+                            }
+                            return null;
+                        }
+                    });
+
+
+                } if (throwable != null) { // TBD
+                    Log.w(TAG, "invoke: " + throwable.getLocalizedMessage());
+                }
+                //updateKakaoLoginUi(refresh_token);  //refresh_token 전달하는게 괜찮나..?
+                return null;
+            }
+        };
+        kakaobutton = findViewById(R.id.kakaobutton); //
+        kakaobutton.setOnClickListener(new View.OnClickListener() {//로그인 버튼 클릭 시
+            @Override public void onClick(View v) {
+                if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)) {
+                    // 카카오톡이 있을 경우?
+                    UserApiClient.getInstance().loginWithKakaoTalk(LoginActivity.this, callback);
+                } else { //카카오톡 없으면 카카오계정으로
+                    UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callback);
+                }
+            }
+        });
+
+    }
+
+
 //        //여긴 로그정보 있으면 실행되는건가...??
 ////        Intent intent=new Intent(getApplicationContext(), MainActivity.class); //메인화면으로 이동
 ////        startActivity(intent);
 //        //updateKakaoLoginUi(refresh_token);
-//    }
 
     //기본 로그인
     void login() {
