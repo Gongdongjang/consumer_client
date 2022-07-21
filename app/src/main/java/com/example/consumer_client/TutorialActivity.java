@@ -87,7 +87,9 @@ public class TutorialActivity extends AppCompatActivity {
                 }
                 else {
                     // 마지막 페이지라면 메인페이지로 이동
-                    startActivity(new Intent(TutorialActivity.this, FindTownActivity.class));
+                    Intent i = new Intent(TutorialActivity.this, FindTownActivity.class);
+                    i.putExtra("userid",userid);
+                    startActivity(i);
                     finish();
                 }
             }

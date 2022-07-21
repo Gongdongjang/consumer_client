@@ -22,15 +22,41 @@ import com.example.consumer_client.Adapter.hamburger.FarmTotalAdapter;
 import com.example.consumer_client.Adapter.hamburger.JointPurchaseActivity;
 import com.example.consumer_client.user.network.RetrofitClient;
 import com.example.consumer_client.user.network.ServiceApi;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Query;
+
+interface MdService {
+    @GET("mdView_main")
+    Call<ResponseBody> getMdMainData();
+}
 
 public class MdListMainActivity extends AppCompatActivity {
+
+    JsonParser jsonParser;
+    MdService service;
+
     private RecyclerView mMdListRecyclerView;
     private ArrayList<FarmDetailInfo> mList;
     private FarmDetailAdapter mMdListMainAdapter;
@@ -51,28 +77,30 @@ public class MdListMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_md_total_list);
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.baseurl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        service = retrofit.create(MdService.class);
+        jsonParser = new JsonParser();
+
         mContext = this;
 
         firstInit();
 
-        ServiceApi service = RetrofitClient.getClient().create(ServiceApi.class);
-        Call<MdGet> call = service.getMdMainData();
-        call.enqueue(new Callback<MdGet>() {
+        JsonObject body = new JsonObject();
+        Call<ResponseBody> call = service.getMdMainData();
+        call.enqueue(new Callback<ResponseBody>() {
 
             @Override
-            public void onResponse(Call<MdGet> call, Response<MdGet> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("91행", response.toString());
                 try{
-                    MdGet result = response.body();
-                    //Log.d("60행", result.toString());
-                    count = Integer.parseInt(result.getCount());
-
-                    for (int i = 0; i < count; i++) {
-                        farmNameL[i] = result.getFarm_name().get(i).toString();
-                        mdNameL[i] = result.getMd_name().get(i).toString();
-                        storeNameL[i] = result.getSt_name().get(i).toString();
-                        payScheduleL[i]= result.getPay_schedule().get(i).toString();
-                        puStartL[i]= result.getPu_start().get(i).toString();
-                        puEndL[i]= result.getPu_end().get(i).toString();
+                    JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
+                    JsonArray jsonArray = res.get("result").getAsJsonArray();
+                    String mdName = null;
+                    for(int i = 0; i < jsonArray.size(); i++){
+                        Log.d("113", jsonArray.get(i).getAsJsonObject().get("md_name").getAsString());
                     }
 
                     Toast.makeText(MdListMainActivity.this, "로딩중", Toast.LENGTH_SHORT).show();
@@ -98,50 +126,45 @@ public class MdListMainActivity extends AppCompatActivity {
 //                        mdNameL.add()
                     }
                     Log.d("123행", mdL.toString());
-                }
-                catch(Exception e){
-                    e.printStackTrace();
-                    throw e;
-                }
-            }
-            @Override
-            public void onFailure(Call<MdGet> call, Throwable t) {
-                Toast.makeText(MdListMainActivity.this, "농가 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
-            }
-        });
 
+                    Handler mHandler = new Handler();
+                    String finalMdName = mdName;
+                    mHandler.postDelayed(new Runnable() {
+                        public void run() { // 0.1초 후에 받아오도록 설정 , 바로 시작 시 에러남
+                            //어뎁터 적용
+                            mMdListMainAdapter = new FarmDetailAdapter(mList);
+                            mMdListRecyclerView.setAdapter(mMdListMainAdapter);
 
-        Handler mHandler = new Handler();
-        mHandler.postDelayed( new Runnable() {
-            public void run() { // 0.1초 후에 받아오도록 설정 , 바로 시작 시 에러남
-                //어뎁터 적용
-                mMdListMainAdapter = new FarmDetailAdapter(mList);
-                mMdListRecyclerView.setAdapter(mMdListMainAdapter);
+                            //세로로 세팅
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+                            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                            mMdListRecyclerView.setLayoutManager(linearLayoutManager);
 
-                //세로로 세팅
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                mMdListRecyclerView.setLayoutManager(linearLayoutManager);
+                            for(int i=0;i<jsonArray.size();i++){
+                                addMdList("product Img",
+                                        jsonArray.get(i).getAsJsonObject().get("farm_name").getAsString(),
+                                        jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
+                                        jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                                        jsonArray.get(i).getAsJsonObject().get("pay_schedule").getAsString().substring(0,10),
+                                        jsonArray.get(i).getAsJsonObject().get("pu_start").getAsString().substring(0,10) + " ~ " +
+                                                jsonArray.get(i).getAsJsonObject().get("pu_end").getAsString().substring(0,10)
+                                );
+                            }
 
-                for(int i=0;i<count;i++){
-                    //addFarm("product Img", "농가 이름" + i, "농가 제품 이름" + i, "농가 특징" + i, "" + i);
-                    addMdList(mdL.get(i).get(0), mdL.get(i).get(1), mdL.get(i).get(2), mdL.get(i).get(3), mdL.get(i).get(4) + "~" + mdL.get(i).get(5));
-                }
+                            mMdListMainAdapter.setOnItemClickListener(
+                                    new FarmDetailAdapter.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(View v, int pos) {
+                                            Log.d("120행", mdL.get(pos).toString()); //클릭한 item 정보 보이기
+                                            Intent intent = new Intent(MdListMainActivity.this, JointPurchaseActivity.class);
 
-                mMdListMainAdapter.setOnItemClickListener(
-                        new FarmDetailAdapter.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View v, int pos) {
-                                Log.d("120행", mdL.get(pos).toString()); //클릭한 item 정보 보이기
-                                Intent intent = new Intent(MdListMainActivity.this, JointPurchaseActivity.class);
-
-                                //배열로 보내고 싶은데... 각각 보내는게 맞나...? 일단 putExtra로 값 보내기
-                                intent.putExtra("farmName", mdL.get(pos).get(0));
-                                intent.putExtra("mdName",mdL.get(pos).get(1));
-                                intent.putExtra("storeName",mdL.get(pos).get(2));
-                                intent.putExtra("paySchedule",mdL.get(pos).get(3));
-                                intent.putExtra("puStart",mdL.get(pos).get(4));
-                                intent.putExtra("puEnd",mdL.get(pos).get(5));
+                                            //배열로 보내고 싶은데... 각각 보내는게 맞나...? 일단 putExtra로 값 보내기
+                                            intent.putExtra("farmName", mdL.get(pos).get(0));
+                                            intent.putExtra("mdName",mdL.get(pos).get(1));
+                                            intent.putExtra("storeName",mdL.get(pos).get(2));
+                                            intent.putExtra("paySchedule",mdL.get(pos).get(3));
+                                            intent.putExtra("puStart",mdL.get(pos).get(4));
+                                            intent.putExtra("puEnd",mdL.get(pos).get(5));
 //                                intent.putExtra("farmId",farmL.get(pos).get(7));
 //                                intent.putExtra("mdCount", mdCL.get(pos).get(0).toString());
 //                                Log.d("179행", mdCL.get(pos).get(0).toString());
@@ -150,12 +173,29 @@ public class MdListMainActivity extends AppCompatActivity {
 //                                intent.putExtra("puStart", pu_startL);
 //                                intent.putExtra("puEnd", pu_endL);
 //                                intent.putStringArrayListExtra("mdName", mdNameL);
-                                startActivity(intent);
-                            }
-                        }
-                );
+                                            startActivity(intent);
+                                        }
+                                    }
+                            );
 
-            } }, 2000 ); // 1000 = 1초
+                        } }, 5000 ); // 1000 = 1초
+
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                    try {
+                        throw e;
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(MdListMainActivity.this, "농가 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
     public void firstInit(){
@@ -163,7 +203,7 @@ public class MdListMainActivity extends AppCompatActivity {
         mList = new ArrayList<>();
     }
 
-    public void addMdList(String farmName, String prodName, String storeName, String paySchedule, String puTerm){
+    public void addMdList(String img, String farmName, String prodName, String storeName, String paySchedule, String puTerm){
         FarmDetailInfo mdDetail = new FarmDetailInfo();
 
         mdDetail.setFarmName(farmName);
