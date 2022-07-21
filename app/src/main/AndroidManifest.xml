@@ -24,6 +24,11 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key"/>
 
+        <activity android:name=".user.LoginActivity"/>
+        <activity android:name=".TutorialActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+        <activity android:name=".FindTownActivity"/>
+        <activity android:name=".PlusAddressActivity"/>
         <activity android:name=".MainActivity"/>
         <activity android:name=".MdListMainActivity"/>
         <activity android:name=".user.RegisterActivity" />
@@ -35,8 +40,9 @@
         <activity android:name=".Adapter.hamburger.JointPurchaseActivity" />
 
         <activity
-            android:name=".user.LoginActivity"
-            android:exported="true">
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

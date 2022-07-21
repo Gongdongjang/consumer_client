@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.FarmDetailData;
 import com.example.consumer_client.FarmDetailResponse;
+import com.example.consumer_client.MdListMainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.user.network.RetrofitClient;
 import com.example.consumer_client.user.network.ServiceApi;
@@ -25,6 +27,7 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +42,8 @@ public class FarmDetailActivity extends AppCompatActivity {
     Context mContext;
     int md_count, farm_id;
     String farm_name;
+    List<List<String>> mdL = new ArrayList<>();
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -133,6 +138,7 @@ public class FarmDetailActivity extends AppCompatActivity {
         firstInit();
         //----------세부페이지에 있는 진행중인 공동구매 리사이클러뷰 띄우게하기
         send_farm_id(new FarmDetailData(farm_id, md_count));
+
     }
 
     public void firstInit(){
@@ -175,6 +181,44 @@ public class FarmDetailActivity extends AppCompatActivity {
                     for(int i=0;i<md_count;i++){
                         addFarmJointPurchase(farm_name, result.getMd_name().get(i).toString(), result.getStore_name().get(i).toString() , result.getPay_schedule().get(i).toString(), result.getPu_start().get(i).toString() + "~" + result.getPu_end().get(i).toString());
                     }
+
+                    for(int i = 0; i < md_count; i++){
+                        List<String> mdInfo = new ArrayList<>();
+                        mdInfo.add(result.getStore_name().get(i).toString()); //0
+                        mdInfo.add(result.getMd_name().get(i).toString()); //1
+                        mdInfo.add(farm_name); // 2농장이름
+                        mdInfo.add(result.getPay_schedule().get(i).toString());  //3 결제 예정일
+                        mdInfo.add(result.getPu_start().get(i).toString());  //4 픽업 시작 시점
+                        mdInfo.add(result.getPu_end().get(i).toString()); //5 픽업 끝나는 시점
+
+                        mdL.add(mdInfo);
+                    }
+                    mFarmDetailAdapter.setOnItemClickListener(
+                            new FarmDetailAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View v, int pos) {
+                                    Log.d("120행", mdL.get(pos).toString()); //클릭한 item 정보 보이기
+                                    Intent intent = new Intent(FarmDetailActivity.this, JointPurchaseActivity.class);
+
+                                    //배열로 보내고 싶은데... 각각 보내는게 맞나...? 일단 putExtra로 값 보내기
+                                    intent.putExtra("farmName", mdL.get(pos).get(0));
+                                    intent.putExtra("mdName",mdL.get(pos).get(1));
+                                    intent.putExtra("storeName",mdL.get(pos).get(2));
+                                    intent.putExtra("paySchedule",mdL.get(pos).get(3));
+                                    intent.putExtra("puStart",mdL.get(pos).get(4));
+                                    intent.putExtra("puEnd",mdL.get(pos).get(5));
+//                                intent.putExtra("farmId",farmL.get(pos).get(7));
+//                                intent.putExtra("mdCount", mdCL.get(pos).get(0).toString());
+//                                Log.d("179행", mdCL.get(pos).get(0).toString());
+//                                intent.putExtra("mdName", md_nameL);
+//                                intent.putExtra("storeName", store_nameL);
+//                                intent.putExtra("puStart", pu_startL);
+//                                intent.putExtra("puEnd", pu_endL);
+//                                intent.putStringArrayListExtra("mdName", mdNameL);
+                                    startActivity(intent);
+                                }
+                            }
+                    );
 
                 }
                 else{
