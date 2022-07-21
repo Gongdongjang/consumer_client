@@ -66,12 +66,8 @@ interface LoginService {
 
 public class LoginActivity extends AppCompatActivity {
 
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://:3000/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-    LoginService service = retrofit.create(LoginService.class);
-    JsonParser jsonParser = new JsonParser();
+    LoginService service;
+    JsonParser jsonParser;
 
     TextView sign;
     private static final String TAG="사용자";
@@ -91,7 +87,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //Log.d("GET_KEYHASH",getKeyHash()); //해시값 가져올때 사용
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.baseurl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        service = retrofit.create(LoginService.class);
+        jsonParser = new JsonParser();
 
         //회원가입 버튼
         sign = findViewById(R.id.signin);

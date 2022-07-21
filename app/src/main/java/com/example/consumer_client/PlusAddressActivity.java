@@ -42,7 +42,7 @@ public class PlusAddressActivity extends AppCompatActivity {
                 webView.loadUrl("javascript:sample2_execDaumPostcode();");
             }
         });
-        webView.loadUrl("http://주소:3000/post_search");
+        webView.loadUrl(getString(R.string.baseurl)+"post_search");
     }
 
 }

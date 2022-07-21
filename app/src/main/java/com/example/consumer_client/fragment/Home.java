@@ -68,12 +68,7 @@ import retrofit2.http.Query;
 
 public class Home extends Fragment implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener {
 
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://:3000/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-    //com.example.consumer_client.fragment.GetService service = retrofit.create(com.example.consumer_client.fragment.GetService.class);
-    JsonParser jsonParser = new JsonParser();
+    JsonParser jsonParser;
 
     private View view;
     private RecyclerView mRecyclerView;
@@ -113,6 +108,14 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.baseurl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        jsonParser = new JsonParser();
+
+
         mActivity = getActivity();
         Intent intent = mActivity.getIntent(); //intent 값 받기
         userid=intent.getStringExtra("userid");

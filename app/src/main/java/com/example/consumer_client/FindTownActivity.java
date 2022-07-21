@@ -38,13 +38,8 @@ interface FindTownService {
 
 public class FindTownActivity extends AppCompatActivity {
 
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://:3000/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-
-    FindTownService service = retrofit.create(FindTownService.class);
-    JsonParser jsonParser = new JsonParser();
+    FindTownService service;
+    JsonParser jsonParser;
 
     // 주소 요청코드 상수 requestCode
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
@@ -56,6 +51,13 @@ public class FindTownActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.baseurl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        service = retrofit.create(FindTownService.class);
+        jsonParser = new JsonParser();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tutor_find_town);

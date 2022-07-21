@@ -47,12 +47,8 @@ interface SignUpService {
 public class RegisterActivity extends AppCompatActivity {
     String TAG = RegisterActivity.class.getSimpleName();
 
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.35.84:3000/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-    SignUpService service = retrofit.create(SignUpService.class);
-    JsonParser jsonParser = new JsonParser();
+    SignUpService service;
+    JsonParser jsonParser;
 
     private TextView code_verify_txt, id_verify_txt, pwd_verify_txt;
     private EditText id, code_verify_input, password, pwConfirm, name, mobile_no;
@@ -64,6 +60,13 @@ public class RegisterActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.baseurl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        service = retrofit.create(SignUpService.class);
+        jsonParser = new JsonParser();
 
         name = (EditText) findViewById(R.id.signName);
         mobile_no = (EditText) findViewById(R.id.mobile_no);
