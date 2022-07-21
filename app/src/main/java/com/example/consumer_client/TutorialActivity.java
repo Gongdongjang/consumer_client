@@ -84,10 +84,13 @@ public class TutorialActivity extends AppCompatActivity {
                 if (current < layouts.length) {
                     // 마지막 페이지가 아니라면 다음 페이지로 이동
                     viewPager.setCurrentItem(current);
+
                 }
                 else {
                     // 마지막 페이지라면 메인페이지로 이동
-                    startActivity(new Intent(TutorialActivity.this, FindTownActivity.class));
+                    Intent i = new Intent(TutorialActivity.this, FindTownActivity.class);
+                    i.putExtra("userid",userid);
+                    startActivity(i);
                     finish();
                 }
             }
