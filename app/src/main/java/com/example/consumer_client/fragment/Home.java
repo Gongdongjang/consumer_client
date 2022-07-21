@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.example.consumer_client.Adapter.hamburger.JointPurchaseActivity;
 import com.example.consumer_client.Adapter.hamburger.StoreActivity;
+import com.example.consumer_client.FindTownActivity;
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.MdGet;
 import com.example.consumer_client.MdListMainActivity;
@@ -65,19 +66,13 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
-interface GetService {
-    @GET("getid")
-    Call<ResponseBody> getId(@Query("data") String data);
-
-}
-
 public class Home extends Fragment implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener {
 
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.35.84:3000/")
+            .baseUrl("http://:3000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
-    com.example.consumer_client.fragment.GetService service = retrofit.create(com.example.consumer_client.fragment.GetService.class);
+    //com.example.consumer_client.fragment.GetService service = retrofit.create(com.example.consumer_client.fragment.GetService.class);
     JsonParser jsonParser = new JsonParser();
 
     private View view;
@@ -110,11 +105,17 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     int count;
 
     private TextView productList; //제품리스트 클릭하는 텍스트트
+    private TextView change_address, home_userid;
+
+    //userid!!
+    String userid;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
+        Intent intent = mActivity.getIntent(); //intent 값 받기
+        userid=intent.getStringExtra("userid");
     }
 
     @Override
@@ -135,6 +136,23 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
             }
         });
 
+        //주소변경 누르면 주소등록 페이지로 (db에 저장된 주소 있으면 이전 주소 보여주는.. )
+        change_address = view.findViewById(R.id.change_address);
+//        change_address.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v){
+//                Log.d("클릭", "확인");
+//                Intent intent = new Intent(mActivity, FindTownActivity.class);
+//                intent.putExtra("userid",userid);
+//                startActivity(intent);
+//            }
+//        });
+
+        //유저아이디 띄우기
+        home_userid = view.findViewById(R.id.home_userid);
+        home_userid.setText("아이디:"+ userid);
+
+        //==============
         //product recyclerview 초기화
         firstInit();
 
@@ -149,31 +167,6 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
             checkRunTimePermission();
         }
 
-        Call<ResponseBody> call_get = service.getId("id");
-        call_get.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response){
-                Log.d("156", response.toString());
-                if (response.isSuccessful()) {
-                    try {
-                        String result = response.body().string();
-                        Log.v(TAG, "result = " + result);
-                        Toast.makeText(mActivity, result, Toast.LENGTH_SHORT).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    Log.v(TAG, "error = " + String.valueOf(response.code()));
-                    Toast.makeText(mActivity, "error = " + String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.v(TAG, "Fail");
-                Toast.makeText(mActivity, "Response Fail", Toast.LENGTH_SHORT).show();
-            }
-        });
 
 //        ServiceApi service = RetrofitClient.getClient().create(ServiceApi.class);
 //        Call<MdGet> call = service.getMdMainData();

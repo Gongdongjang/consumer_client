@@ -11,6 +11,28 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/change_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="10dp"
+            android:background="#F3EEEE"
+            android:text="주소변경(등록)"
+            android:textColor="#000000"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/home_userid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="10dp"
+            android:background="#F3EEEE"
+            android:text="아이디:"
+            android:textColor="#000000"
+            android:textSize="18dp" />
+
         <RelativeLayout
             android:id="@+id/map_view"
             android:layout_width="match_parent"
@@ -27,7 +49,8 @@
             android:layout_marginBottom="10dp"
             android:text="제품 리스트 >"
             android:textColor="#000000"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:background="#F3EEEE"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/homeStore"

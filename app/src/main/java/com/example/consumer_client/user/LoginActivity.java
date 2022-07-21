@@ -23,14 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
-import com.example.consumer_client.user.data.GoogleLoginData;
-import com.example.consumer_client.user.data.GoogleLoginResponse;
-import com.example.consumer_client.user.data.KakaoLoginData;
-import com.example.consumer_client.user.data.KakaoLoginResponse;
-import com.example.consumer_client.user.data.LoginData;
-import com.example.consumer_client.user.data.LoginResponse;
-import com.example.consumer_client.user.network.RetrofitClient;
-import com.example.consumer_client.user.network.ServiceApi;
+import com.example.consumer_client.TutorialActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -98,8 +91,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Log.d("GET_KEYHASH",getKeyHash()); //해시값 가져올때 사용
-
+        //Log.d("GET_KEYHASH",getKeyHash()); //해시값 가져올때 사용
 
         //회원가입 버튼
         sign = findViewById(R.id.signin);
@@ -185,10 +177,12 @@ public class LoginActivity extends AppCompatActivity {
                                             try {
                                                 JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
 //                                                Log.d("217행",res.toString());
-                                                Log.d(TAG, res.get("id").getAsString());
+                                                Log.d("179행", res.get("id").getAsString());
 
-                                                //로그인 버튼 클릭시, 메인 페이지로 이동
+                                                //로그인 버튼 클릭시, 메인 페이지로 이동 + 유저아이디 같이 넘기기
                                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                intent.putExtra("kakaoid",res.get("id").getAsString());
+
                                                 startActivity(intent);
 
                                             } catch (IOException e) {
@@ -239,11 +233,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-//        //여긴 로그정보 있으면 실행되는건가...??
-////        Intent intent=new Intent(getApplicationContext(), MainActivity.class); //메인화면으로 이동
-////        startActivity(intent);
-//        //updateKakaoLoginUi(refresh_token);
-
     //기본 로그인
     void login() {
         id = (EditText) findViewById(R.id.editID);
@@ -273,8 +262,9 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("access_token", access_token).apply();
                             editor.putString("refresh_token", refresh_token).apply();
-                            //main으로
+                            //m으로
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.putExtra("generalid",res.get("id").getAsString());
                             startActivity(intent);
                         }
                         Log.d(TAG, res.get("access_token").getAsString());
@@ -331,24 +321,24 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //카카오 키해시얻기
-    public String getKeyHash(){
-        try{
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
-            if(packageInfo == null) return null;
-            for(Signature signature: packageInfo.signatures){
-                try{
-                    MessageDigest md = MessageDigest.getInstance("SHA");
-                    md.update(signature.toByteArray());
-                    return android.util.Base64.encodeToString(md.digest(), Base64.NO_WRAP);
-                }catch (NoSuchAlgorithmException e){
-                    Log.w("getKeyHash", "Unable to get MessageDigest. signature="+signature, e);
-                }
-            }
-        }catch(PackageManager.NameNotFoundException e){
-            Log.w("getPackageInfo", "Unable to getPackageInfo");
-        }
-        return null;
-    }
+//    public String getKeyHash(){
+//        try{
+//            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+//            if(packageInfo == null) return null;
+//            for(Signature signature: packageInfo.signatures){
+//                try{
+//                    MessageDigest md = MessageDigest.getInstance("SHA");
+//                    md.update(signature.toByteArray());
+//                    return android.util.Base64.encodeToString(md.digest(), Base64.NO_WRAP);
+//                }catch (NoSuchAlgorithmException e){
+//                    Log.w("getKeyHash", "Unable to get MessageDigest. signature="+signature, e);
+//                }
+//            }
+//        }catch(PackageManager.NameNotFoundException e){
+//            Log.w("getPackageInfo", "Unable to getPackageInfo");
+//        }
+//        return null;
+//    }
 
     private void googleSignIn(){
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -391,6 +381,8 @@ public class LoginActivity extends AppCompatActivity {
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Log.d("test",response.toString());
+
                     if (response.isSuccessful()) {
                         try{
                             JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
@@ -398,6 +390,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             //로그인 버튼 클릭시, 메인 페이지로 이동
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.putExtra("googleid",res.get("id").getAsString());
                             startActivity(intent);
                         }
                         catch(IOException e){

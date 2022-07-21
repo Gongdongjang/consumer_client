@@ -65,17 +65,18 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="184dp">
+            android:layout_height="200dp"
+            tools:layout_editor_absoluteY="80dp">
 
             <TextView
                 android:id="@+id/txt_address1"
-                android:layout_width="113dp"
-                android:layout_height="48dp"
+                android:layout_width="276dp"
+                android:layout_height="35dp"
                 android:layout_marginStart="124dp"
-                android:layout_marginTop="36dp"
-                android:text="주소1"
-                android:gravity="center"
+                android:layout_marginTop="4dp"
                 android:background="#D3D3D3"
+                android:gravity="center"
+                android:text="주소1"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
@@ -83,27 +84,27 @@
 
             <TextView
                 android:id="@+id/txt_address2"
-                android:layout_width="113dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="36dp"
-                android:layout_marginEnd="140dp"
+                android:layout_width="276dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="124dp"
+                android:layout_marginBottom="116dp"
                 android:background="#D3D3D3"
                 android:gravity="center"
                 android:text="주소2"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/txt_address3"
-                android:layout_width="113dp"
-                android:layout_height="48dp"
+                android:layout_width="276dp"
+                android:layout_height="35dp"
                 android:layout_marginStart="124dp"
-                android:layout_marginBottom="28dp"
-                android:text="주소3"
-                android:gravity="center"
+                android:layout_marginBottom="68dp"
                 android:background="#D3D3D3"
+                android:gravity="center"
+                android:text="주소3"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -113,17 +114,18 @@
                 android:id="@+id/btn_addAdress"
                 android:layout_width="113dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="136dp"
-                android:layout_marginBottom="28dp"
+                android:layout_marginEnd="292dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="@color/white"
                 android:text="+(주소추가)"
                 android:textColor="@color/black"
-                android:backgroundTint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/textView11"
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -138,7 +140,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="30dp"
-            android:text="최대 3개까지 지정 가능해요.(예: 집, 회사 등)" />
+            android:text="최대 3개까지 지정 가능해요.(예: 집, 회사 등)"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/btn_finish_address"
