@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         String kakaoid = intent.getStringExtra("kakaoid");
         String googleid = intent.getStringExtra("googleid");
 
-
         if(generalid != null) userid=generalid;
         else if(kakaoid !=null) userid=kakaoid;
         else if(googleid !=null) userid=googleid;
