@@ -14,11 +14,17 @@ public class FarmDetailResponse {
     @SerializedName("md_name")
     private List md_name;
 
-    @SerializedName("md_start")
-    private List md_start;
+    @SerializedName("pu_start")
+    private List pu_start;
 
-    @SerializedName("md_end")
-    private List md_end;
+    @SerializedName("pu_end")
+    private List pu_end;
+
+    @SerializedName("store_name")
+    private List store_name;
+
+    @SerializedName("pay_schedule")
+    private List pay_schedule;
 
     public int getCode(){
         return code;
@@ -31,10 +37,20 @@ public class FarmDetailResponse {
     public List getMd_name(){
         return md_name;
     }
-    public List getMd_start(){
-        return md_start;
+
+    public List getPu_start(){
+        return pu_start;
     }
-    public List getMd_end(){
-        return md_end;
+
+    public List getPu_end(){
+        return pu_end;
+    }
+
+    public List getStore_name(){
+        return store_name;
+    }
+
+    public List getPay_schedule(){
+        return pay_schedule;
     }
 }

@@ -11,8 +11,8 @@ public class MdGet {
     @SerializedName("md_name")
     private List md_name;
 
-    @SerializedName("st_name")
-    private List st_name;
+    @SerializedName("store_name")
+    private List store_name;
 
     @SerializedName("pay_schedule")
     private List pay_schedule;
@@ -55,10 +55,10 @@ public class MdGet {
     }
 
     public List getSt_name(){
-        return st_name;
+        return store_name;
     }
     public void setSt_name(){
-        this.st_name = st_name;
+        this.store_name = store_name;
     }
 
     public List getMd_name(){

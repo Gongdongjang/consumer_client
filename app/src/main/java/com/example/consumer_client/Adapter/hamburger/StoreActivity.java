@@ -1,5 +1,8 @@
 package com.example.consumer_client.Adapter.hamburger;
 
+import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
+import static com.example.consumer_client.LocationDistance.distance;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +38,12 @@ public class StoreActivity extends AppCompatActivity {
     String[] storeNameL = new String[100];
     String[] mdNameL = new String[100];
     int count;
+
+
+   // int store_count;
+    String[] pu_startL = new String[100];
+    String[] pu_endL = new String[100];
+
     //세부페이지
     String[] storeInfoL = new String[100];
     String[] storeHoursL = new String[100];
@@ -133,8 +142,17 @@ public class StoreActivity extends AppCompatActivity {
                 mStoreRecyclerView.setLayoutManager(linearLayoutManager);
 
                 for(int i=0;i<count;i++){
-                    addStore("스토어 이미지", storeL.get(i).get(0),  storeL.get(i).get(1), storeL.get(i).get(3), storeL.get(i).get(2), 3);
+        
+                    //addStore("스토어 이미지", storeL.get(i).get(0),  storeL.get(i).get(1), storeL.get(i).get(3), storeL.get(i).get(2), 3);
                     //나중에 추가
+
+                    //double distanceMeter =
+                      //      distance(37.504198, 127.047967, Double.parseDouble(storeL.get(i).get(8)), Double.parseDouble(storeL.get(i).get(9)), "meter");
+
+                    //Log.d(TAG, "현재거리계산 => " + String.format("%.2f", distanceMeter));
+
+                    //addStore("product Img", storeL.get(i).get(0), String.format("%.2f", distanceMeter), storeL.get(i).get(1), "" + i, "" + i + "000", storeL.get(i).get(2) +" ~ " + storeL.get(i).get(3));
+
                 }
 
                 mStoreTotalAdapter.setOnItemClickListener(
@@ -159,7 +177,7 @@ public class StoreActivity extends AppCompatActivity {
                         }
                 );
 
-            } }, 1000 ); // 1000 = 1초
+            } }, 3000 ); // 1000 = 1초
     }
 
     public void firstInit(){

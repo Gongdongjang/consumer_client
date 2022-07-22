@@ -1,16 +1,18 @@
-package com.example.consumer_client.user.data;
+package com.example.consumer_client.address;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LoginResponse {
+import java.util.List;
+
+public class AddressResponse {
     @SerializedName("code")
     private int code;
 
     @SerializedName("message")
     private String message;
 
-    @SerializedName("user_id")
-    private String user_id;
+    @SerializedName("latlonglist")
+    private List latlonglist;
 
     public int getCode(){
         return code;
@@ -20,7 +22,8 @@ public class LoginResponse {
         return message;
     }
 
-    public String getUser_id(){
-        return user_id;
+    public List getLatlonglist(){
+        return latlonglist;
     }
+
 }
