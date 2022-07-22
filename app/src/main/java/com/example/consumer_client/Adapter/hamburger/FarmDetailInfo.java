@@ -47,4 +47,12 @@ public class FarmDetailInfo {
         this.puTerm = puTerm;
     }
 
+    public String getProdImg() {
+        return prodImg;
+    }
+
+    public void setProdImg(String prodImg) {
+        this.prodImg = prodImg;
+    }
+
 }
