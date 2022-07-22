@@ -34,7 +34,6 @@ public class StoreTotalAdapter extends RecyclerView.Adapter<StoreTotalAdapter.Vi
         TextView storeInfo;
         TextView storeRestDays;
         TextView storeHours;
-        TextView storeSituation;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -56,8 +55,6 @@ public class StoreTotalAdapter extends RecyclerView.Adapter<StoreTotalAdapter.Vi
             storeInfo = (TextView) itemView.findViewById(R.id.StoreInfo);
             storeRestDays = (TextView) itemView.findViewById(R.id.StoreRestDays);
             storeHours = (TextView) itemView.findViewById(R.id.StoreHours);
-            storeSituation = (TextView) itemView.findViewById(R.id.StoreJointPurchaseCount);
-
         }
     }
 
@@ -89,8 +86,6 @@ public class StoreTotalAdapter extends RecyclerView.Adapter<StoreTotalAdapter.Vi
         holder.storeInfo.setText(item.getStoreInfo());
         holder.storeRestDays.setText(item.getStoreRestDays());
         holder.storeHours.setText(item.getStoreHours());
-        //holder.storeSituation.setText(String.valueOf(item.getStoreSituation()));
-        //나중에 추가
     }
 
     @Override

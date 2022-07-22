@@ -251,7 +251,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                 );
             } }, 1000 ); // 1000 = 1초
 */
-        send_store_id(new StoreDetailData(store_id, md_count));
+        //send_store_id(new StoreDetailData(store_id, md_count));
     }
 
     public void firstInit(){
@@ -322,41 +322,41 @@ public class StoreDetailActivity extends AppCompatActivity {
         });
     }
 */
-    private void send_store_id(StoreDetailData data){
-        service.storeDetail(data).enqueue(new Callback<StoreDetailResponse>() {
-            @Override
-            public void onResponse(Call<StoreDetailResponse> call, Response<StoreDetailResponse> response) {
-                StoreDetailResponse result = response.body();
-                Toast.makeText(StoreDetailActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
-
-                if (result.getCode() == 200) {
-                    //Log.d("171", result.getMd_name().toString());
-
-                    //어뎁터 적용
-                    mFarmDetailAdapter = new FarmDetailAdapter(mList);
-                    mRecyclerView.setAdapter(mFarmDetailAdapter);
-
-                    //세로로 세팅
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    mRecyclerView.setLayoutManager(linearLayoutManager);
-
-//                추후에 제품 이름 가져올 예정
-                    for(int i=0;i<md_count;i++){
-                        addFarmJointPurchase(result.getFarm_name().get(i).toString(), result.getMd_name().get(i).toString(), "수정필요", result.getPay_schedule().get(i).toString(), result.getPu_start().get(i).toString() + "~" + result.getPu_end().get(i).toString());                    }
-                    //for(int i=0;i<10;i++){
-                    //   addFarmJointPurchase("농가명" + i, "제품 이름" + i, "스토어 이름" + i, "결제예정일" + i, "픽업기간" + i);
-                    //}
-                }
-                else{
-                    //같은 화면 다시 띄우기
-                }
-            }
-            @Override
-            public void onFailure(Call<StoreDetailResponse> call, Throwable t) {
-                Toast.makeText(StoreDetailActivity.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();
-                Log.e("로그인 에러 발생", t.getMessage());
-            }
-        });
-    }
+//    private void send_store_id(StoreDetailData data){
+//        service.storeDetail(data).enqueue(new Callback<StoreDetailResponse>() {
+//            @Override
+//            public void onResponse(Call<StoreDetailResponse> call, Response<StoreDetailResponse> response) {
+//                StoreDetailResponse result = response.body();
+//                Toast.makeText(StoreDetailActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+//
+//                if (result.getCode() == 200) {
+//                    //Log.d("171", result.getMd_name().toString());
+//
+//                    //어뎁터 적용
+//                    mFarmDetailAdapter = new FarmDetailAdapter(mList);
+//                    mRecyclerView.setAdapter(mFarmDetailAdapter);
+//
+//                    //세로로 세팅
+//                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+//                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//                    mRecyclerView.setLayoutManager(linearLayoutManager);
+//
+////                추후에 제품 이름 가져올 예정
+//                    for(int i=0;i<md_count;i++){
+//                        addFarmJointPurchase(result.getFarm_name().get(i).toString(), result.getMd_name().get(i).toString(), "수정필요", result.getPay_schedule().get(i).toString(), result.getPu_start().get(i).toString() + "~" + result.getPu_end().get(i).toString());                    }
+//                    //for(int i=0;i<10;i++){
+//                    //   addFarmJointPurchase("농가명" + i, "제품 이름" + i, "스토어 이름" + i, "결제예정일" + i, "픽업기간" + i);
+//                    //}
+//                }
+//                else{
+//                    //같은 화면 다시 띄우기
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<StoreDetailResponse> call, Throwable t) {
+//                Toast.makeText(StoreDetailActivity.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();
+//                Log.e("로그인 에러 발생", t.getMessage());
+//            }
+//        });
+//    }
 }

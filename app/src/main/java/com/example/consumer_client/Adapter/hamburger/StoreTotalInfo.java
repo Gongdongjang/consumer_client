@@ -7,7 +7,7 @@ public class StoreTotalInfo {
     private String storeInfo;
     private String storeRestDays;
     private String storeHours;
-    private int storeSituation;
+    //private int storeSituation;
 
     public String getStoreProdImgView() {
         return storeProdImgView;
@@ -55,10 +55,9 @@ public class StoreTotalInfo {
         this.storeHours = storeHours;
     }
 
-    public int getStoreSituation() {
-        return storeSituation;
-    }
-    public void setStoreSituation(int storeSituation) {
-        this.storeSituation = storeSituation;
-    }
+    //public int getStoreSituation() {
+        //return storeSituation;
+//    //public void setStoreSituation(int storeSituation) {
+    //    this.storeSituation = storeSituation;
+  //  }
 }
