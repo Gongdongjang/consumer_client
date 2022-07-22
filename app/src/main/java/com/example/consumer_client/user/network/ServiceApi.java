@@ -4,6 +4,8 @@ import com.example.consumer_client.FarmDetailData;
 import com.example.consumer_client.FarmDetailResponse;
 import com.example.consumer_client.FarmGet;
 import com.example.consumer_client.MdGet;
+import com.example.consumer_client.StoreDetailData;
+import com.example.consumer_client.StoreDetailResponse;
 import com.example.consumer_client.StoreGet;
 import com.example.consumer_client.address.AddressResponse;
 import com.example.consumer_client.user.data.KakaoLoginData;
@@ -26,15 +28,20 @@ public interface ServiceApi {
 //    @GET("/farmView")
 //    Call<FarmGet> getFarmData();
 
-    @GET("/storeView")
-    Call<StoreGet> getStoreData();
+//    @GET("/storeView")
+//    Call<StoreGet> getStoreData();
 
-    @GET("/mdView_main")
-    Call<MdGet> getMdMainData();
+      @GET("/mdView_main")
+      Call<MdGet> getMdMainData();
 
-    @POST("/farmDetail")
-    Call<FarmDetailResponse> farmDetail(@Body FarmDetailData data);
+//    @POST("/farmDetail")
+//    Call<FarmDetailResponse> farmDetail(@Body FarmDetailData data);
 
-    @POST("/register_address")
-    Call<AddressResponse> addressRegister(@Body AddressData data);
+
+      @POST("/storeDetail")
+      Call<StoreDetailResponse> storeDetail(@Body StoreDetailData data);
+
+ //   @POST("/register_address")
+ //   Call<AddressResponse> addressRegister(@Body AddressData data);
+
 }

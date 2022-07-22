@@ -31,10 +31,10 @@ public class StoreTotalAdapter extends RecyclerView.Adapter<StoreTotalAdapter.Vi
         ImageView storeProdImgView;
         TextView storeName;
         TextView storeLocationFromMe;
-        TextView storeProdName;
-        TextView storeProdNum;
-        TextView storeProdPrice;
-        TextView storePickUpDate;
+        TextView storeInfo;
+        TextView storeRestDays;
+        TextView storeHours;
+        TextView storeSituation;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -53,10 +53,11 @@ public class StoreTotalAdapter extends RecyclerView.Adapter<StoreTotalAdapter.Vi
             storeProdImgView = (ImageView) itemView.findViewById(R.id.StoreProdImg);
             storeName = (TextView) itemView.findViewById(R.id.StoreName);
             storeLocationFromMe = (TextView) itemView.findViewById(R.id.StoreLocationFromMe);
-            storeProdName = (TextView) itemView.findViewById(R.id.StoreProdName_item);
-            storeProdNum = (TextView) itemView.findViewById(R.id.StoreProdNum_info);
-            storeProdPrice = (TextView) itemView.findViewById(R.id.StoreProdPrice_info);
-            storePickUpDate = (TextView) itemView.findViewById(R.id.StorePickUpDate_info);
+            storeInfo = (TextView) itemView.findViewById(R.id.StoreInfo);
+            storeRestDays = (TextView) itemView.findViewById(R.id.StoreRestDays);
+            storeHours = (TextView) itemView.findViewById(R.id.StoreHours);
+            storeSituation = (TextView) itemView.findViewById(R.id.StoreJointPurchaseCount);
+
         }
     }
 
@@ -85,10 +86,11 @@ public class StoreTotalAdapter extends RecyclerView.Adapter<StoreTotalAdapter.Vi
         holder.storeProdImgView.setImageResource(R.drawable.ic_launcher_background);
         holder.storeName.setText(item.getStoreName());
         holder.storeLocationFromMe.setText(item.getStoreLocationFromMe());
-        holder.storeProdName.setText(item.getStoreProdName());
-        holder.storeProdNum.setText(item.getStoreProdNum());
-        holder.storeProdPrice.setText(item.getStoreProdPrice());
-        holder.storePickUpDate.setText(item.getStorePickUpDate());
+        holder.storeInfo.setText(item.getStoreInfo());
+        holder.storeRestDays.setText(item.getStoreRestDays());
+        holder.storeHours.setText(item.getStoreHours());
+        //holder.storeSituation.setText(String.valueOf(item.getStoreSituation()));
+        //나중에 추가
     }
 
     @Override

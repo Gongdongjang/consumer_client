@@ -90,10 +90,13 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     boolean isTrackingMode = false;
     String[] stNameL = new String[100];
     String[] mdNameL = new String[100];
+
+
     String[] farmNameL = new String[100];
     String[] payScheduleL = new String[100];
     String[] puStartL = new String[100];
     String[] puEndL = new String[100];
+
     List<List<String>> mdL = new ArrayList<>();
 
     //제품 가져올 때 필요한 변수
@@ -171,6 +174,7 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         }
 
 
+
 //        ServiceApi service = RetrofitClient.getClient().create(ServiceApi.class);
 //        Call<MdGet> call = service.getMdMainData();
 //        call.enqueue(new Callback<MdGet>() {
@@ -213,6 +217,7 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
 //                Toast.makeText(mActivity, "메인 제품리스트 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
 //            }
 //        });
+
 
         Handler mHandler = new Handler();
         mHandler.postDelayed( new Runnable() {
