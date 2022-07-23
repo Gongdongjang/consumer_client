@@ -46,6 +46,12 @@ public class MdListMainActivity extends AppCompatActivity {
     private FarmDetailAdapter mMdListMainAdapter;
     Context mContext;
 
+    JsonObject res;
+    JsonArray jsonArray;
+    JsonArray pay_schedule;
+    JsonArray pu_start;
+    JsonArray pu_end;
+
     ArrayList<String> md_id_list = new ArrayList<String>();
 
     protected void onCreate(@Nullable Bundle savedInstanceState){
@@ -71,54 +77,15 @@ public class MdListMainActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.d("91행", response.toString());
                 try{
-                    JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
-                    JsonArray jsonArray = res.get("md_result").getAsJsonArray();
-                    JsonArray pay_schedule = res.get("pay_schedule").getAsJsonArray();
-                    JsonArray pu_start = res.get("pu_start").getAsJsonArray();
-                    JsonArray pu_end = res.get("pu_end").getAsJsonArray();
+                    res =  (JsonObject) jsonParser.parse(response.body().string());
+                    jsonArray = res.get("md_result").getAsJsonArray();
+                    pay_schedule = res.get("pay_schedule").getAsJsonArray();
+                    pu_start = res.get("pu_start").getAsJsonArray();
+                    pu_end = res.get("pu_end").getAsJsonArray();
 
                     Toast.makeText(MdListMainActivity.this, "로딩중", Toast.LENGTH_SHORT).show();
 
-                    Handler mHandler = new Handler();
-                    mHandler.postDelayed(new Runnable() {
-                        public void run() { // 0.1초 후에 받아오도록 설정 , 바로 시작 시 에러남
-                            //어뎁터 적용
-                            mMdListMainAdapter = new FarmDetailAdapter(mList);
-                            mMdListRecyclerView.setAdapter(mMdListMainAdapter);
 
-                            //세로로 세팅
-                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-                            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                            mMdListRecyclerView.setLayoutManager(linearLayoutManager);
-
-                            for(int i=0;i<jsonArray.size();i++){
-                                md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
-
-                                addMdList("product Img",
-                                        jsonArray.get(i).getAsJsonObject().get("farm_name").getAsString(),
-                                        jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
-                                        jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
-                                        pay_schedule.get(i).getAsString(),
-                                        pu_start.get(i).getAsString() + " ~ " + pu_end.get(i).getAsString()
-                                );
-                            }
-
-
-                            mMdListMainAdapter.setOnItemClickListener(
-                                    new FarmDetailAdapter.OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(View v, int pos) {
-                                            Log.d("162행", String.valueOf(pos));
-                                            Log.d("163행", md_id_list.toString());
-
-                                            Intent intent = new Intent(MdListMainActivity.this, JointPurchaseActivity.class);
-                                            intent.putExtra("md_id", md_id_list.get(pos));
-
-                                            startActivity(intent);
-                                        }
-                                    }
-                            );
-                        } }, 1000 ); // 1000 = 1초
                 }
                 catch(Exception e) {
                     e.printStackTrace();
@@ -135,6 +102,42 @@ public class MdListMainActivity extends AppCompatActivity {
             }
         });
 
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                //어뎁터 적용
+                mMdListMainAdapter = new FarmDetailAdapter(mList);
+                mMdListRecyclerView.setAdapter(mMdListMainAdapter);
+
+                //세로로 세팅
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                mMdListRecyclerView.setLayoutManager(linearLayoutManager);
+
+                for(int i=0;i<jsonArray.size();i++){
+                    md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
+
+                    addMdList("product Img",
+                            jsonArray.get(i).getAsJsonObject().get("farm_name").getAsString(),
+                            jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
+                            jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                            pay_schedule.get(i).getAsString(),
+                            pu_start.get(i).getAsString() + " ~ " + pu_end.get(i).getAsString()
+                    );
+                }
+
+                mMdListMainAdapter.setOnItemClickListener(
+                        new FarmDetailAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View v, int pos) {
+                                Intent intent = new Intent(MdListMainActivity.this, JointPurchaseActivity.class);
+                                intent.putExtra("md_id", md_id_list.get(pos));
+
+                                startActivity(intent);
+                            }
+                        }
+                );
+            } }, 1000 ); // 1000 = 1초
     }
     public void firstInit(){
         mMdListRecyclerView = findViewById(R.id.totalFarmView);

@@ -3,25 +3,15 @@ package com.example.consumer_client.Adapter.hamburger;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.consumer_client.FarmDetailData;
-import com.example.consumer_client.FarmDetailResponse;
-import com.example.consumer_client.MdGet;
 import com.example.consumer_client.R;
-import com.example.consumer_client.StoreDetailData;
-import com.example.consumer_client.StoreDetailResponse;
 import com.example.consumer_client.user.network.RetrofitClient;
 import com.example.consumer_client.user.network.ServiceApi;
 
@@ -31,10 +21,6 @@ import net.daum.mf.map.api.MapView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class StoreDetailActivity extends AppCompatActivity {
 

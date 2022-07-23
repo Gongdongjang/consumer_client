@@ -3,10 +3,8 @@ import com.example.consumer_client.address.AddressData;
 import com.example.consumer_client.FarmDetailData;
 import com.example.consumer_client.FarmDetailResponse;
 import com.example.consumer_client.FarmGet;
-import com.example.consumer_client.MdGet;
 import com.example.consumer_client.StoreDetailData;
 import com.example.consumer_client.StoreDetailResponse;
-import com.example.consumer_client.StoreGet;
 import com.example.consumer_client.address.AddressResponse;
 
 import retrofit2.Call;

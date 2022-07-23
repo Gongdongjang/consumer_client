@@ -71,7 +71,7 @@ public class FarmDetailAdapter extends RecyclerView.Adapter<FarmDetailAdapter.Vi
         Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View view = inflater.inflate(R.layout.farm_prod_list, parent, false);
+        View view = inflater.inflate(R.layout.md_list, parent, false);
         FarmDetailAdapter.ViewHolder vh = new FarmDetailAdapter.ViewHolder(view);
         return vh;
     }

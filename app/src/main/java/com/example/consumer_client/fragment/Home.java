@@ -2,7 +2,6 @@ package com.example.consumer_client.fragment;
 
 import static android.content.Context.LOCATION_SERVICE;
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
-import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.Manifest;
 import android.app.Activity;
@@ -14,7 +13,6 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -32,39 +30,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.consumer_client.Adapter.hamburger.JointPurchaseActivity;
-import com.example.consumer_client.Adapter.hamburger.StoreActivity;
-import com.example.consumer_client.FindTownActivity;
-import com.example.consumer_client.MainActivity;
-import com.example.consumer_client.MdGet;
 import com.example.consumer_client.MdListMainActivity;
 import com.example.consumer_client.R;
-import com.example.consumer_client.StoreGet;
 import com.example.consumer_client.homeRecycler.HomeProductAdapter;
 import com.example.consumer_client.homeRecycler.HomeProductItem;
-import com.example.consumer_client.user.network.RetrofitClient;
-import com.example.consumer_client.user.network.ServiceApi;
-import com.google.android.gms.common.internal.Constants;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 public class Home extends Fragment implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener {
 
