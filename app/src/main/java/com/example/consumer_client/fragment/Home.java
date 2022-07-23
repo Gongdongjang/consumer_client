@@ -34,21 +34,40 @@ import com.example.consumer_client.MdListMainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.homeRecycler.HomeProductAdapter;
 import com.example.consumer_client.homeRecycler.HomeProductItem;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+
+interface MdService {
+    @GET("mdView_main")
+    Call<ResponseBody> getMdMainData();
+}
 
 public class Home extends Fragment implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener {
 
     JsonParser jsonParser;
+    MdService service;
+
+    JsonObject res;
+    JsonArray jsonArray;
+
+    ArrayList<String> md_id_list = new ArrayList<String>();
 
     private View view;
     private RecyclerView mRecyclerView;
@@ -68,19 +87,6 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     private double mCurrentLng; //Long = X, Lat = Yㅌ
     private double mCurrentLat;
     boolean isTrackingMode = false;
-    String[] stNameL = new String[100];
-    String[] mdNameL = new String[100];
-
-
-    String[] farmNameL = new String[100];
-    String[] payScheduleL = new String[100];
-    String[] puStartL = new String[100];
-    String[] puEndL = new String[100];
-
-    List<List<String>> mdL = new ArrayList<>();
-
-    //제품 가져올 때 필요한 변수
-    int count;
 
     private TextView productList; //제품리스트 클릭하는 텍스트트
     private TextView change_address, home_userid;
@@ -91,14 +97,6 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getString(R.string.baseurl))
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        jsonParser = new JsonParser();
-
-
         mActivity = getActivity();
         Intent intent = mActivity.getIntent(); //intent 값 받기
         userid=intent.getStringExtra("userid");
@@ -106,6 +104,14 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.baseurl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        service = retrofit.create(MdService.class);
+        jsonParser = new JsonParser();
+
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -138,7 +144,6 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         home_userid = view.findViewById(R.id.home_userid);
         home_userid.setText("아이디:"+ userid);
 
-        //==============
         //product recyclerview 초기화
         firstInit();
 
@@ -153,55 +158,34 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
             checkRunTimePermission();
         }
 
+        Call<ResponseBody> call = service.getMdMainData();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try{
+                    res =  (JsonObject) jsonParser.parse(response.body().string());
+                    jsonArray = res.get("md_result").getAsJsonArray();
+                    Toast.makeText(mActivity, "로딩중", Toast.LENGTH_SHORT).show();
 
-
-//        ServiceApi service = RetrofitClient.getClient().create(ServiceApi.class);
-//        Call<MdGet> call = service.getMdMainData();
-//        call.enqueue(new Callback<MdGet>() {
-//            @Override
-//            public void onResponse(Call<MdGet> call, Response<MdGet> response) {
-//                try{
-//                    MdGet result = response.body();
-//                    count = Integer.parseInt(result.getCount());
-//                    for (int i = 0; i < count; i++) {
-//                        stNameL[i] = result.getSt_name().get(i).toString();
-//                        mdNameL[i] = result.getMd_name().get(i).toString();
-//                        farmNameL[i]=result.getFarm_name().get(i).toString();
-//                        payScheduleL[i]= result.getPay_schedule().get(i).toString();
-//                        puStartL[i]= result.getPu_start().get(i).toString();
-//                        puEndL[i]= result.getPu_end().get(i).toString();
-//                    }
-//
-//                    Toast.makeText(mActivity, "로딩중", Toast.LENGTH_SHORT).show();
-//
-//                    for(int i = 0; i < count; i++){
-//                        List<String> mdInfo = new ArrayList<>();
-//                        mdInfo.add(stNameL[i]); //0
-//                        mdInfo.add(mdNameL[i]); //1
-//                        mdInfo.add(farmNameL[i]); // 2농장이름
-//                        mdInfo.add(payScheduleL[i]);  //3 결제 예정일
-//                        mdInfo.add(puStartL[i]);  //4 픽업 시작 시점
-//                        mdInfo.add(puEndL[i]); //5 픽업 끝나는 시점
-//
-//                        mdL.add(mdInfo);
-//                    }
-//                    Log.d("85행", mdL.toString());
-//                }
-//                catch(Exception e){
-//                    e.printStackTrace();
-//                    throw e;
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<MdGet> call, Throwable t) {
-//                Toast.makeText(mActivity, "메인 제품리스트 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                    try {
+                        throw e;
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(mActivity, "메인 제품리스트 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Handler mHandler = new Handler();
         mHandler.postDelayed( new Runnable() {
-            public void run() { // 3초 후에 현재위치를 받아오도록 설정 , 바로 시작 시 에러남
+            public void run() {
 
                 //어뎁터 적용
                 mHomeProductAdapter = new HomeProductAdapter(mList);
@@ -214,11 +198,14 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
 
                 mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading );
 
-                //추후에 제품 이름 가져올 예정
-                for(int i=0;i<count;i++){
-                    addItem("product Img", stNameL[i], mdNameL[i]);
-                }
+                for(int i=0;i<jsonArray.size();i++){
+                    md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
 
+                    addItem("product Img",
+                            jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                            jsonArray.get(i).getAsJsonObject().get("md_name").getAsString()
+                    );
+                }
                 //메인제품리스트 리사이클러뷰 누르면 나오는
                 mHomeProductAdapter.setOnItemClickListener(
                         new HomeProductAdapter.OnItemClickListener() {
@@ -226,27 +213,22 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                             public void onItemClick(View v, int pos) {
                                 //Log.d("120행", farmL.get(pos).toString()); //클릭한 item 정보 보이기
                                 Intent intent = new Intent(mActivity, JointPurchaseActivity.class);
-//                                //배열로 보내고 싶은데..putExtra로 보내기
-                                intent.putExtra("storeName", mdL.get(pos).get(0));
-                                intent.putExtra("mdName",mdL.get(pos).get(1));
-                                intent.putExtra("farmName",mdL.get(pos).get(2));
-                                intent.putExtra("paySchedule",mdL.get(pos).get(3));
-                                intent.putExtra("puStart",mdL.get(pos).get(4));
-                                intent.putExtra("puEnd",mdL.get(pos).get(5));
+                                intent.putExtra("md_id", md_id_list.get(pos));
                                 startActivity(intent);
                             }
                         }
                 );
-
-            } }, 2000 ); // 1000 = 1초
+            } }, 1000 ); // 1000 = 1초
 
         lm = (LocationManager) mActivity.getApplicationContext().getSystemService( Context.LOCATION_SERVICE );
-
 
         //전체 fragment home return
         return view;
     }
 
+    public String getAsString() {
+        throw new UnsupportedOperationException(getClass().getSimpleName());
+    }
     //홈화면 제품리스트
     public void firstInit(){
         mRecyclerView = (RecyclerView) view.findViewById(R.id.homeStore);
@@ -262,7 +244,6 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
 
         mList.add(item);
     }
-
 
     // 현재 위치 업데이트 setCurrentLocationEventListener
     @Override
