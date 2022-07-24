@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.consumer_client.Adapter.hamburger.FarmActivity;
-import com.example.consumer_client.Adapter.hamburger.StoreActivity;
+import com.example.consumer_client.farm.FarmActivity;
+import com.example.consumer_client.store.StoreActivity;
 import com.example.consumer_client.R;
 
 public class TotalList extends Fragment {
