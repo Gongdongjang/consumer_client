@@ -3,7 +3,9 @@ package com.example.consumer_client.Adapter.hamburger;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,85 +23,144 @@ import com.example.consumer_client.MdListMainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.user.network.RetrofitClient;
 import com.example.consumer_client.user.network.ServiceApi;
+import com.google.android.material.slider.RangeSlider;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
+
+interface FarmDetailService{
+    @POST("farmDetail")
+    Call<ResponseBody> farmDetail(@Body JsonObject body);
+}
 
 public class FarmDetailActivity extends AppCompatActivity {
+    String TAG = FarmDetailActivity.class.getSimpleName();
+
+    FarmDetailService service;
+    JsonParser jsonParser;
+    JsonObject res;
+    JsonArray mdArray, pay_schedule, pu_start, pu_end;
+    String farm_id, farm_name, farm_info, farm_loc, farm_hours;
+    Double farm_lat, farm_long;
 
     private RecyclerView mRecyclerView;
     private ArrayList<FarmDetailInfo> mList;
     private FarmDetailAdapter mFarmDetailAdapter;
-    private ServiceApi service;
-    Context mContext;
-    int md_count, farm_id;
-    String farm_name;
-    List<List<String>> mdL = new ArrayList<>();
 
+    Context mContext;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farm_detail);
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.baseurl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        service = retrofit.create(FarmDetailService.class);
+        jsonParser = new JsonParser();
+
         mContext = this;
-
-        // 이제 햄버거 전체입점 농가보기 -> 공동장에서 만날수 있는 모든 농가 리사이클러뷰에서 농장 클릭-> 하면 보이는
-        // 세부페이지 정보 보이게 하기!!
-
-        //intent로 값 넘길때
-        Intent intent;
-        String farm_info, farm_loc, farm_hours;
-        Double farm_lat,farm_long;
-//        int md_count, farm_id;
-//        Integer md_count;
-        service = RetrofitClient.getClient().create(ServiceApi.class);
-
-//        String[] md_name = new String[30];
-//        String[] store_name = new String[30];
-//        String[] pu_start = new String[30];
-//        String[] pu_end = new String[30];
-
-        intent=getIntent(); //intent 값 받기
-
-        farm_name=intent.getStringExtra("farmName");
-        farm_info=intent.getStringExtra("farmInfo");
-        farm_loc=intent.getStringExtra("farmLoc");
-        farm_hours=intent.getStringExtra("farmHours");
-        farm_id = (int) Double.parseDouble(intent.getStringExtra("farmId"));
-        md_count = (int) Double.parseDouble(intent.getStringExtra("mdCount"));
-        Log.d("119행", String.valueOf(farm_id));
-//        Log.d("62행", String.valueOf((int)Double.parseDouble(farm_id)));
-
-//        store_name = intent.getStringArrayExtra("storeName");
-//        pu_start = intent.getStringArrayExtra("puStart");
-//        pu_end = intent.getStringArrayExtra("puEnd");
-
-        farm_lat=Double.parseDouble(intent.getStringExtra("farmLat")); //위도-> double 형변환
-        farm_long=Double.parseDouble(intent.getStringExtra("farmLong")); //경도
 
         TextView FarmName = (TextView) findViewById(R.id.FarmName);
         TextView FarmExplain = (TextView) findViewById(R.id.FarmExplain);
         TextView FarmLocation = (TextView) findViewById(R.id.FarmLocation);
         TextView FarmHourTime = (TextView) findViewById(R.id.FarmHourTime);
-        TextView FarmJointPurchaseCount = (TextView) findViewById(R.id.FarmJointPurchaseCount);
-//        TextView FarmId = (TextView) findViewById(R.id.FarmId);
+
+        //intent로 값 넘길때
+        Intent intent;
+        intent=getIntent(); //intent 값 받기
+
+        farm_name=intent.getStringExtra("farm_name");
+        farm_info=intent.getStringExtra("farm_info");
+        farm_loc=intent.getStringExtra("farm_loc");
+        farm_hours=intent.getStringExtra("farm_hours");
+        farm_id = intent.getStringExtra("farm_id");
+        farm_lat = Double.parseDouble(intent.getStringExtra("farm_lat"));
+        farm_long = Double.parseDouble(intent.getStringExtra("farm_long"));
+
+        JsonObject body = new JsonObject();
+        body.addProperty("farm_id", farm_id);
+
+        Call<ResponseBody> call = service.farmDetail(body);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        res =  (JsonObject) jsonParser.parse(response.body().string());
+
+                        //md 정보
+                        mdArray = res.get("md_data").getAsJsonArray();
+                        pay_schedule = res.get("pay_schedule").getAsJsonArray();
+                        pu_start = res.get("pu_start").getAsJsonArray();
+                        pu_end = res.get("pu_end").getAsJsonArray();
+//                        Log.d("md_data", mdArray.toString());
+//                        Log.d("pay", pay_schedule.toString());
+//                        Log.d("pu_start", pu_start.toString());
+//                        Log.d("pu_end", pu_end.toString());
+
+                        //세부 페이지1 (진행 중인 공동구매) 리사이클러뷰 띄우게하기
+                        firstInit();
+
+                        //어뎁터 적용
+                        mFarmDetailAdapter = new FarmDetailAdapter(mList);
+                        mRecyclerView.setAdapter(mFarmDetailAdapter);
+
+                        //세로로 세팅
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        mRecyclerView.setLayoutManager(linearLayoutManager);
+
+                        for(int i=0;i<mdArray.size();i++){
+                            addFarmJointPurchase(farm_name, mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), mdArray.get(i).getAsJsonObject().get("store_name").getAsString(), pay_schedule.get(i).getAsString(), pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    try {
+                        Log.d(TAG, "Fail " + response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "onFailure: e " + t.getMessage());
+            }
+        });
 
         FarmName.setText(farm_name);
         FarmExplain.setText(farm_info);
         FarmLocation.setText(farm_loc);
         FarmHourTime.setText(farm_hours);
-        FarmJointPurchaseCount.setText(String.valueOf(md_count));
-//        FarmId.setText(String.valueOf(farm_id));
 
+        Log.d("farmnam,e", farm_name);
         //지도
         MapView mapView = new MapView(mContext);
         // 중심점 변경
@@ -135,10 +196,6 @@ public class FarmDetailActivity extends AppCompatActivity {
         //farm_marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
         //farm_marker.setCustomImageResourceId(R.drawable.homeshape);
 
-        firstInit();
-        //----------세부페이지에 있는 진행중인 공동구매 리사이클러뷰 띄우게하기
-        send_farm_id(new FarmDetailData(farm_id, md_count));
-
     }
 
     public void firstInit(){
@@ -157,80 +214,37 @@ public class FarmDetailActivity extends AppCompatActivity {
 
         mList.add(farmDetail);
     }
-    //farm_id 보내기
-    private void send_farm_id(FarmDetailData data) {
-        service.farmDetail(data).enqueue(new Callback<FarmDetailResponse>() {
-            @Override
-            public void onResponse(Call<FarmDetailResponse> call, Response<FarmDetailResponse> response) {
-                FarmDetailResponse result = response.body();
-                Toast.makeText(FarmDetailActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
 
-                if (result.getCode() == 200) {
-//                    Log.d("171", result.getMd_name().toString());
-
-                    //어뎁터 적용
-                    mFarmDetailAdapter = new FarmDetailAdapter(mList);
-                    mRecyclerView.setAdapter(mFarmDetailAdapter);
-
-                    //세로로 세팅
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    mRecyclerView.setLayoutManager(linearLayoutManager);
-
-//                추후에 제품 이름 가져올 예정
-                    for(int i=0;i<md_count;i++){
-                        addFarmJointPurchase(farm_name, result.getMd_name().get(i).toString(), result.getStore_name().get(i).toString() , result.getPay_schedule().get(i).toString(), result.getPu_start().get(i).toString() + "~" + result.getPu_end().get(i).toString());
-                    }
-
-                    for(int i = 0; i < md_count; i++){
-                        List<String> mdInfo = new ArrayList<>();
-                        mdInfo.add(result.getStore_name().get(i).toString()); //0
-                        mdInfo.add(result.getMd_name().get(i).toString()); //1
-                        mdInfo.add(farm_name); // 2농장이름
-                        mdInfo.add(result.getPay_schedule().get(i).toString());  //3 결제 예정일
-                        mdInfo.add(result.getPu_start().get(i).toString());  //4 픽업 시작 시점
-                        mdInfo.add(result.getPu_end().get(i).toString()); //5 픽업 끝나는 시점
-
-                        mdL.add(mdInfo);
-                    }
-                    mFarmDetailAdapter.setOnItemClickListener(
-                            new FarmDetailAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View v, int pos) {
-                                    Log.d("120행", mdL.get(pos).toString()); //클릭한 item 정보 보이기
-                                    Intent intent = new Intent(FarmDetailActivity.this, JointPurchaseActivity.class);
-
-                                    //배열로 보내고 싶은데... 각각 보내는게 맞나...? 일단 putExtra로 값 보내기
-                                    intent.putExtra("farmName", mdL.get(pos).get(0));
-                                    intent.putExtra("mdName",mdL.get(pos).get(1));
-                                    intent.putExtra("storeName",mdL.get(pos).get(2));
-                                    intent.putExtra("paySchedule",mdL.get(pos).get(3));
-                                    intent.putExtra("puStart",mdL.get(pos).get(4));
-                                    intent.putExtra("puEnd",mdL.get(pos).get(5));
-//                                intent.putExtra("farmId",farmL.get(pos).get(7));
-//                                intent.putExtra("mdCount", mdCL.get(pos).get(0).toString());
-//                                Log.d("179행", mdCL.get(pos).get(0).toString());
-//                                intent.putExtra("mdName", md_nameL);
-//                                intent.putExtra("storeName", store_nameL);
-//                                intent.putExtra("puStart", pu_startL);
-//                                intent.putExtra("puEnd", pu_endL);
-//                                intent.putStringArrayListExtra("mdName", mdNameL);
-                                    startActivity(intent);
-                                }
-                            }
-                    );
-
-                }
-                else{
-                    //같은 화면 다시 띄우기
-                }
-            }
-            @Override
-            public void onFailure(Call<FarmDetailResponse> call, Throwable t) {
-                Toast.makeText(FarmDetailActivity.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();
-                Log.e("로그인 에러 발생", t.getMessage());
-            }
-        });
-    }
-
+//                    mFarmDetailAdapter.setOnItemClickListener(
+//                            new FarmDetailAdapter.OnItemClickListener() {
+//                                @Override
+//                                public void onItemClick(View v, int pos) {
+//                                    Log.d("120행", mdL.get(pos).toString()); //클릭한 item 정보 보이기
+//                                    Intent intent = new Intent(FarmDetailActivity.this, JointPurchaseActivity.class);
+//
+//                                    //배열로 보내고 싶은데... 각각 보내는게 맞나...? 일단 putExtra로 값 보내기
+//                                    intent.putExtra("farmName", mdL.get(pos).get(0));
+//                                    intent.putExtra("mdName",mdL.get(pos).get(1));
+//                                    intent.putExtra("storeName",mdL.get(pos).get(2));
+//                                    intent.putExtra("paySchedule",mdL.get(pos).get(3));
+//                                    intent.putExtra("puStart",mdL.get(pos).get(4));
+//                                    intent.putExtra("puEnd",mdL.get(pos).get(5));
+////                                intent.putExtra("farmId",farmL.get(pos).get(7));
+////                                intent.putExtra("mdCount", mdCL.get(pos).get(0).toString());
+////                                Log.d("179행", mdCL.get(pos).get(0).toString());
+////                                intent.putExtra("mdName", md_nameL);
+////                                intent.putExtra("storeName", store_nameL);
+////                                intent.putExtra("puStart", pu_startL);
+////                                intent.putExtra("puEnd", pu_endL);
+////                                intent.putStringArrayListExtra("mdName", mdNameL);
+//                                    startActivity(intent);
+//                                }
+//                            }
+//                    );
+//
+//                }
+//                else{
+//                    //같은 화면 다시 띄우기
+//                }
+//            }
 }

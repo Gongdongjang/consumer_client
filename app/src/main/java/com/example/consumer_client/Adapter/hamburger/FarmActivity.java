@@ -48,33 +48,8 @@ public class FarmActivity extends AppCompatActivity {
     private FarmTotalAdapter mFarmTotalAdapter;
     Context mContext;
 
-    int count;
-    String[] farmNameL = new String[100];
-    String[] farmItemL = new String[100];
-    String[] farmInfoL = new String[100];
-    String[] farmLocL = new String[100];
-    String[] farmLatL = new String[100];
-    String[] farmLongL = new String[100];
-    String[] farmHoursL = new String[100];
-
-    List<List<String>> farmL = new ArrayList<>();
-    List<List<Double>> mdCL = new ArrayList<>();
-    //세부 페이지 리사이클러뷰를 위한 배열 및 변수
-    List<List<String>> md_nameL = new ArrayList<>();
-    List<List<String>> store_nameL = new ArrayList<>();
-    List<List<String>> pu_startL = new ArrayList<>();
-    List<List<String>> pu_endL = new ArrayList<>();
-
-//    String[] md_nameL = new String[30];
-//    List md_nameL = new ArrayList();
-//    String[] store_nameL = new String[30];
-//    String[] pu_startL = new String[30];
-//    String[] pu_endL = new String[30];
-
-//    List<Integer> md_count = new ArrayList<>();
-    Double[] md_count = new Double[100];
-    Double[] farmIdL = new Double[100];
-
+    JsonObject res;
+    JsonArray farmArray, mdArray;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,111 +70,17 @@ public class FarmActivity extends AppCompatActivity {
         service = retrofit.create(FarmService.class);
         jsonParser = new JsonParser();
 
-        JsonObject body = new JsonObject();
+//        JsonObject body = new JsonObject();
         Call<ResponseBody> call = service.getFarmData();
         call.enqueue(new Callback<ResponseBody>() {
 
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try{
-//                    Log.d("179행", response.toString());
-                    JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
+                    res =  (JsonObject) jsonParser.parse(response.body().string());
 
-                    JsonArray farmArray = res.get("result").getAsJsonArray();
-                    JsonArray mdArray = res.get("md_result").getAsJsonArray();
-
-                    Handler mHandler = new Handler();
-                    mHandler.postDelayed( new Runnable() {
-                        public void run() { // 0.1초 후에 받아오도록 설정 , 바로 시작 시 에러남
-                            //어뎁터 적용
-                            mFarmTotalAdapter = new FarmTotalAdapter(mList);
-                            mFarmRecyclerView.setAdapter(mFarmTotalAdapter);
-
-                            //세로로 세팅
-                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-                            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                            mFarmRecyclerView.setLayoutManager(linearLayoutManager);
-
-                            for(int i=0;i<farmArray.size();i++){
-                                //addFarm("product Img", "농가 이름" + i, "농가 제품 이름" + i, "농가 특징" + i, "" + i);
-                                int count = 0;
-                                for( int j = 0; j < mdArray.size(); j++){
-                                    Log.d(mdArray.get(j).getAsJsonObject().get("farm_id").toString()+"번", farmArray.get(i).getAsJsonObject().get("farm_id").toString());
-                                    if(mdArray.get(j).getAsJsonObject().get("farm_id").getAsInt() == farmArray.get(i).getAsJsonObject().get("farm_id").getAsInt()){
-                                        count++;
-                                    }
-                                }
-                                addFarm("product Img", farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
-                            }
-
-//                            mFarmTotalAdapter.setOnItemClickListener(
-//                                    new FarmTotalAdapter.OnItemClickListener() {
-//                                        @Override
-//                                        public void onItemClick(View v, int pos) {
-//                                            Log.d("120행", farmL.get(pos).toString()); //클릭한 item 정보 보이기
-//                                            Intent intent = new Intent(FarmActivity.this, FarmDetailActivity.class);
-//
-//                                            //배열로 보내고 싶은데... 각각 보내는게 맞나...? 일단 putExtra로 값 보내기
-//                                            intent.putExtra("farmName", farmL.get(pos).get(0));
-//                                            intent.putExtra("farmInfo",farmL.get(pos).get(2));
-//                                            intent.putExtra("farmLoc",farmL.get(pos).get(3));
-//                                            intent.putExtra("farmLat",farmL.get(pos).get(4));
-//                                            intent.putExtra("farmLong",farmL.get(pos).get(5));
-//                                            intent.putExtra("farmHours",farmL.get(pos).get(6));
-//                                            intent.putExtra("farmId",farmL.get(pos).get(7));
-//                                            intent.putExtra("mdCount", mdCL.get(pos).get(0).toString());
-////                                Log.d("179행", mdCL.get(pos).get(0).toString());
-////                                intent.putExtra("mdName", md_nameL);
-////                                intent.putExtra("storeName", store_nameL);
-////                                intent.putExtra("puStart", pu_startL);
-////                                intent.putExtra("puEnd", pu_endL);
-////                                intent.putStringArrayListExtra("mdName", mdNameL);
-//                                            startActivity(intent);
-//                                        }
-//                                    }
-//                            );
-
-                        } }, 1000 ); // 1000 = 1초
-                    //Log.d("60행", result.toString());
-//                    count = Integer.parseInt(result.getCount());
-//
-//                    for (int i = 0; i < count; i++) {
-//                        farmNameL[i] = result.getFarm_arr().get(i).toString();
-//                        farmItemL[i] = result.getFarm_mainItem().get(i).toString();
-//                        farmInfoL[i] = result.getFarm_info().get(i).toString();
-//                        farmLocL[i]= result.getFarm_loc().get(i).toString();
-//                        farmLatL[i]= result.getFarm_lat().get(i).toString();
-//                        farmLongL[i]= result.getFarm_long().get(i).toString();
-//                        farmHoursL[i]= result.getFarm_hours().get(i).toString();
-//                        md_count[i] = (Double) result.getMd_count().get(i); //얘는 잘 돼
-//                        farmIdL[i] = (Double) result.getFarm_id().get(i);
-////                        md_nameL.get(i) = result.getMd_name().get().toString();
-//                        Log.d("90행", farmIdL[i].toString());
-//                    }
-//
-//                    Toast.makeText(FarmActivity.this, "로딩중", Toast.LENGTH_SHORT).show();
-//
-//                    for(int i = 0; i < count; i++){
-//                        List<String> farmList = new ArrayList<>();
-//                        List<String> mdNameL = new ArrayList<>();
-//                        List<Double> mdCountL = new ArrayList<>();
-////                        List<String> storeNameL = new ArrayList<>();
-////                        List<String> puStartL = new ArrayList<>();
-////                        List<String> puEndL = new ArrayList<>();
-//                        farmList.add(farmNameL[i]); //0 농장이름
-//                        farmList.add(farmItemL[i]); //1 판매물품
-//                        farmList.add(farmInfoL[i]); //2 소개
-//                        farmList.add(farmLocL[i]);  //3 위치주소
-//                        farmList.add(farmLatL[i]);  //4 위도
-//                        farmList.add(farmLongL[i]); //5 경도
-//                        farmList.add(farmHoursL[i]); //6 영업시간
-//                        farmList.add(farmIdL[i].toString());
-//                        mdCountL.add(md_count[i]); //1 md 개수
-//                        farmL.add(farmList);
-//                        mdCL.add(mdCountL);
-////                        mdNameL.add()
-//                    }
-//                    Log.d("123행", farmL.toString());
+                    farmArray = res.get("result").getAsJsonArray();
+                    mdArray = res.get("md_result").getAsJsonArray();
                 }
                 catch(IOException e){
                     e.printStackTrace();
@@ -211,10 +92,45 @@ public class FarmActivity extends AppCompatActivity {
             }
         });
 
+        Handler mHandler = new Handler();
+        mHandler.postDelayed( new Runnable() {
+            public void run() { // 0.1초 후에 받아오도록 설정 , 바로 시작 시 에러남
+                //어뎁터 적용
+                mFarmTotalAdapter = new FarmTotalAdapter(mList);
+                mFarmRecyclerView.setAdapter(mFarmTotalAdapter);
 
+                //세로로 세팅
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                mFarmRecyclerView.setLayoutManager(linearLayoutManager);
 
+                for(int i=0;i<farmArray.size();i++){
+                    int count = 0;
+                    for( int j = 0; j < mdArray.size(); j++){
+                        if(mdArray.get(j).getAsJsonObject().get("farm_id").getAsInt() == farmArray.get(i).getAsJsonObject().get("farm_id").getAsInt()){
+                            count++;
+                        }
+                    }
+                    addFarm("product Img", farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
+                }
 
+                mFarmTotalAdapter.setOnItemClickListener(
+                        new FarmTotalAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View v, int pos) {
+                                Intent intent = new Intent(FarmActivity.this, FarmDetailActivity.class);
 
+                                intent.putExtra("farm_name", farmArray.get(pos).getAsJsonObject().get("farm_name").getAsString());
+                                intent.putExtra("farm_info",farmArray.get(pos).getAsJsonObject().get("farm_info").getAsString());
+                                intent.putExtra("farm_loc",farmArray.get(pos).getAsJsonObject().get("farm_loc").getAsString());
+                                intent.putExtra("farm_lat",farmArray.get(pos).getAsJsonObject().get("farm_lat").getAsString());
+                                intent.putExtra("farm_long",farmArray.get(pos).getAsJsonObject().get("farm_long").getAsString());
+                                intent.putExtra("farm_hours",farmArray.get(pos).getAsJsonObject().get("farm_hours").getAsString());
+                                intent.putExtra("farm_id",farmArray.get(pos).getAsJsonObject().get("farm_id").getAsString());
+                                startActivity(intent);
+                            }
+                        });
+            }}, 1000 ); // 1000 = 1초
     }
 
     public void firstInit(){

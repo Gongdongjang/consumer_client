@@ -84,8 +84,6 @@ public class MdListMainActivity extends AppCompatActivity {
                     pu_end = res.get("pu_end").getAsJsonArray();
 
                     Toast.makeText(MdListMainActivity.this, "로딩중", Toast.LENGTH_SHORT).show();
-
-
                 }
                 catch(Exception e) {
                     e.printStackTrace();

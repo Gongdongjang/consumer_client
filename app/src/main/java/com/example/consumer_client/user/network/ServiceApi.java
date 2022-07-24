@@ -13,11 +13,11 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ServiceApi {
-    @GET("/farmView")
-    Call<FarmGet> getFarmData();
+//    @GET("/farmView")
+//    Call<FarmGet> getFarmData();
 
-    @POST("/farmDetail")
-    Call<FarmDetailResponse> farmDetail(@Body FarmDetailData data);
+//    @POST("/farmDetail")
+//    Call<FarmDetailResponse> farmDetail(@Body FarmDetailData data);
 
 
     @POST("/storeDetail")
