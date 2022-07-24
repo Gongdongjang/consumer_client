@@ -12,22 +12,36 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import com.example.consumer_client.MainActivity;
-import com.example.consumer_client.PlusAddressActivity;
 import com.example.consumer_client.R;
-import com.example.consumer_client.user.network.NetworkStatus;
-import com.example.consumer_client.user.network.RetrofitClient;
-import com.example.consumer_client.user.network.ServiceApi;
+import com.example.consumer_client.network.NetworkStatus;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
+
+interface FindTownService {
+    @POST("register_address")
+    Call<ResponseBody> addressRegister(@Body JsonObject body);
+}
 
 public class FindTownActivity extends AppCompatActivity {
+
+    FindTownService service;
+    JsonParser jsonParser;
 
     // 주소 요청코드 상수 requestCode
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
@@ -37,13 +51,22 @@ public class FindTownActivity extends AppCompatActivity {
     List<Address> addressList=new ArrayList<>();
     List<Double> latlongList=new ArrayList<>();
 
-    private ServiceApi service;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.baseurl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        service = retrofit.create(FindTownService.class);
+        jsonParser = new JsonParser();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tutor_find_town);
+
+        Intent intent = getIntent(); //intent 값 받기
+        String userid=intent.getStringExtra("userid");
+        Log.d("68행_userid", userid);
 
         Button btn_addAdress = findViewById(R.id.btn_addAdress);
         Button btn_finish_address = findViewById(R.id.btn_finish_address);
@@ -51,8 +74,6 @@ public class FindTownActivity extends AppCompatActivity {
         txt_address1= findViewById(R.id.txt_address1);
         txt_address2= findViewById(R.id.txt_address2);
         txt_address3=findViewById(R.id.txt_address3);
-
-        service = RetrofitClient.getClient().create(ServiceApi.class);
 
         //주소추가 버튼 누르면 주소추가할 수 있는 액티비티로 이동
         btn_addAdress.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +99,13 @@ public class FindTownActivity extends AppCompatActivity {
         btn_finish_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registAddress(new AddressData(latlongList));
+                if(latlongList.size()>0){
+                    registAddress(userid, latlongList); //서버에 주소 저장
+                }
+                //메인 페이지로 이동
+                Intent intent = new Intent(FindTownActivity.this, MainActivity.class);
+                intent.putExtra("userid",userid);
+                startActivity(intent);
             }
         });
 
@@ -128,27 +155,36 @@ public class FindTownActivity extends AppCompatActivity {
         }
     }
 
-    private void registAddress(AddressData data) {
-        service.addressRegister(data).enqueue(new Callback<AddressResponse>() {
-            @Override
-            public void onResponse(Call<AddressResponse> call, Response<AddressResponse> response) {
-                AddressResponse result = response.body();
-                Toast.makeText(FindTownActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+    private void registAddress(String userid, List data) {
 
-                if (result.getCode() == 200) {
-                    //선택한 동네로 설정 버튼 클릭시, 메인 페이지로 이동
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
+        JsonObject body = new JsonObject();
+        body.addProperty("id", userid);
+        body.addProperty("latlong",data.toString());
+
+        Log.d("164행",body.toString());
+
+        Call<ResponseBody> call = service.addressRegister(body);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                        Toast.makeText(FindTownActivity.this, res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
             @Override
-            public void onFailure(Call<AddressResponse> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(FindTownActivity.this, "주소등록 에러 발생", Toast.LENGTH_SHORT).show();
-                Log.e("주소등록 에러 발생", t.getMessage());
+                Log.e("주소등록", t.getMessage());
             }
         });
-    }
 
+    }
 }
 

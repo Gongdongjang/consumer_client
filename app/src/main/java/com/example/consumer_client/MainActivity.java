@@ -2,24 +2,21 @@ package com.example.consumer_client;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.consumer_client.fragment.Home;
 import com.example.consumer_client.fragment.Keep;
 import com.example.consumer_client.fragment.MyPage;
 import com.example.consumer_client.fragment.Order;
 import com.example.consumer_client.fragment.TotalList;
+import com.example.consumer_client.tutorial.TutorialActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {

@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.consumer_client.Adapter.hamburger.StoreTotalAdapter;
-import com.example.consumer_client.Adapter.hamburger.StoreTotalInfo;
+import com.example.consumer_client.store.StoreTotalAdapter;
+import com.example.consumer_client.store.StoreTotalInfo;
 import com.example.consumer_client.R;
 
 import java.util.ArrayList;

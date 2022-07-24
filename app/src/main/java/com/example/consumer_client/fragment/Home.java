@@ -29,11 +29,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.consumer_client.Adapter.hamburger.JointPurchaseActivity;
-import com.example.consumer_client.MdListMainActivity;
+import com.example.consumer_client.md.JointPurchaseActivity;
+import com.example.consumer_client.md.MdListMainActivity;
 import com.example.consumer_client.R;
-import com.example.consumer_client.homeRecycler.HomeProductAdapter;
-import com.example.consumer_client.homeRecycler.HomeProductItem;
+import com.example.consumer_client.home.HomeProductAdapter;
+import com.example.consumer_client.home.HomeProductItem;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -44,7 +44,6 @@ import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -165,8 +164,6 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                 try{
                     res =  (JsonObject) jsonParser.parse(response.body().string());
                     jsonArray = res.get("md_result").getAsJsonArray();
-                    Toast.makeText(mActivity, "로딩중", Toast.LENGTH_SHORT).show();
-
                 }
                 catch(Exception e) {
                     e.printStackTrace();

@@ -25,23 +25,23 @@
             android:value="@string/kakao_app_key"/>
 
         <activity android:name=".user.LoginActivity"/>
-        <activity android:name=".TutorialActivity"
+        <activity android:name=".tutorial.TutorialActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
-        <activity android:name=".FindTownActivity"/>
-        <activity android:name=".PlusAddressActivity"/>
+        <activity android:name=".address.FindTownActivity"/>
+        <activity android:name=".address.PlusAddressActivity"/>
         <activity android:name=".MainActivity"/>
-        <activity android:name=".MdListMainActivity"/>
+        <activity android:name=".md.MdListMainActivity"/>
         <activity android:name=".user.RegisterActivity" />
         <activity android:name=".user.StartActivity" />
-        <activity android:name=".Adapter.hamburger.FarmActivity" />
-        <activity android:name=".Adapter.hamburger.StoreActivity"
+        <activity android:name=".farm.FarmActivity" />
+        <activity android:name=".store.StoreActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".Adapter.hamburger.FarmDetailActivity" />
-        <activity android:name=".Adapter.hamburger.StoreDetailActivity" />
-        <activity android:name=".Adapter.hamburger.JointPurchaseActivity" />
+        <activity android:name=".farm.FarmDetailActivity" />
+        <activity android:name=".store.StoreDetailActivity" />
+        <activity android:name=".md.JointPurchaseActivity" />
 
         <activity
-            android:name=".SplashActivity"
+            android:name=".tutorial.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
