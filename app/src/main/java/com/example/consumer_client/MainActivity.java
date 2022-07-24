@@ -2,19 +2,21 @@ package com.example.consumer_client;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.consumer_client.fragment.Home;
 import com.example.consumer_client.fragment.Keep;
 import com.example.consumer_client.fragment.MyPage;
 import com.example.consumer_client.fragment.Order;
 import com.example.consumer_client.fragment.TotalList;
+import com.example.consumer_client.tutorial.TutorialActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +35,38 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = getIntent(); //intent 값 받기
+
+        //유저id 받기
+        String userid;
+        String generalid = intent.getStringExtra("generalid");
+        String kakaoid = intent.getStringExtra("kakaoid");
+        String googleid = intent.getStringExtra("googleid");
+
+        if(generalid != null) userid=generalid;
+        else if(kakaoid !=null) userid=kakaoid;
+        else if(googleid !=null) userid=googleid;
+        else userid=intent.getStringExtra("userid");    //첫 튜토리얼시 findtown에서 넘어온 userid
+
+        // 최초 실행 여부를 판단 ->>>
+        SharedPreferences pref = getSharedPreferences("checkFirst", Activity.MODE_PRIVATE);
+        boolean checkFirst = pref.getBoolean("checkFirst", false);
+
+       if(!checkFirst) //(false일 경우 최초 실행)
+        {
+            // 앱 최초 실행시 근처동네 찾기 세팅하기
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean("checkFirst",true);
+            editor.apply();
+            finish();
+
+            intent = new Intent(MainActivity.this, TutorialActivity.class);
+            intent.putExtra("userid",userid);
+            startActivity(intent);
+        } else{
+           //최초 로그인 아닐때
+           intent.putExtra("userid",userid);
+       }
 
         bottomNavigation = findViewById(R.id.bottom_navi);
 
