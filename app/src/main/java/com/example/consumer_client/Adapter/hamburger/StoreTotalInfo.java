@@ -1,13 +1,21 @@
 package com.example.consumer_client.Adapter.hamburger;
 
 public class StoreTotalInfo {
+    private String storeId;
     private String storeProdImgView;
     private String storeName;
     private String storeLocationFromMe;
     private String storeInfo;
     private String storeRestDays;
     private String storeHours;
-    //private int storeSituation;
+
+    public String getStoreid() {
+        return storeId;
+    }
+
+    public void setStoreid(String storeid) {
+        this.storeId = storeid;
+    }
 
     public String getStoreProdImgView() {
         return storeProdImgView;
@@ -55,9 +63,4 @@ public class StoreTotalInfo {
         this.storeHours = storeHours;
     }
 
-    //public int getStoreSituation() {
-        //return storeSituation;
-//    //public void setStoreSituation(int storeSituation) {
-    //    this.storeSituation = storeSituation;
-  //  }
 }

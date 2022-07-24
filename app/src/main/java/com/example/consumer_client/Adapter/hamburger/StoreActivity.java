@@ -2,8 +2,8 @@ package com.example.consumer_client.Adapter.hamburger;
 
 import static com.example.consumer_client.LocationDistance.distance;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -102,12 +102,12 @@ public class StoreActivity extends AppCompatActivity {
                 mStoreRecyclerView.setLayoutManager(linearLayoutManager);
 
                 for(int i=0;i<storeArray.size() ;i++) {
-                    Log.d("스토어_arr", storeArray.get(i).getAsJsonObject().get("store_name").getAsString());
+                    Log.d("스토어_arr", storeArray.get(i).getAsJsonObject().get("store_id").getAsString());
 
                     double distanceKilo =
                             distance(37.59272, 127.016544, Double.parseDouble(storeArray.get(i).getAsJsonObject().get("store_lat").getAsString()), Double.parseDouble(storeArray.get(i).getAsJsonObject().get("store_long").getAsString()), "kilometer");
 
-                    addStore("스토어 이미지", storeArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), storeArray.get(i).getAsJsonObject().get("store_info").getAsString(), storeArray.get(i).getAsJsonObject().get("store_hours").getAsString(), storeArray.get(i).getAsJsonObject().get("store_restDays").getAsString());
+                    addStore(storeArray.get(i).getAsJsonObject().get("store_id").getAsString(),"스토어 이미지", storeArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), storeArray.get(i).getAsJsonObject().get("store_info").getAsString(), storeArray.get(i).getAsJsonObject().get("store_hours").getAsString(), storeArray.get(i).getAsJsonObject().get("store_restDays").getAsString());
                 }
                 //거리 가까운순으로 정렬
                 mList.sort(new Comparator<StoreTotalInfo>() {
@@ -126,25 +126,14 @@ public class StoreActivity extends AppCompatActivity {
                         new StoreTotalAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(View v, int pos) {
-                                //Log.d("120행", storeL.get(pos).toString()); //클릭한 item 정보 보이기
-
-                                Toast.makeText(StoreActivity.this, mList.get(pos).getStoreName(), Toast.LENGTH_SHORT).show();
-                                //Intent intent = new Intent(StoreActivity.this, StoreDetailActivity.class);
-
-                                //배열로 보내고 싶은데.. 일단 putExtra로 값 보내기
-//                                intent.putExtra("storeName", storeL.get(pos).get(0));
-//                                intent.putExtra("storeInfo",storeL.get(pos).get(4));
-//                                intent.putExtra("storeLoc",storeL.get(pos).get(7));
-//                                intent.putExtra("storeLat",storeL.get(pos).get(8));
-//                                intent.putExtra("storeLong",storeL.get(pos).get(9));
-//                                intent.putExtra("storeHours",storeL.get(pos).get(5));
-//                                intent.putExtra("storeRestDays",storeL.get(pos).get(6));
-                                //startActivity(intent);
+                                Intent intent = new Intent(StoreActivity.this, StoreDetailActivity.class);
+                                intent.putExtra("storeid", mList.get(pos).getStoreid());
+                                startActivity(intent);
                             }
                         }
                 );
 
-            } }, 2000 ); // 1000 = 1초
+            } }, 1000 ); // 1000 = 1초
     }
 
     public void firstInit(){
@@ -152,9 +141,10 @@ public class StoreActivity extends AppCompatActivity {
         mList = new ArrayList<>();
     }
 
-    public void addStore(String storeProdImgView, String storeName, String storeLocationFromMe, String storeInfo, String storeRestDays, String storeHours){
+    public void addStore(String storeId, String storeProdImgView, String storeName, String storeLocationFromMe, String storeInfo, String storeRestDays, String storeHours){
         StoreTotalInfo store = new StoreTotalInfo();
 
+        store.setStoreid(storeId);
         store.setStoreProdImgView(storeProdImgView);
         store.setStoreName(storeName);
         store.setStoreLocationFromMe(storeLocationFromMe);

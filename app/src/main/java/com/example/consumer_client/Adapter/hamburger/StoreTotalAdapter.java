@@ -28,6 +28,7 @@ public class StoreTotalAdapter extends RecyclerView.Adapter<StoreTotalAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView storeid;
         ImageView storeProdImgView;
         TextView storeName;
         TextView storeLocationFromMe;
@@ -49,6 +50,7 @@ public class StoreTotalAdapter extends RecyclerView.Adapter<StoreTotalAdapter.Vi
                     }
                 }
             });
+            storeid=(TextView) itemView.findViewById(R.id.StoreID);
             storeProdImgView = (ImageView) itemView.findViewById(R.id.StoreProdImg);
             storeName = (TextView) itemView.findViewById(R.id.StoreName);
             storeLocationFromMe = (TextView) itemView.findViewById(R.id.StoreLocationFromMe);
@@ -80,6 +82,7 @@ public class StoreTotalAdapter extends RecyclerView.Adapter<StoreTotalAdapter.Vi
     public void onBindViewHolder(@NonNull StoreTotalAdapter.ViewHolder holder, int position) {
         StoreTotalInfo item = mList.get(position);
 
+        holder.storeid.setText(item.getStoreid());
         holder.storeProdImgView.setImageResource(R.drawable.ic_launcher_background);
         holder.storeName.setText(item.getStoreName());
         holder.storeLocationFromMe.setText(item.getStoreLocationFromMe());
