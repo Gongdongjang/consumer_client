@@ -115,10 +115,6 @@ public class FarmDetailActivity extends AppCompatActivity {
                         pay_schedule = res.get("pay_schedule").getAsJsonArray();
                         pu_start = res.get("pu_start").getAsJsonArray();
                         pu_end = res.get("pu_end").getAsJsonArray();
-//                        Log.d("md_data", mdArray.toString());
-//                        Log.d("pay", pay_schedule.toString());
-//                        Log.d("pu_start", pu_start.toString());
-//                        Log.d("pu_end", pu_end.toString());
 
                         //세부 페이지1 (진행 중인 공동구매) 리사이클러뷰 띄우게하기
                         firstInit();
@@ -135,6 +131,18 @@ public class FarmDetailActivity extends AppCompatActivity {
                         for(int i=0;i<mdArray.size();i++){
                             addFarmJointPurchase(farm_name, mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), mdArray.get(i).getAsJsonObject().get("store_name").getAsString(), pay_schedule.get(i).getAsString(), pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
                         }
+                        mFarmDetailAdapter.setOnItemClickListener(
+                            new FarmDetailAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View v, int pos) {
+                                    Intent intent = new Intent(FarmDetailActivity.this, JointPurchaseActivity.class);
+
+                                    intent.putExtra("md_id", mdArray.get(pos).getAsJsonObject().get("md_id").getAsString());
+
+                                    startActivity(intent);
+                                }
+                            }
+                    );
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -160,11 +168,9 @@ public class FarmDetailActivity extends AppCompatActivity {
         FarmLocation.setText(farm_loc);
         FarmHourTime.setText(farm_hours);
 
-        Log.d("farmnam,e", farm_name);
         //지도
         MapView mapView = new MapView(mContext);
         // 중심점 변경
-        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(35.01426900000000, 126.7169940), true);
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(farm_lat, farm_long), true);
 
         // 줌 레벨 변경
@@ -214,37 +220,4 @@ public class FarmDetailActivity extends AppCompatActivity {
 
         mList.add(farmDetail);
     }
-
-//                    mFarmDetailAdapter.setOnItemClickListener(
-//                            new FarmDetailAdapter.OnItemClickListener() {
-//                                @Override
-//                                public void onItemClick(View v, int pos) {
-//                                    Log.d("120행", mdL.get(pos).toString()); //클릭한 item 정보 보이기
-//                                    Intent intent = new Intent(FarmDetailActivity.this, JointPurchaseActivity.class);
-//
-//                                    //배열로 보내고 싶은데... 각각 보내는게 맞나...? 일단 putExtra로 값 보내기
-//                                    intent.putExtra("farmName", mdL.get(pos).get(0));
-//                                    intent.putExtra("mdName",mdL.get(pos).get(1));
-//                                    intent.putExtra("storeName",mdL.get(pos).get(2));
-//                                    intent.putExtra("paySchedule",mdL.get(pos).get(3));
-//                                    intent.putExtra("puStart",mdL.get(pos).get(4));
-//                                    intent.putExtra("puEnd",mdL.get(pos).get(5));
-////                                intent.putExtra("farmId",farmL.get(pos).get(7));
-////                                intent.putExtra("mdCount", mdCL.get(pos).get(0).toString());
-////                                Log.d("179행", mdCL.get(pos).get(0).toString());
-////                                intent.putExtra("mdName", md_nameL);
-////                                intent.putExtra("storeName", store_nameL);
-////                                intent.putExtra("puStart", pu_startL);
-////                                intent.putExtra("puEnd", pu_endL);
-////                                intent.putStringArrayListExtra("mdName", mdNameL);
-//                                    startActivity(intent);
-//                                }
-//                            }
-//                    );
-//
-//                }
-//                else{
-//                    //같은 화면 다시 띄우기
-//                }
-//            }
 }
