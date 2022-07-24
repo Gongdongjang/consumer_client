@@ -164,6 +164,38 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                 try{
                     res =  (JsonObject) jsonParser.parse(response.body().string());
                     jsonArray = res.get("md_result").getAsJsonArray();
+
+                    //어뎁터 적용
+                    mHomeProductAdapter = new HomeProductAdapter(mList);
+                    mRecyclerView.setAdapter(mHomeProductAdapter);
+
+                    //가로로 세팅
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+                    linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                    mRecyclerView.setLayoutManager(linearLayoutManager);
+
+                    mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading );
+
+                    for(int i=0;i<jsonArray.size();i++){
+                        md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
+
+                        addItem("product Img",
+                                jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                                jsonArray.get(i).getAsJsonObject().get("md_name").getAsString()
+                        );
+                    }
+                    //메인제품리스트 리사이클러뷰 누르면 나오는
+                    mHomeProductAdapter.setOnItemClickListener(
+                            new HomeProductAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View v, int pos) {
+                                    //Log.d("120행", farmL.get(pos).toString()); //클릭한 item 정보 보이기
+                                    Intent intent = new Intent(mActivity, JointPurchaseActivity.class);
+                                    intent.putExtra("md_id", md_id_list.get(pos));
+                                    startActivity(intent);
+                                }
+                            }
+                    );
                 }
                 catch(Exception e) {
                     e.printStackTrace();
@@ -179,43 +211,6 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                 Toast.makeText(mActivity, "메인 제품리스트 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
             }
         });
-
-        Handler mHandler = new Handler();
-        mHandler.postDelayed( new Runnable() {
-            public void run() {
-
-                //어뎁터 적용
-                mHomeProductAdapter = new HomeProductAdapter(mList);
-                mRecyclerView.setAdapter(mHomeProductAdapter);
-
-                //가로로 세팅
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
-                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                mRecyclerView.setLayoutManager(linearLayoutManager);
-
-                mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading );
-
-                for(int i=0;i<jsonArray.size();i++){
-                    md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
-
-                    addItem("product Img",
-                            jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
-                            jsonArray.get(i).getAsJsonObject().get("md_name").getAsString()
-                    );
-                }
-                //메인제품리스트 리사이클러뷰 누르면 나오는
-                mHomeProductAdapter.setOnItemClickListener(
-                        new HomeProductAdapter.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View v, int pos) {
-                                //Log.d("120행", farmL.get(pos).toString()); //클릭한 item 정보 보이기
-                                Intent intent = new Intent(mActivity, JointPurchaseActivity.class);
-                                intent.putExtra("md_id", md_id_list.get(pos));
-                                startActivity(intent);
-                            }
-                        }
-                );
-            } }, 1000 ); // 1000 = 1초
 
         lm = (LocationManager) mActivity.getApplicationContext().getSystemService( Context.LOCATION_SERVICE );
 
