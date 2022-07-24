@@ -69,7 +69,6 @@ public class MdListMainActivity extends AppCompatActivity {
 
         firstInit();
 
-        JsonObject body = new JsonObject();
         Call<ResponseBody> call = service.getMdMainData();
         call.enqueue(new Callback<ResponseBody>() {
 
@@ -96,7 +95,7 @@ public class MdListMainActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(MdListMainActivity.this, "농가 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MdListMainActivity.this, "상품 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
             }
         });
 
