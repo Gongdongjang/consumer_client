@@ -1,15 +1,11 @@
 package com.example.consumer_client.user.network;
 import com.example.consumer_client.address.AddressData;
-import com.example.consumer_client.FarmDetailData;
-import com.example.consumer_client.FarmDetailResponse;
-import com.example.consumer_client.FarmGet;
 import com.example.consumer_client.StoreDetailData;
 import com.example.consumer_client.StoreDetailResponse;
 import com.example.consumer_client.address.AddressResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ServiceApi {

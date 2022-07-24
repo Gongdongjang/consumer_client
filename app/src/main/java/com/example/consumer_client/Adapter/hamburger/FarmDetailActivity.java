@@ -1,29 +1,19 @@
 package com.example.consumer_client.Adapter.hamburger;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.consumer_client.FarmDetailData;
-import com.example.consumer_client.FarmDetailResponse;
-import com.example.consumer_client.MdListMainActivity;
 import com.example.consumer_client.R;
-import com.example.consumer_client.user.network.RetrofitClient;
-import com.example.consumer_client.user.network.ServiceApi;
-import com.google.android.material.slider.RangeSlider;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -34,7 +24,6 @@ import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -56,7 +45,7 @@ public class FarmDetailActivity extends AppCompatActivity {
     FarmDetailService service;
     JsonParser jsonParser;
     JsonObject res;
-    JsonArray mdArray, pay_schedule, pu_start, pu_end;
+    JsonArray farmArray, mdArray, pay_schedule, pu_start, pu_end;
     String farm_id, farm_name, farm_info, farm_loc, farm_hours;
     Double farm_lat, farm_long;
 
@@ -90,13 +79,7 @@ public class FarmDetailActivity extends AppCompatActivity {
         Intent intent;
         intent=getIntent(); //intent 값 받기
 
-        farm_name=intent.getStringExtra("farm_name");
-        farm_info=intent.getStringExtra("farm_info");
-        farm_loc=intent.getStringExtra("farm_loc");
-        farm_hours=intent.getStringExtra("farm_hours");
         farm_id = intent.getStringExtra("farm_id");
-        farm_lat = Double.parseDouble(intent.getStringExtra("farm_lat"));
-        farm_long = Double.parseDouble(intent.getStringExtra("farm_long"));
 
         JsonObject body = new JsonObject();
         body.addProperty("farm_id", farm_id);
@@ -110,11 +93,59 @@ public class FarmDetailActivity extends AppCompatActivity {
                     try {
                         res =  (JsonObject) jsonParser.parse(response.body().string());
 
+                        //farm 정보
+                        farmArray = res.get("farm_data").getAsJsonArray();
+                        farm_name = farmArray.get(0).getAsJsonObject().get("farm_name").getAsString();
+                        farm_info = farmArray.get(0).getAsJsonObject().get("farm_info").getAsString();
+                        farm_loc = farmArray.get(0).getAsJsonObject().get("farm_loc").getAsString();
+                        farm_lat = farmArray.get(0).getAsJsonObject().get("farm_lat").getAsDouble();
+                        farm_long = farmArray.get(0).getAsJsonObject().get("farm_long").getAsDouble();
+                        farm_hours = farmArray.get(0).getAsJsonObject().get("farm_hours").getAsString();
+
                         //md 정보
                         mdArray = res.get("md_data").getAsJsonArray();
                         pay_schedule = res.get("pay_schedule").getAsJsonArray();
                         pu_start = res.get("pu_start").getAsJsonArray();
                         pu_end = res.get("pu_end").getAsJsonArray();
+
+                        FarmName.setText(farm_name);
+                        FarmExplain.setText(farm_info);
+                        FarmLocation.setText(farm_loc);
+                        FarmHourTime.setText(farm_hours);
+
+                        //지도
+                        MapView mapView = new MapView(mContext);
+                        // 중심점 변경
+                        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(farm_lat, farm_long), true);
+
+                        // 줌 레벨 변경
+                        mapView.setZoomLevel(1, true);
+                        // 줌 인
+                        mapView.zoomIn(true);
+                        // 줌 아웃
+                        mapView.zoomOut(true);
+
+                        ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.farm_map_view);
+                        mapViewContainer.addView(mapView);
+
+                        //농가위치 마커 아이콘 띄우기
+                        MapPoint f_MarkPoint = MapPoint.mapPointWithGeoCoord(farm_lat, farm_long);  //마커찍기
+
+                        MapPOIItem farm_marker=new MapPOIItem();
+                        farm_marker.setItemName(farm_name); //클릭했을때 농가이름 나오기
+                        farm_marker.setTag(0);
+                        farm_marker.setMapPoint(f_MarkPoint);   //좌표입력받아 현위치로 출력
+
+                        //  (클릭 전)기본으로 제공하는 BluePin 마커 모양의 색.
+                        farm_marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+                        // (클릭 후) 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+                        farm_marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+                        // 지도화면 위에 추가되는 아이콘을 추가하기 위한 호출(말풍선 모양)
+                        mapView.addPOIItem(farm_marker);
+
+                        //나중에 농가위치 마커 커스텀 이미지로 바꾸기
+                        //farm_marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
+                        //farm_marker.setCustomImageResourceId(R.drawable.homeshape);
 
                         //세부 페이지1 (진행 중인 공동구매) 리사이클러뷰 띄우게하기
                         firstInit();
@@ -162,46 +193,6 @@ public class FarmDetailActivity extends AppCompatActivity {
                 Log.e(TAG, "onFailure: e " + t.getMessage());
             }
         });
-
-        FarmName.setText(farm_name);
-        FarmExplain.setText(farm_info);
-        FarmLocation.setText(farm_loc);
-        FarmHourTime.setText(farm_hours);
-
-        //지도
-        MapView mapView = new MapView(mContext);
-        // 중심점 변경
-        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(farm_lat, farm_long), true);
-
-        // 줌 레벨 변경
-        mapView.setZoomLevel(1, true);
-        // 줌 인
-        mapView.zoomIn(true);
-        // 줌 아웃
-        mapView.zoomOut(true);
-
-        ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.farm_map_view);
-        mapViewContainer.addView(mapView);
-
-        //농가위치 마커 아이콘 띄우기
-        MapPoint f_MarkPoint = MapPoint.mapPointWithGeoCoord(farm_lat, farm_long);  //마커찍기
-
-        MapPOIItem farm_marker=new MapPOIItem();
-        farm_marker.setItemName(farm_name); //클릭했을때 농가이름 나오기
-        farm_marker.setTag(0);
-        farm_marker.setMapPoint(f_MarkPoint);   //좌표입력받아 현위치로 출력
-
-        //  (클릭 전)기본으로 제공하는 BluePin 마커 모양의 색.
-        farm_marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-        // (클릭 후) 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-        farm_marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-        // 지도화면 위에 추가되는 아이콘을 추가하기 위한 호출(말풍선 모양)
-        mapView.addPOIItem(farm_marker);
-
-        //나중에 농가위치 마커 커스텀 이미지로 바꾸기
-        //farm_marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-        //farm_marker.setCustomImageResourceId(R.drawable.homeshape);
-
     }
 
     public void firstInit(){
