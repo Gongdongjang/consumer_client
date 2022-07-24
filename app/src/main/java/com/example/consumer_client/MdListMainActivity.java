@@ -3,7 +3,6 @@ package com.example.consumer_client;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -82,7 +81,38 @@ public class MdListMainActivity extends AppCompatActivity {
                     pu_start = res.get("pu_start").getAsJsonArray();
                     pu_end = res.get("pu_end").getAsJsonArray();
 
-                    Toast.makeText(MdListMainActivity.this, "로딩중", Toast.LENGTH_SHORT).show();
+                    //어뎁터 적용
+                    mMdListMainAdapter = new FarmDetailAdapter(mList);
+                    mMdListRecyclerView.setAdapter(mMdListMainAdapter);
+
+                    //세로로 세팅
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    mMdListRecyclerView.setLayoutManager(linearLayoutManager);
+
+                    for(int i=0;i<jsonArray.size();i++){
+                        md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
+
+                        addMdList("product Img",
+                                jsonArray.get(i).getAsJsonObject().get("farm_name").getAsString(),
+                                jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
+                                jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                                pay_schedule.get(i).getAsString(),
+                                pu_start.get(i).getAsString() + " ~ " + pu_end.get(i).getAsString()
+                        );
+                    }
+
+                    mMdListMainAdapter.setOnItemClickListener(
+                            new FarmDetailAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View v, int pos) {
+                                    Intent intent = new Intent(MdListMainActivity.this, JointPurchaseActivity.class);
+                                    intent.putExtra("md_id", md_id_list.get(pos));
+
+                                    startActivity(intent);
+                                }
+                            }
+                    );
                 }
                 catch(Exception e) {
                     e.printStackTrace();
@@ -98,44 +128,8 @@ public class MdListMainActivity extends AppCompatActivity {
                 Toast.makeText(MdListMainActivity.this, "상품 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
             }
         });
-
-        Handler mHandler = new Handler();
-        mHandler.postDelayed(new Runnable() {
-            public void run() {
-                //어뎁터 적용
-                mMdListMainAdapter = new FarmDetailAdapter(mList);
-                mMdListRecyclerView.setAdapter(mMdListMainAdapter);
-
-                //세로로 세팅
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                mMdListRecyclerView.setLayoutManager(linearLayoutManager);
-
-                for(int i=0;i<jsonArray.size();i++){
-                    md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
-
-                    addMdList("product Img",
-                            jsonArray.get(i).getAsJsonObject().get("farm_name").getAsString(),
-                            jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
-                            jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
-                            pay_schedule.get(i).getAsString(),
-                            pu_start.get(i).getAsString() + " ~ " + pu_end.get(i).getAsString()
-                    );
-                }
-
-                mMdListMainAdapter.setOnItemClickListener(
-                        new FarmDetailAdapter.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View v, int pos) {
-                                Intent intent = new Intent(MdListMainActivity.this, JointPurchaseActivity.class);
-                                intent.putExtra("md_id", md_id_list.get(pos));
-
-                                startActivity(intent);
-                            }
-                        }
-                );
-            } }, 1000 ); // 1000 = 1초
     }
+
     public void firstInit(){
         mMdListRecyclerView = findViewById(R.id.totalFarmView);
         mList = new ArrayList<>();

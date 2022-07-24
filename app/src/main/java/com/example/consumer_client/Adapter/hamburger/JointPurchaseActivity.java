@@ -2,8 +2,8 @@ package com.example.consumer_client.Adapter.hamburger;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +15,7 @@ import com.example.consumer_client.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
@@ -100,6 +101,31 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         pay_schedule = res.get("pay_schedule").getAsString();
                         pu_start = res.get("pu_start").getAsString();
                         pu_end = res.get("pu_end").getAsString();
+
+                        //000 농부님의 000상품 setText
+                        MdImgThumbnail.setImageURI(Uri.parse(md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString()));
+                        FarmerName.setText("임시농부이름");
+                        MdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
+                        FarmName.setText(md_detail.get(0).getAsJsonObject().get("farm_name").getAsString());
+                        StkRemain.setText(md_detail.get(0).getAsJsonObject().get("stk_remain").getAsString());
+                        StkGoal.setText(md_detail.get(0).getAsJsonObject().get("stk_goal").getAsString());
+                        PaySchedule.setText(pay_schedule);
+                        PuStart.setText(pu_start);
+                        PuEnd.setText(pu_end);
+
+                        //제품설명 setText
+//                        MdImgDetail.setImageURI(Uri.parse(md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()));
+                        Picasso.get().load(md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()).into(MdImgDetail);
+
+                        //농가와 픽업스토어 setText
+                        FarmName2.setText(md_detail.get(0).getAsJsonObject().get("farm_name").getAsString());
+                        FarmInfo.setText(md_detail.get(0).getAsJsonObject().get("farm_info").getAsString());
+                        StoreName.setText(md_detail.get(0).getAsJsonObject().get("store_name").getAsString());
+                        StoreInfo.setText(md_detail.get(0).getAsJsonObject().get("store_info").getAsString());
+
+                        PaySchedule.setText(pay_schedule);
+                        PuStart.setText(pu_start);
+                        PuEnd.setText(pu_end);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -118,35 +144,5 @@ public class JointPurchaseActivity extends AppCompatActivity {
                 Log.e(TAG, "onFailure: e " + t.getMessage());
             }
         });
-
-        Handler mHandler = new Handler();
-        mHandler.postDelayed(new Runnable() {
-            public void run() {
-
-                //000 농부님의 000상품 setText
-//                        MdImgThumbnail.setImageURI(Uri.parse(jsonArray.getAsJsonObject().get("mdimg_thumbnail").getAsString()));
-                FarmerName.setText("임시농부이름");
-                MdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
-                FarmName.setText(md_detail.get(0).getAsJsonObject().get("farm_name").getAsString());
-                StkRemain.setText(md_detail.get(0).getAsJsonObject().get("stk_remain").getAsString());
-                StkGoal.setText(md_detail.get(0).getAsJsonObject().get("stk_goal").getAsString());
-                PaySchedule.setText(pay_schedule);
-                PuStart.setText(pu_start);
-                PuEnd.setText(pu_end);
-
-                //제품설명 setText
-//                        jpProdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
-
-                //농가와 픽업스토어 setText
-                FarmName2.setText(md_detail.get(0).getAsJsonObject().get("farm_name").getAsString());
-                FarmInfo.setText(md_detail.get(0).getAsJsonObject().get("farm_info").getAsString());
-                StoreName.setText(md_detail.get(0).getAsJsonObject().get("store_name").getAsString());
-                StoreInfo.setText(md_detail.get(0).getAsJsonObject().get("store_info").getAsString());
-
-                PaySchedule.setText(pay_schedule);
-                PuStart.setText(pu_start);
-                PuEnd.setText(pu_end);
-            }
-        }, 1000 ); // 1000 = 1초
     }
 }
