@@ -74,6 +74,7 @@ public class FarmDetailActivity extends AppCompatActivity {
         TextView FarmExplain = (TextView) findViewById(R.id.FarmExplain);
         TextView FarmLocation = (TextView) findViewById(R.id.FarmLocation);
         TextView FarmHourTime = (TextView) findViewById(R.id.FarmHourTime);
+        TextView FarmJointPurchaseCount = (TextView) findViewById(R.id.FarmJointPurchaseCount);
 
         //intent로 값 넘길때
         Intent intent;
@@ -112,6 +113,7 @@ public class FarmDetailActivity extends AppCompatActivity {
                         FarmExplain.setText(farm_info);
                         FarmLocation.setText(farm_loc);
                         FarmHourTime.setText(farm_hours);
+                        FarmJointPurchaseCount.setText(String.valueOf(mdArray.size()));
 
                         //지도
                         MapView mapView = new MapView(mContext);
