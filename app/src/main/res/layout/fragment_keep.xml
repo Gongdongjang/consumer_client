@@ -6,6 +6,7 @@
     tools:context=".fragment.Keep">
 
     <!-- TODO: Update blank fragment layout -->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -37,7 +38,7 @@
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/keep_recyclear"
+        android:id="@+id/keep_recycler"
         android:layout_width="match_parent"
         android:layout_height="497dp"
         android:layout_marginTop="70dp"/>

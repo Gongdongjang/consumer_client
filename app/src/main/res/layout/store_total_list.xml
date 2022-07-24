@@ -13,6 +13,12 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/StoreID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
         <ImageView
             android:id="@+id/StoreProdImg"
             android:layout_width="100dp"
@@ -45,14 +51,22 @@
                 <TextView
                     android:id="@+id/StoreLocationFromMe"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="n00"/>
+                    android:layout_height="match_parent"
+                    android:text="n00" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="m"/>
+                    android:text="km"/>
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/StoreInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="스토어 한 줄 설명"
+                android:textColor="@color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -65,26 +79,18 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/StoreProdName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="판매 물품"
-                        android:textColor="@color/black" />
-
                     <TextView
                         android:id="@+id/StoreProdPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="제품 가격"
+                        android:text="휴무일"
                         android:textColor="@color/black" />
 
                     <TextView
                         android:id="@+id/StorePickUpDate"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="픽업기간"
+                        android:text="운영시간"
                         android:textColor="@color/black" />
 
                 </LinearLayout>
@@ -94,47 +100,18 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
-
                     <TextView
-                        android:id="@+id/StoreProdName_item"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="제품명"
-                        android:textColor="@color/black" />
-                    <LinearLayout
+                        android:id="@+id/StoreRestDays"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:id="@+id/StoreProdNum_info"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="n"
-                            android:textColor="@color/black" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="개 / "
-                            android:textColor="@color/black" />
-                        <TextView
-                            android:id="@+id/StoreProdPrice_info"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="n000"
-                            android:textColor="@color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="원"
-                            android:textColor="@color/black" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/StorePickUpDate_info"
-                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="nnnn.nn.nn"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/StoreHours"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="n시~n시"
                         android:textColor="@color/black" />
                 </LinearLayout>
             </LinearLayout>
