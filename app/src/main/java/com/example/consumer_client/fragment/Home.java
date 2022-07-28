@@ -121,8 +121,8 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         productList.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Log.d("클릭", "확인");
                 Intent intent = new Intent(mActivity, MdListMainActivity.class);
+                intent.putExtra("user_id", userid);
                 startActivity(intent);
             }
         });
@@ -189,9 +189,9 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                             new HomeProductAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View v, int pos) {
-                                    //Log.d("120행", farmL.get(pos).toString()); //클릭한 item 정보 보이기
                                     Intent intent = new Intent(mActivity, JointPurchaseActivity.class);
                                     intent.putExtra("md_id", md_id_list.get(pos));
+                                    intent.putExtra("user_id", userid);
                                     startActivity(intent);
                                 }
                             }

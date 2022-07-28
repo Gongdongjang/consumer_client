@@ -51,6 +51,8 @@ public class MdListMainActivity extends AppCompatActivity {
     JsonArray pu_start;
     JsonArray pu_end;
 
+    String user_id;
+
     ArrayList<String> md_id_list = new ArrayList<String>();
 
     protected void onCreate(@Nullable Bundle savedInstanceState){
@@ -67,6 +69,9 @@ public class MdListMainActivity extends AppCompatActivity {
         mContext = this;
 
         firstInit();
+
+        Intent intent = getIntent(); //intent 값 받기
+        user_id=intent.getStringExtra("user_id");
 
         Call<ResponseBody> call = service.getMdMainData();
         call.enqueue(new Callback<ResponseBody>() {
@@ -107,7 +112,7 @@ public class MdListMainActivity extends AppCompatActivity {
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(MdListMainActivity.this, JointPurchaseActivity.class);
                                     intent.putExtra("md_id", md_id_list.get(pos));
-
+                                    intent.putExtra("user_id", user_id);
                                     startActivity(intent);
                                 }
                             }
