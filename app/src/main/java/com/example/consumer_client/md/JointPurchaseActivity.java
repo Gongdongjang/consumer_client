@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +33,12 @@ import retrofit2.http.POST;
 interface JointPurchaseService {
     @POST("jointPurchase")
     Call<ResponseBody> postMdId(@Body JsonObject body);
+
+    @POST("isKeep")
+    Call<ResponseBody> postisKeep(@Body JsonObject body);
+
+    @POST("keep")
+    Call<ResponseBody> postKeep(@Body JsonObject body);
 }
 
 public class JointPurchaseActivity extends AppCompatActivity {
@@ -46,6 +54,10 @@ public class JointPurchaseActivity extends AppCompatActivity {
     String pay_schedule;
     String pu_start;
     String pu_end;
+    String user_id;
+    JsonObject body;
+    JsonArray keep_data;
+    String message;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +76,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
         TextView PaySchedule = (TextView) findViewById(R.id.JP_PayDate);
         TextView PuStart = (TextView) findViewById(R.id.JP_PU_Start);
         TextView PuEnd = (TextView) findViewById(R.id.JP_PU_End);
+        ImageView Keep = (ImageView) findViewById(R.id.JP_KeepBtn);
 
         //제품설명 단락
         ImageView MdImgDetail = (ImageView) findViewById(R.id.JP_MD_Datail_Img);
@@ -83,17 +96,78 @@ public class JointPurchaseActivity extends AppCompatActivity {
         service = retrofit.create(JointPurchaseService.class);
         jsonParser = new JsonParser();
 
-        Intent intent = getIntent();
+        Intent intent = getIntent(); //intent 값 받기
+        user_id=intent.getStringExtra("user_id");
         md_id = intent.getStringExtra("md_id");
 
-        JsonObject body = new JsonObject();
+        body = new JsonObject();
+        body.addProperty("user_id", user_id);
         body.addProperty("md_id", md_id);
 
-        Call<ResponseBody> call = service.postMdId(body);
+        //찜 한 정보 불러오기 (해당 사용자가 해당 상품에 찜했으면, 하트)
+        Call<ResponseBody> call = service.postisKeep(body);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("response", response.toString());
+                try {
+                    JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                    Log.d("116행", res.toString());
+                    message = res.get("message").getAsString();
+                    if (message.equals("exist")) {
+                        Keep.setImageResource(R.drawable.ic_baseline_favorite_24);
+                        Keep.setTag("liked");
+                    } else if (message.equals("notexist")) {
+                        Keep.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                        Keep.setTag("like");
+                    }
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "onFailure: e " + t.getMessage());
+            }
+        });
+
+        //찜 클릭시 취소 or 등록 제어
+        Keep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<ResponseBody> call = service.postKeep(body);
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                            keep_data = res.get("keep_data").getAsJsonArray();
+                            message = res.get("message").getAsString();
+                            if (Keep.getTag().equals("like")) {
+                                Toast.makeText(JointPurchaseActivity.this, "찜한 상품에 등록되었습니다.", Toast.LENGTH_SHORT).show();
+                                Keep.setImageResource(R.drawable.ic_baseline_favorite_24);
+                                Keep.setTag("liked");
+                            } else {
+                                Toast.makeText(JointPurchaseActivity.this, "찜한 상품에서 취소되었습니다.", Toast.LENGTH_SHORT).show();
+                                Keep.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                                Keep.setTag("like");
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.e(TAG, "onFailure: e " + t.getMessage());
+                    }
+                });
+            }
+        });
+
+        //상세페이지 데이터 등록
+        Call<ResponseBody> call2 = service.postMdId(body);
+        call2.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call2, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     try {
                         res =  (JsonObject) jsonParser.parse(response.body().string());
@@ -140,7 +214,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call2, Throwable t) {
                 Log.e(TAG, "onFailure: e " + t.getMessage());
             }
         });
