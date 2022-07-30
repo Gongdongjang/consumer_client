@@ -20,7 +20,14 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ContentActivity"
-            android:exported="false" />
+            android:exported="true" >
+            <!-- 테스트 위해 변경, 최종 머지 전 수정 필요  -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -38,11 +45,6 @@
         <activity
             android:name=".user.LoginActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
