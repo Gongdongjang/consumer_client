@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.consumer_client.farm.FarmActivity;
+import com.example.consumer_client.md.MdListMainActivity;
 import com.example.consumer_client.store.StoreActivity;
 import com.example.consumer_client.R;
 
@@ -38,6 +39,15 @@ public class TotalList extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StoreActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        TextView productTextView = (TextView) view.findViewById(R.id.showProduct);
+        productTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MdListMainActivity.class);
                 startActivity(intent);
             }
         });
