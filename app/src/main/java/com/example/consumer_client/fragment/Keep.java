@@ -34,7 +34,7 @@ public class Keep extends Fragment {
         mContext = getContext();
         //setContentView(R.layout.activity_farm_detail);
         view= inflater.inflate(R.layout.fragment_keep, container, false);
-        keep_recyclear = (RecyclerView) view.findViewById(R.id.keep_recyclear);
+        keep_recyclear = (RecyclerView) view.findViewById(R.id.keep_recycler);
         mList = new ArrayList<>();
 
         //추후에 제품 이름 가져올 예정
