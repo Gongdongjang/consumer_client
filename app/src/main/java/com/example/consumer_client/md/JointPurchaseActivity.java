@@ -69,7 +69,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
         //000 농부님의 000상품 단락
         ImageView MdImgThumbnail = (ImageView) findViewById(R.id.JP_MD_Img);
         TextView FarmerName = (TextView) findViewById(R.id.FarmerName);
-        TextView MdName = (TextView) findViewById(R.id.ProdName);
+        TextView MdName = (TextView) findViewById(R.id.MdName);
         TextView FarmName = (TextView) findViewById(R.id.JP_FarmName_Main);
         TextView StkRemain = (TextView) findViewById(R.id.JP_Remain_Count);
         TextView StkGoal = (TextView) findViewById(R.id.JP_Goal_Count);
