@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ContentClick">
+
+
+    <TextView
+        android:id="@+id/content_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="콘텐츠 이름"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/content_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/kakaotalk_20220324_152807451"
+        app:layout_constraintStart_toStartOf="@id/content_title"
+        app:layout_constraintTop_toBottomOf="@id/content_title"/>
+
+    <TextView
+        android:id="@+id/content_context"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="콘텐츠 내용"
+        app:layout_constraintStart_toStartOf="@+id/content_photo"
+        app:layout_constraintTop_toBottomOf="@+id/content_photo" />
+
+    <TextView
+        android:id="@+id/related_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="관련된 공동구매"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/content_context"
+        app:layout_constraintTop_toBottomOf="@+id/content_context" />
+
+    <Button
+        android:id="@+id/content_link_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="관련된 공동구매 바로가기"
+        app:layout_constraintStart_toStartOf="@+id/related_content"
+        app:layout_constraintTop_toBottomOf="@+id/related_content" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.example.consumer_client;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,22 +17,34 @@ public class ContentListAdapter extends BaseAdapter {
 
     Context context;
     LayoutInflater layoutInflater;
-    ArrayList<String> photo_url;
+    ArrayList<String> content_thumbnail;
+    ArrayList<Integer> content_id;
+    ArrayList<String> content_title;
+    ArrayList<String> content_date;
+    ArrayList<String> content_photo;
+    ArrayList<String> content_context;
+    ArrayList<String> content_link;
 
-    public ContentListAdapter(Context context, ArrayList<String> photo_url) {
+    public ContentListAdapter(Context context, ArrayList<String> content_thumbnail, ArrayList<Integer> content_id, ArrayList<String> content_title, ArrayList<String> content_date, ArrayList<String> content_context, ArrayList<String> content_photo, ArrayList<String> content_link) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
-        this.photo_url = photo_url;
+        this.content_thumbnail = content_thumbnail;
+        this.content_id = content_id;
+        this.content_title = content_title;
+        this.content_date = content_date;
+        this.content_context = content_context;
+        this.content_photo = content_photo;
+        this.content_link = content_link;
     }
 
     @Override
     public int getCount() {
-        return photo_url.size();
+        return content_thumbnail.size();
     }
 
     @Override
     public String getItem(int i) {
-        return photo_url.get(i);
+        return content_thumbnail.get(i);
     }
 
     @Override
@@ -43,8 +56,25 @@ public class ContentListAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         View v = layoutInflater.inflate(R.layout.content_list_layout, null);
 
-        ImageView content_photo = v.findViewById(R.id.content_thumbnail);
-        Picasso.get().load(getItem(i)).into(content_photo);
+        ImageView content_thumbnail = v.findViewById(R.id.content_thumbnail);
+        Picasso.get().load(getItem(i)).into(content_thumbnail);
+
+        content_thumbnail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context.getApplicationContext(), ContentClick.class);
+
+                intent.putExtra("content_id", content_id.get(i));
+                intent.putExtra("content_title", content_title.get(i));
+                intent.putExtra("content_photo", content_photo.get(i));
+                intent.putExtra("content_context", content_context.get(i));
+                intent.putExtra("content_date", content_date.get(i));
+                intent.putExtra("content_date", content_date.get(i));
+                intent.putExtra("content_link", content_link.get(i));
+
+                context.startActivity(intent);
+            }
+        });
 
         return v;
     }

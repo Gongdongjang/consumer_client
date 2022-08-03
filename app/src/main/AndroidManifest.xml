@@ -19,9 +19,13 @@
         android:theme="@style/Theme.Consumer_client"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ContentClick"
+            android:exported="false" />
+        <activity
             android:name=".ContentActivity"
-            android:exported="true" >
-            <!-- 테스트 위해 변경, 최종 머지 전 수정 필요  -->
+            android:exported="true">
+
+            <!-- 테스트 위해 변경, 최종 머지 전 수정 필요 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,8 +48,7 @@
         <activity android:name=".Adapter.hamburger.JointPurchaseActivity" />
         <activity
             android:name=".user.LoginActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
