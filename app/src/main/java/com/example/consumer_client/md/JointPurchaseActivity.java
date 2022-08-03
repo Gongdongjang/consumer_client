@@ -104,6 +104,8 @@ public class JointPurchaseActivity extends AppCompatActivity {
         body.addProperty("user_id", user_id);
         body.addProperty("md_id", md_id);
 
+        Log.d("JointPurchase", user_id);
+
         //찜 한 정보 불러오기 (해당 사용자가 해당 상품에 찜했으면, 하트)
         Call<ResponseBody> call = service.postisKeep(body);
         call.enqueue(new Callback<ResponseBody>() {

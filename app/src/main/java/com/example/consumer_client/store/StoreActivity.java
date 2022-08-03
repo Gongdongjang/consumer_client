@@ -51,6 +51,8 @@ public class StoreActivity extends AppCompatActivity {
     private StoreTotalAdapter mStoreTotalAdapter;
     Context mContext;
 
+    String user_id;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,9 @@ public class StoreActivity extends AppCompatActivity {
         jsonParser = new JsonParser();
 
         firstInit();
+
+        Intent intent = getIntent(); //intent 값 받기
+        user_id=intent.getStringExtra("user_id");
 
         Call<ResponseBody> call = service.getStoreData();
         call.enqueue(new Callback<ResponseBody>() {
@@ -108,11 +113,13 @@ public class StoreActivity extends AppCompatActivity {
                                 @Override
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(StoreActivity.this, StoreDetailActivity.class);
+                                    intent.putExtra("user_id", user_id);
                                     intent.putExtra("storeid", mList.get(pos).getStoreid());
                                     startActivity(intent);
                                 }
                             }
                     );
+
                     } catch (IOException e) {
                         e.printStackTrace();
                 }

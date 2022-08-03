@@ -20,15 +20,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.consumer_client.ReviewDialog;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.md.MdListMainActivity;
 import com.example.consumer_client.R;
@@ -92,6 +94,8 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
 
     //userid!!
     String userid;
+    Button popupBtn;
+    private ReviewDialog reviewDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,6 +119,21 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         view= inflater.inflate(R.layout.fragment_home, container, false);
 
         mapView = new MapView(mActivity);
+
+        //팝업테스트
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        layoutParams.dimAmount = 0.8f;
+        getActivity().getWindow().setAttributes(layoutParams);
+
+        popupBtn = view.findViewById(R.id.PopupEx);
+        popupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reviewDialog = new ReviewDialog(mActivity, "작성 중인 내용이 삭제됩니다.\n 리뷰 작성을 그만하시겠습니까?");
+                reviewDialog.show();
+            }
+        });
 
         //제품리스트 누르면 제품리스트(메인) 화면으로
         productList = view.findViewById(R.id.productList);

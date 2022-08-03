@@ -41,6 +41,13 @@
 
         </RelativeLayout>
 
+        <Button
+            android:id="@+id/PopupEx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="팝업"
+            android:onClick="mOnPopupClick"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
