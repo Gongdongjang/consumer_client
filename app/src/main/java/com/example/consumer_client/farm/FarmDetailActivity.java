@@ -56,6 +56,8 @@ public class FarmDetailActivity extends AppCompatActivity {
 
     Context mContext;
 
+    String user_id;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +83,7 @@ public class FarmDetailActivity extends AppCompatActivity {
         Intent intent;
         intent=getIntent(); //intent 값 받기
 
+        user_id=intent.getStringExtra("user_id");
         farm_id = intent.getStringExtra("farm_id");
 
         JsonObject body = new JsonObject();
@@ -165,12 +168,14 @@ public class FarmDetailActivity extends AppCompatActivity {
                         for(int i=0;i<mdArray.size();i++){
                             addFarmJointPurchase(farm_name, mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), mdArray.get(i).getAsJsonObject().get("store_name").getAsString(), pay_schedule.get(i).getAsString(), pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
                         }
+                        Log.d("FarmDetail", user_id);
+
                         mFarmDetailAdapter.setOnItemClickListener(
                             new FarmDetailAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(FarmDetailActivity.this, JointPurchaseActivity.class);
-
+                                    intent.putExtra("user_id", user_id);
                                     intent.putExtra("md_id", mdArray.get(pos).getAsJsonObject().get("md_id").getAsString());
 
                                     startActivity(intent);

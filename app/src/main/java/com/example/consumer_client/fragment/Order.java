@@ -1,7 +1,6 @@
 package com.example.consumer_client.fragment;
 
 import static com.example.consumer_client.address.LocationDistance.distance;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

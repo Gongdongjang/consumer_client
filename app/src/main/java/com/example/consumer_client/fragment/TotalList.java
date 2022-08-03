@@ -1,10 +1,13 @@
 package com.example.consumer_client.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,16 @@ import com.example.consumer_client.R;
 
 public class TotalList extends Fragment {
     private View view;
+    Activity mActivity;
+    String userid;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mActivity = getActivity();
+        Intent intent = mActivity.getIntent(); //intent 값 받기
+        userid=intent.getStringExtra("userid");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -25,10 +38,12 @@ public class TotalList extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_total_list, container, false);
 
         TextView totalFarmTextView = (TextView) view.findViewById(R.id.showTotalFarm);
+        Log.d("Totallist", userid);
         totalFarmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FarmActivity.class);
+                intent.putExtra("user_id", userid);
                 startActivity(intent);
             }
         });
@@ -38,6 +53,7 @@ public class TotalList extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StoreActivity.class);
+                intent.putExtra("user_id", userid);
                 startActivity(intent);
             }
         });
