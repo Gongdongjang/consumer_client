@@ -61,8 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView sign;
     private static final String TAG="사용자";
     private TextView signup; //회원가입 창으로 가는 텍스트
-    private Button loginbutton;
-    private Button kakaobutton;
+    private Button loginbutton, kakaobutton;
     private ProgressBar mProgressView;
     private EditText id;
     private EditText password;
@@ -85,8 +84,8 @@ public class LoginActivity extends AppCompatActivity {
 
         //회원가입 버튼
         sign = findViewById(R.id.signin);
-        loginbutton = (Button) findViewById(R.id.loginbutton);
-        kakaobutton= (Button) findViewById(R.id.kakaobutton);
+        loginbutton = findViewById(R.id.loginbutton);
+        kakaobutton= findViewById(R.id.kakaobutton);
         signup = findViewById(R.id.signin); //회원가입
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

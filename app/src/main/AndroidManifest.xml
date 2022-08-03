@@ -39,6 +39,8 @@
         <activity android:name=".farm.FarmDetailActivity" />
         <activity android:name=".store.StoreDetailActivity" />
         <activity android:name=".md.JointPurchaseActivity" />
+        <activity android:name=".order.OrderDetailActivity" />
+        <activity android:name=".review.ReviewActivity" />
 
         <activity
             android:name=".tutorial.SplashActivity"

@@ -49,15 +49,9 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
     JointPurchaseService service;
     JsonParser jsonParser;
-    JsonObject res;
-    JsonArray md_detail;
-    String pay_schedule;
-    String pu_start;
-    String pu_end;
-    String user_id;
-    JsonObject body;
-    JsonArray keep_data;
-    String message;
+    JsonObject res, body;
+    JsonArray md_detail, keep_data;
+    String pay_schedule, pu_start, pu_end, user_id, message;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
