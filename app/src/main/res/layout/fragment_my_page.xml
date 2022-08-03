@@ -155,13 +155,14 @@
                 android:text="취소/교환/반품내역"
                 android:textSize="40px"
                 android:layout_marginBottom="5dp"/>
+
             <TextView
                 android:id="@+id/MyPage_MS_ProdReview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="삼품리뷰"
-                android:textSize="40px"
-                android:layout_marginBottom="15dp"/>
+                android:layout_marginBottom="15dp"
+                android:text="상품리뷰"
+                android:textSize="40px" />
 
             <View
                 android:layout_width="match_parent"

@@ -3,7 +3,6 @@ package com.example.consumer_client.md;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -135,7 +134,7 @@ public class MdListMainActivity extends AppCompatActivity {
     }
 
     public void firstInit(){
-        mMdListRecyclerView = findViewById(R.id.totalFarmView);
+        mMdListRecyclerView = findViewById(R.id.totalOrderListView);
         mList = new ArrayList<>();
     }
 

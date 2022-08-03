@@ -49,15 +49,9 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
     JointPurchaseService service;
     JsonParser jsonParser;
-    JsonObject res;
-    JsonArray md_detail;
-    String pay_schedule;
-    String pu_start;
-    String pu_end;
-    String user_id;
-    JsonObject body;
-    JsonArray keep_data;
-    String message;
+    JsonObject res, body;
+    JsonArray md_detail, keep_data;
+    String pay_schedule, pu_start, pu_end, user_id, message;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +63,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
         //000 농부님의 000상품 단락
         ImageView MdImgThumbnail = (ImageView) findViewById(R.id.JP_MD_Img);
         TextView FarmerName = (TextView) findViewById(R.id.FarmerName);
-        TextView MdName = (TextView) findViewById(R.id.ProdName);
+        TextView MdName = (TextView) findViewById(R.id.MdName);
         TextView FarmName = (TextView) findViewById(R.id.JP_FarmName_Main);
         TextView StkRemain = (TextView) findViewById(R.id.JP_Remain_Count);
         TextView StkGoal = (TextView) findViewById(R.id.JP_Goal_Count);

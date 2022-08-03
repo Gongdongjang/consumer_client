@@ -52,7 +52,7 @@
                     android:textColor="@color/black" />
 
                 <TextView
-                    android:id="@+id/ProdName"
+                    android:id="@+id/MdName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

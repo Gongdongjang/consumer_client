@@ -51,7 +51,7 @@ public class FarmDetailAdapter extends RecyclerView.Adapter<FarmDetailAdapter.Vi
             });
             prodImg = (ImageView) itemView.findViewById(R.id.ProdImg);
             farmName = (TextView) itemView.findViewById(R.id.FarmName);
-            prodName = (TextView) itemView.findViewById(R.id.ProdName);
+            prodName = (TextView) itemView.findViewById(R.id.MdName);
             storeName = (TextView) itemView.findViewById(R.id.StoreName);
             paySchedule = (TextView) itemView.findViewById(R.id.PaySchedule);
             puTerm = (TextView) itemView.findViewById(R.id.PuTerm);
