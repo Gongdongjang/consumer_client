@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.consumer_client.OrderDialog;
 import com.example.consumer_client.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -59,6 +62,9 @@ public class JointPurchaseActivity extends AppCompatActivity {
     JsonArray keep_data;
     String message;
 
+    //Dialog 선언
+    OrderDialog orderDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +82,12 @@ public class JointPurchaseActivity extends AppCompatActivity {
         TextView PaySchedule = (TextView) findViewById(R.id.JP_PayDate);
         TextView PuStart = (TextView) findViewById(R.id.JP_PU_Start);
         TextView PuEnd = (TextView) findViewById(R.id.JP_PU_End);
+
+        //고정 하단바 (찜하기, 장바구니, 주문하기)
         ImageView Keep = (ImageView) findViewById(R.id.JP_KeepBtn);
+        ImageView Cart = (ImageView) findViewById(R.id.JP_CartBtn);
+        Button Order = (Button) findViewById(R.id.JP_OrderBtn);
+
 
         //제품설명 단락
         ImageView MdImgDetail = (ImageView) findViewById(R.id.JP_MD_Datail_Img);
@@ -105,65 +116,6 @@ public class JointPurchaseActivity extends AppCompatActivity {
         body.addProperty("md_id", md_id);
 
         Log.d("JointPurchase", user_id);
-
-        //찜 한 정보 불러오기 (해당 사용자가 해당 상품에 찜했으면, 하트)
-        Call<ResponseBody> call = service.postisKeep(body);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-                    Log.d("116행", res.toString());
-                    message = res.get("message").getAsString();
-                    if (message.equals("exist")) {
-                        Keep.setImageResource(R.drawable.ic_baseline_favorite_24);
-                        Keep.setTag("liked");
-                    } else if (message.equals("notexist")) {
-                        Keep.setImageResource(R.drawable.ic_baseline_favorite_border_24);
-                        Keep.setTag("like");
-                    }
-                } catch (IOException e) {
-                        e.printStackTrace();
-                }
-            }
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e(TAG, "onFailure: e " + t.getMessage());
-            }
-        });
-
-        //찜 클릭시 취소 or 등록 제어
-        Keep.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Call<ResponseBody> call = service.postKeep(body);
-                call.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        try {
-                            JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-                            keep_data = res.get("keep_data").getAsJsonArray();
-                            message = res.get("message").getAsString();
-                            if (Keep.getTag().equals("like")) {
-                                Toast.makeText(JointPurchaseActivity.this, "찜한 상품에 등록되었습니다.", Toast.LENGTH_SHORT).show();
-                                Keep.setImageResource(R.drawable.ic_baseline_favorite_24);
-                                Keep.setTag("liked");
-                            } else {
-                                Toast.makeText(JointPurchaseActivity.this, "찜한 상품에서 취소되었습니다.", Toast.LENGTH_SHORT).show();
-                                Keep.setImageResource(R.drawable.ic_baseline_favorite_border_24);
-                                Keep.setTag("like");
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.e(TAG, "onFailure: e " + t.getMessage());
-                    }
-                });
-            }
-        });
 
         //상세페이지 데이터 등록
         Call<ResponseBody> call2 = service.postMdId(body);
@@ -220,5 +172,81 @@ public class JointPurchaseActivity extends AppCompatActivity {
                 Log.e(TAG, "onFailure: e " + t.getMessage());
             }
         });
+
+        //----고정하단바-----
+        //찜 한 정보 불러오기 (해당 사용자가 해당 상품에 찜했으면, 하트)
+        Call<ResponseBody> call = service.postisKeep(body);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                    Log.d("116행", res.toString());
+                    message = res.get("message").getAsString();
+                    if (message.equals("exist")) {
+                        Keep.setImageResource(R.drawable.ic_baseline_favorite_24);
+                        Keep.setTag("liked");
+                    } else if (message.equals("notexist")) {
+                        Keep.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                        Keep.setTag("like");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "onFailure: e " + t.getMessage());
+            }
+        });
+
+        //찜 클릭시 취소 or 등록 제어
+        Keep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<ResponseBody> call = service.postKeep(body);
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                            keep_data = res.get("keep_data").getAsJsonArray();
+                            message = res.get("message").getAsString();
+                            if (Keep.getTag().equals("like")) {
+                                Toast.makeText(JointPurchaseActivity.this, "찜한 상품에 등록되었습니다.", Toast.LENGTH_SHORT).show();
+                                Keep.setImageResource(R.drawable.ic_baseline_favorite_24);
+                                Keep.setTag("liked");
+                            } else {
+                                Toast.makeText(JointPurchaseActivity.this, "찜한 상품에서 취소되었습니다.", Toast.LENGTH_SHORT).show();
+                                Keep.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                                Keep.setTag("like");
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.e(TAG, "onFailure: e " + t.getMessage());
+                    }
+                });
+            }
+        });
+
+        //다이얼로그 밖의 화면은 흐리게 만들어줌
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        layoutParams.dimAmount = 0.8f;
+        getWindow().setAttributes(layoutParams);
+
+        Order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                orderDialog = new OrderDialog(mContext,md_detail.get(0).getAsJsonObject().get("md_name").getAsString(),pu_start,pu_end);
+                orderDialog.show();
+            }
+        });
+
     }
 }

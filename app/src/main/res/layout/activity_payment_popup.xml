@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,11 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center">
+
         <ImageView
+            android:id="@+id/btn_shutdown"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_baseline_keyboard_arrow_down_24">
-        </ImageView>
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_baseline_keyboard_arrow_down_24"></ImageView>
     </LinearLayout>
 
     <LinearLayout
@@ -24,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="10dp">
 
         <LinearLayout
@@ -140,7 +142,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="35dp"
         android:layout_marginLeft="35dp"
         android:orientation="vertical">
@@ -174,6 +176,37 @@
                     android:textSize="15sp"
                     android:layout_marginBottom="3dp"/>
             </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/JP_CartBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                app:srcCompat="@drawable/ic_baseline_order_24" />
+
+            <Button
+                android:id="@+id/JP_OrderBtn"
+                android:layout_width="231dp"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="35dp"
+                android:background="#F6F6F6"
+                android:backgroundTint="#FFFFFF"
+                android:text="주문하기"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                app:iconTint="#FFFFFF"
+                app:rippleColor="#FFFFFF"
+                app:strokeColor="#FFFFFF" />
 
         </LinearLayout>
     </LinearLayout>
