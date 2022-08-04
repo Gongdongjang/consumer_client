@@ -12,6 +12,8 @@ public class OrderListInfo {
     private String mdPrice;
     private String mdStatus;
     private String puDate;
+    private String storeLong;
+    private String storeLat;
 
     public String getStoreid() {
         return storeId;
@@ -56,6 +58,18 @@ public class OrderListInfo {
     }
 
     public void setStoreLoc(String storeLoc) {this.storeLoc = storeLoc;}
+
+    public String getStoreLat() {
+        return storeLat;
+    }
+
+    public void setStoreLat(String storeLat) {this.storeLat = storeLat;}
+
+    public String getStoreLong() {
+        return storeLong;
+    }
+
+    public void setStoreLong(String storeLong) {this.storeLong = storeLong;}
 
     public String getMdComp() { return mdComp; }
 
