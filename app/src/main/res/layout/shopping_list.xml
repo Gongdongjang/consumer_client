@@ -162,14 +162,6 @@
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
-        </LinearLayout>
-
-    <Button
-            android:id="@+id/OrderReviewBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:enabled="false"
-            android:text="리뷰 작성하기" />
+    </LinearLayout>
 
 </LinearLayout>
