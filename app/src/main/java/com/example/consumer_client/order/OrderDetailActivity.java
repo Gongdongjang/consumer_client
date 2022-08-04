@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +15,10 @@ import com.example.consumer_client.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import net.daum.mf.map.api.MapPOIItem;
+import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
 
@@ -38,7 +43,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     OrderDetailMdService service;
     JsonParser jsonParser;
     Context mContext;
-    String store_loc, store_my, store_name, md_name, md_comp, md_price, order_id, pu_date;
+    String store_loc, store_my, store_name, md_name, md_comp, md_price, order_id, pu_date, store_lat, store_long;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +75,11 @@ public class OrderDetailActivity extends AppCompatActivity {
         md_comp = intent.getStringExtra("md_comp");
         md_price = intent.getStringExtra("md_price");
         order_id = intent.getStringExtra("order_id");
+        store_lat = intent.getStringExtra("store_lat");
+        store_long = intent.getStringExtra("store_long");
+
+        Log.d("81", store_lat);
+        Log.d("82", store_long);
 
         body = new JsonObject();
         body.addProperty("order_id", order_id);
@@ -83,6 +93,40 @@ public class OrderDetailActivity extends AppCompatActivity {
                     try {
                         JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
                         pu_date = res.get("pu_date").getAsString();
+
+                        //지도
+                        MapView mapView = new MapView(mContext);
+                        // 중심점 변경
+                        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(store_lat), Double.parseDouble(store_long)), true);
+
+                        // 줌 레벨 변경
+                        mapView.setZoomLevel(1, true);
+                        // 줌 인
+                        mapView.zoomIn(true);
+                        // 줌 아웃
+                        mapView.zoomOut(true);
+
+                        ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.farm_map_view);
+                        mapViewContainer.addView(mapView);
+
+                        //농가위치 마커 아이콘 띄우기
+                        MapPoint f_MarkPoint = MapPoint.mapPointWithGeoCoord(Double.parseDouble(store_lat), Double.parseDouble(store_long));  //마커찍기
+
+                        MapPOIItem farm_marker=new MapPOIItem();
+                        farm_marker.setItemName(store_name); //클릭했을때 농가이름 나오기
+                        farm_marker.setTag(0);
+                        farm_marker.setMapPoint(f_MarkPoint);   //좌표입력받아 현위치로 출력
+
+                        //  (클릭 전)기본으로 제공하는 BluePin 마커 모양의 색.
+                        farm_marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+                        // (클릭 후) 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+                        farm_marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+                        // 지도화면 위에 추가되는 아이콘을 추가하기 위한 호출(말풍선 모양)
+                        mapView.addPOIItem(farm_marker);
+
+                        //나중에 농가위치 마커 커스텀 이미지로 바꾸기
+                        //farm_marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
+                        //farm_marker.setCustomImageResourceId(R.drawable.homeshape);
 
                         //img 아직 안함
                         MdName.setText(md_name);
