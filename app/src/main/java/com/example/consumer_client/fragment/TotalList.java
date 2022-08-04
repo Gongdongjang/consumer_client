@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,6 @@ import retrofit2.http.POST;
 public class TotalList extends Fragment {
     private View view;
     Activity mActivity;
-
     String userid;
 
     @Override
@@ -52,10 +52,12 @@ public class TotalList extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_total_list, container, false);
 
         TextView totalFarmTextView = (TextView) view.findViewById(R.id.showTotalFarm);
+        Log.d("Totallist", userid);
         totalFarmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FarmActivity.class);
+                intent.putExtra("user_id", userid);
                 startActivity(intent);
             }
         });
@@ -65,6 +67,7 @@ public class TotalList extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StoreActivity.class);
+                intent.putExtra("user_id", userid);
                 startActivity(intent);
             }
         });

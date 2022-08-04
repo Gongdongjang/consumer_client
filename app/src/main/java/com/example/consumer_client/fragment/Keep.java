@@ -52,6 +52,16 @@ public class Keep extends Fragment {
     Activity mActivity;
 
     private View view;
+    Activity mActivity;
+    String userid;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mActivity = getActivity();
+        Intent intent = mActivity.getIntent(); //intent 값 받기
+        userid=intent.getStringExtra("userid");
+    }
 
     JsonParser jsonParser;
     KeeplistService service;

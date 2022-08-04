@@ -3,6 +3,7 @@ package com.example.consumer_client.farm;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -45,6 +46,8 @@ public class FarmActivity extends AppCompatActivity {
     JsonObject res;
     JsonArray farmArray, mdArray;
 
+    String user_id;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +66,9 @@ public class FarmActivity extends AppCompatActivity {
 
         service = retrofit.create(FarmService.class);
         jsonParser = new JsonParser();
+
+        Intent intent = getIntent(); //intent 값 받기
+        user_id=intent.getStringExtra("user_id");
 
         Call<ResponseBody> call = service.getFarmData();
         call.enqueue(new Callback<ResponseBody>() {
@@ -93,12 +99,14 @@ public class FarmActivity extends AppCompatActivity {
                         }
                         addFarm("product Img", farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
                     }
+                    Log.d("FarmActivity", user_id);
 
                     mFarmTotalAdapter.setOnItemClickListener(
                             new FarmTotalAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(FarmActivity.this, FarmDetailActivity.class);
+                                    intent.putExtra("user_id", user_id);
                                     intent.putExtra("farm_id",farmArray.get(pos).getAsJsonObject().get("farm_id").getAsString());
                                     startActivity(intent);
                                 }

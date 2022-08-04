@@ -79,17 +79,17 @@
                 android:orientation="vertical">
 
                 <TextView
-                        android:id="@+id/Pay_Store_Name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="스토어명"
-                        android:textColor="#000000" />
+                    android:id="@+id/Pay_Store_Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="스토어명"
+                    android:textColor="#000000" />
                 <TextView
-                        android:id="@+id/Pay_Store_Addr"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="스토어주소"
-                        android:textColor="#000000" />
+                    android:id="@+id/Pay_Store_Addr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="스토어주소"
+                    android:textColor="#000000" />
                 <TextView
                     android:id="@+id/Pay_PU_Date"
                     android:layout_width="wrap_content"

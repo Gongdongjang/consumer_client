@@ -28,7 +28,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-//        TextView storeid;
+        TextView storeid;
         ImageView storeProdImgView;
         TextView storeName;
         TextView storeLocationFromMe;
@@ -52,7 +52,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     }
                 }
             });
-//            storeid=(TextView) itemView.findViewById(R.id.StoreID);
+//            storeid = (TextView) itemView.findViewById(R.id.StoreID);
             storeProdImgView = (ImageView) itemView.findViewById(R.id.ProdImg);
             storeName = (TextView) itemView.findViewById(R.id.StoreName);
             storeLocationFromMe = (TextView) itemView.findViewById(R.id.StoreLocationFromMe);
@@ -60,7 +60,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             mdComp = (TextView) itemView.findViewById(R.id.MdComp);
             mdPrice = (TextView) itemView.findViewById(R.id.MdPrice);
             puDate = (TextView) itemView.findViewById(R.id.Pudate);
-            mdStatus = (TextView) itemView.findViewById(R.id.Pudate); //픽업하면 mdStatus로 바뀌어야 함
+//            mdStatus = (TextView) itemView.findViewById(R.id.Pudate); //픽업하면 mdStatus로 바뀌어야 함
         }
     }
 
@@ -85,7 +85,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     @Override
     public void onBindViewHolder(@NonNull OrderListAdapter.ViewHolder holder, int position) {
         OrderListInfo item = mList.get(position);
-
+//        holder.storeid.setText(item.getStoreid());
         holder.storeProdImgView.setImageResource(R.drawable.ic_launcher_background);
         holder.storeName.setText(item.getStoreName());
         holder.storeLocationFromMe.setText(item.getStoreLocationFromMe());

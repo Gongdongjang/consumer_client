@@ -49,15 +49,9 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
     JointPurchaseService service;
     JsonParser jsonParser;
-    JsonObject res;
-    JsonArray md_detail;
-    String pay_schedule;
-    String pu_start;
-    String pu_end;
-    String user_id;
-    JsonObject body;
-    JsonArray keep_data;
-    String message;
+    JsonObject res, body;
+    JsonArray md_detail, keep_data;
+    String pay_schedule, pu_start, pu_end, user_id, message;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,6 +97,8 @@ public class JointPurchaseActivity extends AppCompatActivity {
         body = new JsonObject();
         body.addProperty("user_id", user_id);
         body.addProperty("md_id", md_id);
+
+        Log.d("JointPurchase", user_id);
 
         //찜 한 정보 불러오기 (해당 사용자가 해당 상품에 찜했으면, 하트)
         Call<ResponseBody> call = service.postisKeep(body);

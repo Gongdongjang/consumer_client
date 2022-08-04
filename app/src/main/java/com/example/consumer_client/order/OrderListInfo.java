@@ -6,7 +6,9 @@ public class OrderListInfo {
     private String storeName;
     private String mdName;
     private String storeLocationFromMe;
+    private String storeLoc;
     private String mdComp;
+    private String orderId;
     private String mdPrice;
     private String mdStatus;
     private String puDate;
@@ -49,6 +51,12 @@ public class OrderListInfo {
 
     public void setStoreLocationFromMe(String storeLocationFromMe) {this.storeLocationFromMe = storeLocationFromMe;}
 
+    public String getStoreLoc() {
+        return storeLoc;
+    }
+
+    public void setStoreLoc(String storeLoc) {this.storeLoc = storeLoc;}
+
     public String getMdComp() { return mdComp; }
 
     public void setMdComp(String mdComp) {
@@ -61,6 +69,14 @@ public class OrderListInfo {
 
     public void setMdStatus(String mdStatus) {
         this.mdStatus = mdStatus;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public String getMdPrice() {

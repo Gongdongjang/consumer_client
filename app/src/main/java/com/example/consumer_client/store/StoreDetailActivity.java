@@ -63,6 +63,8 @@ public class StoreDetailActivity extends AppCompatActivity {
     private FarmDetailAdapter mFarmDetailAdapter;
     private StoreReviewAdapter mStoreReviewAdapter;
 
+    String user_id;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +81,7 @@ public class StoreDetailActivity extends AppCompatActivity {
 
         Intent intent;
         intent=getIntent(); //intent 값 받기
+        user_id=intent.getStringExtra("user_id");
         store_id=intent.getStringExtra("storeid");
 
         TextView StoreName = (TextView) findViewById(R.id.StoreName);
@@ -185,7 +188,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                                     @Override
                                     public void onItemClick(View v, int pos) {
                                         Intent intent = new Intent(StoreDetailActivity.this, JointPurchaseActivity.class);
-
+                                        intent.putExtra("user_id", user_id);
                                         intent.putExtra("md_id", jpArray.get(pos).getAsJsonObject().get("md_id").getAsString());
                                         startActivity(intent);
                                     }

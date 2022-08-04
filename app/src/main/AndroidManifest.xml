@@ -39,6 +39,8 @@
         <activity android:name=".farm.FarmDetailActivity" />
         <activity android:name=".store.StoreDetailActivity" />
         <activity android:name=".md.JointPurchaseActivity" />
+        <activity android:name=".order.OrderDetailActivity" />
+        <activity android:name=".review.ReviewActivity" />
 
         <activity
             android:name=".tutorial.SplashActivity"
@@ -63,7 +65,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".PopupOrderActivity"
-            android:theme="@style/popupTheme" android:screenOrientation="portrait"></activity>
+        <activity android:name=".PopupOrderActivity" android:theme="@style/popupTheme" android:screenOrientation="portrait"></activity>
     </application>
 </manifest>
