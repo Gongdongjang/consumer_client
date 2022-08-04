@@ -14,15 +14,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.consumer_client.farm.FarmDetailAdapter;
 import com.example.consumer_client.farm.FarmDetailInfo;
 import com.example.consumer_client.md.JointPurchaseActivity;
-import com.example.consumer_client.md.MdListMainActivity;
-import com.example.consumer_client.store.StoreTotalAdapter;
-import com.example.consumer_client.store.StoreTotalInfo;
 import com.example.consumer_client.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -52,16 +48,6 @@ public class Keep extends Fragment {
     Activity mActivity;
 
     private View view;
-    Activity mActivity;
-    String userid;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mActivity = getActivity();
-        Intent intent = mActivity.getIntent(); //intent 값 받기
-        userid=intent.getStringExtra("userid");
-    }
 
     JsonParser jsonParser;
     KeeplistService service;
@@ -87,18 +73,13 @@ public class Keep extends Fragment {
         mActivity = getActivity();
         Intent intent = mActivity.getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("userid");
-        Log.d("79행 userid", user_id);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         mContext = getContext();
-//        setContentView(R.layout.activity_farm_detail);
         view= inflater.inflate(R.layout.fragment_keep, container, false);
-//        keep_recyclear = (RecyclerView) view.findViewById(R.id.keep_recycler);
-//        mStoreList = new ArrayList<>();
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_keep, container, false);
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -112,13 +93,6 @@ public class Keep extends Fragment {
 
         body = new JsonObject();
         body.addProperty("user_id", user_id);
-//        body.addProperty("md_id", md_id);
-
-        //?
-        //user_id 찍어보기
-//        Intent intent = getActivity().getIntent(); //intent 값 받기
-//        user_id=intent.getStringExtra("user_id");
-        Log.d("105행 userid", user_id);
 
         Call<ResponseBody> call = service.postKeepList(body);
         call.enqueue(new Callback<ResponseBody>() {
@@ -181,40 +155,8 @@ public class Keep extends Fragment {
                 Toast.makeText(mActivity, "상품 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
             }
         });
-
         return view;
-
-
-//        //추후에 제품 이름 가져올 예정
-//        for(int i=0;i<10;i++){
-//            //addStore("product Img", "스토어명" + i, "" + 100 + i, "제품명" + i, "" + i, "" + i + "000", "2000.04.0" + i);
-//        }
-//
-//        //어뎁터 적용
-//        mMdListMainAdapter = new FarmDetailAdapter(mFarmList);
-//        mMdListRecyclerView.setAdapter(mMdListMainAdapter);
-//
-//        //세로로 세팅
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-//        keep_recyclear.setLayoutManager(linearLayoutManager);
-//
-//        return view;
     }
-
-//    public void addStore(String storeProdImgView, String storeName, String storeLocationFromMe, String storeProdName, String storeProdNum, String storeProdPrice, String storePickUpDate){
-//        StoreTotalInfo store = new StoreTotalInfo();
-//
-//        store.setStoreProdImgView(storeProdImgView);
-//        store.setStoreName(storeName);
-//        store.setStoreLocationFromMe(storeLocationFromMe);
-//        store.setStoreProdName(storeProdName);
-//        store.setStoreProdNum(storeProdNum);
-//        store.setStoreProdPrice(storeProdPrice);
-//        store.setStorePickUpDate(storePickUpDate);
-//
-//        mStoreList.add(store);
-//    }
 
     public void addKeepList(String mdProdImg, String farmName, String prodName, String storeName, String paySchedule, String puTerm){
         FarmDetailInfo mdDetail = new FarmDetailInfo();
