@@ -106,7 +106,6 @@ public class Order extends Fragment {
 
                     //어뎁터 적용
                     mOrderListAdapter = new OrderListAdapter(mList);
-                    OrderReviewBtn = view.findViewById(R.id.OrderReviewBtn);
                     mOrderListRecyclerView.setAdapter(mOrderListAdapter);
 
                     //세로로 세팅
@@ -118,7 +117,7 @@ public class Order extends Fragment {
                         double distanceKilo =
                                 distance(37.59272, 127.016544, Double.parseDouble(orderDetailArray.get(i).getAsJsonObject().get("store_lat").getAsString()), Double.parseDouble(orderDetailArray.get(i).getAsJsonObject().get("store_long").getAsString()), "kilometer");
 
-                        addOrderList(orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(), "제품 이미지", orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString(), pu_date.get(i).getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_lat").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_long").getAsString());
+                        addOrderList(orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(), "제품 이미지", orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_md_status").getAsString(), pu_date.get(i).getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_lat").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_long").getAsString());
                     }
 
                     mOrderListAdapter.setOnItemClickListener (
@@ -132,7 +131,7 @@ public class Order extends Fragment {
                                     intent.putExtra("md_name", mList.get(pos).getMdName());
                                     intent.putExtra("md_comp", mList.get(pos).getMdComp());
                                     intent.putExtra("md_price", mList.get(pos).getMdPrice());
-//                                    intent.putExtra("pu_date", pu_date.get(pos).getAsString());
+                                    intent.putExtra("md_status", mList.get(pos).getMdStatus());
                                     intent.putExtra("order_id", mList.get(pos).getOrderId());
                                     intent.putExtra("store_lat", mList.get(pos).getStoreLat());
                                     intent.putExtra("store_long", mList.get(pos).getStoreLong());
@@ -154,14 +153,6 @@ public class Order extends Fragment {
                         }
                     });
 
-//                    OrderReviewBtn.setOnClickListener(new View.OnClickListener(){
-//                        @Override
-//                        public void onClick(View view){
-//                            Intent intent = new Intent(mActivity, ReviewActivity.class);
-//                            startActivity(intent);
-//                        }
-//                    });
-
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -182,10 +173,9 @@ public class Order extends Fragment {
         mList = new ArrayList<>();
     }
 
-    public void addOrderList(String orderId, String storeLoc, String mdImgView, String storeName, String storeLocationFromMe, String mdName, String mdComp, String mdPrice, String puDate, String storeLat, String storeLong){
+    public void addOrderList(String orderId, String storeLoc, String mdImgView, String storeName, String storeLocationFromMe, String mdName, String mdComp, String mdPrice, String mdStatus, String puDate, String storeLat, String storeLong){
         OrderListInfo order = new OrderListInfo();
 
-//        order.setStoreid(storeId);
         order.setOrderId(orderId);
         order.setStoreLoc(storeLoc);
         order.setStoreProdImgView(mdImgView);
@@ -194,6 +184,7 @@ public class Order extends Fragment {
         order.setMdName(mdName);
         order.setMdComp(mdComp);
         order.setMdPrice(mdPrice);
+        order.setMdStatus(mdStatus);
         order.setPuDate(puDate);
         order.setStoreLat(storeLat);
         order.setStoreLong(storeLong);

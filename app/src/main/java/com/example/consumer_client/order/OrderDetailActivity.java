@@ -43,7 +43,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     OrderDetailMdService service;
     JsonParser jsonParser;
     Context mContext;
-    String store_loc, store_my, store_name, md_name, md_comp, md_price, order_id, pu_date, store_lat, store_long;
+    String store_loc, store_my, store_name, md_name, md_comp, md_price, order_id, pu_date, store_lat, store_long, md_status;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +66,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         TextView StoreName = (TextView) findViewById(R.id.OrderStoreName);
         TextView StoreAddr = (TextView) findViewById(R.id.OrderStoreAddr);
         TextView PuDate = (TextView) findViewById(R.id.OrderPickUpDate);
+        TextView ProdStatus = (TextView) findViewById(R.id.ProdStatus);
 
         Intent intent = getIntent(); //intent 값 받기
         store_loc=intent.getStringExtra("store_loc");
@@ -77,9 +78,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         order_id = intent.getStringExtra("order_id");
         store_lat = intent.getStringExtra("store_lat");
         store_long = intent.getStringExtra("store_long");
-
-        Log.d("81", store_lat);
-        Log.d("82", store_long);
+        md_status = intent.getStringExtra("md_status");
 
         body = new JsonObject();
         body.addProperty("order_id", order_id);
@@ -135,6 +134,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                         StoreName.setText(store_name);
                         StoreAddr.setText(store_loc);
                         PuDate.setText(pu_date);
+                        ProdStatus.setText(md_status);
 
                     } catch (IOException e) {
                         e.printStackTrace();

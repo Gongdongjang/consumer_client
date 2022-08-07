@@ -197,8 +197,18 @@
             android:text="주문하신 제품은 어떠셨나요? 이제 리뷰 작성도 가능해요."
             android:textSize="15sp"
             android:gravity="left"
-            android:layout_marginBottom="30dp"
             android:textColor="@color/black"/>
+<!--            android:layout_marginBottom="30dp"-->
+
+        <TextView
+            android:id="@+id/ProdStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:gravity="left"
+            android:text="진행상황"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"

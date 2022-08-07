@@ -1,9 +1,12 @@
 package com.example.consumer_client.order;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,11 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.R;
+import com.example.consumer_client.review.ReviewActivity;
 
 import java.util.ArrayList;
 
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
     private ArrayList<String> mData = null;
+    Activity mActivity;
 
     public interface OnItemClickListener{
         void onItemClick(View v, int pos);
@@ -37,22 +42,31 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         TextView mdPrice;
         TextView mdStatus;
         TextView puDate; //픽업하면 mdStatus로 바뀌어야 함
+        Button OrderReviewBtn;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+//            OrderReviewBtn = itemView.findViewById(R.id.OrderReviewBtn);
             // 아이템 클릭 이벤트 처리.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int pos = getAdapterPosition() ;
+                    int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
-                        if (mListener != null){
+                        if (mListener != null) {
                             mListener.onItemClick(v, pos);
                         }
                     }
                 }
             });
-//            storeid = (TextView) itemView.findViewById(R.id.StoreID);
+//            OrderReviewBtn.setOnClickListener(new Button.OnClickListener(){
+//                @Override
+//                public void onClick(View view){
+//                    Intent intent = new Intent(mActivity, ReviewActivity.class);
+//                    mActivity.startActivity(intent);
+//                }
+//            });
+
             storeProdImgView = (ImageView) itemView.findViewById(R.id.ProdImg);
             storeName = (TextView) itemView.findViewById(R.id.StoreName);
             storeLocationFromMe = (TextView) itemView.findViewById(R.id.StoreLocationFromMe);
@@ -60,7 +74,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             mdComp = (TextView) itemView.findViewById(R.id.MdComp);
             mdPrice = (TextView) itemView.findViewById(R.id.MdPrice);
             puDate = (TextView) itemView.findViewById(R.id.Pudate);
-//            mdStatus = (TextView) itemView.findViewById(R.id.Pudate); //픽업하면 mdStatus로 바뀌어야 함
+            mdStatus = (TextView) itemView.findViewById(R.id.Pudate); //픽업하면 mdStatus로 바뀌어야 함
         }
     }
 
@@ -85,7 +99,6 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     @Override
     public void onBindViewHolder(@NonNull OrderListAdapter.ViewHolder holder, int position) {
         OrderListInfo item = mList.get(position);
-//        holder.storeid.setText(item.getStoreid());
         holder.storeProdImgView.setImageResource(R.drawable.ic_launcher_background);
         holder.storeName.setText(item.getStoreName());
         holder.storeLocationFromMe.setText(item.getStoreLocationFromMe());
@@ -93,6 +106,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         holder.mdComp.setText(item.getMdComp());
         holder.mdPrice.setText(item.getMdPrice());
         holder.puDate.setText(item.getPuDate());
+
     }
 
     @Override
