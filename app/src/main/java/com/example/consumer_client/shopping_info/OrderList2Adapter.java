@@ -34,7 +34,7 @@ public class OrderList2Adapter extends RecyclerView.Adapter<OrderList2Adapter.Vi
         TextView storeName;
         TextView storeLocationFromMe;
         TextView mdName;
-        TextView mdComp;
+        TextView mdQty;
         TextView mdPrice;
         TextView mdStatus;
         TextView puDate; //픽업하면 mdStatus로 바뀌어야 함
@@ -58,7 +58,7 @@ public class OrderList2Adapter extends RecyclerView.Adapter<OrderList2Adapter.Vi
             storeName = (TextView) itemView.findViewById(R.id.StoreName);
             storeLocationFromMe = (TextView) itemView.findViewById(R.id.StoreLocationFromMe);
             mdName = (TextView) itemView.findViewById(R.id.MdName);
-            mdComp = (TextView) itemView.findViewById(R.id.MdComp);
+            mdQty = (TextView) itemView.findViewById(R.id.MdQty);
             mdPrice = (TextView) itemView.findViewById(R.id.MdPrice);
             puDate = (TextView) itemView.findViewById(R.id.Pudate);
 //            mdStatus = (TextView) itemView.findViewById(R.id.Pudate); //픽업하면 mdStatus로 바뀌어야 함
@@ -86,14 +86,15 @@ public class OrderList2Adapter extends RecyclerView.Adapter<OrderList2Adapter.Vi
     @Override
     public void onBindViewHolder(@NonNull OrderList2Adapter.ViewHolder holder, int position) {
         OrderListInfo item = mList.get(position);
-//        holder.storeid.setText(item.getStoreid());
+//        holder.userid.setText(item.getUserId());
         holder.storeProdImgView.setImageResource(R.drawable.ic_launcher_background);
         holder.storeName.setText(item.getStoreName());
         holder.storeLocationFromMe.setText(item.getStoreLocationFromMe());
         holder.mdName.setText(item.getMdName());
-        holder.mdComp.setText(item.getMdComp());
+        holder.mdQty.setText(item.getMdQty());
         holder.mdPrice.setText(item.getMdPrice());
         holder.puDate.setText(item.getPuDate());
+        Context context = holder.itemView.getContext();
     }
 
     @Override

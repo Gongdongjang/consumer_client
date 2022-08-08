@@ -101,7 +101,7 @@ public class OrderList extends AppCompatActivity {
                         double distanceKilo =
                                 distance(37.59272, 127.016544, Double.parseDouble(orderDetailArray.get(i).getAsJsonObject().get("store_lat").getAsString()), Double.parseDouble(orderDetailArray.get(i).getAsJsonObject().get("store_long").getAsString()), "kilometer");
 
-                        addOrderList(orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(), "제품 이미지", orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString(), pu_date.get(i).getAsString());
+                        addOrderList(userid, orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(), "제품 이미지", orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_md_status").getAsString(), pu_date.get(i).getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_lat").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_long").getAsString());
                     }
 
                     mOrderListAdapter.setOnItemClickListener (
@@ -114,7 +114,7 @@ public class OrderList extends AppCompatActivity {
                                     intent.putExtra("store_my", mList.get(pos).getStoreLocationFromMe());
                                     intent.putExtra("store_name", mList.get(pos).getStoreName());
                                     intent.putExtra("md_name", mList.get(pos).getMdName());
-                                    intent.putExtra("md_comp", mList.get(pos).getMdComp());
+                                    intent.putExtra("md_comp", mList.get(pos).getMdQty());
                                     intent.putExtra("md_price", mList.get(pos).getMdPrice());
 //                                    intent.putExtra("pu_date", pu_date.get(pos).getAsString());
                                     intent.putExtra("order_id", mList.get(pos).getOrderId());
@@ -152,19 +152,21 @@ public class OrderList extends AppCompatActivity {
         mList = new ArrayList<>();
     }
 
-    public void addOrderList(String orderId, String storeLoc, String mdImgView, String storeName, String storeLocationFromMe, String mdName, String mdComp, String mdPrice, String puDate){
+    public void addOrderList(String userId, String orderId, String storeLoc, String mdImgView, String storeName, String storeLocationFromMe, String mdName, String mdQty, String mdPrice, String mdStatus, String puDate, String storeLat, String storeLong){
         OrderListInfo order = new OrderListInfo();
-
-//        order.setStoreid(storeId);
+        order.setUserId(userId);
         order.setOrderId(orderId);
         order.setStoreLoc(storeLoc);
         order.setStoreProdImgView(mdImgView);
         order.setStoreName(storeName);
         order.setStoreLocationFromMe(storeLocationFromMe);
         order.setMdName(mdName);
-        order.setMdComp(mdComp);
+        order.setMdQty(mdQty);
         order.setMdPrice(mdPrice);
+        order.setMdStatus(mdStatus);
         order.setPuDate(puDate);
+        order.setStoreLat(storeLat);
+        order.setStoreLong(storeLong);
         mList.add(order);
     }
 }
