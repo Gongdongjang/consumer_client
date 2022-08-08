@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.consumer_client.R;
+import com.example.consumer_client.review.ReviewActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -43,7 +45,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     OrderDetailMdService service;
     JsonParser jsonParser;
     Context mContext;
-    String store_loc, store_my, store_name, md_name, md_comp, md_price, order_id, pu_date, store_lat, store_long;
+    String store_loc, store_my, store_name, md_name, md_qty, md_price, order_id, pu_date, store_lat, store_long, md_status, md_fin_price;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,20 +68,19 @@ public class OrderDetailActivity extends AppCompatActivity {
         TextView StoreName = (TextView) findViewById(R.id.OrderStoreName);
         TextView StoreAddr = (TextView) findViewById(R.id.OrderStoreAddr);
         TextView PuDate = (TextView) findViewById(R.id.OrderPickUpDate);
+        TextView ProdStatus = (TextView) findViewById(R.id.ProdStatus);
 
         Intent intent = getIntent(); //intent 값 받기
         store_loc=intent.getStringExtra("store_loc");
         store_my = intent.getStringExtra("store_my");
         store_name = intent.getStringExtra("store_name");
         md_name = intent.getStringExtra("md_name");
-        md_comp = intent.getStringExtra("md_comp");
+        md_qty = intent.getStringExtra("md_qty");
         md_price = intent.getStringExtra("md_price");
         order_id = intent.getStringExtra("order_id");
         store_lat = intent.getStringExtra("store_lat");
         store_long = intent.getStringExtra("store_long");
-
-        Log.d("81", store_lat);
-        Log.d("82", store_long);
+        md_status = intent.getStringExtra("md_status");
 
         body = new JsonObject();
         body.addProperty("order_id", order_id);
@@ -130,11 +131,13 @@ public class OrderDetailActivity extends AppCompatActivity {
 
                         //img 아직 안함
                         MdName.setText(md_name);
-                        OrderCount.setText(md_comp);
-                        OrderPrice.setText(md_price);
+                        OrderCount.setText(md_qty);
+                        md_fin_price = String.valueOf(Integer.parseInt(md_price) * Integer.parseInt(md_qty));
+                        OrderPrice.setText(md_fin_price);
                         StoreName.setText(store_name);
                         StoreAddr.setText(store_loc);
                         PuDate.setText(pu_date);
+                        ProdStatus.setText(md_status);
 
                     } catch (IOException e) {
                         e.printStackTrace();
