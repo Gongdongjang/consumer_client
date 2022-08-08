@@ -311,13 +311,13 @@
                 android:layout_gravity="center"/>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/ReviewBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="리뷰 작성하기"
-            android:textColor="@color/black" />
+<!--        <Button-->
+<!--            android:id="@+id/ReviewBtn"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="30dp"-->
+<!--            android:text="리뷰 작성하기"-->
+<!--            android:textColor="@color/black" />-->
         <Button
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"

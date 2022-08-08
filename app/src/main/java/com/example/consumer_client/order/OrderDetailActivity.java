@@ -47,7 +47,6 @@ public class OrderDetailActivity extends AppCompatActivity {
     JsonParser jsonParser;
     Context mContext;
     String store_loc, store_my, store_name, md_name, md_qty, md_price, order_id, pu_date, store_lat, store_long, md_status, md_fin_price;
-//    int md_fin_price;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +70,6 @@ public class OrderDetailActivity extends AppCompatActivity {
         TextView StoreAddr = (TextView) findViewById(R.id.OrderStoreAddr);
         TextView PuDate = (TextView) findViewById(R.id.OrderPickUpDate);
         TextView ProdStatus = (TextView) findViewById(R.id.ProdStatus);
-        Button reviewBtn = findViewById(R.id.ReviewBtn);
 
         Intent intent = getIntent(); //intent 값 받기
         store_loc=intent.getStringExtra("store_loc");
@@ -160,16 +158,5 @@ public class OrderDetailActivity extends AppCompatActivity {
                 Log.e(TAG, "onFailure: e " + t.getMessage());
             }
         });
-
-        reviewBtn.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View view){
-                    Intent intent = new Intent(OrderDetailActivity.this, ReviewActivity.class);
-                    intent.putExtra("md_name", md_name);
-                    intent.putExtra("md_qty", md_qty);
-                    intent.putExtra("md_fin_price", md_fin_price);
-                    startActivity(intent);
-                }
-            });
     }
 }

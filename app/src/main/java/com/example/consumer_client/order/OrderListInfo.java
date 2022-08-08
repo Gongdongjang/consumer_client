@@ -1,7 +1,7 @@
 package com.example.consumer_client.order;
 
 public class OrderListInfo {
-    private String storeId;
+    private String userId;
     private String storeProdImgView;
     private String storeName;
     private String mdName;
@@ -15,12 +15,12 @@ public class OrderListInfo {
     private String storeLong;
     private String storeLat;
 
-    public String getStoreid() {
-        return storeId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setStoreid(String storeid) {
-        this.storeId = storeid;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getStoreProdImgView() {

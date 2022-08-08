@@ -2,6 +2,7 @@ package com.example.consumer_client.fragment;
 
 import static com.example.consumer_client.address.LocationDistance.distance;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -64,9 +65,9 @@ public class Order extends Fragment {
     private RecyclerView mOrderListRecyclerView;
     private OrderListAdapter mOrderListAdapter;
     private ArrayList<OrderListInfo> mList;
-    Button OrderReviewBtn;
     Activity mActivity;
     String userid;
+    Context mContext;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,6 +86,7 @@ public class Order extends Fragment {
                 .build();
         service = retrofit.create(OrderDetailsService.class);
         jsonParser = new JsonParser();
+        mContext = getContext();
 
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.activity_order_list, container, false);
@@ -117,7 +119,7 @@ public class Order extends Fragment {
                         double distanceKilo =
                                 distance(37.59272, 127.016544, Double.parseDouble(orderDetailArray.get(i).getAsJsonObject().get("store_lat").getAsString()), Double.parseDouble(orderDetailArray.get(i).getAsJsonObject().get("store_long").getAsString()), "kilometer");
 
-                        addOrderList(orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(), "제품 이미지", orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_md_status").getAsString(), pu_date.get(i).getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_lat").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_long").getAsString());
+                        addOrderList(userid, orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(), "제품 이미지", orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_md_status").getAsString(), pu_date.get(i).getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_lat").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_long").getAsString());
                     }
 
                     mOrderListAdapter.setOnItemClickListener (
@@ -125,6 +127,7 @@ public class Order extends Fragment {
                                 @Override
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(mActivity, OrderDetailActivity.class);
+                                    intent.putExtra("user_id", userid);
                                     intent.putExtra("store_loc", mList.get(pos).getStoreLoc());
                                     intent.putExtra("store_my", mList.get(pos).getStoreLocationFromMe());
                                     intent.putExtra("store_name", mList.get(pos).getStoreName());
@@ -173,9 +176,10 @@ public class Order extends Fragment {
         mList = new ArrayList<>();
     }
 
-    public void addOrderList(String orderId, String storeLoc, String mdImgView, String storeName, String storeLocationFromMe, String mdName, String mdQty, String mdPrice, String mdStatus, String puDate, String storeLat, String storeLong){
+    public void addOrderList(String userId, String orderId, String storeLoc, String mdImgView, String storeName, String storeLocationFromMe, String mdName, String mdQty, String mdPrice, String mdStatus, String puDate, String storeLat, String storeLong){
         OrderListInfo order = new OrderListInfo();
 
+        order.setUserId(userId);
         order.setOrderId(orderId);
         order.setStoreLoc(storeLoc);
         order.setStoreProdImgView(mdImgView);
