@@ -4,7 +4,7 @@
     android:background="@color/white"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="280dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="bottom"
     tools:context=".MainActivity">
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content">
                 <LinearLayout
                     android:orientation="vertical"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <TextView
                         android:id="@+id/PopupProdName"
@@ -53,21 +53,24 @@
                         android:textColor="@color/black"/>
                     <LinearLayout
                         android:orientation="horizontal"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
+
                         <TextView
+                            android:id="@+id/PopupProdNum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:gravity="left"
                             android:text="n"
-                            android:textSize="15sp"
-                            android:gravity="left"/>
+                            android:textSize="15sp" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="개"-->
+<!--                            android:textSize="15sp"-->
+<!--                            android:gravity="left"/>-->
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="개"
-                            android:textSize="15sp"
-                            android:gravity="left"/>
-                        <TextView
+                            android:id="@+id/PopupProdPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -111,33 +114,89 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_marginRight="70dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="픽업시간"
+                            android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:gravity="left"
+                            android:textColor="@color/black"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="148dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <Spinner
                 android:id="@+id/PurchaseNumSpinner"
-                android:layout_marginTop="10dp"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"
-                android:popupBackground="@color/white"/>
+                android:layout_marginTop="10dp"
+                android:popupBackground="@color/white"
+                android:spinnerMode="dropdown" />
 
 
-            <Spinner
-                android:id="@+id/PickUpDateSpinner"
-                android:layout_marginTop="25dp"
+            <TextView
+                android:id="@+id/PickUpDate"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"
-                android:popupBackground="@color/white"/>
+                android:layout_marginTop="20dp"
+                android:popupBackground="@color/white"
+                android:spinnerMode="dropdown" />
+
+            <TextView
+                android:id="@+id/PickUpTime"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:popupBackground="@color/white"
+                android:spinnerMode="dropdown" />
 
         </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/btn_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                app:srcCompat="@drawable/ic_baseline_calendar_today_24" />
+
+            <ImageView
+                android:id="@+id/btn_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:srcCompat="@drawable/ic_baseline_calendar_today_24" />
+        </LinearLayout>
+
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
