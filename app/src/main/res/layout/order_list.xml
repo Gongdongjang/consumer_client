@@ -120,9 +120,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:orientation="horizontal">
-
                                 <TextView
-                                    android:id="@+id/MdComp"
+                                    android:id="@+id/MdQty"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:text= "3"
@@ -131,6 +130,11 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:text= "개"
+                                    android:textColor="@color/black" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:text= ", 개당 "
                                     android:textColor="@color/black" />
                                 <TextView
                                     android:id="@+id/MdPrice"
@@ -165,11 +169,11 @@
         </LinearLayout>
 
     <Button
-            android:id="@+id/OrderReviewBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:enabled="false"
-            android:text="리뷰 작성하기" />
+        android:id="@+id/OrderReviewBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:enabled="false"
+        android:text="리뷰 작성하기" />
 
 </LinearLayout>

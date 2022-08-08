@@ -38,7 +38,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         TextView storeName;
         TextView storeLocationFromMe;
         TextView mdName;
-        TextView mdComp;
+        TextView mdQty;
         TextView mdPrice;
         TextView mdStatus;
         TextView puDate; //픽업하면 mdStatus로 바뀌어야 함
@@ -46,7 +46,14 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-//            OrderReviewBtn = itemView.findViewById(R.id.OrderReviewBtn);
+            OrderReviewBtn = itemView.findViewById(R.id.OrderReviewBtn);
+            OrderReviewBtn.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view){
+                    Intent intent = new Intent(mActivity, ReviewActivity.class);
+                    mActivity.startActivity(intent);
+                }
+            });
             // 아이템 클릭 이벤트 처리.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -59,7 +66,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     }
                 }
             });
-//            OrderReviewBtn.setOnClickListener(new Button.OnClickListener(){
+//            OrderReviewBtn.setOnClickListener(new View.OnClickListener(){
 //                @Override
 //                public void onClick(View view){
 //                    Intent intent = new Intent(mActivity, ReviewActivity.class);
@@ -71,7 +78,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             storeName = (TextView) itemView.findViewById(R.id.StoreName);
             storeLocationFromMe = (TextView) itemView.findViewById(R.id.StoreLocationFromMe);
             mdName = (TextView) itemView.findViewById(R.id.MdName);
-            mdComp = (TextView) itemView.findViewById(R.id.MdComp);
+            mdQty = (TextView) itemView.findViewById(R.id.MdQty);
             mdPrice = (TextView) itemView.findViewById(R.id.MdPrice);
             puDate = (TextView) itemView.findViewById(R.id.Pudate);
             mdStatus = (TextView) itemView.findViewById(R.id.Pudate); //픽업하면 mdStatus로 바뀌어야 함
@@ -96,6 +103,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         return vh;
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull OrderListAdapter.ViewHolder holder, int position) {
         OrderListInfo item = mList.get(position);
@@ -103,10 +111,10 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         holder.storeName.setText(item.getStoreName());
         holder.storeLocationFromMe.setText(item.getStoreLocationFromMe());
         holder.mdName.setText(item.getMdName());
-        holder.mdComp.setText(item.getMdComp());
+        holder.mdQty.setText(item.getMdQty());
         holder.mdPrice.setText(item.getMdPrice());
         holder.puDate.setText(item.getPuDate());
-
+//        holder.mdStatus.setText(item.getMdStatus()); //픽업 끝난 이후에는 status로 바뀌어야 해서 if문으로 처리하기
     }
 
     @Override

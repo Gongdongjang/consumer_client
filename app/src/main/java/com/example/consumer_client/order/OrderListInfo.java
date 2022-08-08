@@ -7,7 +7,7 @@ public class OrderListInfo {
     private String mdName;
     private String storeLocationFromMe;
     private String storeLoc;
-    private String mdComp;
+    private String mdQty;
     private String orderId;
     private String mdPrice;
     private String mdStatus;
@@ -71,10 +71,10 @@ public class OrderListInfo {
 
     public void setStoreLong(String storeLong) {this.storeLong = storeLong;}
 
-    public String getMdComp() { return mdComp; }
+    public String getMdQty() { return mdQty; }
 
-    public void setMdComp(String mdComp) {
-        this.mdComp = mdComp;
+    public void setMdQty(String mdQty) {
+        this.mdQty = mdQty;
     }
 
     public String getMdStatus() {

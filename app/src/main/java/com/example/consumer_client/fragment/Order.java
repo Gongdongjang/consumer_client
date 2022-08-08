@@ -129,7 +129,7 @@ public class Order extends Fragment {
                                     intent.putExtra("store_my", mList.get(pos).getStoreLocationFromMe());
                                     intent.putExtra("store_name", mList.get(pos).getStoreName());
                                     intent.putExtra("md_name", mList.get(pos).getMdName());
-                                    intent.putExtra("md_comp", mList.get(pos).getMdComp());
+                                    intent.putExtra("md_qty", mList.get(pos).getMdQty());
                                     intent.putExtra("md_price", mList.get(pos).getMdPrice());
                                     intent.putExtra("md_status", mList.get(pos).getMdStatus());
                                     intent.putExtra("order_id", mList.get(pos).getOrderId());
@@ -173,7 +173,7 @@ public class Order extends Fragment {
         mList = new ArrayList<>();
     }
 
-    public void addOrderList(String orderId, String storeLoc, String mdImgView, String storeName, String storeLocationFromMe, String mdName, String mdComp, String mdPrice, String mdStatus, String puDate, String storeLat, String storeLong){
+    public void addOrderList(String orderId, String storeLoc, String mdImgView, String storeName, String storeLocationFromMe, String mdName, String mdQty, String mdPrice, String mdStatus, String puDate, String storeLat, String storeLong){
         OrderListInfo order = new OrderListInfo();
 
         order.setOrderId(orderId);
@@ -182,7 +182,7 @@ public class Order extends Fragment {
         order.setStoreName(storeName);
         order.setStoreLocationFromMe(storeLocationFromMe);
         order.setMdName(mdName);
-        order.setMdComp(mdComp);
+        order.setMdQty(mdQty);
         order.setMdPrice(mdPrice);
         order.setMdStatus(mdStatus);
         order.setPuDate(puDate);
