@@ -1,24 +1,26 @@
 package com.example.consumer_client.order;
 
 public class OrderListInfo {
-    private String storeId;
+    private String userId;
     private String storeProdImgView;
     private String storeName;
     private String mdName;
     private String storeLocationFromMe;
     private String storeLoc;
-    private String mdComp;
+    private String mdQty;
     private String orderId;
     private String mdPrice;
     private String mdStatus;
     private String puDate;
+    private String storeLong;
+    private String storeLat;
 
-    public String getStoreid() {
-        return storeId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setStoreid(String storeid) {
-        this.storeId = storeid;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getStoreProdImgView() {
@@ -57,10 +59,22 @@ public class OrderListInfo {
 
     public void setStoreLoc(String storeLoc) {this.storeLoc = storeLoc;}
 
-    public String getMdComp() { return mdComp; }
+    public String getStoreLat() {
+        return storeLat;
+    }
 
-    public void setMdComp(String mdComp) {
-        this.mdComp = mdComp;
+    public void setStoreLat(String storeLat) {this.storeLat = storeLat;}
+
+    public String getStoreLong() {
+        return storeLong;
+    }
+
+    public void setStoreLong(String storeLong) {this.storeLong = storeLong;}
+
+    public String getMdQty() { return mdQty; }
+
+    public void setMdQty(String mdQty) {
+        this.mdQty = mdQty;
     }
 
     public String getMdStatus() {

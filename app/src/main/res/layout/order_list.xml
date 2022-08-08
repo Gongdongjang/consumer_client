@@ -19,7 +19,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/StoreID"
+                android:id="@+id/UserId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone" />
@@ -120,9 +120,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:orientation="horizontal">
-
                                 <TextView
-                                    android:id="@+id/MdComp"
+                                    android:id="@+id/MdQty"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:text= "3"
@@ -131,6 +130,11 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:text= "개 / "
+                                    android:textColor="@color/black" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:text= ", 개당 "
                                     android:textColor="@color/black" />
                                 <TextView
                                     android:id="@+id/MdPrice"
@@ -162,14 +166,22 @@
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
         </LinearLayout>
 
-    <Button
-            android:id="@+id/OrderReviewBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:enabled="false"
-            android:text="리뷰 작성하기" />
+    <TextView
+        android:id="@+id/OrderReview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:background="#EAEAEA"
+        android:enabled="true"
+        android:padding="5dp"
+        android:text="리뷰 작성하기"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textFontWeight="30"
+        android:textSize="15dp" />
 
 </LinearLayout>
