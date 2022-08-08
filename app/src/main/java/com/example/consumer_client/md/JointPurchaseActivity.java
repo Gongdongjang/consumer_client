@@ -89,8 +89,12 @@ public class JointPurchaseActivity extends AppCompatActivity {
         Button Order = (Button) findViewById(R.id.JP_OrderBtn);
 
 
-        //제품설명 단락
+        //제품설명 단락 + (가격추가함.)
         ImageView MdImgDetail = (ImageView) findViewById(R.id.JP_MD_Datail_Img);
+        TextView ProdName= (TextView) findViewById(R.id.JP_ProdName);
+        TextView ProdNum= (TextView) findViewById(R.id.JP_Prod_Num);
+        TextView ProdPrice= (TextView) findViewById(R.id.JP_Prod_Price);
+
 
         //농가와 픽업 스토어 소개 단락
         ImageView FarmFileName = (ImageView) findViewById(R.id.JP_FarmIMG);
@@ -144,6 +148,9 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         //제품설명 setText
 //                        MdImgDetail.setImageURI(Uri.parse(md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()));
                         Picasso.get().load(md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()).into(MdImgDetail);
+                        ProdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
+                        ProdNum.setText(md_detail.get(0).getAsJsonObject().get("pay_comp").getAsString());
+                        ProdPrice.setText(md_detail.get(0).getAsJsonObject().get("pay_price").getAsString());
 
                         //농가와 픽업스토어 setText
                         FarmName2.setText(md_detail.get(0).getAsJsonObject().get("farm_name").getAsString());
@@ -242,8 +249,9 @@ public class JointPurchaseActivity extends AppCompatActivity {
         Order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                orderDialog = new OrderDialog(mContext,md_detail.get(0).getAsJsonObject().get("md_name").getAsString(),pu_start,pu_end);
+                //PickUpDate.getText()
+                orderDialog = new OrderDialog(mContext, (String) MdName.getText(),(String) ProdNum.getText(), (String) ProdPrice.getText(), pu_start,pu_end);
+                //orderDialog = new OrderDialog(mContext,md_detail.get(0).getAsJsonObject().get("md_name").getAsString(),pu_start,pu_end);
                 orderDialog.show();
             }
         });
