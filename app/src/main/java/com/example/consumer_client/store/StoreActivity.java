@@ -93,7 +93,7 @@ public class StoreActivity extends AppCompatActivity {
                         double distanceKilo =
                                 distance(37.59272, 127.016544, Double.parseDouble(storeArray.get(i).getAsJsonObject().get("store_lat").getAsString()), Double.parseDouble(storeArray.get(i).getAsJsonObject().get("store_long").getAsString()), "kilometer");
 
-                        addStore(storeArray.get(i).getAsJsonObject().get("store_id").getAsString(),"스토어 이미지", storeArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), storeArray.get(i).getAsJsonObject().get("store_info").getAsString(), storeArray.get(i).getAsJsonObject().get("store_hours").getAsString(), storeArray.get(i).getAsJsonObject().get("store_restDays").getAsString());
+                        addStore(storeArray.get(i).getAsJsonObject().get("store_id").getAsString(),"스토어 이미지", storeArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), storeArray.get(i).getAsJsonObject().get("store_info").getAsString(), storeArray.get(i).getAsJsonObject().get("store_restDays").getAsString(), storeArray.get(i).getAsJsonObject().get("store_hours").getAsString());
                     }
                     //거리 가까운순으로 정렬
                     mList.sort(new Comparator<StoreTotalInfo>() {

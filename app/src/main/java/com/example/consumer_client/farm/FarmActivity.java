@@ -124,7 +124,7 @@ public class FarmActivity extends AppCompatActivity {
     }
 
     public void firstInit(){
-        mFarmRecyclerView = findViewById(R.id.totalFarmView);
+        mFarmRecyclerView = findViewById(R.id.totalOrderListView);
         mList = new ArrayList<>();
     }
 
