@@ -34,6 +34,8 @@ interface OrderDetailMdService{
 public class OrderDetailActivity extends AppCompatActivity {
     String TAG = OrderDetailActivity.class.getSimpleName();
 
+    String userid;
+
     JsonObject body;
     OrderDetailMdService service;
     JsonParser jsonParser;
@@ -63,6 +65,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         TextView PuDate = (TextView) findViewById(R.id.OrderPickUpDate);
 
         Intent intent = getIntent(); //intent 값 받기
+        userid = intent.getStringExtra("userid");
         store_loc=intent.getStringExtra("store_loc");
         store_my = intent.getStringExtra("store_my");
         store_name = intent.getStringExtra("store_name");
