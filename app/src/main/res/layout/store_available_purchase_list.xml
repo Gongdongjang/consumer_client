@@ -62,22 +62,27 @@
             android:layout_marginLeft="5dp">
 
             <ImageView
+                android:id="@+id/Star_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_star_24"/>
             <ImageView
+                android:id="@+id/Star_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_star_24"/>
             <ImageView
+                android:id="@+id/Star_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_star_24"/>
             <ImageView
+                android:id="@+id/Star_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_star_half_24"/>
             <ImageView
+                android:id="@+id/Star_5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_star_border_24"/>

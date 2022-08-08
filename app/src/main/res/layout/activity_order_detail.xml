@@ -94,13 +94,11 @@
                                 android:layout_height="wrap_content"
                                 android:text="n"
                                 android:textColor="@color/black"/>
-
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="개"
                                 android:textColor="@color/black"/>
-                                
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="wrap_content"
