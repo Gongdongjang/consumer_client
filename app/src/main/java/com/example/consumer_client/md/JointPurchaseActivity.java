@@ -59,7 +59,6 @@ public class JointPurchaseActivity extends AppCompatActivity {
     String pu_start;
     String pu_end;
     String user_id;
-    JsonObject body;
     JsonArray keep_data;
     String message;
     String store_loc,store_lat,store_long;
@@ -77,7 +76,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
         //000 농부님의 000상품 단락
         ImageView MdImgThumbnail = (ImageView) findViewById(R.id.JP_MD_Img);
         TextView FarmerName = (TextView) findViewById(R.id.FarmerName);
-        TextView MdName = (TextView) findViewById(R.id.MdName);
+        TextView MdName = (TextView) findViewById(R.id.ProdName);
         TextView FarmName = (TextView) findViewById(R.id.JP_FarmName_Main);
         TextView StkRemain = (TextView) findViewById(R.id.JP_Remain_Count);
         TextView StkGoal = (TextView) findViewById(R.id.JP_Goal_Count);
