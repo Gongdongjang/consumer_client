@@ -91,6 +91,7 @@ public class Keep extends Fragment {
 
         firstInit();
 
+        Log.d("user_id", user_id);
         body = new JsonObject();
         body.addProperty("user_id", user_id);
 

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.consumer_client.cart.CartDialog;
 import com.example.consumer_client.OrderDialog;
 import com.example.consumer_client.R;
 import com.google.gson.JsonArray;
@@ -65,6 +66,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
     //Dialog 선언
     OrderDialog orderDialog;
+    CartDialog cartDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -252,6 +254,17 @@ public class JointPurchaseActivity extends AppCompatActivity {
         layoutParams.dimAmount = 0.8f;
         getWindow().setAttributes(layoutParams);
 
+        //장바구니 클릭
+        Cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cartDialog = new CartDialog(mContext, (String) MdName.getText(),(String) ProdNum.getText(), (String) ProdPrice.getText()
+                        , pu_start,pu_end, (String) StoreName.getText(), store_loc, store_lat, store_long, user_id);
+                cartDialog.show();
+            }
+        });
+        
+        //주문 클릭
         Order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

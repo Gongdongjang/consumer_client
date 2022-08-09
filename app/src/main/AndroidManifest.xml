@@ -45,6 +45,7 @@
         <activity android:name=".order.OrderDetailActivity" />
         <activity android:name=".review.ReviewActivity" />
 
+        <activity android:name=".cart.CartListActivity" />
 
         <activity
             android:name=".tutorial.SplashActivity"

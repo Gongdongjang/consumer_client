@@ -1,4 +1,4 @@
-package com.example.consumer_client;
+package com.example.consumer_client.cart;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -20,11 +20,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.consumer_client.cart.CartListActivity;
+import com.example.consumer_client.R;
 
 import java.util.Calendar;
 
-public class OrderDialog extends Dialog {
+public class CartDialog extends Dialog {
 
     ImageView btn_shutdown, btn_date, btn_time;
 
@@ -36,15 +36,12 @@ public class OrderDialog extends Dialog {
     CheckBox BringBasketCheck;
     TextView PopupProdName, PopupProdNum, PopupProdPrice;
     Button JP_OrderBtn;
-    ImageView JP_CartBtn;
-    Context mContext;
+    ImageView imageView;
 
-    //popuporderActivitiy
     Boolean selectNum = false;
-//    Boolean selectDate = false;
 
-    public OrderDialog(@NonNull Context context, String mdName, String prodNum, String prodPrice,
-                       String pu_start, String pu_end, String store_name, String store_loc, String store_lat, String store_long) {
+    public CartDialog(@NonNull Context context, String mdName, String prodNum, String prodPrice,
+                       String pu_start, String pu_end, String store_name, String store_loc, String store_lat, String store_long, String user_id) {
         super(context);
         setContentView(R.layout.activity_payment_popup);
 
@@ -61,6 +58,7 @@ public class OrderDialog extends Dialog {
         PickUpTime=findViewById(R.id.PickUpTime);
         btn_date=findViewById(R.id.btn_date);
         btn_time=findViewById(R.id.btn_time);
+
         Log.d("주문하기_기간:",pu_start); //2022. 8. 28.
 
         String[] startDay = pu_start.split("\\.");  // .으로 자르고 싶을땐 \\. 이라고 해야함
@@ -165,8 +163,11 @@ public class OrderDialog extends Dialog {
         });
 
         //장바구니 버튼
-        JP_CartBtn=findViewById(R.id.JP_CartBtn);
-        JP_CartBtn.setOnClickListener(new View.OnClickListener() {
+        JP_OrderBtn=findViewById(R.id.JP_OrderBtn);
+        imageView = findViewById(R.id.JP_CartBtn);
+        JP_OrderBtn.setText("장바구니");
+        imageView.setVisibility(View.INVISIBLE);
+        JP_OrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(v.getContext(), CartListActivity.class);
@@ -181,35 +182,11 @@ public class OrderDialog extends Dialog {
                     i.putExtra("store_long",store_long);
                     i.putExtra("pickupDate",PickUpDate.getText());
                     i.putExtra("pickupTime",PickUpTime.getText());
+                    i.putExtra("user_id", user_id);
                     v.getContext().startActivity(i);
                     if (selectNum){
                         Toast.makeText(getContext(), "제품을 장바구니에 담았습니다.", Toast.LENGTH_SHORT).show();
                     }
-                }
-                else{
-                    Toast.makeText(getContext(), "장바구니 지참사항 확인하셨나요?", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        //주문하기 버튼
-        JP_OrderBtn=findViewById(R.id.JP_OrderBtn);
-        JP_OrderBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(v.getContext(), PayActivity.class);
-                if(BringBasketCheck.isChecked()){   //장바구니 지참사항 확인해야 넘어감
-                    //스토어정보+ dialog 값 전달
-                    i.putExtra("mdName",mdName);
-                    i.putExtra("purchaseNum",PurchaseNumSpinner.getSelectedItem().toString());
-                    i.putExtra("prodPrice",prodPrice);
-                    i.putExtra("store_name",store_name);
-                    i.putExtra("store_loc",store_loc);
-                    i.putExtra("store_lat",store_lat);
-                    i.putExtra("store_long",store_long);
-                    i.putExtra("pickupDate",PickUpDate.getText());
-                    i.putExtra("pickupTime",PickUpTime.getText());
-                    v.getContext().startActivity(i);
                 }
                 else{
                     Toast.makeText(getContext(), "장바구니 지참사항 확인하셨나요?", Toast.LENGTH_SHORT).show();
