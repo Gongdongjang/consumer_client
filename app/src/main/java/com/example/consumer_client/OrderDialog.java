@@ -43,10 +43,15 @@ public class OrderDialog extends Dialog {
     Boolean selectNum = false;
 //    Boolean selectDate = false;
 
+    String user_id;
+
     public OrderDialog(@NonNull Context context, String mdName, String prodNum, String prodPrice,
-                       String pu_start, String pu_end, String store_name, String store_loc, String store_lat, String store_long) {
+                       String pu_start, String pu_end, String store_name, String store_id, String store_loc, String store_lat, String store_long,
+                       String user_id, String md_id) {
         super(context);
         setContentView(R.layout.activity_payment_popup);
+
+        Log.d("유저아이디", user_id);
 
         //상품명 + n개 000원 추가했음.
         PopupProdName=findViewById(R.id.PopupProdName);
@@ -116,7 +121,7 @@ public class OrderDialog extends Dialog {
                             public void onDateSet(DatePicker view, int year, int month, int day) {
                                 //1월은 0부터 시작하기 때문에 +1을 해준다.
                                 month = month+1;
-                                String date=year+"/"+month+"/"+day;
+                                String date=year+"-"+month+"-"+day;
                                 PickUpDate.setText(date);
                             }
                         },pYear,pMonth,pDay);
@@ -143,7 +148,7 @@ public class OrderDialog extends Dialog {
                 int mMinute = c.get(Calendar.MINUTE);
 
                 // Launch Time Picker Dialog
-                TimePickerDialog timePickerDialog = new TimePickerDialog(v.getContext(),
+                timePickerDialog = new TimePickerDialog(v.getContext(),
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -200,10 +205,13 @@ public class OrderDialog extends Dialog {
                 Intent i = new Intent(v.getContext(), PayActivity.class);
                 if(BringBasketCheck.isChecked()){   //장바구니 지참사항 확인해야 넘어감
                     //스토어정보+ dialog 값 전달
+                    i.putExtra("user_id",user_id);
+                    i.putExtra("md_id",md_id);
                     i.putExtra("mdName",mdName);
                     i.putExtra("purchaseNum",PurchaseNumSpinner.getSelectedItem().toString());
                     i.putExtra("prodPrice",prodPrice);
                     i.putExtra("store_name",store_name);
+                    i.putExtra("store_id",store_id);
                     i.putExtra("store_loc",store_loc);
                     i.putExtra("store_lat",store_lat);
                     i.putExtra("store_long",store_long);

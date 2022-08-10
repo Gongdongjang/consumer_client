@@ -2,38 +2,60 @@ package com.example.consumer_client;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.consumer_client.address.FindTownActivity;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
+import java.io.IOException;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-interface PayOrderService{
-    @POST("insertOrder")
-    Call<ResponseBody> insertOrder(@Body JsonObject body);
+interface OrderInsertService{
+    @POST("orderInsert")
+    Call<ResponseBody> postOrderData(@Body JsonObject body);
 }
 
 public class PayActivity extends AppCompatActivity {
 
-    String mdName, purchaseNum, prodPrice;
-    String store_name,store_loc, store_lat, store_long;
+    String user_id;
+    String md_id, mdName, purchaseNum, prodPrice;
+    String store_id, store_name, store_loc, store_lat, store_long;
     String pickupDate,pickupTime;
+
+    OrderInsertService service;
+    JsonParser jsonParser;
+    JsonObject res, body;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.baseurl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        service = retrofit.create(OrderInsertService.class);
+        jsonParser = new JsonParser();
 
         TextView ProdName=(TextView) findViewById(R.id.JP_ProdName);
         TextView OrderCount = (TextView) findViewById(R.id.ClientOrderCount);
@@ -43,10 +65,13 @@ public class PayActivity extends AppCompatActivity {
         TextView PuDate = (TextView) findViewById(R.id.Pay_PU_Date);
 
         Intent intent = getIntent(); //intent 값 받기
+        user_id=intent.getStringExtra("user_id");
+        md_id=intent.getStringExtra("md_id");
         mdName = intent.getStringExtra("mdName");
         purchaseNum = intent.getStringExtra("purchaseNum");
         prodPrice = intent.getStringExtra("prodPrice");
         store_name = intent.getStringExtra("store_name");
+        store_id = intent.getStringExtra("store_id");
         store_loc=intent.getStringExtra("store_loc");
         store_lat = intent.getStringExtra("store_lat");
         store_long = intent.getStringExtra("store_long");
@@ -65,7 +90,37 @@ public class PayActivity extends AppCompatActivity {
         StoreAddr.setText(store_loc);
         PuDate.setText(pickupDate);
 
-        //지도
+        //주문하기-> Order테이블에 데이터 값 삽입하기Post 요청
+        body = new JsonObject();
+        body.addProperty("user_id", user_id);
+        body.addProperty("md_id", md_id);
+        body.addProperty("store_id", store_id);
+        body.addProperty("select_qty", purchaseNum);
+        body.addProperty("pu_date", pickupDate);
+        body.addProperty("pu_time", pickupTime);
+
+        Call<ResponseBody> call = service.postOrderData(body);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                        Toast.makeText(PayActivity.this, res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(PayActivity.this, "주문하기 post 에러 발생", Toast.LENGTH_SHORT).show();
+                Log.e("주문하기 post", t.getMessage());
+            }
+        });
+
+
+        //----------------지도
         MapView mapView = new MapView(this);
         // 중심점 변경
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(store_lat), Double.parseDouble(store_long)), true);
