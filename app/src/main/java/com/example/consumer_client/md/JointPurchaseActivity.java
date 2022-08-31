@@ -56,7 +56,9 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
     JsonObject res, body;
     JsonArray md_detail, keep_date;
-    String pay_schedule, pu_start, pu_end;
+//    String pay_schedule;
+    String pu_start;
+    String pu_end;
     String user_id, store_id;
     JsonArray keep_data;
     String message;
@@ -80,7 +82,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
         TextView FarmName = (TextView) findViewById(R.id.JP_FarmName_Main);
         TextView StkRemain = (TextView) findViewById(R.id.JP_Remain_Count);
         TextView StkGoal = (TextView) findViewById(R.id.JP_Goal_Count);
-        TextView PaySchedule = (TextView) findViewById(R.id.JP_PayDate);
+//        TextView PaySchedule = (TextView) findViewById(R.id.JP_PayDate);
         TextView PuStart = (TextView) findViewById(R.id.JP_PU_Start);
         TextView PuEnd = (TextView) findViewById(R.id.JP_PU_End);
 
@@ -131,10 +133,11 @@ public class JointPurchaseActivity extends AppCompatActivity {
                     try {
                         res =  (JsonObject) jsonParser.parse(response.body().string());
                         md_detail = res.get("md_detail_result").getAsJsonArray();
-                        pay_schedule = res.get("pay_schedule").getAsString();
+//                        pay_schedule = res.get("pay_schedule").getAsString();
                         pu_start = res.get("pu_start").getAsString();
                         pu_end = res.get("pu_end").getAsString();
 
+                        Log.d("md_detail", md_detail.toString());
                         store_id = md_detail.get(0).getAsJsonObject().get("store_id").getAsString();
 
                         //스토어 위치(주문하기에서)
@@ -149,7 +152,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         FarmName.setText(md_detail.get(0).getAsJsonObject().get("farm_name").getAsString());
                         StkRemain.setText(md_detail.get(0).getAsJsonObject().get("stk_remain").getAsString());
                         StkGoal.setText(md_detail.get(0).getAsJsonObject().get("stk_goal").getAsString());
-                        PaySchedule.setText(pay_schedule);
+//                        PaySchedule.setText(pay_schedule);
                         PuStart.setText(pu_start);
                         PuEnd.setText(pu_end);
 
@@ -166,7 +169,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         StoreName.setText(md_detail.get(0).getAsJsonObject().get("store_name").getAsString());
                         StoreInfo.setText(md_detail.get(0).getAsJsonObject().get("store_info").getAsString());
 
-                        PaySchedule.setText(pay_schedule);
+//                        PaySchedule.setText(pay_schedule);
                         PuStart.setText(pu_start);
                         PuEnd.setText(pu_end);
                     } catch (IOException e) {
