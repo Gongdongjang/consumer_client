@@ -50,7 +50,7 @@ public class StoreDetailActivity extends AppCompatActivity {
     StoreDetailService service;
     JsonParser jsonParser;
     JsonObject res;
-    JsonArray storeArray,jpArray,rvwArray, pay_schedule, pu_start, pu_end;
+    JsonArray storeArray,jpArray,rvwArray, pu_start, pu_end;
 
     String store_id, store_name;
     Double store_lat,store_long;
@@ -107,7 +107,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                         storeArray= res.get("store_result").getAsJsonArray();
                         //md정보
                         jpArray=res.get("jp_result").getAsJsonArray();
-                        pay_schedule = res.get("pay_schedule").getAsJsonArray();
+//                        pay_schedule = res.get("pay_schedule").getAsJsonArray();
                         pu_start = res.get("pu_start").getAsJsonArray();
                         pu_end = res.get("pu_end").getAsJsonArray();
                         //리뷰정보
@@ -175,7 +175,7 @@ public class StoreDetailActivity extends AppCompatActivity {
 
                         //진행중인 공동구매 md
                         for(int i=0;i<jpArray.size();i++){
-                            addFarmJointPurchase(jpArray.get(i).getAsJsonObject().get("farm_name").getAsString(), jpArray.get(i).getAsJsonObject().get("md_name").getAsString(), jpArray.get(i).getAsJsonObject().get("store_name").getAsString(), pay_schedule.get(i).getAsString(), pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
+                            addFarmJointPurchase(jpArray.get(i).getAsJsonObject().get("farm_name").getAsString(), jpArray.get(i).getAsJsonObject().get("md_name").getAsString(), jpArray.get(i).getAsJsonObject().get("store_name").getAsString(),pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
                         }
 
                         //리뷰
@@ -218,13 +218,13 @@ public class StoreDetailActivity extends AppCompatActivity {
         mReviewList = new ArrayList<>();
     }
 
-    public void addFarmJointPurchase(String farmName, String prodName, String storeName, String paySchedule, String puTerm){
+    public void addFarmJointPurchase(String farmName, String prodName, String storeName, String puTerm){
         FarmDetailInfo farmDetail = new FarmDetailInfo();
 
         farmDetail.setFarmName(farmName);
         farmDetail.setProdName(prodName);
         farmDetail.setStoreName(storeName);
-        farmDetail.setPaySchedule(paySchedule);
+//        farmDetail.setPaySchedule(paySchedule);
         farmDetail.setPuTerm(puTerm);
 
         mList.add(farmDetail);

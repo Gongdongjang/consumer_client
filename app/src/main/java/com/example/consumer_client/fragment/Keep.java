@@ -59,7 +59,7 @@ public class Keep extends Fragment {
     JsonObject body;
     JsonObject res;
     JsonArray jsonArray;
-    JsonArray pay_schedule;
+//    JsonArray pay_schedule;
     JsonArray pu_start;
     JsonArray pu_end;
 
@@ -103,7 +103,7 @@ public class Keep extends Fragment {
                 try{
                     res =  (JsonObject) jsonParser.parse(response.body().string());
                     jsonArray = res.get("keep_list_result").getAsJsonArray();
-                    pay_schedule = res.get("pay_schedule").getAsJsonArray();
+//                    pay_schedule = res.get("pay_schedule").getAsJsonArray();
                     pu_start = res.get("pu_start").getAsJsonArray();
                     pu_end = res.get("pu_end").getAsJsonArray();
 
@@ -125,7 +125,7 @@ public class Keep extends Fragment {
                                 jsonArray.get(i).getAsJsonObject().get("farm_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
-                                pay_schedule.get(i).getAsString(),
+//                                pay_schedule.get(i).getAsString(),
                                 pu_start.get(i).getAsString() + " ~ " + pu_end.get(i).getAsString()
                         );
                     }
@@ -159,13 +159,13 @@ public class Keep extends Fragment {
         return view;
     }
 
-    public void addKeepList(String mdProdImg, String farmName, String prodName, String storeName, String paySchedule, String puTerm){
+    public void addKeepList(String mdProdImg, String farmName, String prodName, String storeName, String puTerm){
         FarmDetailInfo mdDetail = new FarmDetailInfo();
         mdDetail.setProdImg(mdProdImg);
         mdDetail.setFarmName(farmName);
         mdDetail.setProdName(prodName);
         mdDetail.setStoreName(storeName);
-        mdDetail.setPaySchedule(paySchedule);
+//        mdDetail.setPaySchedule(paySchedule);
         mdDetail.setPuTerm(puTerm);
 
         mList.add(mdDetail);
