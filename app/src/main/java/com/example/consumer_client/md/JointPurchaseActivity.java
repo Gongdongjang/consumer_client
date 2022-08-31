@@ -56,10 +56,8 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
     JsonObject res, body;
     JsonArray md_detail, keep_date;
-    String pay_schedule;
-    String pu_start;
-    String pu_end;
-    String user_id;
+    String pay_schedule, pu_start, pu_end;
+    String user_id, store_id;
     JsonArray keep_data;
     String message;
     String store_loc,store_lat,store_long;
@@ -136,6 +134,8 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         pay_schedule = res.get("pay_schedule").getAsString();
                         pu_start = res.get("pu_start").getAsString();
                         pu_end = res.get("pu_end").getAsString();
+
+                        store_id = md_detail.get(0).getAsJsonObject().get("store_id").getAsString();
 
                         //스토어 위치(주문하기에서)
                         store_loc=md_detail.get(0).getAsJsonObject().get("store_loc").getAsString();
@@ -259,7 +259,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cartDialog = new CartDialog(mContext, (String) MdName.getText(),(String) ProdNum.getText(), (String) ProdPrice.getText()
-                        , pu_start,pu_end, (String) StoreName.getText(), store_loc, store_lat, store_long, user_id);
+                        , pu_start,pu_end, (String) StoreName.getText(), store_loc, store_lat, store_long, user_id, md_id, store_id);
                 cartDialog.show();
             }
         });
