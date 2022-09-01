@@ -99,7 +99,6 @@ public class FarmActivity extends AppCompatActivity {
                         }
                         addFarm("product Img", farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
                     }
-                    Log.d("FarmActivity", user_id);
 
                     mFarmTotalAdapter.setOnItemClickListener(
                             new FarmTotalAdapter.OnItemClickListener() {

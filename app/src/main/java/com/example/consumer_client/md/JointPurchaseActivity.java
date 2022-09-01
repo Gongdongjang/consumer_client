@@ -56,13 +56,13 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
     JsonObject res, body;
     JsonArray md_detail, keep_date;
-    String pay_schedule;
+//    String pay_schedule;
     String pu_start;
     String pu_end;
-    String user_id;
+    String user_id, store_id;
     JsonArray keep_data;
     String message;
-    String store_id, store_loc,store_lat,store_long;
+    String store_loc,store_lat,store_long;
 
     //Dialog 선언
     OrderDialog orderDialog;
@@ -82,7 +82,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
         TextView FarmName = (TextView) findViewById(R.id.JP_FarmName_Main);
         TextView StkRemain = (TextView) findViewById(R.id.JP_Remain_Count);
         TextView StkGoal = (TextView) findViewById(R.id.JP_Goal_Count);
-        TextView PaySchedule = (TextView) findViewById(R.id.JP_PayDate);
+//        TextView PaySchedule = (TextView) findViewById(R.id.JP_PayDate);
         TextView PuStart = (TextView) findViewById(R.id.JP_PU_Start);
         TextView PuEnd = (TextView) findViewById(R.id.JP_PU_End);
 
@@ -133,12 +133,14 @@ public class JointPurchaseActivity extends AppCompatActivity {
                     try {
                         res =  (JsonObject) jsonParser.parse(response.body().string());
                         md_detail = res.get("md_detail_result").getAsJsonArray();
-                        pay_schedule = res.get("pay_schedule").getAsString();
+//                        pay_schedule = res.get("pay_schedule").getAsString();
                         pu_start = res.get("pu_start").getAsString();
                         pu_end = res.get("pu_end").getAsString();
 
-                        //스토어 아이디+ 위치(주문하기에서)
-                        store_id=md_detail.get(0).getAsJsonObject().get("store_id").getAsString();
+                        Log.d("md_detail", md_detail.toString());
+                        store_id = md_detail.get(0).getAsJsonObject().get("store_id").getAsString();
+
+                        //스토어 위치(주문하기에서)
                         store_loc=md_detail.get(0).getAsJsonObject().get("store_loc").getAsString();
                         store_lat=md_detail.get(0).getAsJsonObject().get("store_lat").getAsString();
                         store_long=md_detail.get(0).getAsJsonObject().get("store_long").getAsString();
@@ -150,7 +152,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         FarmName.setText(md_detail.get(0).getAsJsonObject().get("farm_name").getAsString());
                         StkRemain.setText(md_detail.get(0).getAsJsonObject().get("stk_remain").getAsString());
                         StkGoal.setText(md_detail.get(0).getAsJsonObject().get("stk_goal").getAsString());
-                        PaySchedule.setText(pay_schedule);
+//                        PaySchedule.setText(pay_schedule);
                         PuStart.setText(pu_start);
                         PuEnd.setText(pu_end);
 
@@ -167,7 +169,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         StoreName.setText(md_detail.get(0).getAsJsonObject().get("store_name").getAsString());
                         StoreInfo.setText(md_detail.get(0).getAsJsonObject().get("store_info").getAsString());
 
-                        PaySchedule.setText(pay_schedule);
+//                        PaySchedule.setText(pay_schedule);
                         PuStart.setText(pu_start);
                         PuEnd.setText(pu_end);
                     } catch (IOException e) {
@@ -260,7 +262,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cartDialog = new CartDialog(mContext, (String) MdName.getText(),(String) ProdNum.getText(), (String) ProdPrice.getText()
-                        , pu_start,pu_end, (String) StoreName.getText(), store_loc, store_lat, store_long, user_id);
+                        , pu_start,pu_end, (String) StoreName.getText(), store_loc, store_lat, store_long, user_id, md_id, store_id);
                 cartDialog.show();
             }
         });
@@ -270,7 +272,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 orderDialog = new OrderDialog(mContext, (String) MdName.getText(),(String) ProdNum.getText(), (String) ProdPrice.getText()
-                        , pu_start,pu_end, (String) StoreName.getText(), store_id, store_loc, store_lat, store_long, user_id, md_id);
+                        , pu_start,pu_end, (String) StoreName.getText(), store_loc, store_lat, store_long);
                 //orderDialog = new OrderDialog(mContext,md_detail.get(0).getAsJsonObject().get("md_name").getAsString(),pu_start,pu_end);
                 orderDialog.show();
             }

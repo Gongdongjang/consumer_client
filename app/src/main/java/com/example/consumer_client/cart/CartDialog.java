@@ -41,7 +41,7 @@ public class CartDialog extends Dialog {
     Boolean selectNum = false;
 
     public CartDialog(@NonNull Context context, String mdName, String prodNum, String prodPrice,
-                       String pu_start, String pu_end, String store_name, String store_loc, String store_lat, String store_long, String user_id) {
+                       String pu_start, String pu_end, String store_name, String store_loc, String store_lat, String store_long, String user_id, String md_id, String store_id) {
         super(context);
         setContentView(R.layout.activity_payment_popup);
 
@@ -183,6 +183,8 @@ public class CartDialog extends Dialog {
                     i.putExtra("pickupDate",PickUpDate.getText());
                     i.putExtra("pickupTime",PickUpTime.getText());
                     i.putExtra("user_id", user_id);
+                    i.putExtra("md_id", md_id);
+                    i.putExtra("store_id", store_id);
                     v.getContext().startActivity(i);
                     if (selectNum){
                         Toast.makeText(getContext(), "제품을 장바구니에 담았습니다.", Toast.LENGTH_SHORT).show();
