@@ -140,12 +140,10 @@ public class LoginActivity extends AppCompatActivity {
                                 String username=user.getKakaoAccount().getProfile().getNickname();
                                 String nickname= user.getKakaoAccount().getProfile().getNickname();
                                 String refresh_token= oAuthToken.getRefreshToken();
-                                String gender= String.valueOf(user.getKakaoAccount().getGender()); //성별받기
                                 //String email=user.getKakaoAccount().getEmail();
 
                                 Log.i(TAG, "username " + username); // 유저의 고유 아이디를 불러옵니다.
                                 Log.i(TAG, "invoke: nickname=" + user.getKakaoAccount().getProfile().getNickname()); // 유저의 닉네임을 불러옵니다.
-                                Log.i(TAG, "gender " + gender);
 
                                 Log.d("id1",userid);
                                 JsonObject body = new JsonObject();
@@ -154,7 +152,6 @@ public class LoginActivity extends AppCompatActivity {
                                 body.addProperty("nickname", nickname);
                                 body.addProperty("sns_type", "kakao");
                                 body.addProperty("refresh_token", refresh_token);
-                                body.addProperty("gender", gender);
 
                                 Call<ResponseBody> call = service.kakaoLogin(body);
 
