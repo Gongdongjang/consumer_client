@@ -84,7 +84,7 @@ public class FarmDetailAdapter extends RecyclerView.Adapter<FarmDetailAdapter.Vi
         holder.farmName.setText(item.getFarmName());
         holder.prodName.setText(item.getProdName());
         holder.storeName.setText(item.getStoreName());
-        holder.paySchedule.setText(item.getPaySchedule());
+//        holder.paySchedule.setText(item.getPaySchedule());
         holder.puTerm.setText(item.getPuTerm());
     }
 

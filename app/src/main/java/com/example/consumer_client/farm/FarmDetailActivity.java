@@ -166,7 +166,7 @@ public class FarmDetailActivity extends AppCompatActivity {
                         mRecyclerView.setLayoutManager(linearLayoutManager);
 
                         for(int i=0;i<mdArray.size();i++){
-                            addFarmJointPurchase(farm_name, mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), mdArray.get(i).getAsJsonObject().get("store_name").getAsString(), pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
+                            addFarmJointPurchase(farm_name, mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), mdArray.get(i).getAsJsonObject().get("store_name").getAsString(),pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
                         }
                         Log.d("FarmDetail", user_id);
 

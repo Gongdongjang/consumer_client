@@ -147,7 +147,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
                         //000 농부님의 000상품 setText
                         MdImgThumbnail.setImageURI(Uri.parse(md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString()));
-                        FarmerName.setText("임시농부이름");
+                        FarmerName.setText(md_detail.get(0).getAsJsonObject().get("farm_farmer").getAsString());
                         MdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
                         FarmName.setText(md_detail.get(0).getAsJsonObject().get("farm_name").getAsString());
                         StkRemain.setText(md_detail.get(0).getAsJsonObject().get("stk_remain").getAsString());

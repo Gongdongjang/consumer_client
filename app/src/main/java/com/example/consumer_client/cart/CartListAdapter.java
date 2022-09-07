@@ -30,7 +30,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView storeProdImgView;
-        TextView userid, storeName, mdName, mdPrice, puDate, totalPrice;
+        TextView user_id, storeName, mdName, mdPrice, puDate, totalPrice, paycount, prodSet, prodCount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -48,13 +48,16 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
                 }
             });
 
-//            userid = (TextView) itemView.findViewById(R.id.UserId);
+//            user_id = (TextView) itemView.findViewById(R.id.UserId);
             storeProdImgView = (ImageView) itemView.findViewById(R.id.CartProdImg);
-            storeName = (TextView) itemView.findViewById(R.id.StoreName);
+//            storeName = (TextView) itemView.findViewById(R.id.StoreName);
             mdName = (TextView) itemView.findViewById(R.id.CartProdName);
             mdPrice = (TextView) itemView.findViewById(R.id.CartProdPrice);
             puDate = (TextView) itemView.findViewById(R.id.CartPickUpDate);
             totalPrice = (TextView) itemView.findViewById(R.id.CartTotalPrice);
+            paycount = (TextView) itemView.findViewById(R.id.CartProdPayCount);
+            prodSet = (TextView) itemView.findViewById(R.id.CartProdSet);
+            prodCount = (TextView) itemView.findViewById(R.id.CartProdCount);
         }
     }
 
@@ -79,13 +82,15 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull CartListAdapter.ViewHolder holder, int position) {
         CartListInfo item = mList.get(position);
-//        holder.userid.setText(item.getUserId());
+//        holder.user_id.setText(item.getUserId());
         holder.storeProdImgView.setImageResource(R.drawable.ic_launcher_background);
-        holder.storeName.setText(item.getStoreName());
+        holder.paycount.setText(item.getPayCount());
         holder.mdName.setText(item.getMdName());
         holder.mdPrice.setText(item.getMdPrice());
         holder.puDate.setText(item.getPuDate());
         holder.totalPrice.setText(item.getTotalPrice());
+        holder.prodSet.setText(item.getProdSet());
+        holder.prodCount.setText(item.getPayCount());
     }
 
     @Override

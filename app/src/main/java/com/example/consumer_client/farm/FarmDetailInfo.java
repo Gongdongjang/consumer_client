@@ -8,7 +8,6 @@ public class FarmDetailInfo {
     private String farmName;
     private String prodName;
     private String storeName;
-    private String paySchedule;
     private String puTerm;
 
     public String getFarmName() {
@@ -32,12 +31,6 @@ public class FarmDetailInfo {
     public void setStoreName(String storeName) {
         this.storeName = storeName;
     }
-
-    public String getPaySchedule() {
-        return paySchedule;
-    }
-
-    public void setPaySchedule(String paySchedule) {this.paySchedule = paySchedule;}
 
     public String getPuTerm() {
         return puTerm;
