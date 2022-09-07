@@ -46,7 +46,7 @@ public class FarmDetailActivity extends AppCompatActivity {
     FarmDetailService service;
     JsonParser jsonParser;
     JsonObject res;
-    JsonArray farmArray, mdArray, pay_schedule, pu_start, pu_end;
+    JsonArray farmArray, mdArray, pu_start, pu_end;
     String farm_id, farm_name, farm_info, farm_loc, farm_hours;
     Double farm_lat, farm_long;
 
@@ -109,7 +109,7 @@ public class FarmDetailActivity extends AppCompatActivity {
 
                         //md 정보
                         mdArray = res.get("md_data").getAsJsonArray();
-                        pay_schedule = res.get("pay_schedule").getAsJsonArray();
+//                        pay_schedule = res.get("pay_schedule").getAsJsonArray();
                         pu_start = res.get("pu_start").getAsJsonArray();
                         pu_end = res.get("pu_end").getAsJsonArray();
 

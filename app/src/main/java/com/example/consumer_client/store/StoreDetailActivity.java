@@ -50,7 +50,7 @@ public class StoreDetailActivity extends AppCompatActivity {
     StoreDetailService service;
     JsonParser jsonParser;
     JsonObject res;
-    JsonArray storeArray,jpArray,rvwArray, pay_schedule, pu_start, pu_end;
+    JsonArray storeArray,jpArray,rvwArray, pu_start, pu_end;
 
     String store_id, store_name;
     Double store_lat,store_long;
@@ -107,7 +107,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                         storeArray= res.get("store_result").getAsJsonArray();
                         //md정보
                         jpArray=res.get("jp_result").getAsJsonArray();
-                        pay_schedule = res.get("pay_schedule").getAsJsonArray();
+//                        pay_schedule = res.get("pay_schedule").getAsJsonArray();
                         pu_start = res.get("pu_start").getAsJsonArray();
                         pu_end = res.get("pu_end").getAsJsonArray();
                         //리뷰정보
