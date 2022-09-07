@@ -34,14 +34,14 @@ import retrofit2.http.POST;
 public class TotalList extends Fragment {
     private View view;
     Activity mActivity;
-    String userid;
+    String user_id;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
         Intent intent = mActivity.getIntent(); //intent 값 받기
-        userid=intent.getStringExtra("userid");
+        user_id=intent.getStringExtra("user_id");
     }
 
     @Override
@@ -52,12 +52,12 @@ public class TotalList extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_total_list, container, false);
 
         TextView totalFarmTextView = (TextView) view.findViewById(R.id.showTotalFarm);
-        Log.d("Totallist", userid);
+        Log.d("Totallist", user_id);
         totalFarmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FarmActivity.class);
-                intent.putExtra("user_id", userid);
+                intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
         });
@@ -67,7 +67,7 @@ public class TotalList extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StoreActivity.class);
-                intent.putExtra("user_id", userid);
+                intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
         });

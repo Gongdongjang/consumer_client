@@ -38,15 +38,15 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent(); //intent 값 받기
 
         //유저id 받기
-        String userid;
+        String user_id;
         String generalid = intent.getStringExtra("generalid");
         String kakaoid = intent.getStringExtra("kakaoid");
         String googleid = intent.getStringExtra("googleid");
 
-        if(generalid != null) userid=generalid;
-        else if(kakaoid !=null) userid=kakaoid;
-        else if(googleid !=null) userid=googleid;
-        else userid=intent.getStringExtra("userid");    //첫 튜토리얼시 findtown에서 넘어온 userid
+        if(generalid != null) user_id=generalid;
+        else if(kakaoid !=null) user_id=kakaoid;
+        else if(googleid !=null) user_id=googleid;
+        else user_id=intent.getStringExtra("user_id");    //첫 튜토리얼시 findtown에서 넘어온 user_id
 
         // 최초 실행 여부를 판단 ->>>
         SharedPreferences pref = getSharedPreferences("checkFirst", Activity.MODE_PRIVATE);
@@ -61,11 +61,11 @@ public class MainActivity extends AppCompatActivity {
             finish();
 
             intent = new Intent(MainActivity.this, TutorialActivity.class);
-            intent.putExtra("userid",userid);
+            intent.putExtra("user_id",user_id);
             startActivity(intent);
         } else{
            //최초 로그인 아닐때
-           intent.putExtra("userid",userid);
+           intent.putExtra("user_id",user_id);
        }
 
         bottomNavigation = findViewById(R.id.bottom_navi);

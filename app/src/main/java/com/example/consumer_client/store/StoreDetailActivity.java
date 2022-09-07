@@ -175,7 +175,7 @@ public class StoreDetailActivity extends AppCompatActivity {
 
                         //진행중인 공동구매 md
                         for(int i=0;i<jpArray.size();i++){
-                            addFarmJointPurchase(jpArray.get(i).getAsJsonObject().get("farm_name").getAsString(), jpArray.get(i).getAsJsonObject().get("md_name").getAsString(), jpArray.get(i).getAsJsonObject().get("store_name").getAsString(), pay_schedule.get(i).getAsString(), pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
+                            addFarmJointPurchase(jpArray.get(i).getAsJsonObject().get("farm_name").getAsString(), jpArray.get(i).getAsJsonObject().get("md_name").getAsString(), jpArray.get(i).getAsJsonObject().get("store_name").getAsString(),pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
                         }
 
                         //리뷰
@@ -218,13 +218,13 @@ public class StoreDetailActivity extends AppCompatActivity {
         mReviewList = new ArrayList<>();
     }
 
-    public void addFarmJointPurchase(String farmName, String prodName, String storeName, String paySchedule, String puTerm){
+    public void addFarmJointPurchase(String farmName, String prodName, String storeName, String puTerm){
         FarmDetailInfo farmDetail = new FarmDetailInfo();
 
         farmDetail.setFarmName(farmName);
         farmDetail.setProdName(prodName);
         farmDetail.setStoreName(storeName);
-        farmDetail.setPaySchedule(paySchedule);
+//        farmDetail.setPaySchedule(paySchedule);
         farmDetail.setPuTerm(puTerm);
 
         mList.add(farmDetail);

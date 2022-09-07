@@ -93,7 +93,7 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     private TextView change_address, home_userid;
 
     //userid!!
-    String userid;
+    String user_id;
     Button popupBtn;
     private ReviewDialog reviewDialog;
 
@@ -102,7 +102,7 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
         Intent intent = mActivity.getIntent(); //intent 값 받기
-        userid=intent.getStringExtra("userid");
+        user_id=intent.getStringExtra("user_id");
     }
 
     @Override
@@ -141,7 +141,7 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(mActivity, MdListMainActivity.class);
-                intent.putExtra("user_id", userid);
+                intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
         });
@@ -153,14 +153,14 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
 //            public void onClick(View v){
 //                Log.d("클릭", "확인");
 //                Intent intent = new Intent(mActivity, FindTownActivity.class);
-//                intent.putExtra("userid",userid);
+//                intent.putExtra("user_id",user_id);
 //                startActivity(intent);
 //            }
 //        });
 
         //유저아이디 띄우기
         home_userid = view.findViewById(R.id.home_userid);
-        home_userid.setText("아이디:"+ userid);
+        home_userid.setText("아이디:"+ user_id);
 
         //product recyclerview 초기화
         firstInit();
@@ -210,7 +210,7 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(mActivity, JointPurchaseActivity.class);
                                     intent.putExtra("md_id", md_id_list.get(pos));
-                                    intent.putExtra("user_id", userid);
+                                    intent.putExtra("user_id", user_id);
                                     startActivity(intent);
                                 }
                             }
