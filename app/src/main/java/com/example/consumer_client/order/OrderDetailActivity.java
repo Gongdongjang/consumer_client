@@ -41,7 +41,7 @@ interface OrderDetailMdService{
 public class OrderDetailActivity extends AppCompatActivity {
     String TAG = OrderDetailActivity.class.getSimpleName();
 
-    String userid;
+    String user_id;
 
     JsonObject body;
     OrderDetailMdService service;
@@ -73,7 +73,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         TextView ProdStatus = (TextView) findViewById(R.id.ProdStatus);
 
         Intent intent = getIntent(); //intent 값 받기
-        userid = intent.getStringExtra("userid");
+        user_id = intent.getStringExtra("user_id");
         store_loc=intent.getStringExtra("store_loc");
         store_my = intent.getStringExtra("store_my");
         store_name = intent.getStringExtra("store_name");

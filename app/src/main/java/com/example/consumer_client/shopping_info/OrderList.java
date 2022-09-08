@@ -52,16 +52,16 @@ public class OrderList extends AppCompatActivity {
     private ArrayList<OrderListInfo> mList;
     Button OrderReviewBtn;
     Activity mActivity;
-    String userid;
+    String user_id;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mypage_order_list);
 
         Intent intent = getIntent(); //intent 값 받기
-        userid=intent.getStringExtra("userid");
+        user_id=intent.getStringExtra("user_id");
 
-        Log.d("65행", userid);
+        Log.d("65행", user_id);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseurl))
@@ -74,7 +74,7 @@ public class OrderList extends AppCompatActivity {
 //        view= inflater.inflate(R.layout.activity_order_list, container, false);
 
         JsonObject body = new JsonObject();
-        body.addProperty("user_id", userid);
+        body.addProperty("user_id", user_id);
         Call<ResponseBody> call = service.orderDetailsData(body);
 
         firstInit();
@@ -101,7 +101,7 @@ public class OrderList extends AppCompatActivity {
                         double distanceKilo =
                                 distance(37.59272, 127.016544, Double.parseDouble(orderDetailArray.get(i).getAsJsonObject().get("store_lat").getAsString()), Double.parseDouble(orderDetailArray.get(i).getAsJsonObject().get("store_long").getAsString()), "kilometer");
 
-                        addOrderList(userid, orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(), "제품 이미지", orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_md_status").getAsString(), pu_date.get(i).getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_lat").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_long").getAsString());
+                        addOrderList(user_id, orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(), "제품 이미지", orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_md_status").getAsString(), pu_date.get(i).getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_lat").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_long").getAsString());
                     }
 
                     mOrderListAdapter.setOnItemClickListener (
@@ -109,7 +109,7 @@ public class OrderList extends AppCompatActivity {
                                 @Override
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(OrderList.this, OrderDetailActivity.class);
-                                    intent.putExtra("userid", userid);
+                                    intent.putExtra("user_id", user_id);
                                     intent.putExtra("store_loc", mList.get(pos).getStoreLoc());
                                     intent.putExtra("store_my", mList.get(pos).getStoreLocationFromMe());
                                     intent.putExtra("store_name", mList.get(pos).getStoreName());

@@ -176,6 +176,7 @@ public class CartDialog extends Dialog {
                     i.putExtra("mdName",mdName);
                     i.putExtra("purchaseNum",PurchaseNumSpinner.getSelectedItem().toString());
                     i.putExtra("prodPrice",prodPrice);
+                    i.putExtra("prod_set", prodNum);
                     i.putExtra("store_name",store_name);
                     i.putExtra("store_loc",store_loc);
                     i.putExtra("store_lat",store_lat);

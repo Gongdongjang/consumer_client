@@ -47,7 +47,7 @@ public class CartListActivity extends AppCompatActivity {
     private ArrayList<CartListInfo> mList;
     private CartListAdapter mCartListAdapter;
 
-    String md_name, purchase_num, md_price;
+    String md_name, purchase_num, md_price, prod_set;
     String store_name,store_loc, store_lat, store_long;
     String pu_date, pu_time;
     String user_id, md_id, store_id;
@@ -74,6 +74,7 @@ public class CartListActivity extends AppCompatActivity {
         user_id=intent.getStringExtra("user_id");
         md_name = intent.getStringExtra("mdName");
         purchase_num = intent.getStringExtra("purchaseNum");
+        prod_set = intent.getStringExtra("prod_set");
         md_price = intent.getStringExtra("prodPrice");
         store_name = intent.getStringExtra("store_name");
         store_loc=intent.getStringExtra("store_loc");
@@ -95,6 +96,8 @@ public class CartListActivity extends AppCompatActivity {
         body.addProperty("pu_date", pu_date);
         body.addProperty("pu_time", pu_time);
         body.addProperty("purchase_num", purchase_num);
+        purchase_num = purchase_num.substring(0,1);
+        Log.d("purchase_num", purchase_num);
 
         Call<ResponseBody> call = service.cartList(body);
         call.enqueue(new Callback<ResponseBody>() {
@@ -113,8 +116,9 @@ public class CartListActivity extends AppCompatActivity {
                         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         mCartRecyclerView.setLayoutManager(linearLayoutManager);
 
+                        Log.d("계산: ", String.valueOf(Integer.parseInt(md_price) * Integer.parseInt(purchase_num)));
                         for(int i=0;i<1;i++){ //size수정하기
-                            addCart("product Img", store_name, md_name, md_price, pu_date + " "+ pu_time, String.valueOf(Integer.parseInt(md_price) * Integer.parseInt(purchase_num)));
+                            addCart("product Img", md_name, purchase_num, md_price, pu_date + " "+ pu_time, String.valueOf(Integer.parseInt(md_price) * Integer.parseInt(purchase_num)), prod_set);
                         }
                         Log.d("cart", user_id);
 
@@ -143,15 +147,17 @@ public class CartListActivity extends AppCompatActivity {
         mList = new ArrayList<>();
     }
 
-    public void addCart(String storeProdImgView, String storeName, String mdName, String mdPrice, String puDate, String totalPrice){
+    public void addCart(String storeProdImgView, String mdName, String paycount, String mdPrice, String puDate, String totalPrice, String prod_set){
         CartListInfo cart = new CartListInfo();
 
         cart.setStoreProdImgView(storeProdImgView);
-        cart.setStoreName(storeName);
         cart.setMdName(mdName);
+        cart.setPayCount(paycount);
         cart.setMdPrice(mdPrice);
         cart.setPuDate(puDate);
         cart.setTotalPrice(totalPrice);
+        cart.setProdSet(prod_set);
+        cart.setProdCount(paycount);
 
         mList.add(cart);
     }

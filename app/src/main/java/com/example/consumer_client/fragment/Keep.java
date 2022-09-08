@@ -72,7 +72,7 @@ public class Keep extends Fragment {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
         Intent intent = mActivity.getIntent(); //intent 값 받기
-        user_id=intent.getStringExtra("userid");
+        user_id=intent.getStringExtra("user_id");
     }
 
     @Override
@@ -165,7 +165,6 @@ public class Keep extends Fragment {
         mdDetail.setFarmName(farmName);
         mdDetail.setProdName(prodName);
         mdDetail.setStoreName(storeName);
-//        mdDetail.setPaySchedule(paySchedule);
         mdDetail.setPuTerm(puTerm);
 
         mList.add(mdDetail);

@@ -52,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private TextView code_verify_txt, id_verify_txt, pwd_verify_txt;
     private EditText id, code_verify_input, password, pwConfirm, name, mobile_no;
-    private RadioButton male, female, infoOk, pushOk;
+    private RadioButton infoOk, pushOk;
     private Button registerButton, phone_verify_btn, code_verify_btn, id_verify_btn;
 
     @Override
@@ -71,8 +71,6 @@ public class RegisterActivity extends AppCompatActivity {
         name = (EditText) findViewById(R.id.signName);
         mobile_no = (EditText) findViewById(R.id.mobile_no);
         phone_verify_btn = findViewById(R.id.mobileAuth);
-        male = (RadioButton) findViewById(R.id.male);
-        female = (RadioButton) findViewById(R.id.female);
         registerButton = findViewById(R.id.signupbutton);
         infoOk = (RadioButton) findViewById(R.id.infoOk);
         pushOk = (RadioButton) findViewById(R.id.pushOk);
@@ -258,14 +256,6 @@ public class RegisterActivity extends AppCompatActivity {
         String uname = name.getText().toString();
         String umobile_no = mobile_no.getText().toString();
 
-        String gender = "";
-        if(male.isChecked()){
-            gender = "남";
-        }
-        else if(female.isChecked()){
-            gender = "여";
-        }
-
         boolean cancel = false;
         View focusView = null;
 
@@ -321,7 +311,6 @@ public class RegisterActivity extends AppCompatActivity {
             body.addProperty("password", pwd);
             body.addProperty("nickname", uid);
             body.addProperty("phone_number", umobile_no);
-            body.addProperty("gender", gender);
             body.addProperty("name", uname);
             body.addProperty("push_allow", push_allow);
 

@@ -23,14 +23,14 @@ import com.example.consumer_client.shopping_info.ShoppingInfoActivity;
 public class MyPage extends Fragment {
     private View view;
     Activity mActivity;
-    String userid;
+    String user_id;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
         Intent intent = mActivity.getIntent(); //intent 값 받기
-        userid=intent.getStringExtra("userid");
+        user_id=intent.getStringExtra("user_id");
     }
 
     @Override
@@ -56,7 +56,7 @@ public class MyPage extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ShoppingInfoActivity.class);
-                intent.putExtra("userid", userid);
+                intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
         });
@@ -66,7 +66,7 @@ public class MyPage extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ShoppingInfoActivity.class);
-                intent.putExtra("userid", userid);
+                intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
         });
@@ -76,7 +76,7 @@ public class MyPage extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ShoppingInfo2Activity.class);
-                intent.putExtra("userid", userid);
+                intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
         });
