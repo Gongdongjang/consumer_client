@@ -38,7 +38,16 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".farm.FarmDetailActivity" />
         <activity android:name=".store.StoreDetailActivity" />
-        <activity android:name=".md.JointPurchaseActivity" />
+        <activity android:name=".md.JointPurchaseActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="kakaolink"
+                    android:scheme="@string/kakao_scheme" />
+            </intent-filter>
+        </activity>
 
         <activity android:name=".PayActivity" />
 
@@ -70,7 +79,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".PopupOrderActivity" android:theme="@style/popupTheme" android:screenOrientation="portrait"/>
+<!--        <activity android:name=".PopupOrderActivity" android:theme="@style/popupTheme" android:screenOrientation="portrait"/>-->
         <activity android:name=".shopping_info.ShoppingInfoActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".shopping_info.OrderList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".shopping_info.ReviewList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
