@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 //import com.example.consumer_client.cart.CartDialog;
-import com.example.consumer_client.OrderDialog;
+import com.example.consumer_client.order.OrderDialog;
 import com.example.consumer_client.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -272,7 +272,8 @@ public class JointPurchaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 orderDialog = new OrderDialog(mContext, (String) MdName.getText(),(String) ProdNum.getText(), (String) ProdPrice.getText()
-                        , pu_start,pu_end, (String) StoreName.getText(), store_id, store_loc, store_lat, store_long, user_id, md_id);
+                        , (String) StkRemain.getText(), pu_start, pu_end, (String) StoreName.getText(),
+                        store_id, store_loc, store_lat, store_long, user_id, md_id);
                 //orderDialog = new OrderDialog(mContext,md_detail.get(0).getAsJsonObject().get("md_name").getAsString(),pu_start,pu_end);
                 orderDialog.show();
             }

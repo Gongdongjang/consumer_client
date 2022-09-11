@@ -1,4 +1,4 @@
-package com.example.consumer_client;
+package com.example.consumer_client.order;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.consumer_client.address.FindTownActivity;
+import com.example.consumer_client.R;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -79,7 +79,8 @@ public class PayActivity extends AppCompatActivity {
         pickupTime = intent.getStringExtra("pickupTime");
 
         //n 세트만큼 가격 결정.
-        for(int i=1; i<=Integer.parseInt(purchaseNum.substring(0,1)); i++){
+        Log.d("purchaseNum",purchaseNum);
+        for(int i=1; i<=Integer.parseInt(purchaseNum); i++){
             prodPrice= String.valueOf(Integer.parseInt(prodPrice)* i);
         }
 
