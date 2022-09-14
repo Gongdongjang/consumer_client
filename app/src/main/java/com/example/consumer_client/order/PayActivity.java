@@ -1,6 +1,8 @@
 package com.example.consumer_client.order;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -73,8 +76,6 @@ public class PayActivity extends AppCompatActivity {
         store_name = intent.getStringExtra("store_name");
         store_id = intent.getStringExtra("store_id");
         store_loc=intent.getStringExtra("store_loc");
-        store_lat = intent.getStringExtra("store_lat");
-        store_long = intent.getStringExtra("store_long");
         pickupDate = intent.getStringExtra("pickupDate");
         pickupTime = intent.getStringExtra("pickupTime");
 
@@ -120,11 +121,21 @@ public class PayActivity extends AppCompatActivity {
             }
         });
 
+        final Geocoder geocoder = new Geocoder(getApplicationContext());
+        List<Address> address= null;
+        try {
+            address = geocoder.getFromLocationName(store_loc,10);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address location = address.get(0);
+        double store_lat=location.getLatitude();
+        double store_long=location.getLongitude();
 
         //----------------지도
         MapView mapView = new MapView(this);
         // 중심점 변경
-        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(store_lat), Double.parseDouble(store_long)), true);
+        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(store_lat, store_long), true);
 
         // 줌 레벨 변경
         mapView.setZoomLevel(1, true);
@@ -137,19 +148,19 @@ public class PayActivity extends AppCompatActivity {
         mapViewContainer.addView(mapView);
 
         //스토어위치 마커 아이콘 띄우기
-        MapPoint s_MarkPoint = MapPoint.mapPointWithGeoCoord(Double.parseDouble(store_lat), Double.parseDouble(store_long));  //마커찍기
+        MapPoint s_MarkPoint = MapPoint.mapPointWithGeoCoord(store_lat, store_long);  //마커찍기
 
-        MapPOIItem farm_marker=new MapPOIItem();
-        farm_marker.setItemName(store_name); //클릭했을때 스토어 이름 나오기
-        farm_marker.setTag(0);
-        farm_marker.setMapPoint(s_MarkPoint);   //좌표입력받아 현위치로 출력
+        MapPOIItem store_marker=new MapPOIItem();
+        store_marker.setItemName(store_name); //클릭했을때 스토어 이름 나오기
+        store_marker.setTag(0);
+        store_marker.setMapPoint(s_MarkPoint);   //좌표입력받아 현위치로 출력
 
         //  (클릭 전)기본으로 제공하는 BluePin 마커 모양의 색.
-        farm_marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+        store_marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
         // (클릭 후) 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-        farm_marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+        store_marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
         // 지도화면 위에 추가되는 아이콘을 추가하기 위한 호출(말풍선 모양)
-        mapView.addPOIItem(farm_marker);
+        mapView.addPOIItem(store_marker);
 
         //나중에 스토어위치 마커 커스텀 이미지로 바꾸기
         //farm_marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);

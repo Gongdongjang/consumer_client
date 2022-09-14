@@ -4,6 +4,8 @@ import static com.example.consumer_client.address.LocationDistance.distance;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.Comparator;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -89,11 +92,21 @@ public class StoreActivity extends AppCompatActivity {
                     linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                     mStoreRecyclerView.setLayoutManager(linearLayoutManager);
 
-                    for(int i=0;i<storeArray.size() ;i++) {
-                        double distanceKilo =
-                                distance(37.59272, 127.016544, Double.parseDouble(storeArray.get(i).getAsJsonObject().get("store_lat").getAsString()), Double.parseDouble(storeArray.get(i).getAsJsonObject().get("store_long").getAsString()), "kilometer");
+                    final Geocoder geocoder = new Geocoder(getApplicationContext());
 
-                        addStore(storeArray.get(i).getAsJsonObject().get("store_id").getAsString(),"스토어 이미지", storeArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), storeArray.get(i).getAsJsonObject().get("store_info").getAsString(), storeArray.get(i).getAsJsonObject().get("store_restDays").getAsString(), storeArray.get(i).getAsJsonObject().get("store_hours").getAsString());
+                    for(int i=0;i<storeArray.size() ;i++) {
+                        //스토어위치->위도, 경도 구하기
+                        String store_loc= storeArray.get(i).getAsJsonObject().get("store_loc").getAsString();
+                        List<Address> address=  geocoder.getFromLocationName(store_loc,10);
+                        Address location = address.get(0);
+                        double store_lat=location.getLatitude();
+                        double store_long=location.getLongitude();
+
+                        //자신이 설정한 위치와 스토어 거리 distance 구하기
+                        double distanceKilo =
+                                distance(37.59272, 127.016544, store_lat, store_long, "kilometer");
+
+                        addStore(storeArray.get(i).getAsJsonObject().get("store_id").getAsString(),"스토어 이미지", storeArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), storeArray.get(i).getAsJsonObject().get("store_info").getAsString(), "휴무일 없어진거니?", storeArray.get(i).getAsJsonObject().get("store_hours").getAsString());
                     }
                     //거리 가까운순으로 정렬
                     mList.sort(new Comparator<StoreTotalInfo>() {
