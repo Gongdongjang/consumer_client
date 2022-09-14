@@ -147,14 +147,45 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Spinner
-                android:id="@+id/PurchaseNumSpinner"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:popupBackground="@color/white"
-                android:spinnerMode="dropdown" />
+<!--            <Spinner-->
+<!--                android:id="@+id/PurchaseNumSpinner"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:popupBackground="@color/white"-->
+<!--                android:spinnerMode="dropdown" />-->
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/mdPlusBtn"
+                    android:layout_width="39dp"
+                    android:layout_height="match_parent"
+                    android:text="+"
+                    android:textColor="@color/black" />
+
+
+                <EditText
+                    android:id="@+id/PurchaseNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:gravity="center"
+                    android:text="1"/>
+
+                <Button
+                    android:id="@+id/mdMinusBtn"
+                    android:layout_width="39dp"
+                    android:layout_height="match_parent"
+                    android:text="-"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/PickUpDate"

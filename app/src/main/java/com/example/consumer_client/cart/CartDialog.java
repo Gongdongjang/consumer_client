@@ -71,7 +71,7 @@ public class CartDialog extends Dialog {
         }
 
         //스피너 (개수)세팅
-        PurchaseNumSpinner=findViewById(R.id.PurchaseNumSpinner);
+        //PurchaseNumSpinner=findViewById(R.id.PurchaseNumSpinner);
         final String[] purchaseNum = {"1세트","2세트","3세트","4세트","5세트"};
 
         ArrayAdapter purchaseNumAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, purchaseNum);
