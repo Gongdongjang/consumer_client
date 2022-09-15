@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.example.consumer_client.farm.FarmActivity;
 import com.example.consumer_client.farm.FarmDetailAdapter;
 import com.example.consumer_client.farm.FarmDetailInfo;
+import com.example.consumer_client.md.MdListMainActivity;
+import com.example.consumer_client.my_town.StoreMap;
 import com.example.consumer_client.store.StoreActivity;
 import com.example.consumer_client.R;
 import com.google.gson.JsonArray;
@@ -51,6 +53,7 @@ public class TotalList extends Fragment {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_total_list, container, false);
 
+        //서비스 전체보기 (전체 입점농가)
         TextView totalFarmTextView = (TextView) view.findViewById(R.id.showTotalFarm);
         Log.d("Totallist", user_id);
         totalFarmTextView.setOnClickListener(new View.OnClickListener() {
@@ -62,11 +65,34 @@ public class TotalList extends Fragment {
             }
         });
 
+        //서비스 전체보기 (전체 스토어)
         TextView totalStoreTextView = (TextView) view.findViewById(R.id.showTotalStore);
         totalStoreTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StoreActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+
+        //우리동네 상품보기 (지도로 스토어보기)
+        TextView showStoreLocTextView = (TextView) view.findViewById(R.id.showStoreLoc);
+        showStoreLocTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), StoreMap.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+
+        //우리동네 상품보기 (진행중인 제품보기)
+        TextView showProductTextView = (TextView) view.findViewById(R.id.showProduct);
+        showProductTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MdListMainActivity.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
