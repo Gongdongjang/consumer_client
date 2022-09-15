@@ -1,7 +1,7 @@
 package com.example.consumer_client.address;
 
 import android.content.Intent;
-import android.location.Address;
+
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,13 +10,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.network.NetworkStatus;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -34,6 +35,9 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 interface FindTownService {
+    @POST("get_address")
+    Call<ResponseBody> addressInfo(@Body JsonObject body);  //post user_id
+
     @POST("register_address")
     Call<ResponseBody> addressRegister(@Body JsonObject body);
 }
@@ -42,6 +46,8 @@ public class FindTownActivity extends AppCompatActivity {
 
     FindTownService service;
     JsonParser jsonParser;
+    JsonObject res;
+    JsonArray addressArray;
 
     // 주소 요청코드 상수 requestCode
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
@@ -73,6 +79,51 @@ public class FindTownActivity extends AppCompatActivity {
         txt_address1= findViewById(R.id.txt_address1);
         txt_address2= findViewById(R.id.txt_address2);
         txt_address3=findViewById(R.id.txt_address3);
+
+        JsonObject body = new JsonObject();
+        body.addProperty("id", userid);
+
+        Call<ResponseBody> call = service.addressInfo(body);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                try {
+                    res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
+                    addressArray = res.get("address_result").getAsJsonArray();  //json배열
+                    int address_count= res.get("address_count").getAsInt();
+                    Log.d("근처동네", String.valueOf(address_count));
+
+                    //사용자가 등록한 주소 불러오기
+                    if (address_count==1){
+                        String address_loc1= addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
+                        txt_address1.setText(address_loc1);
+                    }
+                    else if(address_count==2){
+                        String address_loc1= addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
+                        String address_loc2= addressArray.get(0).getAsJsonObject().get("loc2").getAsString();
+                        txt_address1.setText(address_loc1);
+                        txt_address2.setText(address_loc2);
+                    }
+                    else if(address_count==3){
+                        String address_loc1= addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
+                        String address_loc2= addressArray.get(0).getAsJsonObject().get("loc2").getAsString();
+                        String address_loc3= addressArray.get(0).getAsJsonObject().get("loc3").getAsString();
+                        txt_address1.setText(address_loc1);
+                        txt_address2.setText(address_loc2);
+                        txt_address3.setText(address_loc3);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(FindTownActivity.this, "주소정보 받아오기 오류 발생", Toast.LENGTH_SHORT).show();
+                Log.e("주소정보", t.getMessage());
+            }
+        });
+
 
         //주소추가 버튼 누르면 주소추가할 수 있는 액티비티로 이동
         btn_addAdress.setOnClickListener(new View.OnClickListener() {
@@ -168,7 +219,6 @@ public class FindTownActivity extends AppCompatActivity {
                 Log.e("주소등록", t.getMessage());
             }
         });
-
     }
 }
 

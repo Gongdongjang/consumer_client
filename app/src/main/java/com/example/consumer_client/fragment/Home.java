@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.consumer_client.ReviewDialog;
+import com.example.consumer_client.address.FindTownActivity;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.md.MdListMainActivity;
 import com.example.consumer_client.R;
@@ -148,15 +149,15 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
 
         //주소변경 누르면 주소등록 페이지로 (db에 저장된 주소 있으면 이전 주소 보여주는.. )
         change_address = view.findViewById(R.id.change_address);
-//        change_address.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v){
-//                Log.d("클릭", "확인");
-//                Intent intent = new Intent(mActivity, FindTownActivity.class);
-//                intent.putExtra("user_id",user_id);
-//                startActivity(intent);
-//            }
-//        });
+        change_address.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Log.d("클릭", "확인");
+                Intent intent = new Intent(mActivity, FindTownActivity.class);
+                intent.putExtra("user_id",user_id);
+                startActivity(intent);
+            }
+        });
 
         //유저아이디 띄우기
         home_userid = view.findViewById(R.id.home_userid);
