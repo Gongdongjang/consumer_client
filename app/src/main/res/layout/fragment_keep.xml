@@ -40,11 +40,20 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/noKeep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="15dp" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/keep_recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

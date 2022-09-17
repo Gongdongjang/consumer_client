@@ -24,10 +24,17 @@
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
             android:id="@+id/totalOrderListView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="606dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"></androidx.recyclerview.widget.RecyclerView>
+
+        <ProgressBar
+            android:id="@+id/farmProgressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 </LinearLayout>
