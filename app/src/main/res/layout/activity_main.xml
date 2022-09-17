@@ -7,11 +7,15 @@
     android:layout_height="match_parent"
     android:id="@+id/HomeNavi"
     tools:context=".MainActivity">
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical">
+    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navi"
@@ -26,7 +30,7 @@
         android:id="@+id/Main_Frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:layout_marginTop="60dp"
         android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navi"
         app:layout_constraintEnd_toEndOf="parent"

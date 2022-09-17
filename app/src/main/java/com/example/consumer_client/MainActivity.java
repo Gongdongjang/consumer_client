@@ -1,7 +1,9 @@
 package com.example.consumer_client;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -9,13 +11,20 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
+import com.example.consumer_client.address.EditTownActivity;
 import com.example.consumer_client.fragment.Home;
 import com.example.consumer_client.fragment.Keep;
 import com.example.consumer_client.fragment.MyPage;
 import com.example.consumer_client.fragment.Order;
 import com.example.consumer_client.fragment.TotalList;
+import com.example.consumer_client.md.MdListMainActivity;
 import com.example.consumer_client.tutorial.TutorialActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -29,11 +38,19 @@ public class MainActivity extends AppCompatActivity {
     private Home frag3;
     private Order frag4;
     private MyPage frag5;
+    private TextView change_address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //상단바 지정
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);    //기본 제목을 없애줍니다.
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent(); //intent 값 받기
 
@@ -47,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         String generalid = intent.getStringExtra("generalid");
         String kakaoid = intent.getStringExtra("kakaoid");
         String googleid = intent.getStringExtra("googleid");
-
+        
         if(generalid != null) user_id=generalid;
         else if(kakaoid !=null) user_id=kakaoid;
         else if(googleid !=null) user_id=googleid;
@@ -114,6 +131,18 @@ public class MainActivity extends AppCompatActivity {
 
                 setFrag(2); // 첫 프래그먼트 화면을 무엇으로 지정해줄 것인지 선택
 
+        // 지역명
+        //상단바 주소변경 누르면 주소변경/선택 페이지로
+        change_address = findViewById(R.id.change_address);
+        change_address.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Log.d("클릭", "확인");
+                Intent intent = new Intent(MainActivity.this, EditTownActivity.class);
+                intent.putExtra("user_id",user_id);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setFrag(int n) {

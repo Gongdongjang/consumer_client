@@ -152,18 +152,6 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
             }
         });
 
-        //상단바 주소변경 누르면 주소변경/선택 페이지로
-        change_address = view.findViewById(R.id.change_address);
-        change_address.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Log.d("클릭", "확인");
-                Intent intent = new Intent(mActivity, EditTownActivity.class);
-                intent.putExtra("user_id",user_id);
-                startActivity(intent);
-            }
-        });
-
         //유저아이디 띄우기
         home_userid = view.findViewById(R.id.home_userid);
         home_userid.setText("아이디:"+ user_id);

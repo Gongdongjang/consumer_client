@@ -10,43 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:background="#C4C4C4">
-
-            <TextView
-                android:id="@+id/gotoBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/change_address"
-                android:layout_width="212dp"
-                android:layout_height="32dp"
-                android:text="지역명"
-                android:layout_marginTop="10dp"
-                android:textColor="#000000"
-                android:textSize="20dp"
-                android:gravity="center"
-                android:textStyle="bold"
-                />
-
-            <TextView
-                android:id="@+id/gotoCart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:text="장바구니" />
-        </LinearLayout>
-        <!--상단바 끝-->
         <TextView
             android:id="@+id/home_userid"
             android:layout_width="match_parent"
