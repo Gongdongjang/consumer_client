@@ -22,12 +22,20 @@ import com.example.consumer_client.user.KakaoApplication;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.kakao.kakaolink.KakaoLink;
-import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
+import com.kakao.kakaolink.v2.KakaoLinkResponse;
+import com.kakao.kakaolink.v2.KakaoLinkService;
+import com.kakao.message.template.ButtonObject;
+import com.kakao.message.template.ContentObject;
+import com.kakao.message.template.FeedTemplate;
+import com.kakao.message.template.LinkObject;
+import com.kakao.network.ErrorResult;
+import com.kakao.network.callback.ResponseCallback;
 import com.kakao.util.KakaoParameterException;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -262,12 +270,36 @@ public class JointPurchaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    KakaoLink link=KakaoLink.getKakaoLink(mContext);
-                    KakaoTalkLinkMessageBuilder builder=link.createKakaoTalkLinkMessageBuilder();
-                    builder.addText(""+"resultText");
-                    builder.addAppButton("앱 실행하기");
-                    link.sendMessage(builder,mContext);
-                } catch (KakaoParameterException e) {
+                    FeedTemplate params = FeedTemplate
+                            .newBuilder(ContentObject.newBuilder("공동장 김세모 농부님의 수박",
+                                    "https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/191/791/81191791_1555664874860_1_600x600.JPG",
+                                    LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
+                                            .setMobileWebUrl("https://developers.kakao.com").build())
+                                    .setDescrption("세모농장에서 수박이 왔어용~")
+                                    .build())
+                            .addButton(new ButtonObject("웹에서 보기", LinkObject.newBuilder().setWebUrl("https://developers.kakao.com").setMobileWebUrl("https://developers.kakao.com").build()))
+                            .addButton(new ButtonObject("앱에서 보기", LinkObject.newBuilder()
+                                    .setWebUrl("https://developers.kakao.com")
+                                    .setMobileWebUrl("https://developers.kakao.com")
+                                    .setAndroidExecutionParams("key1=value1")
+                                    .setIosExecutionParams("key1=value1")
+                                    .build()))
+                            .build();
+
+                    Map<String, String> serverCallbackArgs = new HashMap<String, String>();
+                    serverCallbackArgs.put("user_id", "${current_user_id}");
+                    serverCallbackArgs.put("product_id", "${shared_product_id}");
+
+
+                    KakaoLinkService.getInstance().sendDefault(mContext, params, new ResponseCallback<KakaoLinkResponse>() {
+                        @Override
+                        public void onFailure(ErrorResult errorResult) {}
+
+                        @Override
+                        public void onSuccess(KakaoLinkResponse result) {
+                        }
+                    });
+                } catch (Exception e) {
                     e.printStackTrace();}
             }
         });

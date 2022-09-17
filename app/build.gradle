@@ -42,10 +42,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     //카카오 SDK 모듈 설정
     implementation "com.kakao.sdk:v2-user:2.8.6" // 카카오 로그인
-    implementation "com.kakao.sdk:v2-talk:2.4.2" // 친구, 메시지(카카오톡)
-    implementation "com.kakao.sdk:v2-story:2.4.2" // 카카오스토리
-    implementation "com.kakao.sdk:v2-link:2.4.2" // 메시지(카카오링크)
-    implementation group: 'com.kakao.sdk', name: 'kakaolink', version: project.KAKAO_SDK_VERSION
+    implementation "com.kakao.sdk:v2-talk:2.8.6" // 친구, 메시지(카카오톡)
+    implementation group: 'com.kakao.sdk', name: 'kakaolink', version:project.KAKAO_SDK_VERSION
     //카카오 맵 모듈
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/libDaumMapAndroid.jar')
