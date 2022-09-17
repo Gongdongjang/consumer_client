@@ -1,7 +1,7 @@
 package com.example.consumer_client.address;
 
 import android.content.Intent;
-import android.location.Address;
+
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,13 +10,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.network.NetworkStatus;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -48,8 +49,7 @@ public class FindTownActivity extends AppCompatActivity {
     TextView txt_address1,txt_address2,txt_address3;
 
     //주소1,2,3 위도경도 list
-    List<Address> addressList=new ArrayList<>();
-    List<Double> latlongList=new ArrayList<>();
+    List<String> addresslist=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +65,8 @@ public class FindTownActivity extends AppCompatActivity {
         setContentView(R.layout.tutor_find_town);
 
         Intent intent = getIntent(); //intent 값 받기
-        String userid=intent.getStringExtra("userid");
-        Log.d("68행_userid", userid);
+        String userid=intent.getStringExtra("user_id");
+        //Log.d("68행_userid", userid);
 
         Button btn_addAdress = findViewById(R.id.btn_addAdress);
         Button btn_finish_address = findViewById(R.id.btn_finish_address);
@@ -74,6 +74,9 @@ public class FindTownActivity extends AppCompatActivity {
         txt_address1= findViewById(R.id.txt_address1);
         txt_address2= findViewById(R.id.txt_address2);
         txt_address3=findViewById(R.id.txt_address3);
+
+        JsonObject body = new JsonObject();
+        body.addProperty("id", userid);
 
         //주소추가 버튼 누르면 주소추가할 수 있는 액티비티로 이동
         btn_addAdress.setOnClickListener(new View.OnClickListener() {
@@ -99,12 +102,12 @@ public class FindTownActivity extends AppCompatActivity {
         btn_finish_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(latlongList.size()>0){
-                    registAddress(userid, latlongList); //서버에 주소 저장
+                if(addresslist.size()>0){
+                    registAddress(userid, addresslist); //서버에 주소 저장
                 }
                 //메인 페이지로 이동
                 Intent intent = new Intent(FindTownActivity.this, MainActivity.class);
-                intent.putExtra("userid",userid);
+                intent.putExtra("user_id",userid);
                 startActivity(intent);
             }
         });
@@ -113,8 +116,6 @@ public class FindTownActivity extends AppCompatActivity {
 
     //선택한 도로명주소명 받아오기
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        //지오코더 선언과 초기화
-        final Geocoder geocoder = new Geocoder(getApplicationContext());
         String str;
         super.onActivityResult(requestCode, resultCode, intent);
         Log.i("test", "onActivityResult");
@@ -126,6 +127,7 @@ public class FindTownActivity extends AppCompatActivity {
                     if (txt_address1.getText().toString().equals("주소1")) {
                         txt_address1.setText(data);
                         str = txt_address1.getText().toString();
+
                     } else if (txt_address2.getText().toString().equals("주소2")) {
                         txt_address2.setText(data);
                         str = txt_address2.getText().toString();
@@ -134,22 +136,8 @@ public class FindTownActivity extends AppCompatActivity {
                         str = txt_address3.getText().toString();
                     }
 
-                    try {
-                        addressList = geocoder.getFromLocationName(str, 20);
-                        Log.d("addressList1", String.valueOf(addressList));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Address address = addressList.get(0);
-                    double lat = address.getLatitude();
-                    double lon = address.getLongitude();
-                    //위도경도 리스트에 저장
-                    latlongList.add(lat);
-                    latlongList.add(lon);
-
-                    Log.d("addressList_lat", String.valueOf(lat));
-                    Log.d("addressList_lon", String.valueOf(lon));
-                    Log.d("addressList_lon", String.valueOf(latlongList));
+                    //주소 리스트에 저장
+                    addresslist.add(str);
                 }
             }
         }
@@ -159,7 +147,7 @@ public class FindTownActivity extends AppCompatActivity {
 
         JsonObject body = new JsonObject();
         body.addProperty("id", userid);
-        body.addProperty("latlong",data.toString());
+        body.addProperty("address",data.toString());
 
         Log.d("164행",body.toString());
 
@@ -184,7 +172,6 @@ public class FindTownActivity extends AppCompatActivity {
                 Log.e("주소등록", t.getMessage());
             }
         });
-
     }
 }
 

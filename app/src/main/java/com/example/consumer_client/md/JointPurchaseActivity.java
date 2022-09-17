@@ -62,7 +62,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
     String user_id, store_id;
     JsonArray keep_data;
     String message;
-    String store_loc,store_lat,store_long;
+    String store_loc;
 
     //Dialog 선언
     OrderDialog orderDialog;
@@ -142,8 +142,6 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
                         //스토어 위치(주문하기에서)
                         store_loc=md_detail.get(0).getAsJsonObject().get("store_loc").getAsString();
-                        store_lat=md_detail.get(0).getAsJsonObject().get("store_lat").getAsString();
-                        store_long=md_detail.get(0).getAsJsonObject().get("store_long").getAsString();
 
                         //000 농부님의 000상품 setText
                         MdImgThumbnail.setImageURI(Uri.parse(md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString()));
@@ -273,7 +271,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
             public void onClick(View v) {
                 orderDialog = new OrderDialog(mContext, (String) MdName.getText(),(String) ProdNum.getText(), (String) ProdPrice.getText()
                         , (String) StkRemain.getText(), pu_start, pu_end, (String) StoreName.getText(),
-                        store_id, store_loc, store_lat, store_long, user_id, md_id);
+                        store_id, store_loc, user_id, md_id);
                 //orderDialog = new OrderDialog(mContext,md_detail.get(0).getAsJsonObject().get("md_name").getAsString(),pu_start,pu_end);
                 orderDialog.show();
             }

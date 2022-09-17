@@ -47,7 +47,7 @@ public class OrderDialog extends Dialog {
 
     public OrderDialog(@NonNull Context context, String mdName, String prodNum, String prodPrice,
                        String StkRemain, String pu_start, String pu_end, String store_name,
-                       String store_id, String store_loc, String store_lat, String store_long, String user_id, String md_id) {
+                       String store_id, String store_loc, String user_id, String md_id) {
         super(context);
         setContentView(R.layout.activity_payment_popup);
 
@@ -239,8 +239,6 @@ public class OrderDialog extends Dialog {
                         i.putExtra("store_name",store_name);
                         i.putExtra("store_id",store_id);
                         i.putExtra("store_loc",store_loc);
-                        i.putExtra("store_lat",store_lat);
-                        i.putExtra("store_long",store_long);
                         i.putExtra("pickupDate",PickUpDate.getText());
                         i.putExtra("pickupTime",PickUpTime.getText());
                         v.getContext().startActivity(i);

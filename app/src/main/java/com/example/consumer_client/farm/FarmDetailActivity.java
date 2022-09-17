@@ -2,6 +2,8 @@ package com.example.consumer_client.farm;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +27,7 @@ import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -103,13 +106,10 @@ public class FarmDetailActivity extends AppCompatActivity {
                         farm_name = farmArray.get(0).getAsJsonObject().get("farm_name").getAsString();
                         farm_info = farmArray.get(0).getAsJsonObject().get("farm_info").getAsString();
                         farm_loc = farmArray.get(0).getAsJsonObject().get("farm_loc").getAsString();
-                        farm_lat = farmArray.get(0).getAsJsonObject().get("farm_lat").getAsDouble();
-                        farm_long = farmArray.get(0).getAsJsonObject().get("farm_long").getAsDouble();
                         farm_hours = farmArray.get(0).getAsJsonObject().get("farm_hours").getAsString();
 
                         //md 정보
                         mdArray = res.get("md_data").getAsJsonArray();
-//                        pay_schedule = res.get("pay_schedule").getAsJsonArray();
                         pu_start = res.get("pu_start").getAsJsonArray();
                         pu_end = res.get("pu_end").getAsJsonArray();
 
@@ -119,11 +119,20 @@ public class FarmDetailActivity extends AppCompatActivity {
                         FarmHourTime.setText(farm_hours);
                         FarmJointPurchaseCount.setText(String.valueOf(mdArray.size()));
 
+                        //농가 위치-> 위도, 경도 구하기
+                        final Geocoder geocoder = new Geocoder(getApplicationContext());
+                        List<Address> address=  geocoder.getFromLocationName(farm_loc,10);
+                        Address location = address.get(0);
+                        double farm_lat=location.getLatitude();
+                        double farm_long=location.getLongitude();
+
+                        Log.d("addressList_lat", String.valueOf(farm_lat));
+                        Log.d("addressList_lon", String.valueOf(farm_long));
+
                         //지도
                         MapView mapView = new MapView(mContext);
                         // 중심점 변경
                         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(farm_lat, farm_long), true);
-
                         // 줌 레벨 변경
                         mapView.setZoomLevel(1, true);
                         // 줌 인
