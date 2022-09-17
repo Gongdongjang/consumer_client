@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         if(generalid != null) user_id=generalid;
         else if(kakaoid !=null) user_id=kakaoid;
         else if(googleid !=null) user_id=googleid;
-        else user_id=intent.getStringExtra("user_id");    //첫 튜토리얼시 findtown에서 넘어온 user_id
+        else user_id=intent.getStringExtra("user_id");    //첫 튜토리얼시 findtown에서 넘어온 + EditTownActivity에서 넘어온
 
         // 최초 실행 여부를 판단 ->>>
         SharedPreferences pref = getSharedPreferences("checkFirst", Activity.MODE_PRIVATE);
