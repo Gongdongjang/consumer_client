@@ -29,7 +29,7 @@
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity android:name=".address.FindTownActivity"/>
         <activity android:name=".address.PlusAddressActivity"/>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity"  android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".md.MdListMainActivity"/>
         <activity android:name=".user.RegisterActivity" />
         <activity android:name=".user.StartActivity" />
@@ -49,7 +49,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".PayActivity" />
+        <activity android:name=".order.PayActivity" />
 
         <activity android:name=".order.OrderDetailActivity" />
         <activity android:name=".review.ReviewActivity" />
@@ -79,10 +79,13 @@
             </intent-filter>
         </activity>
 
-<!--        <activity android:name=".PopupOrderActivity" android:theme="@style/popupTheme" android:screenOrientation="portrait"/>-->
         <activity android:name=".shopping_info.ShoppingInfoActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".shopping_info.OrderList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".shopping_info.ReviewList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".shopping_info.ShoppingInfo2Activity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <activity android:name=".my_town.StoreMap" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".address.EditTownActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
     </application>
 </manifest>

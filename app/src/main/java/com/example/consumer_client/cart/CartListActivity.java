@@ -1,12 +1,9 @@
 package com.example.consumer_client.cart;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -14,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.consumer_client.PayActivity;
 import com.example.consumer_client.R;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

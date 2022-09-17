@@ -2,6 +2,8 @@ package com.example.consumer_client.store;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +32,7 @@ import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -88,7 +91,7 @@ public class StoreDetailActivity extends AppCompatActivity {
         TextView StoreExplain = (TextView) findViewById(R.id.StoreExplain);
         TextView StoreLocation = (TextView) findViewById(R.id.StoreLocation);
         TextView StoreHourTime = (TextView) findViewById(R.id.StoreHourTime);
-        TextView StoreDayOff = (TextView) findViewById(R.id.StoreDayOff);
+        //TextView StoreDayOff = (TextView) findViewById(R.id.StoreDayOff);
         TextView StoreJointPurchaseCount = (TextView) findViewById(R.id.StoreJointPurchaseCount);
 
         JsonObject body = new JsonObject();
@@ -107,7 +110,6 @@ public class StoreDetailActivity extends AppCompatActivity {
                         storeArray= res.get("store_result").getAsJsonArray();
                         //md정보
                         jpArray=res.get("jp_result").getAsJsonArray();
-//                        pay_schedule = res.get("pay_schedule").getAsJsonArray();
                         pu_start = res.get("pu_start").getAsJsonArray();
                         pu_end = res.get("pu_end").getAsJsonArray();
                         //리뷰정보
@@ -118,10 +120,15 @@ public class StoreDetailActivity extends AppCompatActivity {
                         StoreExplain.setText(storeArray.get(0).getAsJsonObject().get("store_info").getAsString());
                         StoreLocation.setText(storeArray.get(0).getAsJsonObject().get("store_loc").getAsString());
                         StoreHourTime.setText(storeArray.get(0).getAsJsonObject().get("store_hours").getAsString());
-                        StoreDayOff.setText(storeArray.get(0).getAsJsonObject().get("store_restDays").getAsString());
+                        //StoreDayOff.setText(storeArray.get(0).getAsJsonObject().get("store_restDays").getAsString());
                         StoreJointPurchaseCount.setText(String.valueOf(jpArray.size()));
-                        store_lat= Double.valueOf(storeArray.get(0).getAsJsonObject().get("store_lat").getAsString()); //위도-> double 형변환
-                        store_long= Double.valueOf(storeArray.get(0).getAsJsonObject().get("store_long").getAsString()); //경도
+
+                        final Geocoder geocoder = new Geocoder(getApplicationContext());
+                        String store_loc= storeArray.get(0).getAsJsonObject().get("store_loc").getAsString();
+                        List<Address> address=  geocoder.getFromLocationName(store_loc,10);
+                        Address location = address.get(0);
+                        double store_lat=location.getLatitude();
+                        double store_long=location.getLongitude();
 
                         //지도
                         MapView mapView = new MapView(mContext);

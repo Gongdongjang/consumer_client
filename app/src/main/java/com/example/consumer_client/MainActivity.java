@@ -37,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent(); //intent 값 받기
 
+//        String standard_address;
+//        String address=intent.getStringExtra("standard_address");
+//        if(address != null) address="현재위치";
+//        else address= standard_address;
+
         //유저id 받기
         String user_id;
         String generalid = intent.getStringExtra("generalid");
@@ -62,10 +67,12 @@ public class MainActivity extends AppCompatActivity {
 
             intent = new Intent(MainActivity.this, TutorialActivity.class);
             intent.putExtra("user_id",user_id);
+            //intent.putExtra("standard_address",standard_address);   //나중에..
             startActivity(intent);
         } else{
            //최초 로그인 아닐때
            intent.putExtra("user_id",user_id);
+           //intent.putExtra("standard_address",standard_address);
        }
 
         bottomNavigation = findViewById(R.id.bottom_navi);
