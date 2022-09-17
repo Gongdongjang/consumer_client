@@ -15,6 +15,8 @@ public class KakaoApplication extends Application {
         // @brief : kakao 네이티브 앱키로 초기화
         String kakao_app_key = getResources().getString(R.string.kakao_app_key);
         KakaoSdk.init(this,kakao_app_key );
+
+
     }
 }
 

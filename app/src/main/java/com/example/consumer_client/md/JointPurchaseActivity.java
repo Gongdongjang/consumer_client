@@ -18,9 +18,13 @@ import androidx.appcompat.app.AppCompatActivity;
 //import com.example.consumer_client.cart.CartDialog;
 import com.example.consumer_client.order.OrderDialog;
 import com.example.consumer_client.R;
+import com.example.consumer_client.user.KakaoApplication;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.kakao.kakaolink.KakaoLink;
+import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
+import com.kakao.util.KakaoParameterException;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -91,6 +95,8 @@ public class JointPurchaseActivity extends AppCompatActivity {
         ImageView Cart = (ImageView) findViewById(R.id.JP_CartBtn);
         Button Order = (Button) findViewById(R.id.JP_OrderBtn);
 
+        //공유하기
+        ImageView KakaoShare = (ImageView) findViewById(R.id.KakaoShare);
 
         //제품설명 단락 + (가격추가함.)
         ImageView MdImgDetail = (ImageView) findViewById(R.id.JP_MD_Datail_Img);
@@ -153,6 +159,9 @@ public class JointPurchaseActivity extends AppCompatActivity {
 //                        PaySchedule.setText(pay_schedule);
                         PuStart.setText(pu_start);
                         PuEnd.setText(pu_end);
+
+                        //공유하기
+
 
                         //제품설명 setText
 //                        MdImgDetail.setImageURI(Uri.parse(md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()));
@@ -246,6 +255,20 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         Log.e(TAG, "onFailure: e " + t.getMessage());
                     }
                 });
+            }
+        });
+
+        KakaoShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    KakaoLink link=KakaoLink.getKakaoLink(mContext);
+                    KakaoTalkLinkMessageBuilder builder=link.createKakaoTalkLinkMessageBuilder();
+                    builder.addText(""+"resultText");
+                    builder.addAppButton("앱 실행하기");
+                    link.sendMessage(builder,mContext);
+                } catch (KakaoParameterException e) {
+                    e.printStackTrace();}
             }
         });
 
