@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
 
@@ -31,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.consumer_client.ReviewDialog;
+import com.example.consumer_client.address.EditTownActivity;
 import com.example.consumer_client.address.FindTownActivity;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.md.MdListMainActivity;
@@ -47,6 +50,7 @@ import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -93,8 +97,8 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     private TextView productList; //제품리스트 클릭하는 텍스트트
     private TextView change_address, home_userid;
 
-    //userid!!
     String user_id;
+    //String standard_address;
     Button popupBtn;
     private ReviewDialog reviewDialog;
 
@@ -104,6 +108,7 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         mActivity = getActivity();
         Intent intent = mActivity.getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
+        //standard_address=intent.getStringExtra("standard_address");
     }
 
     @Override
@@ -147,13 +152,13 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
             }
         });
 
-        //주소변경 누르면 주소등록 페이지로 (db에 저장된 주소 있으면 이전 주소 보여주는.. )
+        //상단바 주소변경 누르면 주소변경/선택 페이지로
         change_address = view.findViewById(R.id.change_address);
         change_address.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 Log.d("클릭", "확인");
-                Intent intent = new Intent(mActivity, FindTownActivity.class);
+                Intent intent = new Intent(mActivity, EditTownActivity.class);
                 intent.putExtra("user_id",user_id);
                 startActivity(intent);
             }
@@ -168,7 +173,29 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
 
         mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
         mapViewContainer.addView(mapView);
-        mapView.setCurrentLocationEventListener(this);
+
+        //=============기준위치 수정중================
+//        if(standard_address=="현재위치"){
+//            //현재위치 추적
+//            mapView.setCurrentLocationEventListener(this);
+//        }else{
+//            //기준 설정한 위치로 설정
+//            //Log.d("Home에서 주소",standard_address);
+//            change_address.setText(standard_address);
+//            final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
+//            List<Address> address= null;
+//            Log.d("기준위치:",standard_address);
+//            try {
+//                address = geocoder.getFromLocationName(standard_address,10);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            Address location = address.get(0);
+//            double store_lat=location.getLatitude();
+//            double store_long=location.getLongitude();
+//            // 중심점 변경
+//            mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(store_lat, store_long), true);
+//        }
 
         if (!checkLocationServiceStatus(mActivity)){
             showDialogForLocationServiceSetting();
