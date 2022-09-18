@@ -32,6 +32,7 @@
                 android:text="지역명"
                 android:layout_marginTop="10dp"
                 android:textColor="#000000"
+                android:textSize="20dp"
                 android:gravity="center"
                 android:textStyle="bold"
                 />

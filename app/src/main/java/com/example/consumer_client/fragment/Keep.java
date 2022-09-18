@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.consumer_client.farm.FarmDetailAdapter;
@@ -59,11 +60,12 @@ public class Keep extends Fragment {
     JsonObject body;
     JsonObject res;
     JsonArray jsonArray;
-//    JsonArray pay_schedule;
+    //    JsonArray pay_schedule;
     JsonArray pu_start;
     JsonArray pu_end;
 
     String user_id;
+    TextView noKeep;
 
     ArrayList<String> keep_list = new ArrayList<String>();
 
@@ -108,6 +110,10 @@ public class Keep extends Fragment {
                     pu_end = res.get("pu_end").getAsJsonArray();
 
                     Log.d("123행 mList", String.valueOf(mList));
+                    noKeep = view.findViewById(R.id.noKeep);
+//                    Log.d("jsonArray: ", jsonArray.toString());
+                    if(jsonArray.size() == 0) noKeep.setText("찜한 상품이 없습니다.");
+                    else noKeep.setText("");
 
                     //어뎁터 적용
                     mMdListMainAdapter = new FarmDetailAdapter(mList);
