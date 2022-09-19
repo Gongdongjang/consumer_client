@@ -44,7 +44,7 @@ public class CartListActivity extends AppCompatActivity {
     private CartListAdapter mCartListAdapter;
 
     String md_name, purchase_num, md_price, prod_set;
-    String store_name,store_loc, store_lat, store_long;
+    String store_name,store_loc;
     String pu_date, pu_time;
     String user_id, md_id, store_id;
 
@@ -74,8 +74,6 @@ public class CartListActivity extends AppCompatActivity {
         md_price = intent.getStringExtra("prodPrice");
         store_name = intent.getStringExtra("store_name");
         store_loc=intent.getStringExtra("store_loc");
-        store_lat = intent.getStringExtra("store_lat");
-        store_long = intent.getStringExtra("store_long");
         pu_date = intent.getStringExtra("pickupDate");
         pu_time = intent.getStringExtra("pickupTime");
         md_id = intent.getStringExtra("md_id");
