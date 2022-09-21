@@ -30,6 +30,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         ImageView imgView_item;
         TextView txt_main;
         TextView txt_sub;
+        TextView txt_distance;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -48,6 +49,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
             imgView_item = (ImageView) itemView.findViewById(R.id.homeProdImg_item);
             txt_main = (TextView) itemView.findViewById(R.id.homeProdName_item);
             txt_sub = (TextView) itemView.findViewById(R.id.homeProdEx_item);
+            txt_distance=(TextView) itemView.findViewById(R.id.storeLocationFromMe);
         }
     }
 
@@ -78,6 +80,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         holder.imgView_item.setImageResource(R.drawable.ic_launcher_background);   // 사진 없어서 기본 파일로 이미지 띄움
         holder.txt_main.setText(item.getHomeProdName());
         holder.txt_sub.setText(item.getHomeProdEx());
+        holder.txt_distance.setText(item.getHomeDistance());
     }
 
     @Override

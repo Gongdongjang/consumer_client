@@ -6,6 +6,7 @@ public class HomeProductItem {
     private String homeProdImg;
     private String homeProdName;
     private String homeProdEx;
+    private String homeDistance;
 
     public String getHomeProdImg() {
         return homeProdImg;
@@ -30,4 +31,8 @@ public class HomeProductItem {
     public void setHomeProdEx(String homeProdEx) {
         this.homeProdEx = homeProdEx;
     }
+
+    public void setHomeDistance(String homeDistance) {this.homeDistance = homeDistance;}
+
+    public String getHomeDistance() { return homeDistance;}
 }

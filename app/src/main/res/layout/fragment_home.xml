@@ -10,16 +10,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/home_userid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="10dp"
-            android:background="#F3EEEE"
-            android:text="아이디:"
-            android:textColor="#000000"
-            android:textSize="18dp" />
+
+        <!--상단바 끝-->
+<!--        <TextView-->
+<!--            android:id="@+id/home_userid"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="5dp"-->
+<!--            android:layout_marginBottom="10dp"-->
+<!--            android:background="#F3EEEE"-->
+<!--            android:text="아이디:"-->
+<!--            android:textColor="#000000"-->
+<!--            android:textSize="18dp" />-->
 
         <RelativeLayout
             android:id="@+id/map_view"
