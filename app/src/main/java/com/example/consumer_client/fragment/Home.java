@@ -213,12 +213,12 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                     res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
                     JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
                     String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
-                    //change_address.setText(standard_address);
                     if(standard_address.equals("현재위치")){
                         //mapView.setCurrentLocationEventListener(this);
                         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
                         //mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOff );
                     }else{
+                        mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOff );
                         final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
                         List<Address> address = geocoder.getFromLocationName(standard_address,10);
                         Log.d("home제발..",standard_address);
