@@ -3,7 +3,10 @@ package com.example.consumer_client.fragment;
 import static android.content.Context.LOCATION_SERVICE;
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
+import static com.example.consumer_client.address.LocationDistance.distance;
+
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -39,6 +42,7 @@ import com.example.consumer_client.md.MdListMainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.home.HomeProductAdapter;
 import com.example.consumer_client.home.HomeProductItem;
+import com.example.consumer_client.store.StoreTotalInfo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -49,6 +53,7 @@ import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -96,6 +101,10 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     MapPoint currentMapPoint;
     private double mCurrentLng; //Long = X, Lat = Yㅌ
     private double mCurrentLat;
+
+    double myTownLat;   //추가
+    double myTownLong;  //추가
+
     boolean isTrackingMode = false;
 
     private TextView productList; //제품리스트 클릭하는 텍스트트
@@ -179,15 +188,17 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                     String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
                     if(standard_address.equals("현재위치")){
                         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+                        myTownLat=mCurrentLat;
+                        myTownLong=mCurrentLng;
                     }else{
                         mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOff );  //현재위치 탐색 중지
                         final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
                         List<Address> address = geocoder.getFromLocationName(standard_address,10);
                         Address location = address.get(0);
-                        double my_lat=location.getLatitude();
-                        double my_long=location.getLongitude();
+                        myTownLat=location.getLatitude();
+                        myTownLong=location.getLongitude();
                         // 중심점 변경
-                        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(my_lat, my_long), true);
+                        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(myTownLat, myTownLong), true);
                     }
 
                 } catch (IOException e) {
@@ -205,6 +216,7 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         //=====상품 정보
         Call<ResponseBody> mdcall = service.getMdMainData();
         mdcall.enqueue(new Callback<ResponseBody>() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try{
@@ -220,14 +232,41 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                     linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                     mRecyclerView.setLayoutManager(linearLayoutManager);
 
+                    final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
+
                     for(int i=0;i<jsonArray.size();i++){
                         md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
+                        List<Address> address = geocoder.getFromLocationName(jsonArray.get(i).getAsJsonObject().get("store_loc").getAsString(),10);
+                        Address location = address.get(0);
+                        double store_lat=location.getLatitude();
+                        double store_long=location.getLongitude();
 
-                        addItem("product Img",
-                                jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
-                                jsonArray.get(i).getAsJsonObject().get("md_name").getAsString()
-                        );
+                        //자신이 설정한 위치와 스토어 거리 distance 구하기
+                        double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
+
+                        if(Double.compare(1, distanceKilo) > 0) { //4km 이내 제품들만 보이기
+                             //(스토어 데이터가 많이 없으므로 0.4대신 1로 test 중, 기능은 완료)
+                            addItem("product Img",
+                                    jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                                    jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
+                                    String.format("%.2f", distanceKilo)
+                            );
+                        }
                     }
+
+                    //거리 가까운순으로 정렬
+                    mList.sort(new Comparator<HomeProductItem>() {
+                        @Override
+                        public int compare(HomeProductItem o1, HomeProductItem o2) {
+                            int ret;
+                            Double distance1 = Double.valueOf(o1.getHomeDistance());
+                            Double distance2 = Double.valueOf(o2.getHomeDistance());
+                            //거리비교
+                            ret= distance1.compareTo(distance2);
+                            return ret;
+                        }
+                    });
+
                     //메인제품리스트 리사이클러뷰 누르면 나오는
                     mHomeProductAdapter.setOnItemClickListener(
                             new HomeProductAdapter.OnItemClickListener() {
@@ -271,12 +310,13 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         mList = new ArrayList<>();
     }
 
-    public void addItem(String imgName, String mainText, String subText){
+    public void addItem(String imgName, String mainText, String subText, String distanceKilo){
         HomeProductItem item = new HomeProductItem();
 
         item.setHomeProdImg(imgName);
         item.setHomeProdName(mainText);
         item.setHomeProdEx(subText);
+        item.setHomeDistance(String.valueOf(distanceKilo));
 
         mList.add(item);
     }
