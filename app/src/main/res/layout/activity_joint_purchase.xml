@@ -480,6 +480,8 @@
 
     <!--하단바-->
     <LinearLayout
+        android:background="@color/purple_700"
+        android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -506,7 +508,6 @@
             android:layout_height="50dp"
             android:layout_gravity="bottom"
             android:layout_marginLeft="35dp"
-            android:layout_marginBottom="2dp"
             android:background="#F6F6F6"
             android:backgroundTint="#FFFFFF"
             android:text="주문하기"

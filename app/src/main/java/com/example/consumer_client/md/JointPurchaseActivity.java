@@ -16,9 +16,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 //import com.example.consumer_client.cart.CartDialog;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.order.OrderDialog;
 import com.example.consumer_client.R;
 import com.example.consumer_client.user.KakaoApplication;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -80,12 +82,19 @@ public class JointPurchaseActivity extends AppCompatActivity {
     OrderDialog orderDialog;
     //CartDialog cartDialog;
 
+    // 장바구니 담기
+    private BottomSheetDialog bottomSheetDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joint_purchase);
 
         mContext = this;
+
+        // 장바구니 dialog
+        bottomSheetDialog = new BottomSheetDialog(JointPurchaseActivity.this);
+        bottomSheetDialog.setContentView(R.layout.activity_cart_dialog);
 
         //000 농부님의 000상품 단락
         ImageView MdImgThumbnail = (ImageView) findViewById(R.id.JP_MD_Img);
@@ -137,6 +146,9 @@ public class JointPurchaseActivity extends AppCompatActivity {
         body.addProperty("md_id", md_id);
 
         Log.d("JointPurchase", user_id);
+
+//        // 장바구니 이미지 안보이게
+//        Cart.setVisibility(View.INVISIBLE);
 
         //상세페이지 데이터 등록
         Call<ResponseBody> call2 = service.postMdId(body);
@@ -324,11 +336,15 @@ public class JointPurchaseActivity extends AppCompatActivity {
         Order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 orderDialog = new OrderDialog(mContext, (String) MdName.getText(),(String) ProdNum.getText(), (String) ProdPrice.getText()
                         , (String) StkRemain.getText(), pu_start, pu_end, (String) StoreName.getText(),
                         store_id, store_loc, user_id, md_id);
-                //orderDialog = new OrderDialog(mContext,md_detail.get(0).getAsJsonObject().get("md_name").getAsString(),pu_start,pu_end);
-                orderDialog.show();
+
+                bottomSheetDialog.show();
+
+//                //orderDialog = new OrderDialog(mContext,md_detail.get(0).getAsJsonObject().get("md_name").getAsString(),pu_start,pu_end);
+//                orderDialog.show();
             }
         });
 
