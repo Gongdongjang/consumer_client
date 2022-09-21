@@ -99,47 +99,6 @@ public class OrderDetailActivity extends AppCompatActivity {
                         JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
                         pu_date = res.get("pu_date").getAsString();
 
-                        final Geocoder geocoder = new Geocoder(getApplicationContext());
-                        List<Address> address=  geocoder.getFromLocationName(store_loc,10);
-                        Address location = address.get(0);
-                        double store_lat=location.getLatitude();
-                        double store_long=location.getLongitude();
-
-                        //지도
-                        MapView mapView = new MapView(mContext);
-                        // 중심점 변경
-                        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(35.01426900000000, 126.7169940), true);
-                        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(store_lat, store_long), true);
-
-                        // 줌 레벨 변경
-                        mapView.setZoomLevel(1, true);
-                        // 줌 인
-                        mapView.zoomIn(true);
-                        // 줌 아웃
-                        mapView.zoomOut(true);
-
-                        ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.store_map_view);
-                        mapViewContainer.addView(mapView);
-
-                        //스토어위치 마커 아이콘 띄우기
-                        MapPoint f_MarkPoint = MapPoint.mapPointWithGeoCoord(store_lat, store_long);  //마커찍기
-
-                        MapPOIItem store_marker=new MapPOIItem();
-                        store_marker.setItemName(store_name); //클릭했을때 가게이름 나오기
-                        store_marker.setTag(0);
-                        store_marker.setMapPoint(f_MarkPoint);   //좌표입력받아 현위치로 출력
-
-                        //  (클릭 전)기본으로 제공하는 BluePin 마커 모양의 색.
-                        store_marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-                        // (클릭 후) 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-                        store_marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-                        // 지도화면 위에 추가되는 아이콘을 추가하기 위한 호출(말풍선 모양)
-                        mapView.addPOIItem(store_marker);
-
-                        //나중에 농가위치 마커 커스텀 이미지로 바꾸기
-                        //farm_marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-                        //farm_marker.setCustomImageResourceId(R.drawable.homeshape);
-
                         //img 아직 안함
                         MdName.setText(md_name);
                         OrderCount.setText(md_qty);
@@ -168,5 +127,48 @@ public class OrderDetailActivity extends AppCompatActivity {
                 Log.e(TAG, "onFailure: e " + t.getMessage());
             }
         });
+
+
+        final Geocoder geocoder = new Geocoder(getApplicationContext());
+        List<Address> address= null;
+        try {
+            address = geocoder.getFromLocationName(store_loc,10);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address location = address.get(0);
+        double store_lat=location.getLatitude();
+        double store_long=location.getLongitude();
+
+        //지도
+        MapView mapView = new MapView(this);
+        // 중심점 변경
+        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(store_lat, store_long), true);
+
+        // 줌 레벨 변경
+        mapView.setZoomLevel(1, true);
+        // 줌 인
+        mapView.zoomIn(true);
+        // 줌 아웃
+        mapView.zoomOut(true);
+
+        ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.store_map_view);
+        mapViewContainer.addView(mapView);
+
+        //스토어위치 마커 아이콘 띄우기
+        MapPoint f_MarkPoint = MapPoint.mapPointWithGeoCoord(store_lat, store_long);  //마커찍기
+
+        MapPOIItem store_marker=new MapPOIItem();
+        store_marker.setItemName(store_name); //클릭했을때 가게이름 나오기
+        store_marker.setTag(0);
+        store_marker.setMapPoint(f_MarkPoint);   //좌표입력받아 현위치로 출력
+
+        //  (클릭 전)기본으로 제공하는 BluePin 마커 모양의 색.
+        store_marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+        // (클릭 후) 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+        store_marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+        // 지도화면 위에 추가되는 아이콘을 추가하기 위한 호출(말풍선 모양)
+        mapView.addPOIItem(store_marker);
+
     }
 }

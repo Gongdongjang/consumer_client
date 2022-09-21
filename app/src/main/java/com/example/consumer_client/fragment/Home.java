@@ -34,8 +34,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.consumer_client.ReviewDialog;
-import com.example.consumer_client.address.EditTownActivity;
-import com.example.consumer_client.address.FindTownActivity;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.md.MdListMainActivity;
 import com.example.consumer_client.R;
@@ -104,7 +102,6 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     private TextView change_address, home_userid;
 
     String user_id;
-    //String standard_address;
     Button popupBtn;
     private ReviewDialog reviewDialog;
 
@@ -115,9 +112,6 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         Intent intent = mActivity.getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
 
-        // 맵뷰 초기화 및 추가
-        //initMapView();
-        //standard_address=intent.getStringExtra("standard_address");
     }
 
     @Override
@@ -171,36 +165,6 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
         mapViewContainer.addView(mapView);
 
-        //=============기준위치 수정중================
-//        if(standard_address=="현재위치"){
-//            //현재위치 추적
-            //mapView.setCurrentLocationEventListener(this);
-//        }else{
-//            //기준 설정한 위치로 설정
-//            //Log.d("Home에서 주소",standard_address);
-//            change_address.setText(standard_address);
-//            final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
-//            List<Address> address= null;
-//            Log.d("기준위치:",standard_address);
-//            try {
-//                address = geocoder.getFromLocationName(standard_address,10);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            Address location = address.get(0);
-//            double store_lat=location.getLatitude();
-//            double store_long=location.getLongitude();
-//            // 중심점 변경
-//            mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(store_lat, store_long), true);
-//        }
-//
-//        if (!checkLocationServiceStatus(mActivity)){
-//            showDialogForLocationServiceSetting();
-//        }
-//        else{
-//            checkRunTimePermission();
-//        }
-
         //===주소정보
         JsonObject body = new JsonObject();
         body.addProperty("id", user_id);
@@ -214,19 +178,15 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                     JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
                     String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
                     if(standard_address.equals("현재위치")){
-                        //mapView.setCurrentLocationEventListener(this);
                         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-                        //mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOff );
                     }else{
-                        mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOff );
+                        mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOff );  //현재위치 탐색 중지
                         final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
                         List<Address> address = geocoder.getFromLocationName(standard_address,10);
-                        Log.d("home제발..",standard_address);
                         Address location = address.get(0);
                         double my_lat=location.getLatitude();
                         double my_long=location.getLongitude();
                         // 중심점 변경
-                        Log.d("home제발2..", String.valueOf(my_lat));
                         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(my_lat, my_long), true);
                     }
 
@@ -234,7 +194,6 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                     e.printStackTrace();
                 }
             }
-
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
@@ -260,8 +219,6 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
                     linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                     mRecyclerView.setLayoutManager(linearLayoutManager);
-
-                    //mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading );
 
                     for(int i=0;i<jsonArray.size();i++){
                         md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());

@@ -4,6 +4,8 @@ import static com.example.consumer_client.address.LocationDistance.distance;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,30 +18,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.consumer_client.R;
 import com.example.consumer_client.order.OrderDetailActivity;
 import com.example.consumer_client.order.OrderListAdapter;
 import com.example.consumer_client.order.OrderListInfo;
-import com.example.consumer_client.review.ReviewActivity;
-import com.example.consumer_client.store.StoreActivity;
-import com.example.consumer_client.store.StoreDetailActivity;
-import com.example.consumer_client.store.StoreTotalAdapter;
-import com.example.consumer_client.store.StoreTotalInfo;
-import com.example.consumer_client.user.RegisterActivity;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import net.daum.mf.map.api.MapPOIItem;
-import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -48,7 +41,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 interface OrderDetailsService {
@@ -78,8 +70,7 @@ public class Order extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseurl))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -115,11 +106,18 @@ public class Order extends Fragment {
                     linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                     mOrderListRecyclerView.setLayoutManager(linearLayoutManager);
 
-                    for(int i=0;i<orderDetailArray.size();i++) {
-                        double distanceKilo =
-                                distance(37.59272, 127.016544, Double.parseDouble(orderDetailArray.get(i).getAsJsonObject().get("store_lat").getAsString()), Double.parseDouble(orderDetailArray.get(i).getAsJsonObject().get("store_long").getAsString()), "kilometer");
-                        addOrderList(user_id, orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(), "제품 이미지", orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_md_status").getAsString(), pu_date.get(i).getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_lat").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_long").getAsString());
+                    final Geocoder geocoder = new Geocoder(mActivity);
 
+                    for(int i=0;i<orderDetailArray.size();i++) {
+                        String store_loc= orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString();
+                        List<Address> address=  geocoder.getFromLocationName(store_loc,10);
+                        Address location = address.get(0);
+                        double store_lat=location.getLatitude();
+                        double store_long=location.getLongitude();
+
+                        double distanceKilo =
+                                distance(37.59272, 127.016544, store_lat, store_long, "kilometer");
+                        addOrderList(user_id, orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(), "제품 이미지", orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_md_status").getAsString(), pu_date.get(i).getAsString());
                     }
 
                     mOrderListAdapter.setOnItemClickListener (
@@ -136,26 +134,10 @@ public class Order extends Fragment {
                                     intent.putExtra("md_price", mList.get(pos).getMdPrice());
                                     intent.putExtra("md_status", mList.get(pos).getMdStatus());
                                     intent.putExtra("order_id", mList.get(pos).getOrderId());
-                                    intent.putExtra("store_lat", mList.get(pos).getStoreLat());
-                                    intent.putExtra("store_long", mList.get(pos).getStoreLong());
                                     startActivity(intent);
                                 }
                             }
                     );
-
-                    //거리 가까운순으로 정렬
-                    mList.sort(new Comparator<OrderListInfo>() {
-                        @Override
-                        public int compare(OrderListInfo o1, OrderListInfo o2) {
-                            int ret;
-                            Double distance1 = Double.valueOf(o1.getStoreLocationFromMe());
-                            Double distance2 = Double.valueOf(o2.getStoreLocationFromMe());
-                            //거리비교
-                            ret= distance1.compareTo(distance2);
-                            return ret;
-                        }
-                    });
-
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -176,7 +158,7 @@ public class Order extends Fragment {
         mList = new ArrayList<>();
     }
 
-    public void addOrderList(String userId, String orderId, String storeLoc, String mdImgView, String storeName, String storeLocationFromMe, String mdName, String mdQty, String mdPrice, String mdStatus, String puDate, String storeLat, String storeLong){
+    public void addOrderList(String userId, String orderId, String storeLoc, String mdImgView, String storeName, String storeLocationFromMe, String mdName, String mdQty, String mdPrice, String mdStatus, String puDate){
         OrderListInfo order = new OrderListInfo();
         order.setUserId(userId);
         order.setOrderId(orderId);
@@ -189,8 +171,6 @@ public class Order extends Fragment {
         order.setMdPrice(mdPrice);
         order.setMdStatus(mdStatus);
         order.setPuDate(puDate);
-        order.setStoreLat(storeLat);
-        order.setStoreLong(storeLong);
         mList.add(order);
     }
 }
