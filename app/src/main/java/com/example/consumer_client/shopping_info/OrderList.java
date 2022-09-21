@@ -116,7 +116,6 @@ public class OrderList extends AppCompatActivity {
                                     intent.putExtra("md_name", mList.get(pos).getMdName());
                                     intent.putExtra("md_comp", mList.get(pos).getMdQty());
                                     intent.putExtra("md_price", mList.get(pos).getMdPrice());
-//                                    intent.putExtra("pu_date", pu_date.get(pos).getAsString());
                                     intent.putExtra("order_id", mList.get(pos).getOrderId());
                                     startActivity(intent);
                                 }

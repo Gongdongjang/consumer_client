@@ -54,9 +54,7 @@ public class StoreDetailActivity extends AppCompatActivity {
     JsonParser jsonParser;
     JsonObject res;
     JsonArray storeArray,jpArray,rvwArray, pu_start, pu_end;
-
     String store_id, store_name;
-    Double store_lat,store_long;
     Context mContext;
 
     private RecyclerView mRecyclerView;

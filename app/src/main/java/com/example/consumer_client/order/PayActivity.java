@@ -41,7 +41,7 @@ public class PayActivity extends AppCompatActivity {
 
     String user_id;
     String md_id, mdName, purchaseNum, prodPrice;
-    String store_id, store_name, store_loc, store_lat, store_long;
+    String store_id, store_name, store_loc;
     String pickupDate,pickupTime;
 
     OrderInsertService service;
@@ -165,6 +165,5 @@ public class PayActivity extends AppCompatActivity {
         //나중에 스토어위치 마커 커스텀 이미지로 바꾸기
         //farm_marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
         //farm_marker.setCustomImageResourceId(R.drawable.homeshape);
-
     }
 }

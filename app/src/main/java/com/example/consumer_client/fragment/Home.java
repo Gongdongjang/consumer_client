@@ -3,7 +3,10 @@ package com.example.consumer_client.fragment;
 import static android.content.Context.LOCATION_SERVICE;
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
+import static com.example.consumer_client.address.LocationDistance.distance;
+
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -15,6 +18,7 @@ import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -33,13 +37,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.consumer_client.ReviewDialog;
-import com.example.consumer_client.address.EditTownActivity;
-import com.example.consumer_client.address.FindTownActivity;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.md.MdListMainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.home.HomeProductAdapter;
 import com.example.consumer_client.home.HomeProductItem;
+import com.example.consumer_client.store.StoreTotalInfo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -50,6 +53,7 @@ import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -58,9 +62,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 
-interface MdService {
+interface HomeService {
+    @POST("standard_address/getStdAddress")
+    Call<ResponseBody> getStdAddress(@Body JsonObject body);  //post user_id
+
     @GET("mdView_main")
     Call<ResponseBody> getMdMainData();
 }
@@ -68,7 +77,7 @@ interface MdService {
 public class Home extends Fragment implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener {
 
     JsonParser jsonParser;
-    MdService service;
+    HomeService service;
 
     JsonObject res;
     JsonArray jsonArray;
@@ -92,13 +101,16 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     MapPoint currentMapPoint;
     private double mCurrentLng; //Long = X, Lat = Yㅌ
     private double mCurrentLat;
+
+    double myTownLat;   //추가
+    double myTownLong;  //추가
+
     boolean isTrackingMode = false;
 
     private TextView productList; //제품리스트 클릭하는 텍스트트
     private TextView change_address, home_userid;
 
     String user_id;
-    //String standard_address;
     Button popupBtn;
     private ReviewDialog reviewDialog;
 
@@ -108,7 +120,7 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         mActivity = getActivity();
         Intent intent = mActivity.getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
-        //standard_address=intent.getStringExtra("standard_address");
+
     }
 
     @Override
@@ -118,7 +130,7 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                 .baseUrl(getString(R.string.baseurl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        service = retrofit.create(MdService.class);
+        service = retrofit.create(HomeService.class);
         jsonParser = new JsonParser();
 
         // Inflate the layout for this fragment
@@ -153,8 +165,8 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         });
 
         //유저아이디 띄우기
-        home_userid = view.findViewById(R.id.home_userid);
-        home_userid.setText("아이디:"+ user_id);
+//        home_userid = view.findViewById(R.id.home_userid);
+//        home_userid.setText("아이디:"+ user_id);
 
         //product recyclerview 초기화
         firstInit();
@@ -162,38 +174,49 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
         mapViewContainer.addView(mapView);
 
-        //=============기준위치 수정중================
-//        if(standard_address=="현재위치"){
-//            //현재위치 추적
-//            mapView.setCurrentLocationEventListener(this);
-//        }else{
-//            //기준 설정한 위치로 설정
-//            //Log.d("Home에서 주소",standard_address);
-//            change_address.setText(standard_address);
-//            final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
-//            List<Address> address= null;
-//            Log.d("기준위치:",standard_address);
-//            try {
-//                address = geocoder.getFromLocationName(standard_address,10);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            Address location = address.get(0);
-//            double store_lat=location.getLatitude();
-//            double store_long=location.getLongitude();
-//            // 중심점 변경
-//            mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(store_lat, store_long), true);
-//        }
+        //===주소정보
+        JsonObject body = new JsonObject();
+        body.addProperty("id", user_id);
 
-        if (!checkLocationServiceStatus(mActivity)){
-            showDialogForLocationServiceSetting();
-        }
-        else{
-            checkRunTimePermission();
-        }
-
-        Call<ResponseBody> call = service.getMdMainData();
+        Call<ResponseBody> call = service.getStdAddress(body);
         call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                try {
+                    res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
+                    JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
+                    String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
+                    if(standard_address.equals("현재위치")){
+                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+                        myTownLat=mCurrentLat;
+                        myTownLong=mCurrentLng;
+                    }else{
+                        mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOff );  //현재위치 탐색 중지
+                        final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
+                        List<Address> address = geocoder.getFromLocationName(standard_address,10);
+                        Address location = address.get(0);
+                        myTownLat=location.getLatitude();
+                        myTownLong=location.getLongitude();
+                        // 중심점 변경
+                        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(myTownLat, myTownLong), true);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(mActivity, "기준 주소 정보 받기 에러 발생", Toast.LENGTH_SHORT).show();
+                Log.e("주소정보", t.getMessage());
+            }
+        });
+
+        //=====상품 정보
+        Call<ResponseBody> mdcall = service.getMdMainData();
+        mdcall.enqueue(new Callback<ResponseBody>() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try{
@@ -209,16 +232,41 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                     linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                     mRecyclerView.setLayoutManager(linearLayoutManager);
 
-                    mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading );
+                    final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
 
                     for(int i=0;i<jsonArray.size();i++){
                         md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
+                        List<Address> address = geocoder.getFromLocationName(jsonArray.get(i).getAsJsonObject().get("store_loc").getAsString(),10);
+                        Address location = address.get(0);
+                        double store_lat=location.getLatitude();
+                        double store_long=location.getLongitude();
 
-                        addItem("product Img",
-                                jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
-                                jsonArray.get(i).getAsJsonObject().get("md_name").getAsString()
-                        );
+                        //자신이 설정한 위치와 스토어 거리 distance 구하기
+                        double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
+
+                        if(Double.compare(1, distanceKilo) > 0) { //4km 이내 제품들만 보이기
+                             //(스토어 데이터가 많이 없으므로 0.4대신 1로 test 중, 기능은 완료)
+                            addItem("product Img",
+                                    jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                                    jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
+                                    String.format("%.2f", distanceKilo)
+                            );
+                        }
                     }
+
+                    //거리 가까운순으로 정렬
+                    mList.sort(new Comparator<HomeProductItem>() {
+                        @Override
+                        public int compare(HomeProductItem o1, HomeProductItem o2) {
+                            int ret;
+                            Double distance1 = Double.valueOf(o1.getHomeDistance());
+                            Double distance2 = Double.valueOf(o2.getHomeDistance());
+                            //거리비교
+                            ret= distance1.compareTo(distance2);
+                            return ret;
+                        }
+                    });
+
                     //메인제품리스트 리사이클러뷰 누르면 나오는
                     mHomeProductAdapter.setOnItemClickListener(
                             new HomeProductAdapter.OnItemClickListener() {
@@ -262,12 +310,13 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         mList = new ArrayList<>();
     }
 
-    public void addItem(String imgName, String mainText, String subText){
+    public void addItem(String imgName, String mainText, String subText, String distanceKilo){
         HomeProductItem item = new HomeProductItem();
 
         item.setHomeProdImg(imgName);
         item.setHomeProdName(mainText);
         item.setHomeProdEx(subText);
+        item.setHomeDistance(String.valueOf(distanceKilo));
 
         mList.add(item);
     }

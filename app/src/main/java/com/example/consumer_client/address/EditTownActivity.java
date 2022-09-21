@@ -38,6 +38,9 @@ import retrofit2.http.POST;
 interface EditTownService {
     @POST("get_address")
     Call<ResponseBody> addressInfo(@Body JsonObject body);  //post user_id
+
+    @POST("standard_address/register")
+    Call<ResponseBody> postStdAddress(@Body JsonObject body);  //post user_id,standard_address
 }
 
 public class EditTownActivity extends AppCompatActivity {
@@ -50,7 +53,7 @@ public class EditTownActivity extends AppCompatActivity {
     // 주소 요청코드 상수 requestCode
     //private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
     TextView txt_address0, txt_address1,txt_address2,txt_address3;
-    String standard_address="";    //홈화면으로 intent 넘기기
+    String standard_address;    //홈화면으로 intent 넘기기
 
     //주소1,2,3 위도경도 list
     //List<String> addresslist=new ArrayList<>();
@@ -131,17 +134,10 @@ public class EditTownActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 standard_address = "현재위치";
-                //Intent intent = new Intent(EditTownActivity.this, Home.class);
-                //intent.putExtra("standard_address", standard_address);
-                //startActivity(intent);
-                Bundle bundle= new Bundle();
-                bundle.putString("standard_address", standard_address);
-                Home frag3 = new Home();
-                frag3.setArguments(bundle);
-
-                //FragmentTransaction transaction = get().getSupportFragmentManager().beginTransaction();
-                //transaction.replace(R.id.tab_home, frag3);
-                //transaction.commit();
+                postStdAddress(userid, standard_address);
+                Intent intent = new Intent(EditTownActivity.this, MainActivity.class);
+                intent.putExtra("user_id", userid); //MainActivity로 갈떄 userid가 없으면 오류남
+                startActivity(intent);
             }
         });
 
@@ -151,10 +147,10 @@ public class EditTownActivity extends AppCompatActivity {
             public void onClick(View v) {
                 standard_address = txt_address1.getText().toString();
                 if (!standard_address.equals("주소1")) {   //주소가 있어야 클릭 가능하고 홈화면으로 전환할 수 있게
-//                    Log.d("주소1",standard_address);
-//                    Intent intent = new Intent(EditTownActivity.this, MainActivity.class);
-//                    intent.putExtra("standard_address", standard_address);
-//                    startActivity(intent);
+                    postStdAddress(userid, standard_address);
+                    Intent intent = new Intent(EditTownActivity.this, MainActivity.class);
+                    intent.putExtra("user_id", userid);
+                    startActivity(intent);
                 }
             }
         });
@@ -164,9 +160,10 @@ public class EditTownActivity extends AppCompatActivity {
             public void onClick(View v) {
                 standard_address = txt_address2.getText().toString();
                 if (!standard_address.equals("주소2")) {
-//                    Intent intent = new Intent(EditTownActivity.this, Home.class);
-//                    intent.putExtra("standard_address", standard_address);
-//                    startActivity(intent);
+                    postStdAddress(userid, standard_address);
+                    Intent intent = new Intent(EditTownActivity.this, MainActivity.class);
+                    intent.putExtra("user_id", userid);
+                    startActivity(intent);
                 }
             }
         });
@@ -176,13 +173,37 @@ public class EditTownActivity extends AppCompatActivity {
             public void onClick(View v) {
                 standard_address = txt_address3.getText().toString();
                 if (!standard_address.equals("주소3")) {
-//                    Intent intent = new Intent(EditTownActivity.this, Home.class);
-//                    intent.putExtra("standard_address", standard_address);
-//                    startActivity(intent);
+                    postStdAddress(userid, standard_address);
+                    Intent intent = new Intent(EditTownActivity.this, MainActivity.class);
+                    intent.putExtra("user_id", userid);
+                    startActivity(intent);
                 }
             }
         });
 
+    }
+
+    //기준주소 등록하기
+    void postStdAddress(String user_id, String address){
+        JsonObject body = new JsonObject();
+        body.addProperty("id", user_id);
+        body.addProperty("standard_address", address);  //기준 주소
+
+        Call<ResponseBody> call = service.postStdAddress(body);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 }
 
