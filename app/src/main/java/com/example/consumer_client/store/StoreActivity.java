@@ -9,15 +9,20 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.R;
+import com.example.consumer_client.address.EditTownActivity;
+import com.example.consumer_client.farm.FarmActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -35,12 +40,17 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 
 
 interface StoreService {
     @GET("/storeView")
     Call<ResponseBody> getStoreData();
+
+    @POST("standard_address/getStdAddress")
+    Call<ResponseBody> getStdAddress(@Body JsonObject body);  //post user_id
 }
 
 public class StoreActivity extends AppCompatActivity {
@@ -55,11 +65,22 @@ public class StoreActivity extends AppCompatActivity {
     Context mContext;
 
     String user_id;
+    private TextView change_address;
+    double myTownLat;   //추가
+    double myTownLong;  //추가
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_total_list);
+
+        //상단바 지정
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);    //기본 제목을 없애줍니다.
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         mContext = this;
 
@@ -75,6 +96,52 @@ public class StoreActivity extends AppCompatActivity {
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
 
+        //===기준 주소정보
+        JsonObject body = new JsonObject();
+        body.addProperty("id", user_id);
+
+        change_address = findViewById(R.id.change_address);
+
+        Call<ResponseBody> address_call = service.getStdAddress(body);
+        address_call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                try {
+                    res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
+                    JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
+                    String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
+                    change_address.setText(standard_address);
+                    final Geocoder geocoder = new Geocoder(getApplicationContext());
+                    List<Address> address = geocoder.getFromLocationName(standard_address,10);
+                    Address location = address.get(0);
+                    myTownLat = location.getLatitude();
+                    myTownLong=location.getLongitude();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "기준 주소 정보 받기 에러 발생", Toast.LENGTH_SHORT).show();
+                Log.e("주소정보", t.getMessage());
+            }
+        });
+
+        // 지역명
+        //상단바 주소변경 누르면 주소변경/선택 페이지로
+        change_address.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Log.d("클릭", "확인");
+                Intent intent = new Intent(StoreActivity.this, EditTownActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+
+        //-----스토어 정보 불러오기
         Call<ResponseBody> call = service.getStoreData();
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -104,7 +171,7 @@ public class StoreActivity extends AppCompatActivity {
 
                         //자신이 설정한 위치와 스토어 거리 distance 구하기
                         double distanceKilo =
-                                distance(37.59272, 127.016544, store_lat, store_long, "kilometer");
+                                distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
 
                         addStore(storeArray.get(i).getAsJsonObject().get("store_id").getAsString(),"스토어 이미지", storeArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), storeArray.get(i).getAsJsonObject().get("store_info").getAsString(), "휴무일 없어진거니?", storeArray.get(i).getAsJsonObject().get("store_hours").getAsString());
                     }
