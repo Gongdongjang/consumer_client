@@ -5,13 +5,17 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.consumer_client.PayActivity;
 import com.example.consumer_client.R;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -37,7 +41,7 @@ interface OrderInsertService{
     Call<ResponseBody> postOrderData(@Body JsonObject body);
 }
 
-public class PayActivity extends AppCompatActivity {
+public class ToPayActivity extends AppCompatActivity {
 
     String user_id;
     String md_id, mdName, purchaseNum, prodPrice;
@@ -108,7 +112,7 @@ public class PayActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     try {
                         JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-                        Toast.makeText(PayActivity.this, res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ToPayActivity.this, res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -116,7 +120,7 @@ public class PayActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(PayActivity.this, "주문하기 post 에러 발생", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ToPayActivity.this, "주문하기 post 에러 발생", Toast.LENGTH_SHORT).show();
                 Log.e("주문하기 post", t.getMessage());
             }
         });
@@ -162,8 +166,32 @@ public class PayActivity extends AppCompatActivity {
         // 지도화면 위에 추가되는 아이콘을 추가하기 위한 호출(말풍선 모양)
         mapView.addPOIItem(store_marker);
 
-        //나중에 스토어위치 마커 커스텀 이미지로 바꾸기
-        //farm_marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-        //farm_marker.setCustomImageResourceId(R.drawable.homeshape);
+        //
+        //결제버튼
+        RadioButton PayAgree1=(RadioButton) findViewById(R.id.Pay_Agree1);
+        RadioButton PayAgree2=(RadioButton) findViewById(R.id.Pay_Agree2);
+        RadioButton PayAgree3=(RadioButton) findViewById(R.id.Pay_Agree3);
+        Button PayBtn= (Button) findViewById(R.id.Pay_Btn); //결제하기 버튼
+        RadioButton PayCard=(RadioButton) findViewById(R.id.Pay_Card);
+
+        PayBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                if (PayCard.isChecked()){
+//                }
+                if (PayAgree1.isChecked() && PayAgree2.isChecked() && PayAgree3.isChecked()) // 결제동의하기
+                {
+                    Intent i= new Intent(ToPayActivity.this, PayActivity.class);
+                    i.putExtra("user_id",user_id);
+                    i.putExtra("mdName",mdName);
+                    i.putExtra("purchaseNum",purchaseNum);
+                    i.putExtra("prodPrice",prodPrice);
+                    startActivity(i);
+                }else{
+                    Toast.makeText(ToPayActivity.this, "개인정보 및 구매유의사항을 확인하시오.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 }
