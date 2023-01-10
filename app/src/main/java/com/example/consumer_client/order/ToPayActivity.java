@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.consumer_client.PayActivity;
 import com.example.consumer_client.R;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -36,9 +37,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-interface OrderInsertService{
-    @POST("orderInsert")
-    Call<ResponseBody> postOrderData(@Body JsonObject body);
+interface PayUserService{
+    @POST("payUserInfo")
+    Call<ResponseBody> userInfoData(@Body JsonObject body);
 }
 
 public class ToPayActivity extends AppCompatActivity {
@@ -48,9 +49,11 @@ public class ToPayActivity extends AppCompatActivity {
     String store_id, store_name, store_loc;
     String pickupDate,pickupTime;
 
-    OrderInsertService service;
+    PayUserService service;
     JsonParser jsonParser;
     JsonObject res, body;
+    JsonArray pay_user_result;
+    String user_name, mobile_no;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +64,7 @@ public class ToPayActivity extends AppCompatActivity {
                 .baseUrl(getString(R.string.baseurl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        service = retrofit.create(OrderInsertService.class);
+        service = retrofit.create(PayUserService.class);
         jsonParser = new JsonParser();
 
         TextView ProdName=(TextView) findViewById(R.id.JP_ProdName);
@@ -98,21 +101,20 @@ public class ToPayActivity extends AppCompatActivity {
 
         //주문하기-> Order테이블에 데이터 값 삽입하기Post 요청
         body = new JsonObject();
-        body.addProperty("user_id", user_id);
-        body.addProperty("md_id", md_id);
-        body.addProperty("store_id", store_id);
-        body.addProperty("select_qty", purchaseNum);
-        body.addProperty("pu_date", pickupDate);
-        body.addProperty("pu_time", pickupTime);
+        body.addProperty("user_id", user_id); //
 
-        Call<ResponseBody> call = service.postOrderData(body);
+        Call<ResponseBody> call = service.userInfoData(body);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     try {
                         JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-                        Toast.makeText(ToPayActivity.this, res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                        pay_user_result = res.get("pay_user_result").getAsJsonArray();
+                        //Toast.makeText(ToPayActivity.this, res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+
+                        user_name=pay_user_result.get(0).getAsJsonObject().get("user_name").getAsString();
+                        mobile_no=pay_user_result.get(0).getAsJsonObject().get("mobile_no").getAsString();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -186,6 +188,12 @@ public class ToPayActivity extends AppCompatActivity {
                     i.putExtra("mdName",mdName);
                     i.putExtra("purchaseNum",purchaseNum);
                     i.putExtra("prodPrice",prodPrice);
+                    i.putExtra("md_id",md_id);
+                    i.putExtra("store_id",store_id);
+                    i.putExtra("pickupDate",pickupDate);
+                    i.putExtra("pickupTime",pickupTime);
+                    i.putExtra("user_name",user_name);
+                    i.putExtra("mobile_no",mobile_no);
                     startActivity(i);
                 }else{
                     Toast.makeText(ToPayActivity.this, "개인정보 및 구매유의사항을 확인하시오.", Toast.LENGTH_SHORT).show();
