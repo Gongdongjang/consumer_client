@@ -3,12 +3,12 @@ plugins {
 }
 
 android {
-    compileSdk 29
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.example.consumer_client"
         minSdk 29
-        targetSdk 29
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 
@@ -68,4 +68,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.8'
     //결제 슬라이딩
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
+
+    //부트페이 결제기능 구현
+    implementation 'io.github.bootpay:android:4.0.8'
 }
