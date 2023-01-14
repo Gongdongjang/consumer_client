@@ -223,7 +223,7 @@ public class OrderDialog extends Dialog {
         JP_OrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(v.getContext(), PayActivity.class);
+                Intent i = new Intent(v.getContext(), ToPayActivity.class);
                 //수량+-버튼이 아닌 직접 입력했을 수도 있으니 다시 한번 재고 수량확인
                 if(Integer.parseInt(StkRemain) < Integer.parseInt(PurchaseNum.getText().toString()) * prodCount){ //n세트 * m개
                     Toast.makeText(getContext(), "재고가 부족합니다.", Toast.LENGTH_SHORT).show();
