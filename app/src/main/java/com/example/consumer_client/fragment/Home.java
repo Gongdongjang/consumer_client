@@ -82,8 +82,6 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     JsonObject res;
     JsonArray jsonArray;
 
-    ArrayList<String> md_id_list = new ArrayList<String>();
-
     private View view;
     private RecyclerView mRecyclerView;
     private ArrayList<HomeProductItem> mList;
@@ -235,7 +233,6 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                     final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
 
                     for(int i=0;i<jsonArray.size();i++){
-                        md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
                         List<Address> address = geocoder.getFromLocationName(jsonArray.get(i).getAsJsonObject().get("store_loc").getAsString(),10);
                         Address location = address.get(0);
                         double store_lat=location.getLatitude();
@@ -246,7 +243,8 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
 
                         if(Double.compare(1, distanceKilo) > 0) { //4km 이내 제품들만 보이기
                              //(스토어 데이터가 많이 없으므로 0.4대신 1로 test 중, 기능은 완료)
-                            addItem("product Img",
+                            addItem(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString(),
+                                    "product Img",
                                     jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                     jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                     String.format("%.2f", distanceKilo)
@@ -273,7 +271,7 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                                 @Override
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(mActivity, JointPurchaseActivity.class);
-                                    intent.putExtra("md_id", md_id_list.get(pos));
+                                    intent.putExtra("md_id",mList.get(pos).getHomeMdId()); //md_id 넘기기
                                     intent.putExtra("user_id", user_id);
                                     startActivity(intent);
                                 }
@@ -310,9 +308,10 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         mList = new ArrayList<>();
     }
 
-    public void addItem(String imgName, String mainText, String subText, String distanceKilo){
+    public void addItem(String md_id, String imgName, String mainText, String subText, String distanceKilo){
         HomeProductItem item = new HomeProductItem();
 
+        item.setHomeMdId(md_id);
         item.setHomeProdImg(imgName);
         item.setHomeProdName(mainText);
         item.setHomeProdEx(subText);

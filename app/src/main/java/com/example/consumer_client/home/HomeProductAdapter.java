@@ -27,6 +27,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView md_id;
         ImageView imgView_item;
         TextView txt_main;
         TextView txt_sub;
@@ -38,14 +39,16 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
             // 아이템 클릭 이벤트 처리.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v) {   //md_id 저장
                     int pos = getAdapterPosition() ;
                     if (pos != RecyclerView.NO_POSITION) {
                         mListener.onItemClick(v,pos);
                     }
+
                 }
             });
 
+            md_id=(TextView) itemView.findViewById(R.id.homeMdId);
             imgView_item = (ImageView) itemView.findViewById(R.id.homeProdImg_item);
             txt_main = (TextView) itemView.findViewById(R.id.homeProdName_item);
             txt_sub = (TextView) itemView.findViewById(R.id.homeProdEx_item);
@@ -76,7 +79,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     @Override
     public void onBindViewHolder(@NonNull HomeProductAdapter.ViewHolder holder, int position) {
         HomeProductItem item = mList.get(position);
-
+        holder.md_id.setText(item.getHomeMdId());
         holder.imgView_item.setImageResource(R.drawable.ic_launcher_background);   // 사진 없어서 기본 파일로 이미지 띄움
         holder.txt_main.setText(item.getHomeProdName());
         holder.txt_sub.setText(item.getHomeProdEx());
