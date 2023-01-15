@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 //import com.example.consumer_client.cart.CartDialog;
+import com.bumptech.glide.Glide;
 import com.example.consumer_client.order.OrderDialog;
 import com.example.consumer_client.R;
 import com.example.consumer_client.user.KakaoApplication;
@@ -158,7 +159,8 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         store_loc=md_detail.get(0).getAsJsonObject().get("store_loc").getAsString();
 
                         //000 농부님의 000상품 setText
-                        MdImgThumbnail.setImageURI(Uri.parse(md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString()));
+                        Glide.with(JointPurchaseActivity.this).load("https://gdjang.s3.ap-northeast-2.amazonaws.com/"+md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString()).into(MdImgThumbnail);
+//                        MdImgThumbnail.setImageURI(Uri.parse(md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString()));
                         FarmerName.setText(md_detail.get(0).getAsJsonObject().get("farm_farmer").getAsString());
                         MdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
                         FarmName.setText(md_detail.get(0).getAsJsonObject().get("farm_name").getAsString());
@@ -172,8 +174,9 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
 
                         //제품설명 setText
+                        Glide.with(JointPurchaseActivity.this).load("https://gdjang.s3.ap-northeast-2.amazonaws.com/"+md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()).into(MdImgDetail);
 //                        MdImgDetail.setImageURI(Uri.parse(md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()));
-                        Picasso.get().load(md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()).into(MdImgDetail);
+//                        Picasso.get().load(md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()).into(MdImgDetail);
                         ProdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
                         ProdNum.setText(md_detail.get(0).getAsJsonObject().get("pay_comp").getAsString());
                         ProdPrice.setText(md_detail.get(0).getAsJsonObject().get("pay_price").getAsString());

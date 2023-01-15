@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.consumer_client.R;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class JointPurchaseAdapter extends RecyclerView.Adapter<JointPurchaseAdap
     public void onBindViewHolder(@NonNull JointPurchaseAdapter.ViewHolder holder, int position) {
         JointPurchaseInfo item = mList.get(position);
 
-        holder.jpProdImgView.setImageResource(R.drawable.ic_launcher_background);   // 사진 없어서 기본 파일로 이미지 띄움
+        Glide.with(holder.itemView).load(item.getJpProdImgView()).into(holder.jpProdImgView);   // 사진 없어서 기본 파일로 이미지 띄움
         holder.jpProdName.setText(item.getJpProdName());
         holder.jpProdDesc.setText(item.getJpProdDesc());
         holder.jpPriceCount.setText(item.getJpPriceCount());

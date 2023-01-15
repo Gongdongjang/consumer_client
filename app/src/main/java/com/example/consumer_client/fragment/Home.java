@@ -244,7 +244,7 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                         if(Double.compare(1, distanceKilo) > 0) { //4km 이내 제품들만 보이기
                              //(스토어 데이터가 많이 없으므로 0.4대신 1로 test 중, 기능은 완료)
                             addItem(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString(),
-                                    "product Img",
+                                    "https://gdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                     jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                     jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                     String.format("%.2f", distanceKilo)
