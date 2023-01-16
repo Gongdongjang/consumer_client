@@ -180,7 +180,10 @@ public class StoreDetailActivity extends AppCompatActivity {
 
                         //진행중인 공동구매 md
                         for(int i=0;i<jpArray.size();i++){
-                            addFarmJointPurchase(jpArray.get(i).getAsJsonObject().get("farm_name").getAsString(), jpArray.get(i).getAsJsonObject().get("md_name").getAsString(), jpArray.get(i).getAsJsonObject().get("store_name").getAsString(),pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
+                            addFarmJointPurchase(jpArray.get(i).getAsJsonObject().get("farm_name").getAsString(),
+                                    "https://gdjang.s3.ap-northeast-2.amazonaws.com/" + jpArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                    jpArray.get(i).getAsJsonObject().get("md_name").getAsString(),
+                                    jpArray.get(i).getAsJsonObject().get("store_name").getAsString(),pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
                         }
 
                         //리뷰
@@ -223,10 +226,11 @@ public class StoreDetailActivity extends AppCompatActivity {
         mReviewList = new ArrayList<>();
     }
 
-    public void addFarmJointPurchase(String farmName, String prodName, String storeName, String puTerm){
+    public void addFarmJointPurchase(String farmName, String prodImgName, String prodName, String storeName, String puTerm){
         FarmDetailInfo farmDetail = new FarmDetailInfo();
 
         farmDetail.setFarmName(farmName);
+        farmDetail.setProdImg(prodImgName);
         farmDetail.setProdName(prodName);
         farmDetail.setStoreName(storeName);
 //        farmDetail.setPaySchedule(paySchedule);

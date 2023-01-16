@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.consumer_client.R;
 
 import java.util.ArrayList;
@@ -83,7 +84,7 @@ public class StoreTotalAdapter extends RecyclerView.Adapter<StoreTotalAdapter.Vi
         StoreTotalInfo item = mList.get(position);
 
         holder.storeid.setText(item.getStoreid());
-        holder.storeProdImgView.setImageResource(R.drawable.ic_launcher_background);
+        Glide.with(holder.itemView).load(item.getStoreProdImgView()).into(holder.storeProdImgView);
         holder.storeName.setText(item.getStoreName());
         holder.storeLocationFromMe.setText(item.getStoreLocationFromMe());
         holder.storeInfo.setText(item.getStoreInfo());
