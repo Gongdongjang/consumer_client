@@ -51,7 +51,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 
-//    //네이버 로그인
+    //네이버 로그인
    // implementation 'com.naver.nid:naveridlogin-android-sdk:4.2.6'   // import from jcenter
 //
 //    // naveridlogin dependencies
@@ -71,4 +71,8 @@ dependencies {
 
     //부트페이 결제기능 구현
     implementation 'io.github.bootpay:android:4.0.8'
+
+    // url로 사진 띄우기 위한 glide
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 }

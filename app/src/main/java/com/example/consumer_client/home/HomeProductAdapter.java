@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.consumer_client.R;
 
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     public void onBindViewHolder(@NonNull HomeProductAdapter.ViewHolder holder, int position) {
         HomeProductItem item = mList.get(position);
         holder.md_id.setText(item.getHomeMdId());
-        holder.imgView_item.setImageResource(R.drawable.ic_launcher_background);   // 사진 없어서 기본 파일로 이미지 띄움
+        Glide.with(holder.itemView).load(item.getHomeProdImg()).into(holder.imgView_item);
         holder.txt_main.setText(item.getHomeProdName());
         holder.txt_sub.setText(item.getHomeProdEx());
         holder.txt_distance.setText(item.getHomeDistance());

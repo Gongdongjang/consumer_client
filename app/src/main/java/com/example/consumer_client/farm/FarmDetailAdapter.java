@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.consumer_client.R;
 
 import java.util.ArrayList;
@@ -80,7 +81,8 @@ public class FarmDetailAdapter extends RecyclerView.Adapter<FarmDetailAdapter.Vi
     public void onBindViewHolder(@NonNull FarmDetailAdapter.ViewHolder holder, int position) {
         FarmDetailInfo item = mList.get(position);
 
-        holder.prodImg.setImageResource(R.drawable.ic_launcher_background);   // 사진 없어서 기본 파일로 이미지 띄움
+        Glide.with(holder.itemView).load(item.getProdImg()).into(holder.prodImg);
+//        holder.prodImg.setImageResource(R.drawable.ic_launcher_background);   // 사진 없어서 기본 파일로 이미지 띄움
         holder.farmName.setText(item.getFarmName());
         holder.prodName.setText(item.getProdName());
         holder.storeName.setText(item.getStoreName());
