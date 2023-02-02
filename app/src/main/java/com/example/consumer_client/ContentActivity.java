@@ -72,10 +72,10 @@ public class ContentActivity extends AppCompatActivity {
                         JsonArray res = (JsonArray) jsonParser.parse(response.body().string());
                         for (int i = 0; i < res.size(); i++) {
                             JsonObject jsonRes = (JsonObject) res.get(i);
-                            String thumbnail_url = "https://gdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_thumbnail").toString().replaceAll("\"", "");
+                            String thumbnail_url = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_thumbnail").toString().replaceAll("\"", "");
                             content_thumbnail.add(thumbnail_url);
 
-                            String photo_url = "https://gdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_photo").toString().replaceAll("\"", "");
+                            String photo_url = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_photo").toString().replaceAll("\"", "");
                             content_photo.add(photo_url);
 
                             content_id.add(jsonRes.get("content_id").getAsInt());
@@ -84,7 +84,6 @@ public class ContentActivity extends AppCompatActivity {
                             content_date.add(jsonRes.get("content_date").getAsString());
                             content_link.add(jsonRes.get("content_link").getAsString());
                            }
-                        Log.d(TAG, content_thumbnail.toString());
                         contentListAdapter.notifyDataSetChanged();
                     } catch (IOException e) {
                         e.printStackTrace();
