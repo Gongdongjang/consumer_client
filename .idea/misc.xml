@@ -48,12 +48,13 @@
         <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/store_total_list.xml" value="0.16822916666666668" />
         <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/menu/home_navi_menu.xml" value="0.371875" />
         <entry key="app/src/main/res/drawable/ic_baseline_keep_24.xml" value="0.2305" />
+        <entry key="app/src/main/res/drawable/ic_baseline_order_24.xml" value="0.281" />
         <entry key="app/src/main/res/drawable/ic_baseline_radio_button_unchecked_24.xml" value="0.2305" />
-        <entry key="app/src/main/res/layout/activity_content.xml" value="0.16041666666666668" />
-        <entry key="app/src/main/res/layout/activity_content_click.xml" value="0.1772853185595568" />
+        <entry key="app/src/main/res/layout/activity_content.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_content_click.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_store_detail.xml" value="0.23229166666666667" />
         <entry key="app/src/main/res/layout/content_banner_layout.xml" value="0.2755208333333333" />
-        <entry key="app/src/main/res/layout/content_list_layout.xml" value="0.22291666666666668" />
+        <entry key="app/src/main/res/layout/content_list_layout.xml" value="0.1" />
       </map>
     </option>
   </component>

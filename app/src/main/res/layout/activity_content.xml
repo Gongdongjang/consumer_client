@@ -9,14 +9,14 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/content_banner_view"
         android:layout_width="match_parent"
-        android:layout_height="180px"
+        android:layout_height="180dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/content_listview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/content_banner_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>

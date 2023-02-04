@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -63,6 +64,8 @@ public class ContentListAdapter extends BaseAdapter {
 
         ImageView content_thumbnail = v.findViewById(R.id.content_thumbnail);
         Picasso.get().load(getItem(i)).into(content_thumbnail);
+        TextView contentTitle = v.findViewById(R.id.content_list_title);
+        contentTitle.setText(content_title.get(i));
 
         content_thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override

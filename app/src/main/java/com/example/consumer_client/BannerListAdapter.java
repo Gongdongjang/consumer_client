@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,8 +52,8 @@ public class BannerListAdapter extends RecyclerView.Adapter<BannerListAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (bannerThumbnails.size() == 0) holder.bind("loading");
-        else holder.bind(bannerThumbnails.get(position % NUM_PAGES));
+        if (bannerThumbnails.size() == 0) holder.bind("loading", "loading");
+        else holder.bind(bannerThumbnails.get(position % NUM_PAGES), bannerTitles.get(position % NUM_PAGES));
     }
 
     @Override
@@ -62,11 +63,13 @@ public class BannerListAdapter extends RecyclerView.Adapter<BannerListAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView banner;
+        TextView title;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             banner = itemView.findViewById(R.id.content_banner);
+            title = itemView.findViewById(R.id.content_banner_title);
 
             banner.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -87,7 +90,8 @@ public class BannerListAdapter extends RecyclerView.Adapter<BannerListAdapter.Vi
             });
         }
 
-        public void bind(String thumbnail) {
+        public void bind(String thumbnail, String title) {
+            this.title.setText(title);
             Picasso.get().load(thumbnail).into(banner);
         }
     }
