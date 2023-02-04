@@ -1,6 +1,8 @@
 package com.example.consumer_client;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +30,9 @@ import retrofit2.http.GET;
 interface ContentService {
     @GET("content")
     Call<ResponseBody> get_content();
+
+    @GET("content/banner")
+    Call<ResponseBody> getBanner();
 }
 
 public class ContentActivity extends AppCompatActivity {
@@ -42,6 +47,11 @@ public class ContentActivity extends AppCompatActivity {
 
     ListView content_list;
     ContentListAdapter contentListAdapter;
+
+    ViewPager2 bannerList;
+    BannerListAdapter bannerListAdapter;
+    ArrayList<String> bannerThumbnails = new ArrayList<>();
+
     ArrayList<String> content_thumbnail = new ArrayList<>();
     ArrayList<Integer> content_id = new ArrayList<>();
     ArrayList<String> content_title = new ArrayList<>();
@@ -59,7 +69,12 @@ public class ContentActivity extends AppCompatActivity {
         contentListAdapter = new ContentListAdapter(this, content_thumbnail, content_id, content_title, content_date, content_context, content_photo, content_link);
         content_list.setAdapter(contentListAdapter);
 
+        bannerList = findViewById(R.id.content_banner_view);
+        bannerListAdapter = new BannerListAdapter(this, bannerThumbnails);
+        bannerList.setAdapter(bannerListAdapter);
+
         get_content_list();
+        getBannerList();
     }
 
     void get_content_list() {
@@ -89,6 +104,42 @@ public class ContentActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 } else {
+                    try {
+                        Log.d(TAG, "Fail " + response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
+    void getBannerList() {
+        Call<ResponseBody> call = contentService.getBanner();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                        JsonArray data = res.getAsJsonArray("data");
+                        for (int i = 0; i < 3; i++) {
+                            JsonObject jsonObject = (JsonObject) data.get(i);
+                            String thumbnailUrl = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_thumbnail").toString().replaceAll("\"", "");
+                            bannerThumbnails.add(thumbnailUrl);
+                        }
+                        System.out.println("banner " + bannerThumbnails);
+                        bannerListAdapter.notifyDataSetChanged();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
                     try {
                         Log.d(TAG, "Fail " + response.errorBody().string());
                     } catch (IOException e) {
