@@ -159,7 +159,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         store_loc=md_detail.get(0).getAsJsonObject().get("store_loc").getAsString();
 
                         //000 농부님의 000상품 setText
-                        Glide.with(JointPurchaseActivity.this).load("https://gdjang.s3.ap-northeast-2.amazonaws.com/"+md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString()).into(MdImgThumbnail);
+                        Glide.with(JointPurchaseActivity.this).load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/"+md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString()).into(MdImgThumbnail);
 //                        MdImgThumbnail.setImageURI(Uri.parse(md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString()));
                         FarmerName.setText(md_detail.get(0).getAsJsonObject().get("farm_farmer").getAsString());
                         MdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
@@ -174,7 +174,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
 
                         //제품설명 setText
-                        Glide.with(JointPurchaseActivity.this).load("https://gdjang.s3.ap-northeast-2.amazonaws.com/"+md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()).into(MdImgDetail);
+                        Glide.with(JointPurchaseActivity.this).load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/"+md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()).into(MdImgDetail);
 //                        MdImgDetail.setImageURI(Uri.parse(md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()));
 //                        Picasso.get().load(md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()).into(MdImgDetail);
                         ProdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());

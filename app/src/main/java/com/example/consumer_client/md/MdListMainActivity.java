@@ -96,7 +96,7 @@ public class MdListMainActivity extends AppCompatActivity {
                     for(int i=0;i<jsonArray.size();i++){
                         md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
 
-                        addMdList("https://gdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                        addMdList("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("farm_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),

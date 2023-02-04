@@ -181,7 +181,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                         //진행중인 공동구매 md
                         for(int i=0;i<jpArray.size();i++){
                             addFarmJointPurchase(jpArray.get(i).getAsJsonObject().get("farm_name").getAsString(),
-                                    "https://gdjang.s3.ap-northeast-2.amazonaws.com/" + jpArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                    "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jpArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                     jpArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                     jpArray.get(i).getAsJsonObject().get("store_name").getAsString(),pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
                         }

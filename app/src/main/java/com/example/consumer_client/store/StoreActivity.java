@@ -107,7 +107,7 @@ public class StoreActivity extends AppCompatActivity {
                                 distance(37.59272, 127.016544, store_lat, store_long, "kilometer");
 
                         addStore(storeArray.get(i).getAsJsonObject().get("store_id").getAsString(),
-                                "https://gdjang.s3.ap-northeast-2.amazonaws.com/" + storeArray.get(i).getAsJsonObject().get("store_thumbnail").getAsString(),
+                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + storeArray.get(i).getAsJsonObject().get("store_thumbnail").getAsString(),
                                 storeArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), storeArray.get(i).getAsJsonObject().get("store_info").getAsString(), "휴무일 없어진거니?", storeArray.get(i).getAsJsonObject().get("store_hours").getAsString());
                     }
                     //거리 가까운순으로 정렬
