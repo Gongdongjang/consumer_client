@@ -56,12 +56,14 @@ public class ContentActivity extends AppCompatActivity {
     ArrayList<String> bannerMainPhotos = new ArrayList<>();
     ArrayList<String> bannerPhotos = new ArrayList<>();
     ArrayList<String> bannerContexts = new ArrayList<>();
+    ArrayList<String> bannerDates = new ArrayList<>();
     ArrayList<String> bannerLinks = new ArrayList<>();
 
     ArrayList<String> content_thumbnail = new ArrayList<>();
     ArrayList<Integer> content_id = new ArrayList<>();
     ArrayList<String> content_title = new ArrayList<>();
     ArrayList<String> content_date = new ArrayList<>();
+    ArrayList<String> contentMainPhotos = new ArrayList<>();
     ArrayList<String> content_context = new ArrayList<>();
     ArrayList<String> content_photo = new ArrayList<>();
     ArrayList<String> content_link = new ArrayList<>();
@@ -72,12 +74,13 @@ public class ContentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_content);
 
         content_list = findViewById(R.id.content_listview);
-        contentListAdapter = new ContentListAdapter(this, content_thumbnail, content_id, content_title, content_date, content_context, content_photo, content_link);
+        contentListAdapter = new ContentListAdapter(this, content_thumbnail, content_id, content_title, content_date, content_context, contentMainPhotos, content_photo, content_link);
         content_list.setAdapter(contentListAdapter);
 
         bannerList = findViewById(R.id.content_banner_view);
         bannerListAdapter = new BannerListAdapter(this, bannerThumbnails,
-                bannerIds, bannerTitles, bannerMainPhotos, bannerPhotos, bannerContexts, bannerLinks);
+                bannerIds, bannerTitles, bannerMainPhotos, bannerPhotos,
+                bannerContexts, bannerLinks, bannerDates);
         bannerList.setAdapter(bannerListAdapter);
 
         get_content_list();
@@ -99,6 +102,9 @@ public class ContentActivity extends AppCompatActivity {
 
                             String photo_url = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_photo").toString().replaceAll("\"", "");
                             content_photo.add(photo_url);
+
+                            String mainPhotoUrl = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_main").toString().replaceAll("\"", "");
+                            contentMainPhotos.add(mainPhotoUrl);
 
                             content_id.add(jsonRes.get("content_id").getAsInt());
                             content_title.add(jsonRes.get("content_title").getAsString());
@@ -145,6 +151,7 @@ public class ContentActivity extends AppCompatActivity {
                             bannerPhotos.add("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_photo").toString().replaceAll("\"", ""));
                             bannerMainPhotos.add("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_main").toString().replaceAll("\"", ""));
                             bannerLinks.add(jsonObject.get("content_link").toString());
+                            bannerDates.add(jsonObject.get("upload_date").toString());
                         }
                         System.out.println("banner " + bannerThumbnails);
                         bannerListAdapter.notifyDataSetChanged();

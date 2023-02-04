@@ -22,10 +22,14 @@ public class ContentListAdapter extends BaseAdapter {
     ArrayList<String> content_title;
     ArrayList<String> content_date;
     ArrayList<String> content_photo;
+    ArrayList<String> contentMainPhoto;
     ArrayList<String> content_context;
     ArrayList<String> content_link;
 
-    public ContentListAdapter(Context context, ArrayList<String> content_thumbnail, ArrayList<Integer> content_id, ArrayList<String> content_title, ArrayList<String> content_date, ArrayList<String> content_context, ArrayList<String> content_photo, ArrayList<String> content_link) {
+    public ContentListAdapter(Context context, ArrayList<String> content_thumbnail,
+                              ArrayList<Integer> content_id, ArrayList<String> content_title,
+                              ArrayList<String> content_date, ArrayList<String> content_context, ArrayList<String> contentMainPhoto,
+                              ArrayList<String> content_photo, ArrayList<String> content_link) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.content_thumbnail = content_thumbnail;
@@ -33,6 +37,7 @@ public class ContentListAdapter extends BaseAdapter {
         this.content_title = content_title;
         this.content_date = content_date;
         this.content_context = content_context;
+        this.contentMainPhoto = contentMainPhoto;
         this.content_photo = content_photo;
         this.content_link = content_link;
     }
@@ -67,9 +72,9 @@ public class ContentListAdapter extends BaseAdapter {
                 intent.putExtra("content_id", content_id.get(i));
                 intent.putExtra("content_title", content_title.get(i));
                 intent.putExtra("content_photo", content_photo.get(i));
+                intent.putExtra("contentMainPhoto", contentMainPhoto.get(i));
                 intent.putExtra("content_context", content_context.get(i));
-                intent.putExtra("content_date", content_date.get(i));
-                intent.putExtra("content_date", content_date.get(i));
+                intent.putExtra("contentDate", content_date.get(i));
                 intent.putExtra("content_link", content_link.get(i));
 
                 context.startActivity(intent);
