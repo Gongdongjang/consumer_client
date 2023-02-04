@@ -1,6 +1,7 @@
 package com.example.consumer_client;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +18,27 @@ public class BannerListAdapter extends RecyclerView.Adapter<BannerListAdapter.Vi
     final Integer NUM_PAGES = 3;
 
     private Context context;
-    private ArrayList<String> contentThumbnails;
+    private ArrayList<String> bannerThumbnails;
+    private ArrayList<String> bannerIds;
+    private ArrayList<String> bannerTitles;
+    private ArrayList<String> bannerMainPhotos;
+    private ArrayList<String> bannerPhotos;
+    private ArrayList<String> bannerContexts;
+    private ArrayList<String> bannerLinks;
 
-    public BannerListAdapter(Context context, ArrayList<String> contentThumbnails) {
+    public BannerListAdapter(Context context,
+                             ArrayList<String> bannerThumbnails, ArrayList<String> bannerIds,
+                             ArrayList<String> bannerTitles, ArrayList<String> bannerMainPhotos,
+                             ArrayList<String> bannerPhotos, ArrayList<String> bannerContexts, ArrayList<String> bannerLinks) {
         this.context = context;
-        this.contentThumbnails = contentThumbnails;
+        this.bannerThumbnails = bannerThumbnails;
+        this.bannerIds = bannerIds;
+        this.bannerTitles = bannerTitles;
+        this.bannerMainPhotos = bannerMainPhotos;
+        this.bannerPhotos = bannerPhotos;
+        this.bannerContexts = bannerContexts;
+        this.bannerLinks = bannerLinks;
     }
-
 
     @NonNull
     @Override
@@ -33,8 +48,8 @@ public class BannerListAdapter extends RecyclerView.Adapter<BannerListAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (contentThumbnails.size() == 0) holder.bind("loading");
-        else holder.bind(contentThumbnails.get(position % NUM_PAGES));
+        if (bannerThumbnails.size() == 0) holder.bind("loading");
+        else holder.bind(bannerThumbnails.get(position % NUM_PAGES));
     }
 
     @Override
@@ -42,13 +57,30 @@ public class BannerListAdapter extends RecyclerView.Adapter<BannerListAdapter.Vi
         return NUM_PAGES * 1000;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView banner;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             banner = itemView.findViewById(R.id.content_banner);
+
+            banner.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition() % NUM_PAGES;
+                    Intent intent = new Intent(context.getApplicationContext(), ContentClick.class);
+
+                    intent.putExtra("content_id", bannerIds.get(position));
+                    intent.putExtra("content_title", bannerTitles.get(position));
+                    intent.putExtra("contentMainPhoto", bannerMainPhotos.get(position));
+                    intent.putExtra("content_photo", bannerPhotos.get(position));
+                    intent.putExtra("content_context", bannerContexts.get(position));
+                    intent.putExtra("content_link", bannerLinks.get(position));
+
+                    context.startActivity(intent);
+                }
+            });
         }
 
         public void bind(String thumbnail) {

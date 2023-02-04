@@ -51,6 +51,12 @@ public class ContentActivity extends AppCompatActivity {
     ViewPager2 bannerList;
     BannerListAdapter bannerListAdapter;
     ArrayList<String> bannerThumbnails = new ArrayList<>();
+    ArrayList<String> bannerIds = new ArrayList<>();
+    ArrayList<String> bannerTitles = new ArrayList<>();
+    ArrayList<String> bannerMainPhotos = new ArrayList<>();
+    ArrayList<String> bannerPhotos = new ArrayList<>();
+    ArrayList<String> bannerContexts = new ArrayList<>();
+    ArrayList<String> bannerLinks = new ArrayList<>();
 
     ArrayList<String> content_thumbnail = new ArrayList<>();
     ArrayList<Integer> content_id = new ArrayList<>();
@@ -70,7 +76,8 @@ public class ContentActivity extends AppCompatActivity {
         content_list.setAdapter(contentListAdapter);
 
         bannerList = findViewById(R.id.content_banner_view);
-        bannerListAdapter = new BannerListAdapter(this, bannerThumbnails);
+        bannerListAdapter = new BannerListAdapter(this, bannerThumbnails,
+                bannerIds, bannerTitles, bannerMainPhotos, bannerPhotos, bannerContexts, bannerLinks);
         bannerList.setAdapter(bannerListAdapter);
 
         get_content_list();
@@ -132,6 +139,12 @@ public class ContentActivity extends AppCompatActivity {
                             JsonObject jsonObject = (JsonObject) data.get(i);
                             String thumbnailUrl = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_thumbnail").toString().replaceAll("\"", "");
                             bannerThumbnails.add(thumbnailUrl);
+                            bannerIds.add(jsonObject.get("content_id").toString());
+                            bannerTitles.add(jsonObject.get("content_title").toString());
+                            bannerContexts.add(jsonObject.get("content_context").toString());
+                            bannerPhotos.add("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_photo").toString().replaceAll("\"", ""));
+                            bannerMainPhotos.add("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_main").toString().replaceAll("\"", ""));
+                            bannerLinks.add(jsonObject.get("content_link").toString());
                         }
                         System.out.println("banner " + bannerThumbnails);
                         bannerListAdapter.notifyDataSetChanged();
