@@ -2,6 +2,8 @@ package com.example.consumer_client.alarm;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
@@ -9,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -30,9 +33,8 @@ public class FCMService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
 
         super.onMessageReceived(remoteMessage);
-
-        Log.i("############# msg body: ", (remoteMessage.getNotification().getBody()));
-        Log.i("############# msg title: ", (remoteMessage.getNotification().getTitle()));
+        //Log.i("############# msg body: ", (remoteMessage.getNotification().getBody()));
+        //Log.i("############# msg title: ", (remoteMessage.getNotification().getTitle()));
         //Log.i("############# msg data: ", (remoteMessage.getNotification().get()));
 //        if (msg.getData().isEmpty()) {
 //            showNotificationMessage(msg.getNotification().getTitle(), msg.getNotification().getBody());  // Notification으로 받을 때
@@ -55,13 +57,22 @@ public class FCMService extends FirebaseMessagingService {
         String title = remoteMessage.getNotification().getTitle();
         String body = remoteMessage.getNotification().getBody();
 
+        //푸시를 클릭했을때 이동//
+        Intent intent = new Intent(this, AlarmList.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("title",title);
+        intent.putExtra("body",body);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
         builder.setContentTitle(title)
                 .setContentText(body)
-                .setSmallIcon(R.drawable.ic_baseline_star_24);
+                .setSmallIcon(R.drawable.ic_baseline_star_24)
+                .setContentIntent(pendingIntent);
                 //.setSmallIcon(R.drawable.ic_launcher_background);
 
         Notification notification = builder.build();
         notificationManager.notify(1, notification);
+
     }
 
 }

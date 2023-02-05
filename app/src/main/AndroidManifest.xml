@@ -101,5 +101,7 @@
                 </intent-filter>
         </service>
 
+        <activity android:name=".alarm.AlarmList" />
+
     </application>
 </manifest>
