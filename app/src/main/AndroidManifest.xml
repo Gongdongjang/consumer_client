@@ -58,7 +58,7 @@
         <activity android:name=".cart.CartListActivity" />
 
         <activity
-            android:name=".tutorial.SplashActivity"
+            android:name=".alarm.Alarm"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -87,6 +87,19 @@
 
         <activity android:name=".my_town.StoreMap" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".address.EditTownActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+<!--    .tutorial.SplashActivity
+.alarm.Alarm-->
+        <activity android:name=".tutorial.SplashActivity"/>
+        <service
+            android:name=".alarm.FCMService"
+            android:enabled="true"
+            android:exported="true">
+
+                <intent-filter>
+                        <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                </intent-filter>
+        </service>
 
     </application>
 </manifest>
