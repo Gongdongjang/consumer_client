@@ -13,9 +13,9 @@
     <application
         android:name=".user.KakaoApplication"
         android:allowBackup="true"
-        android:icon="@drawable/img_gongdongjang_logo"
+        android:icon="@drawable/ic_logo1"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/img_gongdongjang_logo"
+        android:roundIcon="@drawable/ic_logo1"
         android:supportsRtl="true"
         android:theme="@style/Theme.Consumer_client"
         android:usesCleartextTraffic="true"
@@ -23,7 +23,7 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key"/>
-
+        <meta-data android:name="android.max_aspect" android:value="2.1" />
         <activity android:name=".user.LoginActivity"/>
         <activity android:name=".tutorial.TutorialActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
