@@ -50,7 +50,7 @@ public class Alarm extends AppCompatActivity {
         setContentView(R.layout.activity_change_town);
 
         //토픽 구독
-        FirebaseMessaging.getInstance().subscribeToTopic("소비자 토픽");
+        FirebaseMessaging.getInstance().subscribeToTopic("userTopic");
 
         Intent intent = getIntent(); //intent 값 받기
         String userid=intent.getStringExtra("user_id");
