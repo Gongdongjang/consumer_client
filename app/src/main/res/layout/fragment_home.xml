@@ -20,14 +20,24 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager2"
             android:layout_width="match_parent"
-            android:layout_height="400dp" />
+            android:layout_height="412dp" >
+
+        </androidx.viewpager2.widget.ViewPager2>
+
+        <ImageView
+            android:id="@+id/gotoMap"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/img_home_goto_map" />
 
         <RelativeLayout
             android:id="@+id/map_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="0dp">
-
         </RelativeLayout>
 
 <!--        <Button-->
@@ -63,49 +73,88 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="17dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_alignParentLeft="true"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:text="공동구매 추천 리스트"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:gravity="center_vertical"
+                />
 
             <TextView
                 android:id="@+id/productList"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginBottom="10dp"
-                android:text="제품 리스트 >"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="175dp"
+                android:gravity="right|center_vertical"
+                android:text="더보기 > "
+                android:textColor="#B4B4B4"
                 android:textStyle="bold"
-                android:textColor="#000000"
-                android:textSize="20dp"/>
+                android:textSize="12sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/homeStore"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="25dp">
+                android:layout_marginTop="20px"
+                android:layout_marginBottom="25dp"
+                android:layout_marginLeft="16dp">
+        </androidx.recyclerview.widget.RecyclerView>
 
-            </androidx.recyclerview.widget.RecyclerView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="17dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_alignParentLeft="true"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:text="오늘의 공동장"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:gravity="center_vertical"
+                />
 
             <TextView
                 android:id="@+id/contentsList"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginBottom="10dp"
-                android:text="콘텐츠 >"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="222dp"
+                android:gravity="right|center_vertical"
+                android:text="더보기 > "
+                android:textColor="#B4B4B4"
                 android:textStyle="bold"
-                android:textColor="#000000"
-                android:textSize="20dp" />
+                android:textSize="12sp" />
+
+        </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/HomeContents"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp">
 
             </androidx.recyclerview.widget.RecyclerView>
-        </LinearLayout>
-
 
     </LinearLayout>
 
