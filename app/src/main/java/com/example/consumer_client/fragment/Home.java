@@ -23,9 +23,15 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
+import androidx.viewpager2.widget.ViewPager2;
 
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,9 +39,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
+import com.example.consumer_client.FragPagerAdapter;
 import com.example.consumer_client.ReviewDialog;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.md.MdListMainActivity;
@@ -73,9 +82,11 @@ interface HomeService {
     @GET("mdView_main")
     Call<ResponseBody> getMdMainData();
 }
+public class Home extends Fragment
+        implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener
+{
 
-public class Home extends Fragment implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener {
-
+    //ViewFlipper v_fllipper;
     JsonParser jsonParser;
     HomeService service;
 
@@ -136,22 +147,38 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_home, container, false);
 
+
+        //--------------
         mapView = new MapView(mActivity);
 
-        //팝업테스트
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        layoutParams.dimAmount = 0.8f;
-        getActivity().getWindow().setAttributes(layoutParams);
 
-        popupBtn = view.findViewById(R.id.PopupEx);
-        popupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reviewDialog = new ReviewDialog(mActivity, "작성 중인 내용이 삭제됩니다.\n 리뷰 작성을 그만하시겠습니까?");
-                reviewDialog.show();
-            }
-        });
+        //--------배너 자동슬라이드 주석-----
+//        int images[] = {
+//                R.drawable.home_banner1,
+//                R.drawable.img_gongdongjang_logo,
+//        };
+//
+//        v_fllipper = view.findViewById(R.id.image_slide);
+//
+//        for(int image : images) {
+//            fllipperImages(image);
+//        } ---------------------------------------------
+
+
+        //팝업테스트
+//        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+//        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+//        layoutParams.dimAmount = 0.8f;
+//        getActivity().getWindow().setAttributes(layoutParams);
+//
+//        popupBtn = view.findViewById(R.id.PopupEx);
+//        popupBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                reviewDialog = new ReviewDialog(mActivity, "작성 중인 내용이 삭제됩니다.\n 리뷰 작성을 그만하시겠습니까?");
+//                reviewDialog.show();
+//            }
+//        });
 
         //제품리스트 누르면 제품리스트(메인) 화면으로
         productList = view.findViewById(R.id.productList);
@@ -170,9 +197,8 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
 
         //product recyclerview 초기화
         firstInit();
-
-        mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
-        mapViewContainer.addView(mapView);
+        //mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
+        //mapViewContainer.addView(mapView);
 
         //===주소정보
         JsonObject body = new JsonObject();
@@ -191,14 +217,14 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                         myTownLat=mCurrentLat;
                         myTownLong=mCurrentLng;
                     }else{
-                        mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOff );  //현재위치 탐색 중지
+                        //mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOff );  //현재위치 탐색 중지
                         final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
                         List<Address> address = geocoder.getFromLocationName(standard_address,10);
                         Address location = address.get(0);
                         myTownLat=location.getLatitude();
                         myTownLong=location.getLongitude();
                         // 중심점 변경
-                        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(myTownLat, myTownLong), true);
+                        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(myTownLat, myTownLong), true);
                     }
 
                 } catch (IOException e) {
@@ -297,9 +323,66 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
 
         lm = (LocationManager) mActivity.getApplicationContext().getSystemService( Context.LOCATION_SERVICE );
 
+        
+        setInit(); //뷰페이저2 실행 메서드
         //전체 fragment home return
         return view;
     }
+
+    //뷰페이저2 실행 메서드
+    private void setInit() {
+        ViewPager2 viewPageSetUp= view.findViewById(R.id.viewPager2);
+        FragPagerAdapter SetPagerAdapter= new FragPagerAdapter(getActivity());
+        viewPageSetUp.setAdapter(SetPagerAdapter);
+        viewPageSetUp.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        viewPageSetUp.setOffscreenPageLimit(2); //페이지 한계 지정 개수
+        viewPageSetUp.setCurrentItem(1000); //무한처럼 보이도록 하려고
+
+        //페이지끼리 간격
+        final float pageMargin=(float) getResources().getDimensionPixelOffset(R.dimen.pageMargin);
+        //final float pageMaring=(float) getResources().getDimensionPixelOffset;
+        //페이지 보이는 정도
+        final float pageOffset=(float) getResources().getDimensionPixelOffset(R.dimen.offset);
+        //final float pageOffset=(float) getResources().getDimensionPixelOffset(2;
+        viewPageSetUp.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+            }
+        });
+        viewPageSetUp.setPageTransformer(new ViewPager2.PageTransformer() {
+                                             @Override
+                                             public void transformPage(@NonNull View page, float position) {
+                                                 float offset=position * - (2*pageOffset + pageMargin);
+                                                 if(-1 > position){
+                                                     page.setTranslationX(-offset);
+                                                 }else if(1>=position){
+                                                     float scaleFactor=Math.max(0.7f, 1-Math.abs(position - 0.14285715f));
+                                                     page.setTranslationX(offset);
+                                                     page.setScaleY(scaleFactor);
+                                                     page.setAlpha(scaleFactor);
+                                                 } else {
+                                                     page.setAlpha(0f);
+                                                     page.setTranslationX(offset);
+                                                 }   }
+                                             });
+    }
+
+    // 이미지 자동 슬라이더 구현 메서드
+//    private void fllipperImages(int image) {
+//        ImageView imageView = new ImageView(mActivity);
+//        imageView.setBackgroundResource(image);
+//
+//        v_fllipper.addView(imageView);      // 이미지 추가
+//        v_fllipper.setFlipInterval(4000);       // 자동 이미지 슬라이드 딜레이시간(1000 당 1초)
+//        v_fllipper.setAutoStart(true);          // 자동 시작 유무 설정
+//
+//        // animation
+//        v_fllipper.setInAnimation(mActivity,android.R.anim.slide_in_left);
+//        v_fllipper.setOutAnimation(mActivity,android.R.anim.slide_out_right);
+//    }
+
+
 
     public String getAsString() {
         throw new UnsupportedOperationException(getClass().getSimpleName());

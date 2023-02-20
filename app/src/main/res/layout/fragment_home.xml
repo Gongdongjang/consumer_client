@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.Home">
 
     <LinearLayout
@@ -11,32 +11,55 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!--상단바 끝-->
-<!--        <TextView-->
-<!--            android:id="@+id/home_userid"-->
+<!--    이미지 자동슬라이드 주석
+        <ViewFlipper-->
+<!--            android:id="@+id/image_slide"-->
 <!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="5dp"-->
-<!--            android:layout_marginBottom="10dp"-->
-<!--            android:background="#F3EEEE"-->
-<!--            android:text="아이디:"-->
-<!--            android:textColor="#000000"-->
-<!--            android:textSize="18dp" />-->
+<!--            android:layout_height="400dp"/>-->
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager2"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
 
         <RelativeLayout
             android:id="@+id/map_view"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_margin="5dp">
+            android:layout_height="0dp"
+            android:layout_margin="0dp">
 
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/PopupEx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="팝업"
-            android:onClick="mOnPopupClick"/>
+<!--        <Button-->
+<!--            android:id="@+id/PopupEx"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="팝업"-->
+<!--            android:onClick="mOnPopupClick"/>-->
+
+<!--        <FrameLayout-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_width="400dp"-->
+<!--            android:layout_height="400dp">-->
+
+<!--            <androidx.viewpager2.widget.ViewPager2-->
+<!--                android:id="@+id/viewpager"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:clipToPadding="false"-->
+<!--                android:clipChildren="false"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:scaleType="fitXY"-->
+<!--                android:layout_marginBottom="10dp"/>-->
+
+<!--            <me.relex.circleindicator.CircleIndicator3-->
+<!--                android:id="@+id/indicator"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="48dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:layout_gravity="bottom"/>-->
+
+<!--        </FrameLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"

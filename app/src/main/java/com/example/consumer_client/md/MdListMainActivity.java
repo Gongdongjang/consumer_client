@@ -81,8 +81,8 @@ public class MdListMainActivity extends AppCompatActivity {
                     res =  (JsonObject) jsonParser.parse(response.body().string());
                     jsonArray = res.get("md_result").getAsJsonArray();
 //                    pay_schedule = res.get("pay_schedule").getAsJsonArray();
-                    pu_start = res.get("pu_start").getAsJsonArray();
-                    pu_end = res.get("pu_end").getAsJsonArray();
+                    //pu_start = res.get("pu_start").getAsJsonArray();
+                    //pu_end = res.get("pu_end").getAsJsonArray();
 
                     //어뎁터 적용
                     mMdListMainAdapter = new FarmDetailAdapter(mList);
@@ -100,8 +100,9 @@ public class MdListMainActivity extends AppCompatActivity {
                                 jsonArray.get(i).getAsJsonObject().get("farm_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                                "pu_기간 대신 뭐들어감,,,"
 //                                pay_schedule.get(i).getAsString(),
-                                pu_start.get(i).getAsString() + " ~ " + pu_end.get(i).getAsString()
+                                //pu_start.get(i).getAsString() + " ~ " + pu_end.get(i).getAsString()
                         );
                     }
 
