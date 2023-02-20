@@ -51,6 +51,7 @@ import com.example.consumer_client.md.MdListMainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.home.HomeProductAdapter;
 import com.example.consumer_client.home.HomeProductItem;
+import com.example.consumer_client.my_town.StoreMap;
 import com.example.consumer_client.store.StoreTotalInfo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -83,7 +84,7 @@ interface HomeService {
     Call<ResponseBody> getMdMainData();
 }
 public class Home extends Fragment
-        implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener
+        //implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener
 {
 
     //ViewFlipper v_fllipper;
@@ -147,7 +148,7 @@ public class Home extends Fragment
 
 
         //--------------
-        mapView = new MapView(mActivity);
+        //mapView = new MapView(mActivity);
 
 
         //--------배너 자동슬라이드 주석-----
@@ -189,6 +190,17 @@ public class Home extends Fragment
             }
         });
 
+        //우리동네 공동구매 지도로 보기 로 이동.
+        ImageView gotoMap = view.findViewById(R.id.gotoMap);
+        gotoMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, StoreMap.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+
         //유저아이디 띄우기
 //        home_userid = view.findViewById(R.id.home_userid);
 //        home_userid.setText("아이디:"+ user_id);
@@ -210,20 +222,20 @@ public class Home extends Fragment
                     res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
                     JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
                     String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
-                    if(standard_address.equals("현재위치")){
-                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-                        myTownLat=mCurrentLat;
-                        myTownLong=mCurrentLng;
-                    }else{
-                        //mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOff );  //현재위치 탐색 중지
+//                    if(standard_address.equals("현재위치")){
+//                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+//                        myTownLat=mCurrentLat;
+//                        myTownLong=mCurrentLng;
+//                    }else{
+//                        //mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOff );  //현재위치 탐색 중지
                         final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
                         List<Address> address = geocoder.getFromLocationName(standard_address,10);
                         Address location = address.get(0);
                         myTownLat=location.getLatitude();
                         myTownLong=location.getLongitude();
-                        // 중심점 변경
-                        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(myTownLat, myTownLong), true);
-                    }
+//                        // 중심점 변경
+//                        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(myTownLat, myTownLong), true);
+//                    }
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -404,53 +416,53 @@ public class Home extends Fragment
     }
 
     // 현재 위치 업데이트 setCurrentLocationEventListener
-    @Override
-    public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float accuracyInMeters) {
-        MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
-        Log.i(TAG, String.format("MapView onCurrentLocationUpdate (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, accuracyInMeters));
-        currentMapPoint = MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude);
-        //이 좌표로 지도 중심 이동
-        mapView.setMapCenterPoint(currentMapPoint, true);
-        //전역변수로 현재 좌표 저장
-        mCurrentLat = mapPointGeo.latitude;
-        mCurrentLng = mapPointGeo.longitude;
-        Log.d(TAG, "현재위치 => " + mCurrentLat + "  " + mCurrentLng);
-        //트래킹 모드가 아닌 단순 현재위치 업데이트일 경우, 한번만 위치 업데이트하고 트래킹을 중단시키기 위한 로직
-        if (!isTrackingMode) {
-            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-        }
-    }
+//    @Override
+//    public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float accuracyInMeters) {
+//        MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
+//        Log.i(TAG, String.format("MapView onCurrentLocationUpdate (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, accuracyInMeters));
+//        currentMapPoint = MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude);
+//        //이 좌표로 지도 중심 이동
+//        mapView.setMapCenterPoint(currentMapPoint, true);
+//        //전역변수로 현재 좌표 저장
+//        mCurrentLat = mapPointGeo.latitude;
+//        mCurrentLng = mapPointGeo.longitude;
+//        Log.d(TAG, "현재위치 => " + mCurrentLat + "  " + mCurrentLng);
+//        //트래킹 모드가 아닌 단순 현재위치 업데이트일 경우, 한번만 위치 업데이트하고 트래킹을 중단시키기 위한 로직
+//        if (!isTrackingMode) {
+//            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+//        }
+//    }
+//
+//    @Override
+//    public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
+//
+//    }
+//
+//    @Override
+//    public void onCurrentLocationUpdateFailed(MapView mapView) {
+//        Log.i(TAG, "onCurrentLocationUpdateFailed");
+//        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+//    }
 
-    @Override
-    public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
-
-    }
-
-    @Override
-    public void onCurrentLocationUpdateFailed(MapView mapView) {
-        Log.i(TAG, "onCurrentLocationUpdateFailed");
-        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-    }
-
-    @Override
-    public void onCurrentLocationUpdateCancelled(MapView mapView) {
-        Log.i(TAG, "onCurrentLocationUpdateCancelled");
-        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-    }
-
-    void checkRunTimePermission() {
-        int hasFineLocationPermission = ContextCompat.checkSelfPermission(mActivity,Manifest.permission.ACCESS_FINE_LOCATION);
-        if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED){
-            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
-        }else{
-            if(ActivityCompat.shouldShowRequestPermissionRationale(mActivity,REQUIRED_PERMISSIONS[0])){
-                Toast.makeText(mActivity,"이 앱을 실행하려면 위치 접근 권한이 필요합니다.",Toast.LENGTH_LONG).show();
-                ActivityCompat.requestPermissions(mActivity,REQUIRED_PERMISSIONS,PERMISSIONS_REQUEST_CODE);
-            }else{
-                ActivityCompat.requestPermissions(mActivity,REQUIRED_PERMISSIONS,PERMISSIONS_REQUEST_CODE);
-            }
-        }
-    }
+//    @Override
+//    public void onCurrentLocationUpdateCancelled(MapView mapView) {
+//        Log.i(TAG, "onCurrentLocationUpdateCancelled");
+//        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+//    }
+//
+//    void checkRunTimePermission() {
+//        int hasFineLocationPermission = ContextCompat.checkSelfPermission(mActivity,Manifest.permission.ACCESS_FINE_LOCATION);
+//        if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED){
+//            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+//        }else{
+//            if(ActivityCompat.shouldShowRequestPermissionRationale(mActivity,REQUIRED_PERMISSIONS[0])){
+//                Toast.makeText(mActivity,"이 앱을 실행하려면 위치 접근 권한이 필요합니다.",Toast.LENGTH_LONG).show();
+//                ActivityCompat.requestPermissions(mActivity,REQUIRED_PERMISSIONS,PERMISSIONS_REQUEST_CODE);
+//            }else{
+//                ActivityCompat.requestPermissions(mActivity,REQUIRED_PERMISSIONS,PERMISSIONS_REQUEST_CODE);
+//            }
+//        }
+//    }
 
     // GPS 활성화를 위한 메소드들
     private void showDialogForLocationServiceSetting(){
@@ -474,20 +486,20 @@ public class Home extends Fragment
         builder.create().show();
     }
 
-    private boolean checkLocationServiceStatus(Activity mActivity) {
-
-        LocationManager locationManager = (LocationManager)mActivity.getSystemService(LOCATION_SERVICE);
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-    }
-
-    @Override
-    public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
-
-    }
-
-    @Override
-    public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) {
-
-    }
+//    private boolean checkLocationServiceStatus(Activity mActivity) {
+//
+//        LocationManager locationManager = (LocationManager)mActivity.getSystemService(LOCATION_SERVICE);
+//        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+//                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+//    }
+//
+//    @Override
+//    public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
+//
+//    }
+//
+//    @Override
+//    public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) {
+//
+//    }
 }

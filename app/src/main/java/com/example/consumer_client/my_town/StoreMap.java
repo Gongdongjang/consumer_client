@@ -2,6 +2,7 @@ package com.example.consumer_client.my_town;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.example.consumer_client.ProgressDialog;
 import com.example.consumer_client.R;
 import com.example.consumer_client.store.StoreDetailActivity;
 import com.example.consumer_client.store.StoreTotalAdapter;
@@ -68,6 +70,7 @@ class StoreData{
 }
 
 public class StoreMap extends AppCompatActivity implements MapView.POIItemEventListener {
+    ProgressDialog customProgressDialog;
     StoreMapService service;
     JsonParser jsonParser;
     JsonObject res;
@@ -94,6 +97,13 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
 
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
+
+        //로딩창 객체 생성
+        customProgressDialog = new ProgressDialog(mContext);
+        //로딩창을 투명하게
+        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        //로딩창 보여주기
+        customProgressDialog.show();
 
         Call<ResponseBody> call = service.getStoreData();
         call.enqueue(new Callback<ResponseBody>() {
@@ -145,7 +155,7 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
                         data.setStoreLat(store_lat);
                         data.setStoreLong(store_long);
                         dataArr.add(data);
-                        Log.d("storeMap0", dataArr.get(i).getStoreName()+dataArr.get(i).getStoreLat());
+                        //Log.d("storeMap0", dataArr.get(i).getStoreName()+dataArr.get(i).getStoreLat());
 
                         marker.setMapPoint(MapPoint.mapPointWithGeoCoord(dataArr.get(i).getStoreLat(), dataArr.get(i).getStoreLong()));
                         marker.setItemName(dataArr.get(i).getStoreName()); //클릭했을때 가게이름 나오기
@@ -154,6 +164,8 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
 
                         //클릭했을때 이제 id값 넘기기!!
                     }
+
+                    customProgressDialog.dismiss();
 
 //                    for (int i=0; i< storeArray.size(); i++) {
 //                        //MapPOIItem marker = new MapPOIItem();

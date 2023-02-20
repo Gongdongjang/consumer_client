@@ -13,11 +13,4 @@
         android:layout_height="400dp"
         app:srcCompat="@drawable/home_banner1"/>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-    <!--        app:srcCompat="@drawable/home_banner1" />-->
-
 </LinearLayout>
