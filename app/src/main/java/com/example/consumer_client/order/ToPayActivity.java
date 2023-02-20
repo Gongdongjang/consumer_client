@@ -1,6 +1,7 @@
 package com.example.consumer_client.order;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -12,10 +13,11 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.consumer_client.PayActivity;
+import com.example.consumer_client.PaidActivity;
 import com.example.consumer_client.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -45,7 +47,7 @@ interface PayUserService{
 public class ToPayActivity extends AppCompatActivity {
 
     String user_id;
-    String md_id, mdName, purchaseNum, prodPrice;
+    String md_id, mdName, purchaseNum, JP_ToTalPrice;
     String store_id, store_name, store_loc;
     String pickupDate,pickupTime;
 
@@ -79,7 +81,7 @@ public class ToPayActivity extends AppCompatActivity {
         md_id=intent.getStringExtra("md_id");
         mdName = intent.getStringExtra("mdName");
         purchaseNum = intent.getStringExtra("purchaseNum");
-        prodPrice = intent.getStringExtra("prodPrice");
+        JP_ToTalPrice = intent.getStringExtra("JP_ToTalPrice");
         store_name = intent.getStringExtra("store_name");
         store_id = intent.getStringExtra("store_id");
         store_loc=intent.getStringExtra("store_loc");
@@ -87,14 +89,13 @@ public class ToPayActivity extends AppCompatActivity {
         pickupTime = intent.getStringExtra("pickupTime");
 
         //n 세트만큼 가격 결정.
-        Log.d("purchaseNum",purchaseNum);
-        for(int i=1; i<=Integer.parseInt(purchaseNum); i++){
-            prodPrice= String.valueOf(Integer.parseInt(prodPrice)* i);
-        }
+        //상품남은 재고 >= 세트선택 * prodNum 계산하기 위해
+        //int idx=JP_ToTalPrice.indexOf("원"); // ex)5000원 이렇게 되어있으니 '원' 문자 자르기
+        //int totalPrice= Integer.parseInt(JP_ToTalPrice.substring(0,idx));
 
         ProdName.setText(mdName);
         OrderCount.setText(purchaseNum);
-        OrderPrice.setText(prodPrice);
+        OrderPrice.setText(JP_ToTalPrice);
         StoreName.setText(store_name);
         StoreAddr.setText(store_loc);
         PuDate.setText(pickupDate);
@@ -173,33 +174,49 @@ public class ToPayActivity extends AppCompatActivity {
         RadioButton PayAgree1=(RadioButton) findViewById(R.id.Pay_Agree1);
         RadioButton PayAgree2=(RadioButton) findViewById(R.id.Pay_Agree2);
         RadioButton PayAgree3=(RadioButton) findViewById(R.id.Pay_Agree3);
-        Button PayBtn= (Button) findViewById(R.id.Pay_Btn); //결제하기 버튼
-        RadioButton PayCard=(RadioButton) findViewById(R.id.Pay_Card);
+        RadioButton PayAgree4=(RadioButton) findViewById(R.id.Pay_Agree4);
+        Button Pay_Off_Btn= (Button) findViewById(R.id.Pay_Off_Btn); //결제하기 버튼 비활성화
+        Button Pay_On_Btn= (Button) findViewById(R.id.Pay_On_Btn); //결제하기 버튼
+        //RadioButton PayCard=(RadioButton) findViewById(R.id.Pay_Card);
 
-        PayBtn.setOnClickListener(new View.OnClickListener() {
+//        if (PayAgree1.isChecked() && PayAgree2.isChecked() && PayAgree3.isChecked() && PayAgree4.isChecked()){
+//            Pay_Off_Btn.setVisibility(View.GONE);
+//            Pay_On_Btn.setVisibility(View.VISIBLE);
+//        }
+
+        Pay_Off_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (PayCard.isChecked()){
-//                }
-                if (PayAgree1.isChecked() && PayAgree2.isChecked() && PayAgree3.isChecked()) // 결제동의하기
-                {
-                    Intent i= new Intent(ToPayActivity.this, PayActivity.class);
-                    i.putExtra("user_id",user_id);
-                    i.putExtra("mdName",mdName);
-                    i.putExtra("purchaseNum",purchaseNum);
-                    i.putExtra("prodPrice",prodPrice);
-                    i.putExtra("md_id",md_id);
-                    i.putExtra("store_id",store_id);
-                    i.putExtra("pickupDate",pickupDate);
-                    i.putExtra("pickupTime",pickupTime);
-                    i.putExtra("user_name",user_name);
-                    i.putExtra("mobile_no",mobile_no);
-                    startActivity(i);
+                if (PayAgree1.isChecked() && PayAgree2.isChecked() && PayAgree3.isChecked() && PayAgree4.isChecked()){
+                    Pay_Off_Btn.setVisibility(View.GONE);
+                    Pay_On_Btn.setVisibility(View.VISIBLE);
+
                 }else{
                     Toast.makeText(ToPayActivity.this, "개인정보 및 구매유의사항을 확인하시오.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
+        Pay_On_Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                {
+                    Intent i= new Intent(ToPayActivity.this, PaidActivity.class);
+                    i.putExtra("user_id",user_id);
+                    i.putExtra("mdName",mdName);
+                    i.putExtra("purchaseNum",purchaseNum);
+                    i.putExtra("totalPrice",JP_ToTalPrice);
+                    i.putExtra("md_id",md_id);
+                    i.putExtra("store_id",store_id);
+                    i.putExtra("store_name",store_name);
+                    i.putExtra("store_loc",store_loc);
+                    i.putExtra("pickupDate",pickupDate);
+                    i.putExtra("pickupTime",pickupTime);
+                    i.putExtra("user_name",user_name);
+                    i.putExtra("mobile_no",mobile_no);
+                    startActivity(i);
+                }
+            }
+        });
     }
 }

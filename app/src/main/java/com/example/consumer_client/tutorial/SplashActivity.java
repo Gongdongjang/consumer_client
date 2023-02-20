@@ -7,7 +7,7 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.consumer_client.R;
-import com.example.consumer_client.user.LoginActivity;
+import com.example.consumer_client.user.IntegratedLoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -19,7 +19,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run(){
-                Intent intent= new Intent(SplashActivity.this, LoginActivity.class);
+                Intent intent= new Intent(SplashActivity.this, IntegratedLoginActivity.class);
                 startActivity(intent);
                 finish();
             }
