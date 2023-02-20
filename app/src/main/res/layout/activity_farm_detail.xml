@@ -221,6 +221,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </androidx.recyclerview.widget.RecyclerView>
+
             <TextView
                 android:id="@+id/FarmId"
                 android:layout_width="match_parent"
@@ -228,7 +229,141 @@
                 android:text="TextView"
                 android:visibility="invisible"
                 />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="구매 리뷰"
+                    android:layout_weight="1"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="20dp"
+                    android:padding="6dp"
+                    android:text="농가의 전체 리뷰 보기"
+                    android:textColor="#000000"
+                    android:textSize="10dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="*해당 픽업 스토어는 유통의 업무만 있습니다. 자세한 CS문의는 [마이페이지>고객센터]로 문의바랍니다."
+                android:textColor="#000000"
+                android:textSize="10dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:nestedScrollingEnabled="false"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="20dp"
+                android:id="@+id/StoreReview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/FarmIMG"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_launcher_background"
+                    android:layout_gravity="top"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/FarmName2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="농가명"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="15dp"/>
+
+                    <TextView
+                        android:id="@+id/FarmProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="농가 짧은 프로필입니다"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="15dp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/StoreIMG"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_launcher_background"
+                    android:layout_gravity="top"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/StoreName2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="스토어명"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="15dp"/>
+
+                    <TextView
+                        android:id="@+id/StoreProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="스토어 짧은 프로필입니다"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="15dp"/>
+
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
+
 
 
 </androidx.core.widget.NestedScrollView>

@@ -27,7 +27,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="15dp"
-                android:src="@drawable/sns_naver"
+                android:src="@drawable/ic_logo1"
                 android:layout_gravity="top"/>
 
             <LinearLayout

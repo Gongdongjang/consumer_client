@@ -175,7 +175,7 @@ public class FarmDetailActivity extends AppCompatActivity {
                         mRecyclerView.setLayoutManager(linearLayoutManager);
 
                         for(int i=0;i<mdArray.size();i++){
-                            addFarmJointPurchase(farm_name, mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), mdArray.get(i).getAsJsonObject().get("store_name").getAsString(),pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
+                            addFarmJointPurchase(farm_name, "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + mdArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(), mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), mdArray.get(i).getAsJsonObject().get("store_name").getAsString(),pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
                         }
                         Log.d("FarmDetail", user_id);
 
@@ -217,10 +217,11 @@ public class FarmDetailActivity extends AppCompatActivity {
         mList = new ArrayList<>();
     }
 
-    public void addFarmJointPurchase(String farmName, String prodName, String storeName, String puTerm){
+    public void addFarmJointPurchase(String farmName, String prodImgName, String prodName, String storeName, String puTerm){
         FarmDetailInfo farmDetail = new FarmDetailInfo();
 
         farmDetail.setFarmName(farmName);
+        farmDetail.setProdImg(prodImgName);
         farmDetail.setProdName(prodName);
         farmDetail.setStoreName(storeName);
 //        farmDetail.setPaySchedule(paySchedule);

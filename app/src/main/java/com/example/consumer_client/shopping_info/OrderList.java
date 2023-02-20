@@ -101,7 +101,9 @@ public class OrderList extends AppCompatActivity {
                         double distanceKilo =
                                 distance(37.59272, 127.016544, Double.parseDouble(orderDetailArray.get(i).getAsJsonObject().get("store_lat").getAsString()), Double.parseDouble(orderDetailArray.get(i).getAsJsonObject().get("store_long").getAsString()), "kilometer");
 
-                        addOrderList(user_id, orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(), "제품 이미지", orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_md_status").getAsString(), pu_date.get(i).getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_lat").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_long").getAsString());
+                        addOrderList(user_id, orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(),
+                                "https://gdjang.s3.ap-northeast-2.amazonaws.com/" + orderDetailArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_md_status").getAsString(), pu_date.get(i).getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_lat").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_long").getAsString());
                     }
 
                     mOrderListAdapter.setOnItemClickListener (
@@ -110,6 +112,7 @@ public class OrderList extends AppCompatActivity {
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(OrderList.this, OrderDetailActivity.class);
                                     intent.putExtra("user_id", user_id);
+                                    intent.putExtra("md_img", mList.get(pos).getStoreProdImgView());
                                     intent.putExtra("store_loc", mList.get(pos).getStoreLoc());
                                     intent.putExtra("store_my", mList.get(pos).getStoreLocationFromMe());
                                     intent.putExtra("store_name", mList.get(pos).getStoreName());

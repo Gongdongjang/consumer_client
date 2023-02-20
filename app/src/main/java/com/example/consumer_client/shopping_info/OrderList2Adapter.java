@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.consumer_client.R;
 import com.example.consumer_client.order.OrderListInfo;
 
@@ -87,7 +88,7 @@ public class OrderList2Adapter extends RecyclerView.Adapter<OrderList2Adapter.Vi
     public void onBindViewHolder(@NonNull OrderList2Adapter.ViewHolder holder, int position) {
         OrderListInfo item = mList.get(position);
 //        holder.userid.setText(item.getUserId());
-        holder.storeProdImgView.setImageResource(R.drawable.ic_launcher_background);
+        Glide.with(holder.itemView).load(item.getStoreProdImgView()).into(holder.storeProdImgView);
         holder.storeName.setText(item.getStoreName());
         holder.storeLocationFromMe.setText(item.getStoreLocationFromMe());
         holder.mdName.setText(item.getMdName());

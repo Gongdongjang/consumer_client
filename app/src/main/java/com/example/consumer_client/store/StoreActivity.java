@@ -173,7 +173,9 @@ public class StoreActivity extends AppCompatActivity {
                         double distanceKilo =
                                 distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
 
-                        addStore(storeArray.get(i).getAsJsonObject().get("store_id").getAsString(),"스토어 이미지", storeArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), storeArray.get(i).getAsJsonObject().get("store_info").getAsString(), "휴무일 없어진거니?", storeArray.get(i).getAsJsonObject().get("store_hours").getAsString());
+                        addStore(storeArray.get(i).getAsJsonObject().get("store_id").getAsString(),
+                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + storeArray.get(i).getAsJsonObject().get("store_thumbnail").getAsString(),
+                                storeArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), storeArray.get(i).getAsJsonObject().get("store_info").getAsString(), "휴무일 없어진거니?", storeArray.get(i).getAsJsonObject().get("store_hours").getAsString());
                     }
                     //거리 가까운순으로 정렬
                     mList.sort(new Comparator<StoreTotalInfo>() {

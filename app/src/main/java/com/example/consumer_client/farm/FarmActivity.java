@@ -175,14 +175,18 @@ public class FarmActivity extends AppCompatActivity {
                                 count++;
                             }
                         }
-                        List<Address> address = geocoder.getFromLocationName(farmArray.get(i).getAsJsonObject().get("farm_loc").getAsString(),10);
-                        Address location = address.get(0);
-                        double store_lat=location.getLatitude();
-                        double store_long=location.getLongitude();
+//<<<<<<< feature_home_design
+  //                      List<Address> address = geocoder.getFromLocationName(farmArray.get(i).getAsJsonObject().get("farm_loc").getAsString(),10);
+    //                    Address location = address.get(0);
+      //                  double store_lat=location.getLatitude();
+        //                double store_long=location.getLongitude();
 
                         //자신이 설정한 위치와 스토어 거리 distance 구하기
-                        double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
-                        addFarm("product Img", farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
+          //              double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
+            //            addFarm("product Img", farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
+// =======
+                        addFarm(
+                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(i).getAsJsonObject().get("farm_thumbnail").getAsString(),farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
                     }
 
                     //거리 가까운순으로 정렬

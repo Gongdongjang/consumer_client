@@ -3,10 +3,20 @@ package com.example.consumer_client.home;
 //필요 없어 보임
 
 public class HomeProductItem {
+    private String homeMdId;
     private String homeProdImg;
     private String homeProdName;
     private String homeProdEx;
     private String homeDistance;
+
+    public String getHomeMdId() {
+        return homeMdId;
+    }
+
+    public void setHomeMdId(String homeMdId) {
+        this.homeMdId = homeMdId;
+    }
+
 
     public String getHomeProdImg() {
         return homeProdImg;

@@ -164,6 +164,7 @@
                 android:gravity="left"
                 android:textColor="@color/black"/>
             <ImageButton
+                android:id="@+id/addImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_baseline_add_box_24"/>
@@ -174,8 +175,8 @@
             android:layout_marginBottom="15dp"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/AddImgBtn"
+            <ImageView
+                android:id="@+id/reviewImg1"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginRight="15dp"
@@ -184,6 +185,7 @@
                 android:maxWidth="80dp"
                 android:maxHeight="80dp" />
             <ImageView
+                android:id="@+id/reviewImg2"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:maxWidth="80dp"
@@ -192,19 +194,13 @@
                 android:layout_marginRight="15dp"
                 android:adjustViewBounds="true"/>
             <ImageView
+                android:id="@+id/reviewImg3"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:maxWidth="80dp"
                 android:maxHeight="80dp"
                 android:background="#EAEAEA"
                 android:layout_marginRight="15dp"
-                android:adjustViewBounds="true"/>
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:maxWidth="80dp"
-                android:maxHeight="80dp"
-                android:background="#EAEAEA"
                 android:adjustViewBounds="true"/>
         </LinearLayout>
         <LinearLayout
@@ -227,6 +223,7 @@
                 android:orientation="horizontal"
                 android:layout_marginLeft="15dp">
 
+                <!--
                 <ImageView
                     android:id="@+id/Star_1"
                     android:layout_width="wrap_content"
@@ -251,7 +248,31 @@
                     android:id="@+id/Star_5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_star_border_24"/>
+                    android:src="@drawable/ic_baseline_star_border_24"/>-->
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal|fill_horizontal|center_vertical|fill_vertical"
+                    android:layout_weight="1"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="0.5" />
+
+                <TextView
+                    android:id="@+id/starScore"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="별" />
+                <TextView
+                    android:id="@+id/scoreRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="점" />
             </LinearLayout>
         </LinearLayout>
 
@@ -267,13 +288,15 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="취소"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:id="@+id/reviewCancel"/>
             <Button
                 android:layout_marginLeft="30dp"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="등록"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:id="@+id/reviewReg"/>
         </LinearLayout>
 
     </LinearLayout>
