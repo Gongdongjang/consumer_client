@@ -253,8 +253,12 @@ public class OrderDialog extends Dialog {
                 //수량+-버튼이 아닌 직접 입력했을 수도 있으니 다시 한번 재고 수량확인
                 if(Integer.parseInt(StkRemain) < Integer.parseInt(PurchaseNum.getText().toString()) ){ //n세트 * m개
                     Toast.makeText(getContext(), "재고가 부족합니다.", Toast.LENGTH_SHORT).show();
-                }else{
-                    if(basketChek){   //장바구니 지참사항 확인해야 넘어감
+                }else if (PickUpDate.getText().toString().equals("") || PickUpTime.getText().toString().equals("")){
+                    Toast.makeText(getContext(), "픽업 날짜와 시간을 입력하세요.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if(basketChek){   //장바구니 지참사항 확인해야
+                        // 넘어감
                         //스토어정보+ dialog 값 전달
                         i.putExtra("user_id",user_id);
                         i.putExtra("md_id",md_id);

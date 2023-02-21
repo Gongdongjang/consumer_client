@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -184,12 +185,15 @@ public class ToPayActivity extends AppCompatActivity {
 //            Pay_On_Btn.setVisibility(View.VISIBLE);
 //        }
 
+        EditText userName= (EditText) findViewById(R.id.userName);
+
         Pay_Off_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (PayAgree1.isChecked() && PayAgree2.isChecked() && PayAgree3.isChecked() && PayAgree4.isChecked()){
                     Pay_Off_Btn.setVisibility(View.GONE);
                     Pay_On_Btn.setVisibility(View.VISIBLE);
+
 
                 }else{
                     Toast.makeText(ToPayActivity.this, "개인정보 및 구매유의사항을 확인하시오.", Toast.LENGTH_SHORT).show();
@@ -201,20 +205,25 @@ public class ToPayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 {
-                    Intent i= new Intent(ToPayActivity.this, PaidActivity.class);
-                    i.putExtra("user_id",user_id);
-                    i.putExtra("mdName",mdName);
-                    i.putExtra("purchaseNum",purchaseNum);
-                    i.putExtra("totalPrice",JP_ToTalPrice);
-                    i.putExtra("md_id",md_id);
-                    i.putExtra("store_id",store_id);
-                    i.putExtra("store_name",store_name);
-                    i.putExtra("store_loc",store_loc);
-                    i.putExtra("pickupDate",pickupDate);
-                    i.putExtra("pickupTime",pickupTime);
-                    i.putExtra("user_name",user_name);
-                    i.putExtra("mobile_no",mobile_no);
-                    startActivity(i);
+                    if(userName.getText().toString().equals("")){
+                        Toast.makeText(ToPayActivity.this, "입금자 명을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Intent i= new Intent(ToPayActivity.this, PaidActivity.class);
+                        i.putExtra("user_id",user_id);
+                        i.putExtra("mdName",mdName);
+                        i.putExtra("purchaseNum",purchaseNum);
+                        i.putExtra("totalPrice",JP_ToTalPrice);
+                        i.putExtra("md_id",md_id);
+                        i.putExtra("store_id",store_id);
+                        i.putExtra("store_name",store_name);
+                        i.putExtra("store_loc",store_loc);
+                        i.putExtra("pickupDate",pickupDate);
+                        i.putExtra("pickupTime",pickupTime);
+                        i.putExtra("user_name",user_name);
+                        i.putExtra("mobile_no",mobile_no);
+                        startActivity(i);
+                    }
                 }
             }
         });

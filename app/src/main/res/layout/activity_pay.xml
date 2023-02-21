@@ -258,8 +258,9 @@
             android:layout_height="32dp"
             android:layout_marginTop="2dp"
             android:hint="입금자 명을 입력해주세요."
+            android:textColorHint="#B4B4B4"
             android:textAlignment="center"
-            android:textColor="#B4B4B4"
+            android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold"
             android:background="@drawable/border"/>

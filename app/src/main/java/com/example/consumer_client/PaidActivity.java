@@ -11,24 +11,11 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.consumer_client.fragment.Order;
-import com.example.consumer_client.order.ToPayActivity;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import kr.co.bootpay.android.Bootpay;
-import kr.co.bootpay.android.BootpayAnalytics;
-import kr.co.bootpay.android.events.BootpayEventListener;
-import kr.co.bootpay.android.models.BootExtra;
-import kr.co.bootpay.android.models.BootItem;
-import kr.co.bootpay.android.models.BootUser;
-import kr.co.bootpay.android.models.Payload;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,7 +47,7 @@ public class PaidActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_paid);
+        setContentView(R.layout.activity_paid_complete);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseurl))
@@ -132,6 +119,7 @@ public class PaidActivity extends AppCompatActivity {
                 Log.e("주문하기 post", t.getMessage());
             }
         });
+
         //결제 성공 후 페이지 이동하기
         Button goHome = (Button) findViewById(R.id.Paid_goHome);
         goHome.setOnClickListener(new View.OnClickListener() {

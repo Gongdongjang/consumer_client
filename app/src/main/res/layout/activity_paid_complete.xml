@@ -42,6 +42,7 @@
         android:textStyle="bold"
         android:layout_gravity="center"
         android:layout_marginTop="17dp"
+        android:enabled="false"
         android:text="입금 확인 시간 : 매일 11-15시 / 18-22시" />
 
     <TextView
