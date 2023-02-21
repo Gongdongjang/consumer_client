@@ -78,9 +78,9 @@ public class StoreActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);    //기본 제목을 없애줍니다.
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        //actionBar.setDisplayShowCustomEnabled(true);
+        //actionBar.setDisplayShowTitleEnabled(false);    //기본 제목을 없애줍니다.
+        //actionBar.setDisplayHomeAsUpEnabled(true);
 
         mContext = this;
 
@@ -97,49 +97,49 @@ public class StoreActivity extends AppCompatActivity {
         user_id=intent.getStringExtra("user_id");
 
         //===기준 주소정보
-        JsonObject body = new JsonObject();
-        body.addProperty("id", user_id);
-
-        change_address = findViewById(R.id.change_address);
-
-        Call<ResponseBody> address_call = service.getStdAddress(body);
-        address_call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                try {
-                    res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
-                    JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
-                    String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
-                    change_address.setText(standard_address);
-                    final Geocoder geocoder = new Geocoder(getApplicationContext());
-                    List<Address> address = geocoder.getFromLocationName(standard_address,10);
-                    Address location = address.get(0);
-                    myTownLat = location.getLatitude();
-                    myTownLong=location.getLongitude();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "기준 주소 정보 받기 에러 발생", Toast.LENGTH_SHORT).show();
-                Log.e("주소정보", t.getMessage());
-            }
-        });
+//        JsonObject body = new JsonObject();
+//        body.addProperty("id", user_id);
+//
+//        change_address = findViewById(R.id.change_address);
+//
+//        Call<ResponseBody> address_call = service.getStdAddress(body);
+//        address_call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+//                try {
+//                    res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
+//                    JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
+//                    String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
+//                    change_address.setText(standard_address);
+//                    final Geocoder geocoder = new Geocoder(getApplicationContext());
+//                    List<Address> address = geocoder.getFromLocationName(standard_address,10);
+//                    Address location = address.get(0);
+//                    myTownLat = location.getLatitude();
+//                    myTownLong=location.getLongitude();
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                Toast.makeText(getApplicationContext(), "기준 주소 정보 받기 에러 발생", Toast.LENGTH_SHORT).show();
+//                Log.e("주소정보", t.getMessage());
+//            }
+//        });
 
         // 지역명
         //상단바 주소변경 누르면 주소변경/선택 페이지로
-        change_address.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Log.d("클릭", "확인");
-                Intent intent = new Intent(StoreActivity.this, EditTownActivity.class);
-                intent.putExtra("user_id", user_id);
-                startActivity(intent);
-            }
-        });
+//        change_address.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v){
+//                Log.d("클릭", "확인");
+//                Intent intent = new Intent(StoreActivity.this, EditTownActivity.class);
+//                intent.putExtra("user_id", user_id);
+//                startActivity(intent);
+//            }
+//        });
 
         //-----스토어 정보 불러오기
         Call<ResponseBody> call = service.getStoreData();
