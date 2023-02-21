@@ -81,7 +81,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginLeft="48dp"
-                android:background="@drawable/order_status_off">
+                android:background="@drawable/order_status_on">
             </ImageView>
 
         </LinearLayout>
@@ -137,7 +137,7 @@
                 android:text="픽업 완료"
                 android:textSize="10sp"
                 android:layout_marginLeft="23dp"
-                android:textColor="#1EAA95" />
+                android:textColor="#A3A3A3" />
         </LinearLayout>
 
         <ImageView
