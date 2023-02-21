@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,6 +50,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     JsonObject body;
     OrderDetailMdService service;
     JsonParser jsonParser;
+    JsonArray order_detail;
     Context mContext;
     String store_loc, store_my, store_name, md_name, md_qty, md_price, order_id, pu_date, md_status, md_fin_price;
 
@@ -71,20 +73,34 @@ public class OrderDetailActivity extends AppCompatActivity {
         TextView OrderCount = (TextView) findViewById(R.id.ClientOrderCount);
         TextView OrderPrice = (TextView) findViewById(R.id.ClientOrderPrice);
         TextView StoreName = (TextView) findViewById(R.id.OrderStoreName);
+        TextView StoreName0 = (TextView) findViewById(R.id.OrderStoreName0);
         TextView StoreAddr = (TextView) findViewById(R.id.OrderStoreAddr);
-        TextView PuDate = (TextView) findViewById(R.id.OrderPickUpDate);
-        TextView ProdStatus = (TextView) findViewById(R.id.ProdStatus);
 
         Intent intent = getIntent(); //intent 값 받기
         user_id = intent.getStringExtra("user_id");
         store_loc=intent.getStringExtra("store_loc");
-        store_my = intent.getStringExtra("store_my");
+        //store_my = intent.getStringExtra("store_my"); >> 이건 어디에 쓰냐..?
         store_name = intent.getStringExtra("store_name");
         md_name = intent.getStringExtra("md_name");
-        md_qty = intent.getStringExtra("md_qty");
-        md_price = intent.getStringExtra("md_price");
+        //md_qty = intent.getStringExtra("md_qty");
+        //md_price = intent.getStringExtra("md_price");
         order_id = intent.getStringExtra("order_id");
-        md_status = intent.getStringExtra("md_status");
+        //md_status = intent.getStringExtra("md_status");
+
+        //픽업상태 세팅
+        TextView order_status= (TextView) findViewById(R.id.order_status);
+        ImageView order_status1= (ImageView) findViewById(R.id.order_status1);
+        ImageView order_status2= (ImageView) findViewById(R.id.order_status2);
+        ImageView order_status3= (ImageView) findViewById(R.id.order_status3);
+        ImageView order_status4= (ImageView) findViewById(R.id.order_status4);
+        ImageView order_status5= (ImageView) findViewById(R.id.order_status5);
+        ImageView order_status6= (ImageView) findViewById(R.id.order_status6);
+        TextView txt_order_status1= (TextView) findViewById(R.id.txt_order_status1);
+        TextView txt_order_status2= (TextView) findViewById(R.id.txt_order_status2);
+        TextView txt_order_status3= (TextView) findViewById(R.id.txt_order_status3);
+        TextView txt_order_status4= (TextView) findViewById(R.id.txt_order_status4);
+        TextView txt_order_status5= (TextView) findViewById(R.id.txt_order_status5);
+        TextView txt_order_status6= (TextView) findViewById(R.id.txt_order_status6);
 
         body = new JsonObject();
         body.addProperty("order_id", order_id);
@@ -98,16 +114,23 @@ public class OrderDetailActivity extends AppCompatActivity {
                     try {
                         JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
                         pu_date = res.get("pu_date").getAsString();
+                        order_detail= res.get("order_detail").getAsJsonArray();
 
                         //img 아직 안함
                         MdName.setText(md_name);
-                        OrderCount.setText(md_qty);
-                        md_fin_price = String.valueOf(Integer.parseInt(md_price) * Integer.parseInt(md_qty));
-                        OrderPrice.setText(md_fin_price);
+                        OrderCount.setText(order_detail.get(0).getAsJsonObject().get("order_select_qty").getAsString()+"세트");
+                        //md_fin_price = String.valueOf(Integer.parseInt(md_price) * Integer.parseInt(md_qty));
+                        OrderPrice.setText(order_detail.get(0).getAsJsonObject().get("order_price").getAsString()+"원");
                         StoreName.setText(store_name);
+                        StoreName0.setText(store_name);
                         StoreAddr.setText(store_loc);
-                        PuDate.setText(pu_date);
-                        ProdStatus.setText(md_status);
+                        //PuDate.setText(pu_date);
+                        //ProdStatus.setText(md_status);
+
+
+                        //md_status= order_detail.get(0).getAsJsonObject().get("order_md_status").getAsString();
+                        md_status= res.get("md_status").getAsJsonObject().get("stk_confirm").getAsString();
+                        //if(md_status.equals(""))
 
                     } catch (IOException e) {
                         e.printStackTrace();

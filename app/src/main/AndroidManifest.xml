@@ -50,7 +50,7 @@
         </activity>
 
         <activity android:name=".order.ToPayActivity" />
-        <activity android:name=".PaidActivity" />
+        <activity android:name=".order.PaidActivity" />
 
         <activity android:name=".order.OrderDetailActivity" />
         <activity android:name=".review.ReviewActivity" />

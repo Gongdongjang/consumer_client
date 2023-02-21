@@ -1,7 +1,6 @@
 package com.example.consumer_client.order;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -14,11 +13,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.consumer_client.PaidActivity;
 import com.example.consumer_client.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

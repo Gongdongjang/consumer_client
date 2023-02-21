@@ -130,9 +130,9 @@ public class Order extends Fragment {
                                     intent.putExtra("store_my", mList.get(pos).getStoreLocationFromMe());
                                     intent.putExtra("store_name", mList.get(pos).getStoreName());
                                     intent.putExtra("md_name", mList.get(pos).getMdName());
-                                    intent.putExtra("md_qty", mList.get(pos).getMdQty());
-                                    intent.putExtra("md_price", mList.get(pos).getMdPrice());
-                                    intent.putExtra("md_status", mList.get(pos).getMdStatus());
+                                    //intent.putExtra("md_qty", mList.get(pos).getMdQty());
+                                    //intent.putExtra("md_price", mList.get(pos).getMdPrice());
+                                    //intent.putExtra("md_status", mList.get(pos).getMdStatus());
                                     intent.putExtra("order_id", mList.get(pos).getOrderId());
                                     startActivity(intent);
                                 }

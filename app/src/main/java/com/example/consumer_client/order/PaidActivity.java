@@ -1,4 +1,4 @@
-package com.example.consumer_client;
+package com.example.consumer_client.order;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.consumer_client.MainActivity;
+import com.example.consumer_client.R;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -43,6 +46,9 @@ public class PaidActivity extends AppCompatActivity {
     OrderInsertService service;
     JsonParser jsonParser;
     JsonObject res, body;
+
+    //주문상세페이지로 갈떄 order_id 넘기기
+    String order_id;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,13 +95,18 @@ public class PaidActivity extends AppCompatActivity {
         TotalPrice.setText(totalPrice);
         PuDate.setText(pickupDate+ " " + pickupTime);
 
-        Toast.makeText(getApplicationContext(), " 결제가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), " 결제가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
+        int idx=totalPrice.indexOf("원"); // ex)5000원 이렇게 되어있으니 '원' 문자 자르기
+        int order_price= Integer.parseInt(totalPrice.substring(0,idx));
+
         //주문하기-> Order테이블에 데이터 값 삽입하기Post 요청
         body = new JsonObject();
         body.addProperty("user_id", user_id); //
         body.addProperty("md_id", md_id);
         body.addProperty("store_id", store_id);
         body.addProperty("select_qty", purchaseNum);
+        body.addProperty("order_price", order_price);
         body.addProperty("pu_date", pickupDate);
         body.addProperty("pu_time", pickupTime);
 
@@ -106,7 +117,7 @@ public class PaidActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     try {
                         JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-                        Toast.makeText(PaidActivity.this, res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                        order_id= res.get("order_id").getAsJsonObject().get("LAST_INSERT_ID()").getAsString();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -136,10 +147,17 @@ public class PaidActivity extends AppCompatActivity {
         goOrderD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(PaidActivity.this, MainActivity.class);
-                i.putExtra("user_id", user_id);
-                startActivity(i);
+                Intent intent = new Intent(PaidActivity.this, OrderDetailActivity.class);
+                intent.putExtra("user_id", user_id);
+                intent.putExtra("order_id", order_id);
+                intent.putExtra("store_loc", store_loc);
+                //intent.putExtra("store_my", mList.get(pos).getStoreLocationFromMe());
+                intent.putExtra("store_name", store_name);
+                intent.putExtra("md_name", mdName);
+                //intent.putExtra("md_id", md_id);
+                startActivity(intent);
             }
         });
+
     }
 }
