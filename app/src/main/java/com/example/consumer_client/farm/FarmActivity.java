@@ -101,49 +101,49 @@ public class FarmActivity extends AppCompatActivity {
         user_id=intent.getStringExtra("user_id");
 
         //===기준 주소정보
-        JsonObject body = new JsonObject();
-        body.addProperty("id", user_id);
-
-        change_address = findViewById(R.id.change_address);
-
-        Call<ResponseBody> address_call = service.getStdAddress(body);
-        address_call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                try {
-                    res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
-                    JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
-                    String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
-                    change_address.setText(standard_address);
-                    final Geocoder geocoder = new Geocoder(getApplicationContext());
-                    List<Address> address = geocoder.getFromLocationName(standard_address,10);
-                    Address location = address.get(0);
-                    myTownLat = location.getLatitude();
-                    myTownLong=location.getLongitude();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "기준 주소 정보 받기 에러 발생", Toast.LENGTH_SHORT).show();
-                Log.e("주소정보", t.getMessage());
-            }
-        });
+//        JsonObject body = new JsonObject();
+//        body.addProperty("id", user_id);
+//
+//        change_address = findViewById(R.id.change_address);
+//
+//        Call<ResponseBody> address_call = service.getStdAddress(body);
+//        address_call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+//                try {
+//                    res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
+//                    JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
+//                    String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
+//                    change_address.setText(standard_address);
+//                    final Geocoder geocoder = new Geocoder(getApplicationContext());
+//                    List<Address> address = geocoder.getFromLocationName(standard_address,10);
+//                    Address location = address.get(0);
+//                    myTownLat = location.getLatitude();
+//                    myTownLong=location.getLongitude();
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                Toast.makeText(getApplicationContext(), "기준 주소 정보 받기 에러 발생", Toast.LENGTH_SHORT).show();
+//                Log.e("주소정보", t.getMessage());
+//            }
+//        });
 
         // 지역명
         //상단바 주소변경 누르면 주소변경/선택 페이지로
-        change_address.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Log.d("클릭", "확인");
-                Intent intent = new Intent(FarmActivity.this, EditTownActivity.class);
-                intent.putExtra("user_id", user_id);
-                startActivity(intent);
-            }
-        });
+//        change_address.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v){
+//                Log.d("클릭", "확인");
+//                Intent intent = new Intent(FarmActivity.this, EditTownActivity.class);
+//                intent.putExtra("user_id", user_id);
+//                startActivity(intent);
+//            }
+//        });
 
 
         //농장 정보 불러오기
@@ -183,10 +183,12 @@ public class FarmActivity extends AppCompatActivity {
 
                         //자신이 설정한 위치와 스토어 거리 distance 구하기
           //              double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
-            //            addFarm("product Img", farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
+                     addFarm("product Img", farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
 // =======
-                        addFarm(
-                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(i).getAsJsonObject().get("farm_thumbnail").getAsString(),farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
+
+                        //2023.02.21. 이미지 때문인지 오류나서 주석처리함...
+                        //addFarm(
+                          //      "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(i).getAsJsonObject().get("farm_thumbnail").getAsString(),farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
                     }
 
                     //거리 가까운순으로 정렬

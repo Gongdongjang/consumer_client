@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="3dp"
+    android:layout_gravity="bottom">
+
+
+    <Button
+        android:id="@+id/JP_OrderBtn"
+        android:layout_width="304dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="#1EAA95"
+        android:text="주문하기"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/JP_CartBtn"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/JP_OrderBtn"
+        app:layout_constraintHorizontal_bias="0.554"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_order_wish" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="144dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/img_gray_bar" />
+
+    <TextView
+        android:id="@+id/JP_ToTalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="25dp"
+        android:gravity="right|top"
+        android:text="n000원"
+        android:textColor="#151515"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/JP_OrderBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.878"
+        app:layout_constraintStart_toEndOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="220dp"
+        android:gravity="top"
+        android:text="총 수량"
+        android:textColor="#F75D39"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="84dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="top"
+        android:text="(필수) 장바구니 지참 사항 확인했습니다."
+        android:textColor="#444444"
+        app:layout_constraintBottom_toTopOf="@+id/textView13"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="12dp"
+        android:gravity="top"
+        android:text="본 상품 픽업 시, 현장에서 봉투 구매가 어렵습니다."
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.415"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/BringBasketCheck"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="45dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_check_off" />
+
+
+    <TextView
+        android:id="@+id/some_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="48dp"
+        android:gravity="top"
+        android:layout_marginTop="3dp"
+        android:text="남은수량"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PopupProdName" />
+
+    <TextView
+        android:id="@+id/PopupProdName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="60dp"
+        android:gravity="top"
+        android:text="제품명"
+        android:textColor="#151515"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView14"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/JP_Remain_Count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="top"
+        android:text="n개"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView16"
+        app:layout_constraintStart_toEndOf="@+id/some_id" />
+
+    <TextView
+        android:id="@+id/PickUpDate"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/border"
+        android:popupBackground="@color/white"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/PickUpTime"
+        app:layout_constraintStart_toStartOf="@+id/textView16" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="top"
+        android:text="픽업 날짜"
+        android:textColor="#151515"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView14"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="24dp"
+        android:gravity="top"
+        android:text="픽업 시간"
+        android:textColor="#151515"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/BringBasketCheck"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/PickUpTime"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/border"
+
+        android:popupBackground="@color/white"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/textView17"
+        app:layout_constraintStart_toEndOf="@+id/textView14" />
+
+    <ImageView
+        android:id="@+id/btn_date"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toEndOf="@+id/PickUpDate"
+        app:layout_constraintTop_toTopOf="@+id/PickUpDate"
+        app:srcCompat="@drawable/ic_order_day" />
+
+    <ImageView
+        android:id="@+id/btn_time"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toEndOf="@+id/PickUpTime"
+        app:layout_constraintTop_toTopOf="@+id/PickUpTime"
+        app:srcCompat="@drawable/ic_order_time"
+        tools:layout_editor_absoluteY="466dp" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="20dp"
+        android:gravity="top"
+        android:text="총 금액"
+        android:textColor="#F75D39"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/JP_CartBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView3"
+        app:layout_constraintVertical_bias="0.264" />
+
+    <TextView
+        android:id="@+id/JP_SelectCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="256dp"
+        android:layout_marginBottom="12dp"
+        android:gravity="right|top"
+        android:text="n개"
+        android:textColor="#151515"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/JP_ToTalPrice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView3" />
+
+    <ImageView
+        android:id="@+id/mdMinusBtn"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="119dp"
+        app:layout_constraintEnd_toStartOf="@+id/PurchaseNum"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/PopupProdName"
+        app:layout_constraintTop_toTopOf="@+id/PurchaseNum"
+        app:srcCompat="@drawable/img_minus" />
+
+    <ImageView
+        android:id="@+id/mdPlusBtn"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/border"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/PurchaseNum"
+        app:layout_constraintTop_toTopOf="@+id/PurchaseNum"
+        app:srcCompat="@drawable/img_plus" />
+
+    <EditText
+        android:id="@+id/PurchaseNum"
+        android:layout_width="90dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginBottom="12dp"
+        android:layout_weight="1"
+        android:background="@drawable/border"
+        android:gravity="center"
+        android:inputType="number"
+        android:text="1"
+        app:layout_constraintBottom_toTopOf="@+id/PickUpDate"
+        app:layout_constraintStart_toEndOf="@+id/PopupProdName" />
+</androidx.constraintlayout.widget.ConstraintLayout>

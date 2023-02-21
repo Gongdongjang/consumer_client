@@ -24,7 +24,7 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key"/>
         <meta-data android:name="android.max_aspect" android:value="2.1" />
-        <activity android:name=".user.LoginActivity"/>
+        <activity android:name=".user.IntegratedLoginActivity"/>
         <activity android:name=".tutorial.TutorialActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity android:name=".address.FindTownActivity"/>
@@ -50,7 +50,7 @@
         </activity>
 
         <activity android:name=".order.ToPayActivity" />
-        <activity android:name=".PayActivity" />
+        <activity android:name=".order.PaidActivity" />
 
         <activity android:name=".order.OrderDetailActivity" />
         <activity android:name=".review.ReviewActivity" />

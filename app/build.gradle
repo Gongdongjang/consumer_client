@@ -80,4 +80,9 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
    // implementation 'me.relex:circleindicator:2.1.4'
 
+
+    //s3 업로드
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.13.5'
+    implementation 'com.amazonaws:aws-android-sdk-cognito:2.13.5'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.13.5'
 }

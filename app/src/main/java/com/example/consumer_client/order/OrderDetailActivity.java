@@ -1,12 +1,13 @@
 package com.example.consumer_client.order;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,7 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.consumer_client.R;
-import com.example.consumer_client.review.ReviewActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -49,8 +49,9 @@ public class OrderDetailActivity extends AppCompatActivity {
     JsonObject body;
     OrderDetailMdService service;
     JsonParser jsonParser;
+    JsonArray order_detail;
     Context mContext;
-    String store_loc, store_my, store_name, md_name, md_qty, md_price, order_id, pu_date, md_status, md_fin_price;
+    String store_loc, store_my, store_name, md_name, order_id, pu_date, md_status;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,20 +72,31 @@ public class OrderDetailActivity extends AppCompatActivity {
         TextView OrderCount = (TextView) findViewById(R.id.ClientOrderCount);
         TextView OrderPrice = (TextView) findViewById(R.id.ClientOrderPrice);
         TextView StoreName = (TextView) findViewById(R.id.OrderStoreName);
+        TextView StoreName0 = (TextView) findViewById(R.id.OrderStoreName0);
         TextView StoreAddr = (TextView) findViewById(R.id.OrderStoreAddr);
-        TextView PuDate = (TextView) findViewById(R.id.OrderPickUpDate);
-        TextView ProdStatus = (TextView) findViewById(R.id.ProdStatus);
 
         Intent intent = getIntent(); //intent 값 받기
         user_id = intent.getStringExtra("user_id");
         store_loc=intent.getStringExtra("store_loc");
-        store_my = intent.getStringExtra("store_my");
+        //store_my = intent.getStringExtra("store_my"); >> 이건 어디에 쓰냐..?
         store_name = intent.getStringExtra("store_name");
         md_name = intent.getStringExtra("md_name");
-        md_qty = intent.getStringExtra("md_qty");
-        md_price = intent.getStringExtra("md_price");
         order_id = intent.getStringExtra("order_id");
-        md_status = intent.getStringExtra("md_status");
+
+        //픽업상태 세팅
+        TextView order_status= (TextView) findViewById(R.id.order_status); //+픽업날짜
+        ImageView order_status1= (ImageView) findViewById(R.id.order_status1);
+        ImageView order_status2= (ImageView) findViewById(R.id.order_status2);
+        ImageView order_status3= (ImageView) findViewById(R.id.order_status3);
+        ImageView order_status4= (ImageView) findViewById(R.id.order_status4);
+        ImageView order_status5= (ImageView) findViewById(R.id.order_status5);
+        ImageView order_status6= (ImageView) findViewById(R.id.order_status6);
+        TextView txt_order_status1= (TextView) findViewById(R.id.txt_order_status1);
+        TextView txt_order_status2= (TextView) findViewById(R.id.txt_order_status2);
+        TextView txt_order_status3= (TextView) findViewById(R.id.txt_order_status3);
+        TextView txt_order_status4= (TextView) findViewById(R.id.txt_order_status4);
+        TextView txt_order_status5= (TextView) findViewById(R.id.txt_order_status5);
+        TextView txt_order_status6= (TextView) findViewById(R.id.txt_order_status6);
 
         body = new JsonObject();
         body.addProperty("order_id", order_id);
@@ -92,22 +104,59 @@ public class OrderDetailActivity extends AppCompatActivity {
         Call<ResponseBody> call = service.orderDetailMd(body);
 
         call.enqueue(new Callback<ResponseBody>() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     try {
                         JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
-                        pu_date = res.get("pu_date").getAsString();
+                        order_detail= res.get("order_detail").getAsJsonArray();
 
                         //img 아직 안함
                         MdName.setText(md_name);
-                        OrderCount.setText(md_qty);
-                        md_fin_price = String.valueOf(Integer.parseInt(md_price) * Integer.parseInt(md_qty));
-                        OrderPrice.setText(md_fin_price);
+                        OrderCount.setText(order_detail.get(0).getAsJsonObject().get("order_select_qty").getAsString()+"세트");
+                        OrderPrice.setText(order_detail.get(0).getAsJsonObject().get("order_price").getAsString()+"원");
                         StoreName.setText(store_name);
+                        StoreName0.setText(store_name);
                         StoreAddr.setText(store_loc);
-                        PuDate.setText(pu_date);
-                        ProdStatus.setText(md_status);
+
+                        //상품 현재 픽업 상태 세팅
+                        md_status= res.get("md_status").getAsJsonObject().get("stk_confirm").getAsString();
+                        switch (md_status) {
+                            case "공동구매 중":
+                                order_status.setText("픽업 예정일 : " + order_detail.get(0).getAsJsonObject().get("order_pu_time").getAsString());
+                                order_status1.setImageResource(R.drawable.order_status_off);
+                                txt_order_status1.setTextColor(Color.parseColor("#1EAA95"));
+                                break;
+                            case "공동구매 완료":
+                                order_status.setText("픽업 예정일 : " + order_detail.get(0).getAsJsonObject().get("order_pu_time").getAsString());
+                                order_status2.setImageResource(R.drawable.order_status_off);
+                                txt_order_status2.setTextColor(Color.parseColor("#1EAA95"));
+                                break;
+                            case "상품 준비 중":
+                                order_status.setText("픽업 예정일 : " + order_detail.get(0).getAsJsonObject().get("order_pu_time").getAsString());
+                                order_status3.setImageResource(R.drawable.order_status_off);
+                                txt_order_status3.setTextColor(Color.parseColor("#1EAA95"));
+                                break;
+                            case "배송 중":
+                                order_status.setText("픽업 예정일 : " + order_detail.get(0).getAsJsonObject().get("order_pu_time").getAsString());
+                                order_status4.setImageResource(R.drawable.order_status_off);
+                                txt_order_status4.setTextColor(Color.parseColor("#1EAA95"));
+                                break;
+                            case "스토어 도착":
+                                order_status.setText("픽업 예정일 : " + order_detail.get(0).getAsJsonObject().get("order_pu_time").getAsString());
+                                order_status5.setImageResource(R.drawable.order_status_off);
+                                txt_order_status5.setTextColor(Color.parseColor("#1EAA95"));
+                                break;
+                            case "픽업 완료":
+                                order_status.setText("픽업 완료");
+                                order_status6.setImageResource(R.drawable.order_status_off);
+                                txt_order_status6.setTextColor(Color.parseColor("#1EAA95"));
+                                break;
+                            default:  //아마 공구 취소..?
+                                order_status.setText(md_status);
+                                break;
+                        }
 
                     } catch (IOException e) {
                         e.printStackTrace();
