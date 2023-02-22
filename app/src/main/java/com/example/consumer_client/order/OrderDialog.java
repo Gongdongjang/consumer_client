@@ -5,8 +5,11 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -19,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.consumer_client.R;
+import com.example.consumer_client.cart.CartDialog;
 
 import java.util.Calendar;
 
@@ -41,6 +45,8 @@ public class OrderDialog extends Dialog {
     ImageView JP_CartBtn;
     Context mContext;
 
+    CartDialog cartDialog;
+    OrderDialog orderDialog;
     //popuporderActivitiy
 
     public OrderDialog(@NonNull Context context, String mdName, String prodNum, String prodPrice,
@@ -49,6 +55,7 @@ public class OrderDialog extends Dialog {
         super(context);
         setContentView(R.layout.activity_payment_popup2);
 
+        orderDialog = this;
         Log.d("유저아이디", user_id);
 
         //상품명 + n개 000원 추가했음.
@@ -274,6 +281,28 @@ public class OrderDialog extends Dialog {
                         v.getContext().startActivity(i);
                     }
                     else{
+                        Toast.makeText(getContext(), "장바구니 지참사항 확인하셨나요?", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+        // 장바구니 버튼
+        JP_CartBtn = findViewById(R.id.JP_CartBtn);
+        JP_CartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Integer.parseInt(StkRemain) < Integer.parseInt(PurchaseNum.getText().toString()) ){ //n세트 * m개
+                    Toast.makeText(getContext(), "재고가 부족합니다.", Toast.LENGTH_SHORT).show();
+                }else if (PickUpDate.getText().toString().equals("") || PickUpTime.getText().toString().equals("")){
+                    Toast.makeText(getContext(), "픽업 날짜와 시간을 입력하세요.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if (basketChek) {   //장바구니 지참사항 확인해야
+                        orderDialog.dismiss();
+                        cartDialog = new CartDialog(context, user_id);
+                        cartDialog.show();
+                    } else {
                         Toast.makeText(getContext(), "장바구니 지참사항 확인하셨나요?", Toast.LENGTH_SHORT).show();
                     }
                 }
