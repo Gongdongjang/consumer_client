@@ -70,6 +70,7 @@ public class ToPayActivity extends AppCompatActivity {
         TextView ProdName=(TextView) findViewById(R.id.JP_ProdName);
         TextView OrderCount = (TextView) findViewById(R.id.ClientOrderCount);
         TextView OrderPrice = (TextView) findViewById(R.id.ClientOrderPrice);
+        TextView MdTotalPrice = (TextView) findViewById(R.id.MdTotalPrice);
         TextView StoreName = (TextView) findViewById(R.id.Pay_Store_Name);
         TextView StoreAddr = (TextView) findViewById(R.id.Pay_Store_Addr);
         TextView PuDate = (TextView) findViewById(R.id.Pay_PU_Date);
@@ -97,6 +98,7 @@ public class ToPayActivity extends AppCompatActivity {
         StoreName.setText(store_name);
         StoreAddr.setText(store_loc);
         PuDate.setText(pickupDate);
+        MdTotalPrice.setText(JP_ToTalPrice);
 
         //주문하기-> Order테이블에 데이터 값 삽입하기Post 요청
         body = new JsonObject();
@@ -156,14 +158,12 @@ public class ToPayActivity extends AppCompatActivity {
         MapPoint s_MarkPoint = MapPoint.mapPointWithGeoCoord(store_lat, store_long);  //마커찍기
 
         MapPOIItem store_marker=new MapPOIItem();
+        store_marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
+        store_marker.setCustomImageResourceId(R.drawable.ic_shop);
         store_marker.setItemName(store_name); //클릭했을때 스토어 이름 나오기
         store_marker.setTag(0);
         store_marker.setMapPoint(s_MarkPoint);   //좌표입력받아 현위치로 출력
 
-        //  (클릭 전)기본으로 제공하는 BluePin 마커 모양의 색.
-        store_marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-        // (클릭 후) 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-        store_marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
         // 지도화면 위에 추가되는 아이콘을 추가하기 위한 호출(말풍선 모양)
         mapView.addPOIItem(store_marker);
 

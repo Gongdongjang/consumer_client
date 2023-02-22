@@ -175,7 +175,7 @@ public class StoreActivity extends AppCompatActivity {
 
                         addStore(storeArray.get(i).getAsJsonObject().get("store_id").getAsString(),
                                 "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + storeArray.get(i).getAsJsonObject().get("store_thumbnail").getAsString(),
-                                storeArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), storeArray.get(i).getAsJsonObject().get("store_info").getAsString(), "휴무일 없어진거니?", storeArray.get(i).getAsJsonObject().get("store_hours").getAsString());
+                                storeArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), storeArray.get(i).getAsJsonObject().get("store_info").getAsString(), "휴무일 없어진거니?", "store_hours");
                     }
                     //거리 가까운순으로 정렬
                     mList.sort(new Comparator<StoreTotalInfo>() {

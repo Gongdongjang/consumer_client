@@ -143,7 +143,8 @@ public class StoreDetailActivity extends AppCompatActivity {
                         //진행중인 공동구매 md
                         for(int i=0;i<jpArray.size();i++){
                             addFarmJointPurchase(jpArray.get(i).getAsJsonObject().get("farm_name").getAsString(),
-                                    //"https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jpArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                    //  이미지 몇개 없는게 있어서 오류나는듯... DB 살펴보기
+                                    // "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jpArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                     "product Img",
                                     jpArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                     jpArray.get(i).getAsJsonObject().get("store_name").getAsString(),pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());

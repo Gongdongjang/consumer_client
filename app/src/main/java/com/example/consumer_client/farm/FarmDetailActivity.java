@@ -51,7 +51,6 @@ public class FarmDetailActivity extends AppCompatActivity {
     JsonObject res;
     JsonArray farmArray, mdArray, pu_start, pu_end;
     String farm_id, farm_name, farm_info, farm_loc, farm_hours;
-    Double farm_lat, farm_long;
 
     private RecyclerView mRecyclerView;
     private ArrayList<FarmDetailInfo> mList;
@@ -106,7 +105,7 @@ public class FarmDetailActivity extends AppCompatActivity {
                         farm_name = farmArray.get(0).getAsJsonObject().get("farm_name").getAsString();
                         farm_info = farmArray.get(0).getAsJsonObject().get("farm_info").getAsString();
                         farm_loc = farmArray.get(0).getAsJsonObject().get("farm_loc").getAsString();
-                        farm_hours = farmArray.get(0).getAsJsonObject().get("farm_hours").getAsString();
+                        //farm_hours = farmArray.get(0).getAsJsonObject().get("farm_hours").getAsString();
 
                         //md 정보
                         mdArray = res.get("md_data").getAsJsonArray();
@@ -116,51 +115,8 @@ public class FarmDetailActivity extends AppCompatActivity {
                         FarmName.setText(farm_name);
                         FarmExplain.setText(farm_info);
                         FarmLocation.setText(farm_loc);
-                        FarmHourTime.setText(farm_hours);
+                        //FarmHourTime.setText(farm_hours);
                         FarmJointPurchaseCount.setText(String.valueOf(mdArray.size()));
-
-                        //농가 위치-> 위도, 경도 구하기
-                        final Geocoder geocoder = new Geocoder(getApplicationContext());
-                        List<Address> address=  geocoder.getFromLocationName(farm_loc,10);
-                        Address location = address.get(0);
-                        double farm_lat=location.getLatitude();
-                        double farm_long=location.getLongitude();
-
-                        Log.d("addressList_lat", String.valueOf(farm_lat));
-                        Log.d("addressList_lon", String.valueOf(farm_long));
-
-                        //지도
-                        MapView mapView = new MapView(mContext);
-                        // 중심점 변경
-                        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(farm_lat, farm_long), true);
-                        // 줌 레벨 변경
-                        mapView.setZoomLevel(1, true);
-                        // 줌 인
-                        mapView.zoomIn(true);
-                        // 줌 아웃
-                        mapView.zoomOut(true);
-
-                        ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.farm_map_view);
-                        mapViewContainer.addView(mapView);
-
-                        //농가위치 마커 아이콘 띄우기
-                        MapPoint f_MarkPoint = MapPoint.mapPointWithGeoCoord(farm_lat, farm_long);  //마커찍기
-
-                        MapPOIItem farm_marker=new MapPOIItem();
-                        farm_marker.setItemName(farm_name); //클릭했을때 농가이름 나오기
-                        farm_marker.setTag(0);
-                        farm_marker.setMapPoint(f_MarkPoint);   //좌표입력받아 현위치로 출력
-
-                        //  (클릭 전)기본으로 제공하는 BluePin 마커 모양의 색.
-                        farm_marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-                        // (클릭 후) 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-                        farm_marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-                        // 지도화면 위에 추가되는 아이콘을 추가하기 위한 호출(말풍선 모양)
-                        mapView.addPOIItem(farm_marker);
-
-                        //나중에 농가위치 마커 커스텀 이미지로 바꾸기
-                        //farm_marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-                        //farm_marker.setCustomImageResourceId(R.drawable.homeshape);
 
                         //세부 페이지1 (진행 중인 공동구매) 리사이클러뷰 띄우게하기
                         firstInit();

@@ -55,7 +55,7 @@ public class TotalList extends Fragment {
 
         //서비스 전체보기 (전체 입점농가)
         TextView totalFarmTextView = (TextView) view.findViewById(R.id.showTotalFarm);
-        Log.d("Totallist", user_id);
+        //Log.d("Totallist", user_id);
         totalFarmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
