@@ -13,9 +13,9 @@
     <application
         android:name=".user.KakaoApplication"
         android:allowBackup="true"
-        android:icon="@drawable/kakaotalk_20220324_152807451"
+        android:icon="@drawable/ic_logo1"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/kakaotalk_20220324_152807451"
+        android:roundIcon="@drawable/ic_logo1"
         android:supportsRtl="true"
         android:theme="@style/Theme.Consumer_client"
         android:usesCleartextTraffic="true"
@@ -23,8 +23,8 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key"/>
-
-        <activity android:name=".user.LoginActivity"/>
+        <meta-data android:name="android.max_aspect" android:value="2.1" />
+        <activity android:name=".user.IntegratedLoginActivity"/>
         <activity android:name=".tutorial.TutorialActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity android:name=".address.FindTownActivity"/>
@@ -50,7 +50,7 @@
         </activity>
 
         <activity android:name=".order.ToPayActivity" />
-        <activity android:name=".PayActivity" />
+        <activity android:name=".order.PaidActivity" />
 
         <activity android:name=".order.OrderDetailActivity" />
         <activity android:name=".review.ReviewActivity" />

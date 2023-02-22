@@ -324,7 +324,7 @@ public class RegisterActivity extends AppCompatActivity {
                             Log.d(TAG, res.get("id").getAsString());
 
                             //회원가입 버튼 클릭시, 회원가입 완료 페이지로 이동
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), IntegratedLoginActivity.class);
                             startActivity(intent);
                         } catch (IOException e) {
                             e.printStackTrace();

@@ -11,11 +11,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/store_map_view"
+        <ImageView
+            android:id="@+id/StoreMainImg"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_gravity="top" />
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_logo1" />
 
         <TextView
             android:id="@+id/StoreName"

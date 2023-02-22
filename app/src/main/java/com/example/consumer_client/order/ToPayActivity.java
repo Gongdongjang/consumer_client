@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,7 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.consumer_client.PayActivity;
 import com.example.consumer_client.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -45,7 +45,7 @@ interface PayUserService{
 public class ToPayActivity extends AppCompatActivity {
 
     String user_id;
-    String md_id, mdName, purchaseNum, prodPrice;
+    String md_id, mdName, purchaseNum, JP_ToTalPrice;
     String store_id, store_name, store_loc;
     String pickupDate,pickupTime;
 
@@ -70,6 +70,7 @@ public class ToPayActivity extends AppCompatActivity {
         TextView ProdName=(TextView) findViewById(R.id.JP_ProdName);
         TextView OrderCount = (TextView) findViewById(R.id.ClientOrderCount);
         TextView OrderPrice = (TextView) findViewById(R.id.ClientOrderPrice);
+        TextView MdTotalPrice = (TextView) findViewById(R.id.MdTotalPrice);
         TextView StoreName = (TextView) findViewById(R.id.Pay_Store_Name);
         TextView StoreAddr = (TextView) findViewById(R.id.Pay_Store_Addr);
         TextView PuDate = (TextView) findViewById(R.id.Pay_PU_Date);
@@ -79,7 +80,7 @@ public class ToPayActivity extends AppCompatActivity {
         md_id=intent.getStringExtra("md_id");
         mdName = intent.getStringExtra("mdName");
         purchaseNum = intent.getStringExtra("purchaseNum");
-        prodPrice = intent.getStringExtra("prodPrice");
+        JP_ToTalPrice = intent.getStringExtra("JP_ToTalPrice");
         store_name = intent.getStringExtra("store_name");
         store_id = intent.getStringExtra("store_id");
         store_loc=intent.getStringExtra("store_loc");
@@ -87,17 +88,17 @@ public class ToPayActivity extends AppCompatActivity {
         pickupTime = intent.getStringExtra("pickupTime");
 
         //n 세트만큼 가격 결정.
-        Log.d("purchaseNum",purchaseNum);
-        for(int i=1; i<=Integer.parseInt(purchaseNum); i++){
-            prodPrice= String.valueOf(Integer.parseInt(prodPrice)* i);
-        }
+        //상품남은 재고 >= 세트선택 * prodNum 계산하기 위해
+        //int idx=JP_ToTalPrice.indexOf("원"); // ex)5000원 이렇게 되어있으니 '원' 문자 자르기
+        //int totalPrice= Integer.parseInt(JP_ToTalPrice.substring(0,idx));
 
         ProdName.setText(mdName);
         OrderCount.setText(purchaseNum);
-        OrderPrice.setText(prodPrice);
+        OrderPrice.setText(JP_ToTalPrice);
         StoreName.setText(store_name);
         StoreAddr.setText(store_loc);
         PuDate.setText(pickupDate);
+        MdTotalPrice.setText(JP_ToTalPrice);
 
         //주문하기-> Order테이블에 데이터 값 삽입하기Post 요청
         body = new JsonObject();
@@ -157,14 +158,12 @@ public class ToPayActivity extends AppCompatActivity {
         MapPoint s_MarkPoint = MapPoint.mapPointWithGeoCoord(store_lat, store_long);  //마커찍기
 
         MapPOIItem store_marker=new MapPOIItem();
+        store_marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
+        store_marker.setCustomImageResourceId(R.drawable.ic_shop);
         store_marker.setItemName(store_name); //클릭했을때 스토어 이름 나오기
         store_marker.setTag(0);
         store_marker.setMapPoint(s_MarkPoint);   //좌표입력받아 현위치로 출력
 
-        //  (클릭 전)기본으로 제공하는 BluePin 마커 모양의 색.
-        store_marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-        // (클릭 후) 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-        store_marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
         // 지도화면 위에 추가되는 아이콘을 추가하기 위한 호출(말풍선 모양)
         mapView.addPOIItem(store_marker);
 
@@ -173,33 +172,57 @@ public class ToPayActivity extends AppCompatActivity {
         RadioButton PayAgree1=(RadioButton) findViewById(R.id.Pay_Agree1);
         RadioButton PayAgree2=(RadioButton) findViewById(R.id.Pay_Agree2);
         RadioButton PayAgree3=(RadioButton) findViewById(R.id.Pay_Agree3);
-        Button PayBtn= (Button) findViewById(R.id.Pay_Btn); //결제하기 버튼
-        RadioButton PayCard=(RadioButton) findViewById(R.id.Pay_Card);
+        RadioButton PayAgree4=(RadioButton) findViewById(R.id.Pay_Agree4);
+        Button Pay_Off_Btn= (Button) findViewById(R.id.Pay_Off_Btn); //결제하기 버튼 비활성화
+        Button Pay_On_Btn= (Button) findViewById(R.id.Pay_On_Btn); //결제하기 버튼
+        //RadioButton PayCard=(RadioButton) findViewById(R.id.Pay_Card);
 
-        PayBtn.setOnClickListener(new View.OnClickListener() {
+//        if (PayAgree1.isChecked() && PayAgree2.isChecked() && PayAgree3.isChecked() && PayAgree4.isChecked()){
+//            Pay_Off_Btn.setVisibility(View.GONE);
+//            Pay_On_Btn.setVisibility(View.VISIBLE);
+//        }
+
+        EditText userName= (EditText) findViewById(R.id.userName);
+
+        Pay_Off_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (PayCard.isChecked()){
-//                }
-                if (PayAgree1.isChecked() && PayAgree2.isChecked() && PayAgree3.isChecked()) // 결제동의하기
-                {
-                    Intent i= new Intent(ToPayActivity.this, PayActivity.class);
-                    i.putExtra("user_id",user_id);
-                    i.putExtra("mdName",mdName);
-                    i.putExtra("purchaseNum",purchaseNum);
-                    i.putExtra("prodPrice",prodPrice);
-                    i.putExtra("md_id",md_id);
-                    i.putExtra("store_id",store_id);
-                    i.putExtra("pickupDate",pickupDate);
-                    i.putExtra("pickupTime",pickupTime);
-                    i.putExtra("user_name",user_name);
-                    i.putExtra("mobile_no",mobile_no);
-                    startActivity(i);
+                if (PayAgree1.isChecked() && PayAgree2.isChecked() && PayAgree3.isChecked() && PayAgree4.isChecked()){
+                    Pay_Off_Btn.setVisibility(View.GONE);
+                    Pay_On_Btn.setVisibility(View.VISIBLE);
+
+
                 }else{
                     Toast.makeText(ToPayActivity.this, "개인정보 및 구매유의사항을 확인하시오.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
+        Pay_On_Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                {
+                    if(userName.getText().toString().equals("")){
+                        Toast.makeText(ToPayActivity.this, "입금자 명을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Intent i= new Intent(ToPayActivity.this, PaidActivity.class);
+                        i.putExtra("user_id",user_id);
+                        i.putExtra("mdName",mdName);
+                        i.putExtra("purchaseNum",purchaseNum);
+                        i.putExtra("totalPrice",JP_ToTalPrice);
+                        i.putExtra("md_id",md_id);
+                        i.putExtra("store_id",store_id);
+                        i.putExtra("store_name",store_name);
+                        i.putExtra("store_loc",store_loc);
+                        i.putExtra("pickupDate",pickupDate);
+                        i.putExtra("pickupTime",pickupTime);
+                        i.putExtra("user_name",user_name);
+                        i.putExtra("mobile_no",mobile_no);
+                        startActivity(i);
+                    }
+                }
+            }
+        });
     }
 }

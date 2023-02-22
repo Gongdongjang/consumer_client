@@ -23,9 +23,15 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
+import androidx.viewpager2.widget.ViewPager2;
 
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,15 +39,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
+import com.example.consumer_client.FragPagerAdapter;
 import com.example.consumer_client.ReviewDialog;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.md.MdListMainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.home.HomeProductAdapter;
 import com.example.consumer_client.home.HomeProductItem;
+import com.example.consumer_client.my_town.StoreMap;
 import com.example.consumer_client.store.StoreTotalInfo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -73,9 +83,11 @@ interface HomeService {
     @GET("mdView_main")
     Call<ResponseBody> getMdMainData();
 }
+public class Home extends Fragment
+        //implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener
+{
 
-public class Home extends Fragment implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener {
-
+    //ViewFlipper v_fllipper;
     JsonParser jsonParser;
     HomeService service;
 
@@ -134,22 +146,38 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_home, container, false);
 
-        mapView = new MapView(mActivity);
+
+        //--------------
+        //mapView = new MapView(mActivity);
+
+
+        //--------배너 자동슬라이드 주석-----
+//        int images[] = {
+//                R.drawable.home_banner1,
+//                R.drawable.img_gongdongjang_logo,
+//        };
+//
+//        v_fllipper = view.findViewById(R.id.image_slide);
+//
+//        for(int image : images) {
+//            fllipperImages(image);
+//        } ---------------------------------------------
+
 
         //팝업테스트
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        layoutParams.dimAmount = 0.8f;
-        getActivity().getWindow().setAttributes(layoutParams);
-
-        popupBtn = view.findViewById(R.id.PopupEx);
-        popupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reviewDialog = new ReviewDialog(mActivity, "작성 중인 내용이 삭제됩니다.\n 리뷰 작성을 그만하시겠습니까?");
-                reviewDialog.show();
-            }
-        });
+//        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+//        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+//        layoutParams.dimAmount = 0.8f;
+//        getActivity().getWindow().setAttributes(layoutParams);
+//
+//        popupBtn = view.findViewById(R.id.PopupEx);
+//        popupBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                reviewDialog = new ReviewDialog(mActivity, "작성 중인 내용이 삭제됩니다.\n 리뷰 작성을 그만하시겠습니까?");
+//                reviewDialog.show();
+//            }
+//        });
 
         //제품리스트 누르면 제품리스트(메인) 화면으로
         productList = view.findViewById(R.id.productList);
@@ -162,15 +190,25 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
             }
         });
 
+        //우리동네 공동구매 지도로 보기 로 이동.
+        ImageView gotoMap = view.findViewById(R.id.gotoMap);
+        gotoMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, StoreMap.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+
         //유저아이디 띄우기
 //        home_userid = view.findViewById(R.id.home_userid);
 //        home_userid.setText("아이디:"+ user_id);
 
         //product recyclerview 초기화
         firstInit();
-
-        mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
-        mapViewContainer.addView(mapView);
+        //mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
+        //mapViewContainer.addView(mapView);
 
         //===주소정보
         JsonObject body = new JsonObject();
@@ -184,20 +222,20 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                     res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
                     JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
                     String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
-                    if(standard_address.equals("현재위치")){
-                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-                        myTownLat=mCurrentLat;
-                        myTownLong=mCurrentLng;
-                    }else{
-                        mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOff );  //현재위치 탐색 중지
+//                    if(standard_address.equals("현재위치")){
+//                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+//                        myTownLat=mCurrentLat;
+//                        myTownLong=mCurrentLng;
+//                    }else{
+//                        //mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOff );  //현재위치 탐색 중지
                         final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
                         List<Address> address = geocoder.getFromLocationName(standard_address,10);
                         Address location = address.get(0);
                         myTownLat=location.getLatitude();
                         myTownLong=location.getLongitude();
-                        // 중심점 변경
-                        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(myTownLat, myTownLong), true);
-                    }
+//                        // 중심점 변경
+//                        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(myTownLat, myTownLong), true);
+//                    }
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -244,7 +282,7 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
                         if(Double.compare(1, distanceKilo) > 0) { //4km 이내 제품들만 보이기
                              //(스토어 데이터가 많이 없으므로 0.4대신 1로 test 중, 기능은 완료)
                             addItem(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString(),
-                                    "https://gdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                    "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                     jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                     jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                     String.format("%.2f", distanceKilo)
@@ -295,9 +333,66 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
 
         lm = (LocationManager) mActivity.getApplicationContext().getSystemService( Context.LOCATION_SERVICE );
 
+        
+        setInit(); //뷰페이저2 실행 메서드
         //전체 fragment home return
         return view;
     }
+
+    //뷰페이저2 실행 메서드
+    private void setInit() {
+        ViewPager2 viewPageSetUp= view.findViewById(R.id.viewPager2);
+        FragPagerAdapter SetPagerAdapter= new FragPagerAdapter(getActivity());
+        viewPageSetUp.setAdapter(SetPagerAdapter);
+        viewPageSetUp.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        viewPageSetUp.setOffscreenPageLimit(2); //페이지 한계 지정 개수
+        viewPageSetUp.setCurrentItem(1000); //무한처럼 보이도록 하려고
+
+        //페이지끼리 간격
+        final float pageMargin=(float) getResources().getDimensionPixelOffset(R.dimen.pageMargin);
+        //final float pageMaring=(float) getResources().getDimensionPixelOffset;
+        //페이지 보이는 정도
+        final float pageOffset=(float) getResources().getDimensionPixelOffset(R.dimen.offset);
+        //final float pageOffset=(float) getResources().getDimensionPixelOffset(2;
+        viewPageSetUp.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+            }
+        });
+        viewPageSetUp.setPageTransformer(new ViewPager2.PageTransformer() {
+                                             @Override
+                                             public void transformPage(@NonNull View page, float position) {
+                                                 float offset=position * - (2*pageOffset + pageMargin);
+                                                 if(-1 > position){
+                                                     page.setTranslationX(-offset);
+                                                 }else if(1>=position){
+                                                     float scaleFactor=Math.max(0.7f, 1-Math.abs(position - 0.14285715f));
+                                                     page.setTranslationX(offset);
+                                                     page.setScaleY(scaleFactor);
+                                                     page.setAlpha(scaleFactor);
+                                                 } else {
+                                                     page.setAlpha(0f);
+                                                     page.setTranslationX(offset);
+                                                 }   }
+                                             });
+    }
+
+    // 이미지 자동 슬라이더 구현 메서드
+//    private void fllipperImages(int image) {
+//        ImageView imageView = new ImageView(mActivity);
+//        imageView.setBackgroundResource(image);
+//
+//        v_fllipper.addView(imageView);      // 이미지 추가
+//        v_fllipper.setFlipInterval(4000);       // 자동 이미지 슬라이드 딜레이시간(1000 당 1초)
+//        v_fllipper.setAutoStart(true);          // 자동 시작 유무 설정
+//
+//        // animation
+//        v_fllipper.setInAnimation(mActivity,android.R.anim.slide_in_left);
+//        v_fllipper.setOutAnimation(mActivity,android.R.anim.slide_out_right);
+//    }
+
+
 
     public String getAsString() {
         throw new UnsupportedOperationException(getClass().getSimpleName());
@@ -321,53 +416,53 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
     }
 
     // 현재 위치 업데이트 setCurrentLocationEventListener
-    @Override
-    public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float accuracyInMeters) {
-        MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
-        Log.i(TAG, String.format("MapView onCurrentLocationUpdate (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, accuracyInMeters));
-        currentMapPoint = MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude);
-        //이 좌표로 지도 중심 이동
-        mapView.setMapCenterPoint(currentMapPoint, true);
-        //전역변수로 현재 좌표 저장
-        mCurrentLat = mapPointGeo.latitude;
-        mCurrentLng = mapPointGeo.longitude;
-        Log.d(TAG, "현재위치 => " + mCurrentLat + "  " + mCurrentLng);
-        //트래킹 모드가 아닌 단순 현재위치 업데이트일 경우, 한번만 위치 업데이트하고 트래킹을 중단시키기 위한 로직
-        if (!isTrackingMode) {
-            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-        }
-    }
+//    @Override
+//    public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float accuracyInMeters) {
+//        MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
+//        Log.i(TAG, String.format("MapView onCurrentLocationUpdate (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, accuracyInMeters));
+//        currentMapPoint = MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude);
+//        //이 좌표로 지도 중심 이동
+//        mapView.setMapCenterPoint(currentMapPoint, true);
+//        //전역변수로 현재 좌표 저장
+//        mCurrentLat = mapPointGeo.latitude;
+//        mCurrentLng = mapPointGeo.longitude;
+//        Log.d(TAG, "현재위치 => " + mCurrentLat + "  " + mCurrentLng);
+//        //트래킹 모드가 아닌 단순 현재위치 업데이트일 경우, 한번만 위치 업데이트하고 트래킹을 중단시키기 위한 로직
+//        if (!isTrackingMode) {
+//            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+//        }
+//    }
+//
+//    @Override
+//    public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
+//
+//    }
+//
+//    @Override
+//    public void onCurrentLocationUpdateFailed(MapView mapView) {
+//        Log.i(TAG, "onCurrentLocationUpdateFailed");
+//        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+//    }
 
-    @Override
-    public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
-
-    }
-
-    @Override
-    public void onCurrentLocationUpdateFailed(MapView mapView) {
-        Log.i(TAG, "onCurrentLocationUpdateFailed");
-        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-    }
-
-    @Override
-    public void onCurrentLocationUpdateCancelled(MapView mapView) {
-        Log.i(TAG, "onCurrentLocationUpdateCancelled");
-        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-    }
-
-    void checkRunTimePermission() {
-        int hasFineLocationPermission = ContextCompat.checkSelfPermission(mActivity,Manifest.permission.ACCESS_FINE_LOCATION);
-        if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED){
-            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
-        }else{
-            if(ActivityCompat.shouldShowRequestPermissionRationale(mActivity,REQUIRED_PERMISSIONS[0])){
-                Toast.makeText(mActivity,"이 앱을 실행하려면 위치 접근 권한이 필요합니다.",Toast.LENGTH_LONG).show();
-                ActivityCompat.requestPermissions(mActivity,REQUIRED_PERMISSIONS,PERMISSIONS_REQUEST_CODE);
-            }else{
-                ActivityCompat.requestPermissions(mActivity,REQUIRED_PERMISSIONS,PERMISSIONS_REQUEST_CODE);
-            }
-        }
-    }
+//    @Override
+//    public void onCurrentLocationUpdateCancelled(MapView mapView) {
+//        Log.i(TAG, "onCurrentLocationUpdateCancelled");
+//        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+//    }
+//
+//    void checkRunTimePermission() {
+//        int hasFineLocationPermission = ContextCompat.checkSelfPermission(mActivity,Manifest.permission.ACCESS_FINE_LOCATION);
+//        if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED){
+//            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+//        }else{
+//            if(ActivityCompat.shouldShowRequestPermissionRationale(mActivity,REQUIRED_PERMISSIONS[0])){
+//                Toast.makeText(mActivity,"이 앱을 실행하려면 위치 접근 권한이 필요합니다.",Toast.LENGTH_LONG).show();
+//                ActivityCompat.requestPermissions(mActivity,REQUIRED_PERMISSIONS,PERMISSIONS_REQUEST_CODE);
+//            }else{
+//                ActivityCompat.requestPermissions(mActivity,REQUIRED_PERMISSIONS,PERMISSIONS_REQUEST_CODE);
+//            }
+//        }
+//    }
 
     // GPS 활성화를 위한 메소드들
     private void showDialogForLocationServiceSetting(){
@@ -391,20 +486,20 @@ public class Home extends Fragment implements MapView.CurrentLocationEventListen
         builder.create().show();
     }
 
-    private boolean checkLocationServiceStatus(Activity mActivity) {
-
-        LocationManager locationManager = (LocationManager)mActivity.getSystemService(LOCATION_SERVICE);
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-    }
-
-    @Override
-    public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
-
-    }
-
-    @Override
-    public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) {
-
-    }
+//    private boolean checkLocationServiceStatus(Activity mActivity) {
+//
+//        LocationManager locationManager = (LocationManager)mActivity.getSystemService(LOCATION_SERVICE);
+//        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+//                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+//    }
+//
+//    @Override
+//    public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
+//
+//    }
+//
+//    @Override
+//    public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) {
+//
+//    }
 }

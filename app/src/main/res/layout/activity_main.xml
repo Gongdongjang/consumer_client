@@ -11,19 +11,14 @@
         layout="@layout/toolbar"
         android:id="@+id/toolbar"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-    </LinearLayout>
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:labelVisibilityMode="labeled"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconSize="60dp"
         app:menu="@menu/home_navi_menu" />
 
     <FrameLayout

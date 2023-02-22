@@ -88,7 +88,7 @@ public class StoreDetailActivity extends AppCompatActivity {
         TextView StoreName = (TextView) findViewById(R.id.StoreName);
         TextView StoreExplain = (TextView) findViewById(R.id.StoreExplain);
         TextView StoreLocation = (TextView) findViewById(R.id.StoreLocation);
-        TextView StoreHourTime = (TextView) findViewById(R.id.StoreHourTime);
+        //TextView StoreHourTime = (TextView) findViewById(R.id.StoreHourTime);
         //TextView StoreDayOff = (TextView) findViewById(R.id.StoreDayOff);
         TextView StoreJointPurchaseCount = (TextView) findViewById(R.id.StoreJointPurchaseCount);
 
@@ -117,47 +117,9 @@ public class StoreDetailActivity extends AppCompatActivity {
                         StoreName.setText(store_name);
                         StoreExplain.setText(storeArray.get(0).getAsJsonObject().get("store_info").getAsString());
                         StoreLocation.setText(storeArray.get(0).getAsJsonObject().get("store_loc").getAsString());
-                        StoreHourTime.setText(storeArray.get(0).getAsJsonObject().get("store_hours").getAsString());
+                        //StoreHourTime.setText(storeArray.get(0).getAsJsonObject().get("store_hours").getAsString());
                         //StoreDayOff.setText(storeArray.get(0).getAsJsonObject().get("store_restDays").getAsString());
                         StoreJointPurchaseCount.setText(String.valueOf(jpArray.size()));
-
-                        final Geocoder geocoder = new Geocoder(getApplicationContext());
-                        String store_loc= storeArray.get(0).getAsJsonObject().get("store_loc").getAsString();
-                        List<Address> address=  geocoder.getFromLocationName(store_loc,10);
-                        Address location = address.get(0);
-                        double store_lat=location.getLatitude();
-                        double store_long=location.getLongitude();
-
-                        //지도
-                        MapView mapView = new MapView(mContext);
-                        // 중심점 변경
-                        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(35.01426900000000, 126.7169940), true);
-                        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(store_lat, store_long), true);
-
-                        // 줌 레벨 변경
-                        mapView.setZoomLevel(1, true);
-                        // 줌 인
-                        mapView.zoomIn(true);
-                        // 줌 아웃
-                        mapView.zoomOut(true);
-
-                        ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.store_map_view);
-                        mapViewContainer.addView(mapView);
-
-                        //스토어위치 마커 아이콘 띄우기
-                        MapPoint f_MarkPoint = MapPoint.mapPointWithGeoCoord(store_lat, store_long);  //마커찍기
-
-                        MapPOIItem store_marker=new MapPOIItem();
-                        store_marker.setItemName(store_name); //클릭했을때 가게이름 나오기
-                        store_marker.setTag(0);
-                        store_marker.setMapPoint(f_MarkPoint);   //좌표입력받아 현위치로 출력
-
-                        //  (클릭 전)기본으로 제공하는 BluePin 마커 모양의 색.
-                        store_marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-                        // (클릭 후) 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-                        store_marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-                        // 지도화면 위에 추가되는 아이콘을 추가하기 위한 호출(말풍선 모양)
-                        mapView.addPOIItem(store_marker);
 
                         firstInit();
 
@@ -181,7 +143,9 @@ public class StoreDetailActivity extends AppCompatActivity {
                         //진행중인 공동구매 md
                         for(int i=0;i<jpArray.size();i++){
                             addFarmJointPurchase(jpArray.get(i).getAsJsonObject().get("farm_name").getAsString(),
-                                    "https://gdjang.s3.ap-northeast-2.amazonaws.com/" + jpArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                    //  이미지 몇개 없는게 있어서 오류나는듯... DB 살펴보기
+                                    // "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jpArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                    "product Img",
                                     jpArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                     jpArray.get(i).getAsJsonObject().get("store_name").getAsString(),pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
                         }

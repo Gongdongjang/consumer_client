@@ -81,8 +81,8 @@ public class MdListMainActivity extends AppCompatActivity {
                     res =  (JsonObject) jsonParser.parse(response.body().string());
                     jsonArray = res.get("md_result").getAsJsonArray();
 //                    pay_schedule = res.get("pay_schedule").getAsJsonArray();
-                    pu_start = res.get("pu_start").getAsJsonArray();
-                    pu_end = res.get("pu_end").getAsJsonArray();
+                    //pu_start = res.get("pu_start").getAsJsonArray();
+                    //pu_end = res.get("pu_end").getAsJsonArray();
 
                     //어뎁터 적용
                     mMdListMainAdapter = new FarmDetailAdapter(mList);
@@ -96,12 +96,13 @@ public class MdListMainActivity extends AppCompatActivity {
                     for(int i=0;i<jsonArray.size();i++){
                         md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
 
-                        addMdList("https://gdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                        addMdList("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("farm_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                                "pu_기간 대신 뭐들어감,,,"
 //                                pay_schedule.get(i).getAsString(),
-                                pu_start.get(i).getAsString() + " ~ " + pu_end.get(i).getAsString()
+                                //pu_start.get(i).getAsString() + " ~ " + pu_end.get(i).getAsString()
                         );
                     }
 

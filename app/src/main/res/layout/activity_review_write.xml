@@ -288,13 +288,15 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="취소"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:id="@+id/reviewCancel"/>
             <Button
                 android:layout_marginLeft="30dp"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="등록"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:id="@+id/reviewReg"/>
         </LinearLayout>
 
     </LinearLayout>

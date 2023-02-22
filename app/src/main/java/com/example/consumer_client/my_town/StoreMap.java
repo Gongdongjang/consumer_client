@@ -2,6 +2,7 @@ package com.example.consumer_client.my_town;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.example.consumer_client.MainActivity;
+import com.example.consumer_client.ProgressDialog;
 import com.example.consumer_client.R;
 import com.example.consumer_client.store.StoreDetailActivity;
 import com.example.consumer_client.store.StoreTotalAdapter;
@@ -68,6 +71,7 @@ class StoreData{
 }
 
 public class StoreMap extends AppCompatActivity implements MapView.POIItemEventListener {
+    ProgressDialog customProgressDialog;
     StoreMapService service;
     JsonParser jsonParser;
     JsonObject res;
@@ -95,6 +99,19 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
 
+        MapView mapView = new MapView(mContext);
+        mapView.setPOIItemEventListener(this);
+        //StoreData
+        StoreData data = new StoreData();
+        ArrayList<MapPOIItem> storeLoc_marker= new ArrayList<>();
+
+        //로딩창 객체 생성
+        customProgressDialog = new ProgressDialog(mContext);
+        //로딩창을 투명하게
+        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        //로딩창 보여주기
+        customProgressDialog.show();
+
         Call<ResponseBody> call = service.getStoreData();
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -103,11 +120,8 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
                     res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
                     storeArray = res.get("store_result").getAsJsonArray();  //json배열
 
-                    //StoreData
-                    StoreData data = new StoreData();
-
                     //지도
-                    MapView mapView = new MapView(mContext);
+                    //MapView mapView = new MapView(mContext);
 
                     // 중심점 변경 (사용자가 설정한 위치로 지도중심점 띄우기)
                     mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(37.5912999, 127.0221068), true);
@@ -126,9 +140,7 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
                     //지도 적용
                     final Geocoder geocoder = new Geocoder(getApplicationContext());
 
-                    ArrayList<MapPOIItem> storeLoc_marker= new ArrayList<>();
-                    MapPOIItem marker = new MapPOIItem();
-
+                    //listCount=storeArray.size();
                     for(int i=0;i<storeArray.size() ;i++) {
                         //스토어위치->위도, 경도 구하기
                         String store_id = storeArray.get(i).getAsJsonObject().get("store_id").getAsString();
@@ -145,25 +157,19 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
                         data.setStoreLat(store_lat);
                         data.setStoreLong(store_long);
                         dataArr.add(data);
-                        Log.d("storeMap0", dataArr.get(i).getStoreName()+dataArr.get(i).getStoreLat());
+                        //Log.d("storeMap0", dataArr.get(i).getStoreName()+dataArr.get(i).getStoreLat());
 
+                        MapPOIItem marker = new MapPOIItem();
+                        //마커이미지 변경
+                        marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
+                        marker.setCustomImageResourceId(R.drawable.ic_shop);
                         marker.setMapPoint(MapPoint.mapPointWithGeoCoord(dataArr.get(i).getStoreLat(), dataArr.get(i).getStoreLong()));
                         marker.setItemName(dataArr.get(i).getStoreName()); //클릭했을때 가게이름 나오기
+                        marker.setTag(Integer.parseInt(dataArr.get(i).getStoreId()));   //sotre_id값 넘기기!!!!!!! 드디어
                         storeLoc_marker.add(marker);
-                        mapView.addPOIItems(storeLoc_marker.toArray(new MapPOIItem[0]));
-
-                        //클릭했을때 이제 id값 넘기기!!
                     }
-
-//                    for (int i=0; i< storeArray.size(); i++) {
-//                        //MapPOIItem marker = new MapPOIItem();
-//                        //Log.d("storeMapName", String.valueOf(dataArr.get(i)));
-//                        //Log.d("storeMapName", dataArr.get(i).getStoreName());
-//                        //marker.setMapPoint(MapPoint.mapPointWithGeoCoord(dataArr.get(i).getStoreLat(), dataArr.get(i).getStoreLong()));
-//                        //marker.setItemName(dataArr.get(i).getStoreName()); //클릭했을때 가게이름 나오기
-//                        //storeLoc_marker.add(marker);
-//                    }
-//                    //mapView.addPOIItems(storeLoc_marker.toArray(new MapPOIItem[0]));
+                    mapView.addPOIItems(storeLoc_marker.toArray(new MapPOIItem[storeLoc_marker.size()]));
+                    customProgressDialog.dismiss();
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -175,31 +181,32 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
                 Log.e("스토어", t.getMessage());
             }
         });
+
     }
 
     @Override
     public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
-
     }
 
     @Override
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem) {
-
     }
 
     @Override
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
-        //Toast.makeText(this, "Clicked " + mapPOIItem.getItemName() + " Callout Balloon", Toast.LENGTH_SHORT).show();
+//        Log.d("말풍선클릭함수 진입", "Clicked"+ mapPOIItem.getItemName());
+//        Log.d("말풍선 getTag", String.valueOf(mapPOIItem.getTag()));
+        //Toast.makeText(this, "Clicked: " + mapPOIItem.getItemName(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(StoreMap.this, StoreDetailActivity.class);
         intent.putExtra("user_id", user_id);
-        //intent.putExtra("storeid", mapPOIItem.);
-        //스토어이름 index구해서 똑같이 storeid 넘겨야 하는걸까?
+        intent.putExtra("storeid", String.valueOf(mapPOIItem.getTag())); //store_id 넘기기 드디어!!
         startActivity(intent);
-
     }
 
+    // 마커의 속성 중 isDraggable = true 일 때 마커를 이동시켰을 경우
     @Override
     public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
 
     }
 }
+
