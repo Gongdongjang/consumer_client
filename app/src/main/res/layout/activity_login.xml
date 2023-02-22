@@ -104,8 +104,7 @@
         android:text="공동장 시작하기"
         android:textColor="@color/white"
         android:textSize="16sp"
-        android:textStyle="bold"
-        android:enabled="false"/>
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
