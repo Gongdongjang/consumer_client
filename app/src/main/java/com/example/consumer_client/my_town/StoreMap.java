@@ -165,6 +165,7 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
                         marker.setCustomImageResourceId(R.drawable.ic_shop);
                         marker.setMapPoint(MapPoint.mapPointWithGeoCoord(dataArr.get(i).getStoreLat(), dataArr.get(i).getStoreLong()));
                         marker.setItemName(dataArr.get(i).getStoreName()); //클릭했을때 가게이름 나오기
+                        marker.setTag(Integer.parseInt(dataArr.get(i).getStoreId()));   //sotre_id값 넘기기!!!!!!! 드디어
                         storeLoc_marker.add(marker);
                     }
                     mapView.addPOIItems(storeLoc_marker.toArray(new MapPOIItem[storeLoc_marker.size()]));
@@ -193,13 +194,13 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
 
     @Override
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
-        Log.d("말풍선클릭함수 진입", "Clicked"+mapPOIItem.getItemName());
-        Toast.makeText(this, "Clicked: " + mapPOIItem.getItemName(), Toast.LENGTH_SHORT).show();
-        //Intent intent = new Intent(StoreMap.this, MainActivity.class);
-        //intent.putExtra("user_id", user_id);
-        //intent.putExtra("storeid",dataArr.get(1).getStoreId());
-        //스토어이름 index구해서 똑같이 storeid 넘겨야 하는걸까?
-        //startActivity(intent);
+//        Log.d("말풍선클릭함수 진입", "Clicked"+ mapPOIItem.getItemName());
+//        Log.d("말풍선 getTag", String.valueOf(mapPOIItem.getTag()));
+        //Toast.makeText(this, "Clicked: " + mapPOIItem.getItemName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(StoreMap.this, StoreDetailActivity.class);
+        intent.putExtra("user_id", user_id);
+        intent.putExtra("storeid", String.valueOf(mapPOIItem.getTag())); //store_id 넘기기 드디어!!
+        startActivity(intent);
     }
 
     // 마커의 속성 중 isDraggable = true 일 때 마커를 이동시켰을 경우
