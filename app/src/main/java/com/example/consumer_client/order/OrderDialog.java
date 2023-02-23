@@ -40,7 +40,7 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 interface CartPostService{
-    @POST("cartList")
+    @POST("cartPost")
     Call<ResponseBody> cartPost(@Body JsonObject body);
 }
 
@@ -69,9 +69,7 @@ public class OrderDialog extends Dialog {
     //popuporderActivitiy
 
     JsonObject body;
-    String user_id;
     JsonParser jsonParser;
-    JsonArray cart_list;
     CartPostService service;
 
 
