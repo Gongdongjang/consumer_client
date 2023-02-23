@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.consumer_client.address.EditTownActivity;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.fragment.Home;
 import com.example.consumer_client.fragment.Keep;
 import com.example.consumer_client.fragment.MyPage;
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private Order frag4;
     private MyPage frag5;
     private TextView change_address;
+    private TextView toolbar_cart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,6 +206,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v){
                 Log.d("클릭", "확인");
                 Intent intent = new Intent(MainActivity.this, EditTownActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+
+        //상단바 장바구니
+        toolbar_cart = findViewById(R.id.toolbar_cart);
+        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(MainActivity.this, CartListActivity.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
