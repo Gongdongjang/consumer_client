@@ -64,8 +64,6 @@ public class CartListActivity extends AppCompatActivity {
 
         mContext = this;
 
-        CartStoreName = (TextView) findViewById(R.id.CartStoreName);
-
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
         md_name = intent.getStringExtra("mdName");
@@ -137,7 +135,7 @@ public class CartListActivity extends AppCompatActivity {
     }
 
     public void firstInit(){
-        mCartRecyclerView = findViewById(R.id.CartGetRecycler);
+        mCartRecyclerView = findViewById(R.id.CartListRecycler);
         mList = new ArrayList<>();
     }
 

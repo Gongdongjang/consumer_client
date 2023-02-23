@@ -5,8 +5,11 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -19,10 +22,30 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.consumer_client.R;
+import com.example.consumer_client.cart.CartDialog;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import java.io.IOException;
 import java.util.Calendar;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
+
+interface CartPostService{
+    @POST("cartPost")
+    Call<ResponseBody> cartPost(@Body JsonObject body);
+}
+
 public class OrderDialog extends Dialog {
+    String TAG = OrderDialog.class.getSimpleName();
 
     ImageView btn_shutdown, btn_date, btn_time, BringBasketCheck;
     boolean basketChek = false;
@@ -41,7 +64,14 @@ public class OrderDialog extends Dialog {
     ImageView JP_CartBtn;
     Context mContext;
 
+    CartDialog cartDialog;
+    OrderDialog orderDialog;
     //popuporderActivitiy
+
+    JsonObject body;
+    JsonParser jsonParser;
+    CartPostService service;
+
 
     public OrderDialog(@NonNull Context context, String mdName, String prodNum, String prodPrice,
                        String StkRemain, String pu_start, String pu_end, String store_name,
@@ -49,6 +79,19 @@ public class OrderDialog extends Dialog {
         super(context);
         setContentView(R.layout.activity_payment_popup2);
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(context.getString(R.string.baseurl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        jsonParser = new JsonParser();
+        service = retrofit.create(CartPostService.class);
+        body = new JsonObject();
+        body.addProperty("user_id", user_id);
+        body.addProperty("md_id", md_id);
+        body.addProperty("store_id", store_id);
+
+        orderDialog = this;
         Log.d("유저아이디", user_id);
 
         //상품명 + n개 000원 추가했음.
@@ -202,48 +245,6 @@ public class OrderDialog extends Dialog {
 
         });
 
-
-
-        //닫기버튼
-//        btn_shutdown=findViewById(R.id.btn_shutdown);
-//        btn_shutdown.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dismiss();
-//            }
-//        });
-
-
-
-        //장바구니 버튼
-//        JP_CartBtn=findViewById(R.id.JP_CartBtn);
-//        JP_CartBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(v.getContext(), CartListActivity.class);
-//                if(BringBasketCheck.isChecked()){   //장바구니 지참사항 확인해야 넘어감
-//                    //스토어정보+ dialog 값 전달
-//                    i.putExtra("mdName",mdName);
-//                    //i.putExtra("purchaseNum",PurchaseNumSpinner.getSelectedItem().toString());
-//                    i.putExtra("purchaseNum",PurchaseNum.getText());    // + - 버튼으로 변경
-//                    i.putExtra("prodPrice",prodPrice);
-//                    i.putExtra("store_name",store_name);
-//                    i.putExtra("store_loc",store_loc);
-//                    i.putExtra("store_lat",store_lat);
-//                    i.putExtra("store_long",store_long);
-//                    i.putExtra("pickupDate",PickUpDate.getText());
-//                    i.putExtra("pickupTime",PickUpTime.getText());
-//                    v.getContext().startActivity(i);
-//                    if (selectNum){
-//                        Toast.makeText(getContext(), "제품을 장바구니에 담았습니다.", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//                else{
-//                    Toast.makeText(getContext(), "장바구니 지참사항 확인하셨나요?", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-
         //주문하기 버튼
         JP_OrderBtn=findViewById(R.id.JP_OrderBtn);
         JP_OrderBtn.setOnClickListener(new View.OnClickListener() {
@@ -274,6 +275,61 @@ public class OrderDialog extends Dialog {
                         v.getContext().startActivity(i);
                     }
                     else{
+                        Toast.makeText(getContext(), "장바구니 지참사항 확인하셨나요?", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+        // 장바구니 버튼
+        JP_CartBtn = findViewById(R.id.JP_CartBtn);
+        JP_CartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                body.addProperty("pu_date", PickUpDate.getText().toString());
+                body.addProperty("pu_time", PickUpTime.getText().toString());
+                body.addProperty("purchase_num", PurchaseNum.getText().toString());
+
+                if(Integer.parseInt(StkRemain) < Integer.parseInt(PurchaseNum.getText().toString()) ){ //n세트 * m개
+                    Toast.makeText(getContext(), "재고가 부족합니다.", Toast.LENGTH_SHORT).show();
+                }else if (PickUpDate.getText().toString().equals("") || PickUpTime.getText().toString().equals("")){
+                    Toast.makeText(getContext(), "픽업 날짜와 시간을 입력하세요.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if (basketChek) {   //장바구니 지참사항 확인해야
+                        // cart 테이블에 데이터 값 삽입하기 Post 요청
+                        Log.d("*********", body.toString());
+                        Call<ResponseBody> call = service.cartPost(body);
+                        call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                Log.d("~~~~~~~~", response.toString());
+                                if (response.isSuccessful()){
+                                    try {
+                                        JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                else {
+                                    try {
+                                        Log.d(TAG, "Fail " + response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                            }
+                        });
+
+                        orderDialog.dismiss();
+                        cartDialog = new CartDialog(context, user_id);
+                        cartDialog.show();
+                    } else {
                         Toast.makeText(getContext(), "장바구니 지참사항 확인하셨나요?", Toast.LENGTH_SHORT).show();
                     }
                 }
