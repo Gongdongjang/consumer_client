@@ -1,53 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="bottom">
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:text="근처 동네찾기"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/find_map_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.953" />
+        android:layout_width="234dp"
+        android:layout_height="24dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="102dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="111dp"
+        android:text="지도를 움직여 위치를 설정하세요."
+        android:textColor="@color/black" />
 
     <RelativeLayout
         android:id="@+id/find_map_view"
-        android:layout_width="445dp"
-        android:layout_height="324dp"
-        android:layout_marginTop="88dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:layout_marginTop="10dp">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/tracking_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom|end"
+            android:layout_marginStart="342dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginRight="15sp"
+            android:layout_marginBottom="14dp"
+            android:src="@drawable/ic_baseline_gps_fixed_24"
+            app:backgroundTint="#ffffff"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp" />
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="531dp"
-        android:layout_height="432dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_gravity="bottom"
+        android:layout_marginTop="15dp">
 
         <TextView
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
+            android:textSize="16sp"
             android:text="내 동네 설정하기"
+            android:textStyle="bold"
             android:textColor="@color/black" />
 
         <TextView
@@ -55,103 +67,100 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginBottom="20dp"
-            android:text="우리 동네를 중심으로 가까운 픽업스토어를 사용할 수 있어요. "
+            android:textSize="12sp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textColor="#848484"
+            android:text="내가 걸어서 방문할 수 있는 지역을 최대 4개까지 지정 가능해요.\n(예: 집, 회사 등) "
             app:layout_constraintStart_toStartOf="parent" />
 
         <!--        사실 123은 버튼 아니어도 된다...-->
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            tools:layout_editor_absoluteY="80dp">
-
-            <TextView
-                android:id="@+id/txt_address1"
-                android:layout_width="276dp"
-                android:layout_height="35dp"
-                android:layout_marginStart="124dp"
-                android:layout_marginTop="4dp"
-                android:background="#D3D3D3"
-                android:gravity="center"
-                android:text="주소1"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/txt_address2"
-                android:layout_width="276dp"
-                android:layout_height="35dp"
-                android:layout_marginStart="124dp"
-                android:layout_marginBottom="116dp"
-                android:background="#D3D3D3"
-                android:gravity="center"
-                android:text="주소2"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/txt_address3"
-                android:layout_width="276dp"
-                android:layout_height="35dp"
-                android:layout_marginStart="124dp"
-                android:layout_marginBottom="68dp"
-                android:background="#D3D3D3"
-                android:gravity="center"
-                android:text="주소3"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center">
 
             <Button
-                android:id="@+id/btn_addAdress"
-                android:layout_width="113dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="292dp"
-                android:layout_marginBottom="16dp"
+                android:id="@+id/txt_address0"
+                android:layout_width="130dp"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:layout_marginTop="48dp"
                 android:backgroundTint="@color/white"
-                android:text="+(주소추가)"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:text="현재위치"
+                android:textColor="#1EAA95"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"/>
 
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_marginTop="10dp"
+            <Button
+                android:id="@+id/txt_address1"
+                android:layout_width="130dp"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:layout_marginTop="64dp"
+                android:backgroundTint="@color/white"
+                android:textColor="#1EAA95"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="266dp"
+                android:maxLines="1"
+                android:text="+"
+                android:ellipsize="end"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_marginBottom="5dp"
-            android:text="내가 걸어서 방문할 수 있는 지역을"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_marginTop="5dp">
 
-        <TextView
-            android:id="@+id/textView12"
+            <Button
+                android:id="@+id/txt_address2"
+                android:layout_width="130dp"
+                android:layout_height="48dp"
+                android:backgroundTint="@color/white"
+                android:text="+"
+                android:textColor="#1EAA95"
+                android:maxLines="1"
+                android:ellipsize="end"
+                />
+
+            <Button
+                android:id="@+id/txt_address3"
+                android:layout_width="130dp"
+                android:layout_height="48dp"
+                android:backgroundTint="@color/white"
+                android:text="+"
+                android:layout_marginLeft="20dp"
+                android:textColor="#1EAA95"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="266dp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/goto_std_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="30dp"
-            android:text="최대 3개까지 지정 가능해요.(예: 집, 회사 등)"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:backgroundTint="@color/white"
+            android:text="기준 주소 설정"
+            android:layout_gravity="right"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/btn_finish_address"
-            android:layout_width="389dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="선택한 동네로 설정"
-            android:textColor="@color/black" />
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:text="동네 설정완료하기"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:backgroundTint="#1EAA95"/>
     </LinearLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

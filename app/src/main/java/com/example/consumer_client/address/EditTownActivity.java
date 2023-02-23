@@ -2,6 +2,7 @@ package com.example.consumer_client.address;
 
 import android.content.Intent;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,21 +12,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
-
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
-import com.example.consumer_client.fragment.Home;
-import com.example.consumer_client.network.NetworkStatus;
+
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,10 +48,8 @@ public class EditTownActivity extends AppCompatActivity {
     // 주소 요청코드 상수 requestCode
     //private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
     TextView txt_address0, txt_address1,txt_address2,txt_address3;
+    Button btn_finish_address;
     String standard_address;    //홈화면으로 intent 넘기기
-
-    //주소1,2,3 위도경도 list
-    //List<String> addresslist=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,15 +67,11 @@ public class EditTownActivity extends AppCompatActivity {
         Intent intent = getIntent(); //intent 값 받기
         String userid = intent.getStringExtra("user_id");
 
-        //Log.d("68행_userid", userid);
-
-//        Button btn_addAdress = findViewById(R.id.btn_addAdress);
-//        Button btn_finish_address = findViewById(R.id.btn_finish_address);
-
         txt_address0 = findViewById(R.id.txt_address0);  //현재위치
         txt_address1 = findViewById(R.id.txt_address1);
         txt_address2 = findViewById(R.id.txt_address2);
         txt_address3 = findViewById(R.id.txt_address3);
+        btn_finish_address= findViewById(R.id.btn_finish_address); // 기준동네 설정 버튼
 
         JsonObject body = new JsonObject();
         body.addProperty("id", userid);
@@ -101,11 +90,14 @@ public class EditTownActivity extends AppCompatActivity {
                     if (address_count == 1) {
                         String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
                         txt_address1.setText(address_loc1);
+                        txt_address2.setVisibility(View.GONE);
+                        txt_address3.setVisibility(View.GONE);
                     } else if (address_count == 2) {
                         String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
                         String address_loc2 = addressArray.get(0).getAsJsonObject().get("loc2").getAsString();
                         txt_address1.setText(address_loc1);
                         txt_address2.setText(address_loc2);
+                        txt_address3.setVisibility(View.GONE);
                     } else if (address_count == 3) {
                         String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
                         String address_loc2 = addressArray.get(0).getAsJsonObject().get("loc2").getAsString();
@@ -127,17 +119,15 @@ public class EditTownActivity extends AppCompatActivity {
             }
         });
 
-        //Activity->fragment로 데이터 보내기 intent X
-
-        //기준 변경점 선택하면 바로 intent로 홈화면 가는것으로 구현
+        //현재위치로 기준주소지를 설정했을 때 로직 생각하기
         txt_address0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                standard_address = "현재위치";
-                postStdAddress(userid, standard_address);
-                Intent intent = new Intent(EditTownActivity.this, MainActivity.class);
-                intent.putExtra("user_id", userid); //MainActivity로 갈떄 userid가 없으면 오류남
-                startActivity(intent);
+                //standard_address = "현재위치";
+                //postStdAddress(userid, standard_address);
+//                Intent intent = new Intent(EditTownActivity.this, MainActivity.class);
+//                intent.putExtra("user_id", userid); //MainActivity로 갈떄 userid가 없으면 오류남
+//                startActivity(intent);
             }
         });
 
@@ -146,12 +136,9 @@ public class EditTownActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 standard_address = txt_address1.getText().toString();
-                if (!standard_address.equals("주소1")) {   //주소가 있어야 클릭 가능하고 홈화면으로 전환할 수 있게
-                    postStdAddress(userid, standard_address);
-                    Intent intent = new Intent(EditTownActivity.this, MainActivity.class);
-                    intent.putExtra("user_id", userid);
-                    startActivity(intent);
-                }
+                txt_address1.setBackgroundColor(Color.parseColor("#FF8C3E")); //색 on
+                txt_address2.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off
+                txt_address3.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off
             }
         });
         //주소2
@@ -159,12 +146,9 @@ public class EditTownActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 standard_address = txt_address2.getText().toString();
-                if (!standard_address.equals("주소2")) {
-                    postStdAddress(userid, standard_address);
-                    Intent intent = new Intent(EditTownActivity.this, MainActivity.class);
-                    intent.putExtra("user_id", userid);
-                    startActivity(intent);
-                }
+                txt_address2.setBackgroundColor(Color.parseColor("#FF8C3E")); //색 on
+                txt_address1.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off
+                txt_address3.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off
             }
         });
         //주소3
@@ -172,12 +156,20 @@ public class EditTownActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 standard_address = txt_address3.getText().toString();
-                if (!standard_address.equals("주소3")) {
-                    postStdAddress(userid, standard_address);
-                    Intent intent = new Intent(EditTownActivity.this, MainActivity.class);
-                    intent.putExtra("user_id", userid);
-                    startActivity(intent);
-                }
+                txt_address3.setBackgroundColor(Color.parseColor("#FF8C3E")); //색 on
+                txt_address1.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off
+                txt_address2.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off
+            }
+        });
+
+        //기준 동네로 설정 후 홈화면으로
+        btn_finish_address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postStdAddress(userid, standard_address);
+                Intent intent = new Intent(EditTownActivity.this, MainActivity.class);
+                intent.putExtra("user_id", userid);
+                startActivity(intent);
             }
         });
 
