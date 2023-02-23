@@ -103,11 +103,11 @@
                 android:layout_margin="10dp"
                 android:layout_marginTop="64dp"
                 android:backgroundTint="@color/white"
-                android:text="경기도 시흥시 대야동"
                 android:textColor="#1EAA95"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="266dp"
                 android:maxLines="1"
+                android:text="+"
                 android:ellipsize="end"/>
         </LinearLayout>
 
@@ -143,19 +143,20 @@
                 android:ellipsize="end"/>
         </LinearLayout>
 
-<!--        <Button-->
-<!--            android:id="@+id/btn_addAdress"-->
-<!--            android:layout_width="113dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:backgroundTint="@color/white"-->
-<!--            android:text="+(주소추가)"-->
-<!--            android:textColor="@color/black" />-->
+        <Button
+            android:id="@+id/goto_std_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:text="기준 주소 설정"
+            android:layout_gravity="right"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/btn_finish_address"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:text="동네 설정완료하기"
             android:textStyle="bold"
             android:textSize="18sp"

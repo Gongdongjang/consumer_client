@@ -50,6 +50,8 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 interface FindTownService {
+    @POST("get_address")
+    Call<ResponseBody> addressInfo(@Body JsonObject body);  //post user_id
     @POST("register_address")
     Call<ResponseBody> addressRegister(@Body JsonObject body);
 }
@@ -58,6 +60,8 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
 
     FindTownService service;
     JsonParser jsonParser;
+    JsonObject res;
+    JsonArray addressArray;
 
     // 주소 요청코드 상수 requestCode
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
@@ -91,12 +95,9 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
 
         Intent intent = getIntent(); //intent 값 받기
         String userid=intent.getStringExtra("user_id");
-        //처음실행이면 Tutorial에서 first_time 값이 yes이다.
-        //메인화면들어가서 상단바 눌렀을때면 first_time 값을 no로 주기 (Home.java에서 설정하자)
+        //처음실행이면 Tutorial에서 first_time 값이 yes이다. 메인들어가서 상단바 클릭했을땐 no.
         String first_time= intent.getStringExtra("first_time");
-        //Log.d("68행_userid", userid);
 
-        Button btn_addAdress = findViewById(R.id.btn_addAdress);
         Button btn_finish_address = findViewById(R.id.btn_finish_address);
         FloatingActionButton tracking_mode= findViewById(R.id.tracking_mode);
 
@@ -105,6 +106,66 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         txt_address2= findViewById(R.id.txt_address2);
         txt_address3=findViewById(R.id.txt_address3);
 
+        JsonObject body1 = new JsonObject();
+        body1.addProperty("id", userid);
+
+        Button goto_std_address = findViewById(R.id.goto_std_address);
+        if(Objects.equals(first_time, "yes")){
+            goto_std_address.setVisibility(View.GONE);
+        } else{
+            Call<ResponseBody> call = service.addressInfo(body1);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                    try {
+                        res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
+                        addressArray = res.get("address_result").getAsJsonArray();  //json배열
+                        int address_count = res.get("address_count").getAsInt();
+                        Log.d("근처동네", String.valueOf(address_count));
+
+                        //사용자가 등록한 주소 불러오기
+                        if (address_count == 1) {
+                            String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
+                            txt_address1.setText(address_loc1);
+                            txt_address2.setVisibility(View.GONE);
+                            txt_address3.setVisibility(View.GONE);
+                        } else if (address_count == 2) {
+                            String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
+                            String address_loc2 = addressArray.get(0).getAsJsonObject().get("loc2").getAsString();
+                            txt_address1.setText(address_loc1);
+                            txt_address2.setText(address_loc2);
+                            txt_address3.setVisibility(View.GONE);
+                        } else if (address_count == 3) {
+                            String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
+                            String address_loc2 = addressArray.get(0).getAsJsonObject().get("loc2").getAsString();
+                            String address_loc3 = addressArray.get(0).getAsJsonObject().get("loc3").getAsString();
+                            txt_address1.setText(address_loc1);
+                            txt_address2.setText(address_loc2);
+                            txt_address3.setText(address_loc3);
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(FindTownActivity.this, "주소정보 받아오기 오류 발생", Toast.LENGTH_SHORT).show();
+                    Log.e("주소정보", t.getMessage());
+                }
+            });
+
+        }
+        //기준주소지 설정하는 페이지로 이동
+        goto_std_address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FindTownActivity.this, EditTownActivity.class);
+                intent.putExtra("user_id", userid);
+                startActivity(intent);
+            }
+        });
 
         //지도
         mapView = new MapView(this);
@@ -142,26 +203,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         JsonObject body = new JsonObject();
         body.addProperty("id", userid);
         body.addProperty("first_time",first_time);
-
-        //주소추가 버튼 누르면 주소추가할 수 있는 액티비티로 이동
-//        btn_addAdress.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                int status = NetworkStatus.getConnectivityStatus(getApplicationContext());
-//                if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
-//
-//                    Log.i("주소설정페이지", "주소입력창 클릭");
-//                    Intent intent = new Intent(getApplicationContext(), PlusAddressActivity.class);
-//                    // 화면전환 애니메이션 없애기
-//                    overridePendingTransition(0, 0);
-//                    // 주소결과
-//                    startActivityForResult(intent, SEARCH_ADDRESS_ACTIVITY);
-//
-//                } else {
-//                    Toast.makeText(getApplicationContext(), "인터넷 연결을 확인해주세요.", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
 
         txt_address1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,20 +282,17 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
 
     //선택한 도로명주소명 받아오기
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        String str = "";
+        String str;
         super.onActivityResult(requestCode, resultCode, intent);
-        Log.i("test", "onActivityResult");
+        //Log.i("test", "onActivityResult");
         if (requestCode == SEARCH_ADDRESS_ACTIVITY) {
             if (resultCode == RESULT_OK) {
                 String data = intent.getExtras().getString("data");
                 number = intent.getStringExtra("number");
                 if (data != null) {
-                    Log.i("test", "data:" + data);
-                    Log.i("test", "number:" + number);
-                    if(Objects.equals(number, "0")){   //맨처음 현재위치 받아올때 setText
-                        txt_address0.setText(data);
-                    }
-                    else if (Objects.equals(number, "1")) {
+                    //Log.i("test", "data:" + data);
+                    //Log.i("test", "number:" + number);
+                    if (Objects.equals(number, "1")) {
                         txt_address1.setText(data);
                         str = txt_address1.getText().toString();
                     } else if (Objects.equals(number, "2")) {
@@ -271,12 +309,9 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         }
         //사용자가 GPS 활성 시켰는지 검사
         else if( requestCode==GPS_ENABLE_REQUEST_CODE) {
-            Log.i("test2", "onActivityResult-elseif ");
-            Log.i("test2", "number:" + number);
             if (checkLocationServicesStatus()) {
                 if (checkLocationServicesStatus()) {
                     Log.d("@@@", "onActivityResult : GPS 활성화 되있음");
-                    number="0";
                     checkRunTimePermission();
                 }
             }
