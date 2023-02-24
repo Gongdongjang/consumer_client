@@ -47,7 +47,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/MyPage_Notice"
+                android:id="@+id/MyPage_Notification"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
