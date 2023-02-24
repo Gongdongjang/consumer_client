@@ -47,6 +47,8 @@ public class AccountInfoActivity extends AppCompatActivity {
     private TextView code_verify_txt;
     private EditText code_verify_input, name, mobile_no;
     private Button nextStep, phone_verify_btn, code_verify_btn;
+    String code_confirm;
+    Boolean code_ver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,23 +75,13 @@ public class AccountInfoActivity extends AppCompatActivity {
             }
         });
 
-        code_verify_btn = findViewById(R.id.numConfirm);
-        code_verify_input = findViewById(R.id.inputNum);
-        code_verify_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                phoneVerify(code_verify_input.getText().toString(), mobile_no.getText().toString());
-            }
-        });
-
-
         nextStep.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                code_verify_txt = findViewById(R.id.inputNum);
+                code_verify_input = findViewById(R.id.inputNum);
 
-                if (code_verify_txt.getText().equals("인증됐습니다.")) {
-
+                if (phoneVerify(code_verify_input.getText().toString(), mobile_no.getText().toString())) {
                     goNext();
                 } else {
                     Toast toast = Toast.makeText(getApplicationContext(), "인증 번호 및 전화번호를 확인해주세요.", Toast.LENGTH_LONG);
@@ -130,7 +122,7 @@ public class AccountInfoActivity extends AppCompatActivity {
         });
     }
 
-    void phoneVerify(String code, String phone_number) {
+    Boolean phoneVerify(String code, String phone_number) {
         JsonObject body = new JsonObject();
         body.addProperty("phone_number", phone_number);
         body.addProperty("code", code);
@@ -142,9 +134,9 @@ public class AccountInfoActivity extends AppCompatActivity {
                 try {
                     JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
                     if (res.get("phone_valid").getAsBoolean()) {
-                        code_verify_txt.setText("인증됐습니다.");
+                        code_ver = true;
                     } else {
-                        code_verify_txt.setText("다시 시도해주세요.");
+                        code_ver = false;
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -156,7 +148,7 @@ public class AccountInfoActivity extends AppCompatActivity {
 
             }
         });
-        nextStep.setEnabled(true);
+        return code_ver;
     }
 
     void goNext() {

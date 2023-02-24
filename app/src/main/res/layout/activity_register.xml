@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,11 +8,12 @@
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
 
+
     <ImageButton
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="#FFFFFF"
         android:scaleType="centerInside"
         app:srcCompat="@drawable/left_arrow" />
@@ -46,19 +48,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="아이디"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            />
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/userId"
@@ -70,36 +71,32 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="비밀번호"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            />
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#1EAA95"
             android:layout_marginTop="10dp"
-            />
+            android:backgroundTint="#1EAA95" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="비밀번호 확인"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            />
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/pwConfirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#1EAA95"
             android:layout_marginTop="10dp"
-            />
+            android:backgroundTint="#1EAA95" />
 
         <TextView
             android:id="@+id/pwd_check_state"
@@ -117,13 +114,13 @@
         android:id="@+id/startGdjangBtn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="290dp"
-        android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/button_round2"
+        android:enabled="false"
         android:text="공동장 시작하기"
         android:textColor="@color/white"
         android:textSize="16sp"
-        android:textStyle="bold"
-        android:enabled="false"/>
+        android:textStyle="bold" />
+
 </LinearLayout>
