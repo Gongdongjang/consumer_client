@@ -4,46 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
     tools:context=".MainActivity">
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="문의하기"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:textColor="@color/black"/>
-        <Button
-            android:id="@+id/OpenKakao_Btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:text="오픈카톡 바로가기"/>
 
-        <TextView
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="FAQ"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/black"/>
+
+            <ExpandableListView
+                android:id="@+id/expandabch_parent"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:background="#cdcdcd"
+                android:divider="#EAEAEA"
+                android:groupIndicator="@null"
+                android:dividerHeight="1.5dp"
+                />
+    </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#EAEAEA"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="FAQ"
-            android:layout_marginTop="20dp"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:textColor="@color/black"/>
+            android:layout_margin="20dp"
+            android:orientation="vertical">
 
-        <ExpandableListView
-            android:id="@+id/expandableListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#cdcdcd"
-            android:divider="#EAEAEA"
-            android:groupIndicator="@null"
-            android:dividerHeight="1.5dp"/>
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="문의하기"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/black"/>
+            <Button
+                android:id="@+id/OpenKakao_Btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:backgroundTint="#1EAA95"
+                android:text="고객센터 연결\n(취소 / 교환 / 반품)"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"></LinearLayout>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right"
+                    android:background="@drawable/ic_cs"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text="고객센터 무느이 카카오톡(5시-6시)"
+                    android:textColor="@color/text_2"
+                    android:gravity="left"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

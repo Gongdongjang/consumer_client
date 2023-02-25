@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/edit_dialog_radius">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="60dp"
+            android:gravity="center"
+            android:text="수정 중인 내용이 삭제됩니다."
+            android:textColor="#000000"
+            android:textSize="18sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="60dp"
+            android:gravity="center"
+            android:text="회원정보 수정을 그만하시겠습니까?"
+            android:textColor="#000000"
+            android:textSize="18sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/Cart_GoCart"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="7dp"
+                android:textColor="#1EAA95"
+                android:backgroundTint="#FFFFFF"
+                android:text="취소"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/Cart_GoShopping"
+                android:layout_gravity="right"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="7dp"
+                android:backgroundTint="#1EAA95"
+                android:text="그만하기"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
