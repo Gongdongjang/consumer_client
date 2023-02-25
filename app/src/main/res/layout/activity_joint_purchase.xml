@@ -47,41 +47,49 @@
                         app:srcCompat="@drawable/ic_product_share" />
                 </FrameLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="환희 농가"
-                    android:textColor="@color/grey"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:background="@drawable/top_radius">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:text="갈아먹기 좋은 싱싱당근"
-                    android:textColor="@color/black"
-                    android:textSize="25dp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="환희 농가"
+                        android:textColor="@color/grey"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="10dp"
-                    android:text="한 줄 소개입니다"
-                    android:textColor="@color/grey"
-                    android:textSize="13dp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp"
+                        android:text="갈아먹기 좋은 싱싱당근"
+                        android:textColor="@color/black"
+                        android:textSize="25dp"
+                        android:textStyle="bold" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginTop="10dp"
+                        android:text="한 줄 소개입니다"
+                        android:textColor="@color/grey"
+                        android:textSize="13dp"
+                        android:textStyle="bold" />
 
+                    <View
+                        android:layout_marginTop="10dp"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
             </LinearLayout>
 
             <TextView
@@ -90,6 +98,7 @@
                 android:layout_gravity="right"
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="3dp"
+                android:layout_marginTop="10dp"
                 android:text="1세트"
                 android:textColor="#FF0000"
                 android:textSize="17dp"
@@ -172,8 +181,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="최소 수량"
                         android:layout_marginBottom="10dp"
+                        android:text="최소 수량"
                         android:textColor="#1EAA95"
                         android:textSize="15dp"
                         android:textStyle="bold" />
@@ -209,8 +218,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="최대 수량"
                         android:layout_marginBottom="10dp"
+                        android:text="최대 수량"
                         android:textColor="#1EAA95"
                         android:textSize="15dp"
                         android:textStyle="bold" />
@@ -246,8 +255,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="현재 구매 수량"
                         android:layout_marginBottom="10dp"
+                        android:text="현재 구매 수량"
                         android:textColor="#1EAA95"
                         android:textSize="15dp"
                         android:textStyle="bold" />
@@ -263,7 +272,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="9"
-                            android:textColor="#000000"/>
+                            android:textColor="#000000" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -282,9 +291,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="픽업 날짜"
-                        android:layout_marginBottom="10dp"
                         android:layout_gravity="center"
+                        android:layout_marginBottom="10dp"
+                        android:text="픽업 날짜"
                         android:textColor="#1EAA95"
                         android:textSize="15dp"
                         android:textStyle="bold" />
@@ -344,27 +353,28 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="25dp"
                     android:layout_gravity="right"
+                    android:layout_marginRight="25dp"
                     android:text="전체 보기 >"
                     android:textColor="@color/grey"
                     android:textSize="10sp"
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:layout_marginLeft="25dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10dp"
-                    android:textColor="@color/grey"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
                     android:layout_marginBottom="25dp"
-                    android:text="해당 픽업 스토어는 유통의 업무만 있습니다. \n 자세한 CS문의는 [마이페이지>고객센터]로 문의바랍니다."></TextView>
+                    android:text="해당 픽업 스토어는 유통의 업무만 있습니다. \n 자세한 CS문의는 [마이페이지>고객센터]로 문의바랍니다."
+                    android:textColor="@color/grey"
+                    android:textSize="10dp"></TextView>
             </LinearLayout>
 
             <TextView
@@ -419,8 +429,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="농가 이름"
                             android:gravity="center"
+                            android:text="농가 이름"
                             android:textColor="#000000"
                             android:textSize="17dp"
                             android:textStyle="bold" />
@@ -429,9 +439,9 @@
                             android:id="@+id/JP_FarmDesc"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
                             android:gravity="center"
                             android:text="농가설명농가설명"
-                            android:layout_marginTop="10dp"
                             android:textColor="#000000" />
                     </LinearLayout>
 
@@ -447,8 +457,8 @@
                         android:layout_width="36dp"
                         android:layout_height="21dp"
                         android:background="@drawable/md_item_rectangle"
-                        android:text="스토어"
                         android:backgroundTint="#F75D39"
+                        android:text="스토어"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="10sp" />
@@ -470,10 +480,10 @@
                             android:id="@+id/JP_StoreName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:gravity="center"
                             android:text="스토어 이름"
                             android:textColor="#000000"
-                            android:layout_marginTop="10dp"
                             android:textSize="17dp"
                             android:textStyle="bold" />
 
@@ -513,11 +523,11 @@
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="2dp"
             android:layout_marginRight="10dp"
+            android:layout_marginBottom="2dp"
             android:background="@drawable/button_round2"
-            android:text="주문하기"
             android:backgroundTint="#1EAA95"
+            android:text="주문하기"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
 

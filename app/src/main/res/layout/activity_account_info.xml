@@ -125,6 +125,7 @@
         android:id="@+id/nextStep"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="290dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/button_round2"
