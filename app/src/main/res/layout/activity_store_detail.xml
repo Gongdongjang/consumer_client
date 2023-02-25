@@ -11,133 +11,161 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/StoreMainImg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_logo1" />
-
-        <TextView
-            android:id="@+id/StoreName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:text="스토어명"
-            android:textColor="#000000"
-            android:textSize="25dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/StoreExplain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="18dp"
-            android:text="스토어 설명"
-            android:textColor="#000000"/>
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/StoreMainImg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_logo1" />
+
+                <ImageView
+                    android:id="@+id/KakaoShare"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right|bottom"
+                    android:layout_marginRight="20dp"
+                    app:srcCompat="@drawable/ic_product_share" />
+
+            </FrameLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/top_radius"
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/StoreName"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="위치"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="스토어명"
                     android:textColor="#000000"
-                    android:textSize="17dp"
+                    android:textSize="25dp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/StoreLocation"
+                    android:id="@+id/StoreExplain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="서울특별시 성북구 동소문로 "
-                    android:textColor="#000000"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="영업시간"
-                    android:textColor="#000000"
-                    android:textSize="17dp"
-                    android:textStyle="bold" />
+                    android:layout_marginBottom="18dp"
+                    android:text="스토어 짧은 설명"
+                    android:textColor="@color/grey" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <TextView
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/location_pin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="서울특별시 성북구 동소문로 25길" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/clock" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="12:00" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="~" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="20:00" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="휴무일 : "
-                        android:textColor="#000000"/>
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/StoreDayOff"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:text="일" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="요일 휴무" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text=" "
-                        android:textColor="#000000"/>
-                </LinearLayout>
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/phone_call" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="운영 시간 : "
-                        android:textColor="#000000"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="02 - 000 - 0000" />
 
-                    <TextView
-                        android:id="@+id/StoreHourTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text=" "
-                        android:textColor="#000000"/>
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginLeft="10dp"-->
-<!--                        android:text=" - "-->
-<!--                        android:textColor="#000000"/>-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/StoreCloseTime"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginLeft="10dp"-->
-<!--                        android:text=" "-->
-<!--                        android:textColor="#000000"/>-->
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
@@ -151,11 +179,26 @@
             android:layout_marginRight="10dp"
             android:background="@android:color/darker_gray" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/FarmStoryImg"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/ic_launcher_background" />
+
+        </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:text="진행 중인 공동구매"
             android:textColor="#000000"
             android:textSize="20dp"
@@ -164,169 +207,49 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="5dp"
                 android:text="현재 "
-                android:textColor="#000000"/>
+                android:textColor="#A3A3A3" />
 
             <TextView
                 android:id="@+id/StoreJointPurchaseCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" "
-                android:textColor="#000000"/>
+                android:layout_marginLeft="5dp"
+                android:text="4"
+                android:textColor="#1EAA95" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="가지 작물을 진행 중입니다."
-                android:textColor="#000000"/>
-        </LinearLayout>
+                android:textColor="#A3A3A3" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/FarmJointPurchaseView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </androidx.recyclerview.widget.RecyclerView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="구매 리뷰"
-                android:layout_weight="1"
-                android:textColor="#000000"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="90dp"
                 android:padding="6dp"
-                android:text="농가의 전체 리뷰 보기"
-                android:textColor="#000000"
+                android:text="전체 보기 >"
+                android:textColor="#848484"
                 android:textSize="10dp"
                 android:textStyle="bold" />
-        </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="*해당 픽업 스토어는 유통의 업무만 있습니다. 자세한 CS문의는 [마이페이지>고객센터]로 문의바랍니다."
-            android:textColor="#000000"
-            android:textSize="10dp"/>
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:nestedScrollingEnabled="false"
-            android:layout_marginRight="10dp"
+            android:id="@+id/FarmPurchaseView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:id="@+id/StoreReview"
-            android:layout_marginBottom="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </androidx.recyclerview.widget.RecyclerView>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/FarmIMG"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/ic_launcher_background"
-                android:layout_gravity="top"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/FarmName2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:text="농가명"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="15dp"/>
-
-                <TextView
-                    android:id="@+id/FarmProfile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:text="농가 짧은 프로필입니다"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="15dp"/>
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/StoreIMG"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/ic_launcher_background"
-                android:layout_gravity="top"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/StoreName2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:text="스토어명"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="15dp"/>
-
-                <TextView
-                    android:id="@+id/StoreProfile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:text="스토어 짧은 프로필입니다"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="15dp"/>
-
-            </LinearLayout>
-        </LinearLayout>
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"/>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
