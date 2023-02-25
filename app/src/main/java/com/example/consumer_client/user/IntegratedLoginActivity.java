@@ -43,8 +43,6 @@ import retrofit2.http.POST;
 import java.io.IOException;
 
 interface IntegratedLoginService {
-    @POST("login")
-    Call<ResponseBody> login(@Body JsonObject body);
 
     @POST("kakaoLogin")
     Call<ResponseBody> kakaoLogin(@Body JsonObject body);
@@ -63,7 +61,7 @@ public class IntegratedLoginActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
 //    private SignInButton google_sign_in_button;
     private final int RC_SIGN_IN = 1;
-    Button loginbutton;
+    Button loginbutton, signupBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +97,16 @@ public class IntegratedLoginActivity extends AppCompatActivity {
         loginbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), StandardLoginActivity.class);
+                Intent intent = new Intent(IntegratedLoginActivity.this, StandardLoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        signupBtn = findViewById(R.id.signupBtn);
+        signupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(IntegratedLoginActivity.this, AccountInfoActivity.class);
                 startActivity(intent);
             }
         });

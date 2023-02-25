@@ -2,12 +2,9 @@ package com.example.consumer_client.store;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,13 +23,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import net.daum.mf.map.api.MapPOIItem;
-import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapView;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -184,7 +176,7 @@ public class StoreDetailActivity extends AppCompatActivity {
     }
 
     public void firstInit(){
-        mRecyclerView = findViewById(R.id.FarmJointPurchaseView);
+        mRecyclerView = findViewById(R.id.FarmPurchaseView);
         reviewRecyclerView = findViewById(R.id.StoreReview);
         mList = new ArrayList<>();
         mReviewList = new ArrayList<>();
