@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toStartOf="@+id/JP_OrderBtn"
         app:layout_constraintHorizontal_bias="0.554"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_order_wish" />
+        app:srcCompat="@drawable/ic_cart_shopping" />
 
     <ImageView
         android:id="@+id/imageView4"

@@ -21,7 +21,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.consumer_client.address.EditTownActivity;
+
+
+import com.example.consumer_client.address.FindTownActivity;
+import com.example.consumer_client.cart.CartListActivity;
+
 import com.example.consumer_client.fragment.Home;
 import com.example.consumer_client.fragment.Keep;
 import com.example.consumer_client.fragment.MyPage;
@@ -68,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private Order frag4;
     private MyPage frag5;
     private TextView change_address;
+    private TextView toolbar_cart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
         else if(googleid !=null) user_id=googleid;
         else user_id=intent.getStringExtra("user_id");    //첫 튜토리얼시 findtown에서 넘어온 + EditTownActivity에서 넘어온
 
-        Log.d("userid:",user_id);
-
         // 최초 실행 여부를 판단 ->>>
         SharedPreferences pref = getSharedPreferences("checkFirst", Activity.MODE_PRIVATE);
         boolean checkFirst = pref.getBoolean("checkFirst", false);
@@ -142,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
                     JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
                     String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
                     change_address.setText(standard_address);
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -154,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("주소정보", t.getMessage());
             }
         });
-
 
         bottomNavigation = findViewById(R.id.bottom_navi);
         bottomNavigation.setOnNavigationItemSelectedListener(
@@ -194,16 +195,25 @@ public class MainActivity extends AppCompatActivity {
 
                 setFrag(2); // 첫 프래그먼트 화면을 무엇으로 지정해줄 것인지 선택
 
-
-
         // 지역명
         //상단바 주소변경 누르면 주소변경/선택 페이지로
         change_address = findViewById(R.id.change_address);
         change_address.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Log.d("클릭", "확인");
-                Intent intent = new Intent(MainActivity.this, EditTownActivity.class);
+                Intent intent = new Intent(MainActivity.this, FindTownActivity.class);
+                intent.putExtra("user_id", user_id);
+                intent.putExtra("first_time", "no");
+                startActivity(intent);
+            }
+        });
+
+        //상단바 장바구니
+        toolbar_cart = findViewById(R.id.toolbar_cart);
+        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(MainActivity.this, CartListActivity.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }

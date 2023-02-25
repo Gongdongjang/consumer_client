@@ -74,6 +74,7 @@ public class TutorialActivity extends AppCompatActivity {
 
                 Intent i = new Intent(TutorialActivity.this, FindTownActivity.class);
                 i.putExtra("user_id",userid);
+                i.putExtra("first_time","yes");
                 startActivity(i);
                 finish();
             }
@@ -93,6 +94,7 @@ public class TutorialActivity extends AppCompatActivity {
                     // 마지막 페이지라면 메인페이지로 이동
                     Intent i = new Intent(TutorialActivity.this, FindTownActivity.class);
                     i.putExtra("user_id",userid);
+                    i.putExtra("first_time","yes");
                     startActivity(i);
                     finish();
                 }
