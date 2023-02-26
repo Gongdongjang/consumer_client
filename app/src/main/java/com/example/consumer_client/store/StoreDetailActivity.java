@@ -153,9 +153,6 @@ public class StoreDetailActivity extends AppCompatActivity {
                         // 휴무일 다시 처리 -> 어떻게 출력되는지 확인
                         StoreWeek.setText(storeDate.get(0).getAsJsonObject().get("hours_week").getAsString());
                         StoreCall.setText(storeArray.get(0).getAsJsonObject().get("store_phone").getAsString());
-
-                        //StoreHourTime.setText(storeArray.get(0).getAsJsonObject().get("store_hours").getAsString());
-                        //StoreDayOff.setText(storeArray.get(0).getAsJsonObject().get("store_restDays").getAsString());
                         StoreJointPurchaseCount.setText(String.valueOf(jpArray.size()));
 
                         firstInit();

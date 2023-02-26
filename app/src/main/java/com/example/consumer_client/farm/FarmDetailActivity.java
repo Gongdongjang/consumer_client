@@ -73,7 +73,9 @@ public class FarmDetailActivity extends AppCompatActivity {
         mContext = this;
 
         TextView FarmName = (TextView) findViewById(R.id.FarmName);
+        TextView UpFarmerName = (TextView) findViewById(R.id.farm_up_FarmerName);
         TextView FarmerName = (TextView) findViewById(R.id.FarmerName);
+        TextView UpFarmName = (TextView) findViewById(R.id.farm_up_FarmName);
         TextView FarmExplain = (TextView) findViewById(R.id.FarmExplain);
         TextView FarmLocation = (TextView) findViewById(R.id.FarmLocation);
         TextView FarmMainItem = (TextView) findViewById(R.id.FarmMainItem);
@@ -115,7 +117,9 @@ public class FarmDetailActivity extends AppCompatActivity {
                         dDay = res.get("dDay").getAsJsonArray();
 
                         FarmName.setText(farm_name);
+                        UpFarmName.setText(farm_name);
                         FarmerName.setText(farmer_name);
+                        UpFarmerName.setText(farmer_name);
                         FarmExplain.setText(farm_info);
                         FarmLocation.setText(farm_loc);
                         FarmMainItem.setText(farm_main_item);

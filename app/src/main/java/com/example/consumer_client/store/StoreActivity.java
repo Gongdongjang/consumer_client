@@ -57,7 +57,7 @@ public class StoreActivity extends AppCompatActivity {
     StoreService service;
     JsonParser jsonParser;
     JsonObject res;
-    JsonArray storeArray;
+    JsonArray storeArray, pu_start;
 
     private RecyclerView mStoreRecyclerView;
     private ArrayList<StoreTotalInfo> mList;
@@ -149,6 +149,7 @@ public class StoreActivity extends AppCompatActivity {
                 try {
                     res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
                     storeArray = res.get("store_result").getAsJsonArray();  //json배열
+                    pu_start = res.get("pu_start").getAsJsonArray();
 
                     //어뎁터 적용
                     mStoreTotalAdapter = new StoreTotalAdapter(mList);
@@ -175,7 +176,7 @@ public class StoreActivity extends AppCompatActivity {
 
                         addStore(storeArray.get(i).getAsJsonObject().get("store_id").getAsString(),
                                 "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + storeArray.get(i).getAsJsonObject().get("store_thumbnail").getAsString(),
-                                storeArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), storeArray.get(i).getAsJsonObject().get("store_info").getAsString(), "휴무일 없어진거니?", "store_hours");
+                                storeArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), storeArray.get(i).getAsJsonObject().get("store_info").getAsString(), storeArray.get(i).getAsJsonObject().get("md_name").getAsString(), storeArray.get(i).getAsJsonObject().get("pay_price").getAsString(), pu_start.get(i).getAsString());
                     }
                     //거리 가까운순으로 정렬
                     mList.sort(new Comparator<StoreTotalInfo>() {
@@ -219,7 +220,7 @@ public class StoreActivity extends AppCompatActivity {
         mList = new ArrayList<>();
     }
 
-    public void addStore(String storeId, String storeProdImgView, String storeName, String storeLocationFromMe, String storeInfo, String storeRestDays, String storeHours){
+    public void addStore(String storeId, String storeProdImgView, String storeName, String storeLocationFromMe, String storeInfo, String storeProdName, String storProdPrice, String storeProdDate){
         StoreTotalInfo store = new StoreTotalInfo();
 
         store.setStoreid(storeId);
@@ -227,8 +228,9 @@ public class StoreActivity extends AppCompatActivity {
         store.setStoreName(storeName);
         store.setStoreLocationFromMe(storeLocationFromMe);
         store.setStoreInfo(storeInfo);
-        store.setStoreRestDays(storeRestDays);
-        store.setStoreHours(storeHours);
+        store.setStoreProdName(storeProdName);
+        store.setStoreProdPrice(storProdPrice);
+        store.setStoreProdDate(storeProdDate);
         mList.add(store);
     }
 }

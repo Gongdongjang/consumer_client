@@ -55,7 +55,7 @@ public class FarmDetailAdapter extends RecyclerView.Adapter<FarmDetailAdapter.Vi
             mdPrice = (TextView) itemView.findViewById(R.id.homeProdPrice); //세트별 가격
 //            paySchedule = (TextView) itemView.findViewById(R.id.PaySchedule);
             dDay = (TextView) itemView.findViewById(R.id.dDay); //d-day
-            puTime = (TextView) itemView.findViewById(R.id.homeProdDate); //픽업 예정일
+            puTime = (TextView) itemView.findViewById(R.id.StoreProdDate); //픽업 예정일
         }
     }
 

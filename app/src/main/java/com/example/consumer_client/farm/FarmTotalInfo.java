@@ -3,7 +3,7 @@ package com.example.consumer_client.farm;
 public class FarmTotalInfo {
     private String farmProdImgView;
     private String farmName;
-    private String farmProdName;
+    private String farmMainItem;
     private String farmFeature;
     private int farmSituation;
 
@@ -23,13 +23,14 @@ public class FarmTotalInfo {
         this.farmName = farmName;
     }
 
-    public String getFarmProdName() {
-        return farmProdName;
+    public String getFarmMainItem() {
+        return farmMainItem;
     }
 
-    public void setFarmProdName(String farmProdName) {
-        this.farmProdName = farmProdName;
+    public void setFarmMainItem(String farmMainItem) {
+        this.farmMainItem = farmMainItem;
     }
+
     public String getFarmFeature() {
         return farmFeature;
     }
