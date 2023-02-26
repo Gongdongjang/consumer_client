@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/chatmessage_item_linear"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
+    android:background="@drawable/button_round"
     android:padding="5dp">
 
     <LinearLayout
-        android:layout_width="378dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center_vertical"
+        android:layout_width="370dp"
+        android:layout_height="115dp"
+        android:layout_gravity="center"
         android:orientation="horizontal">
 
         <TextView
@@ -19,11 +18,48 @@
             android:layout_height="wrap_content"
             android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/StoreProdImg"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="top" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/StoreProdImg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/store_list" />
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="15dp"
+                android:background="@drawable/location_item_rectangle"
+                android:backgroundTint="#FFFFFF"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/StoreLocationFromMe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:text="123.8"
+                    android:textColor="#000000"
+                    android:textSize="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="km"
+                    android:textColor="#000000"
+                    android:textSize="8dp" />
+
+
+            </LinearLayout>
+        </FrameLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,29 +71,28 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/StoreName"
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="10dp"
                     android:text="스토어명"
                     android:textColor="@color/black"
-                    android:textSize="15dp"
+                    android:layout_gravity="center"
+                    android:textSize="12dp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/StoreLocationFromMe"
+                <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="n00" />
+                    android:layout_height="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="50dp"
+                    android:src="@drawable/ic_arrow_s" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="km"/>
 
             </LinearLayout>
 
@@ -65,64 +100,87 @@
                 android:id="@+id/StoreInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
                 android:text="스토어 한 줄 설명"
-                android:textColor="@color/black" />
+                android:textColor="#444444"
+                android:textSize="9dp" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="70dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
+
                     <TextView
-                        android:id="@+id/StoreProdPrice"
+                        android:id="@+id/StoreProdName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="제품명"
+                        android:textColor="#151515"
+                        android:textSize="10dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/StoreProdPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="353,400"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="#151515"
+                            android:textSize="10dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="원"
+                            android:textColor="#151515"
+                            android:textSize="10dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="휴무일"
-                        android:textColor="@color/black" />
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/StorePickUpDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="운영시간"
-                        android:textColor="@color/black" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="오늘 주문하면 픽업 예정일 "
+                            android:textColor="@color/main_1"
+                            android:textSize="10sp" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/StoreProdDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="1월 25일"
+                            android:textColor="@color/main_1"
+                            android:textSize="10sp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/StoreRestDays"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="nnnn.nn.nn"
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:id="@+id/StoreHours"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="n시~n시"
-                        android:textColor="@color/black" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="30dp"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
-
 </LinearLayout>
-

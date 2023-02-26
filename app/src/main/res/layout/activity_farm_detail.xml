@@ -13,7 +13,7 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
+            layout="@layout/farm_toolbar" />
 
         <LinearLayout
             android:layout_width="match_parent"

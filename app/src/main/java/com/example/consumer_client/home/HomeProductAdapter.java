@@ -56,7 +56,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
             txt_distance=(TextView) itemView.findViewById(R.id.storeLocationFromMe);
             mdPrice = (TextView) itemView.findViewById(R.id.homeProdPrice); //세트별 가격
             dDay = (TextView) itemView.findViewById(R.id.dDay); //d-day
-            puTime = (TextView)itemView.findViewById(R.id.homeProdDate);
+            puTime = (TextView)itemView.findViewById(R.id.StoreProdDate);
         }
     }
 
