@@ -14,12 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.R;
+import com.example.consumer_client.md.MdDetailInfo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -41,11 +44,11 @@ public class FarmDetailActivity extends AppCompatActivity {
     FarmDetailService service;
     JsonParser jsonParser;
     JsonObject res;
-    JsonArray farmArray, mdArray, pu_start, pu_end;
-    String farm_id, farm_name, farm_info, farm_loc, farm_main_item, farm_phone;
+    JsonArray farmArray, mdArray, pu_start, dDay;
+    String farm_id, farm_name, farmer_name, farm_info, farm_loc, farm_main_item, farm_phone, md_price;
 
     private RecyclerView mRecyclerView;
-    private ArrayList<FarmDetailInfo> mList;
+    private ArrayList<MdDetailInfo> mList;
     private FarmDetailAdapter mFarmDetailAdapter;
 
     Context mContext;
@@ -68,6 +71,7 @@ public class FarmDetailActivity extends AppCompatActivity {
         mContext = this;
 
         TextView FarmName = (TextView) findViewById(R.id.FarmName);
+        TextView FarmerName = (TextView) findViewById(R.id.FarmerName);
         TextView FarmExplain = (TextView) findViewById(R.id.FarmExplain);
         TextView FarmLocation = (TextView) findViewById(R.id.FarmLocation);
         TextView FarmMainItem = (TextView) findViewById(R.id.FarmMainItem);
@@ -95,6 +99,7 @@ public class FarmDetailActivity extends AppCompatActivity {
                         //farm 정보
                         farmArray = res.get("farm_data").getAsJsonArray();
                         farm_name = farmArray.get(0).getAsJsonObject().get("farm_name").getAsString();
+                        farmer_name = farmArray.get(0).getAsJsonObject().get("farm_farmer").getAsString();
                         farm_info = farmArray.get(0).getAsJsonObject().get("farm_info").getAsString();
                         farm_loc = farmArray.get(0).getAsJsonObject().get("farm_loc").getAsString();
                         farm_main_item = farmArray.get(0).getAsJsonObject().get("farm_mainItem").getAsString();
@@ -102,13 +107,17 @@ public class FarmDetailActivity extends AppCompatActivity {
 
                         //md 정보
                         mdArray = res.get("md_data").getAsJsonArray();
-//                        pu_start = res.get("pu_start").getAsJsonArray();
-//                        pu_end = res.get("pu_end").getAsJsonArray();
+
+                        //pu_start
+                        pu_start = res.get("pu_start").getAsJsonArray();
+                        dDay = res.get("dDay").getAsJsonArray();
 
                         FarmName.setText(farm_name);
+                        FarmerName.setText(farmer_name);
                         FarmExplain.setText(farm_info);
                         FarmLocation.setText(farm_loc);
                         FarmMainItem.setText(farm_main_item);
+                        FarmPhone.setText(farm_phone);
                         FarmPurchaseCount.setText(String.valueOf(mdArray.size()));
 
                         //세부 페이지1 (진행 중인 공동구매) 리사이클러뷰 띄우게하기
@@ -124,9 +133,11 @@ public class FarmDetailActivity extends AppCompatActivity {
                         mRecyclerView.setLayoutManager(linearLayoutManager);
 
                         for(int i=0;i<mdArray.size();i++){
-                            addFarmJointPurchase(farm_name, "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + mdArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(), mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), mdArray.get(i).getAsJsonObject().get("store_name").getAsString(),pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
+                            String realIf0 = dDay.get(i).getAsString();
+                            if (realIf0.equals("0")) realIf0 = "day";
+
+                            addFarmJointPurchase("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + mdArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(), mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), mdArray.get(i).getAsJsonObject().get("store_name").getAsString(), mdArray.get(i).getAsJsonObject().get("pay_price").getAsString(), "D - " + realIf0,  pu_start.get(i).getAsString());
                         }
-                        Log.d("FarmDetail", user_id);
 
                         mFarmDetailAdapter.setOnItemClickListener(
                             new FarmDetailAdapter.OnItemClickListener() {
@@ -166,16 +177,16 @@ public class FarmDetailActivity extends AppCompatActivity {
         mList = new ArrayList<>();
     }
 
-    public void addFarmJointPurchase(String farmName, String prodImgName, String prodName, String storeName, String puTerm){
-        FarmDetailInfo farmDetail = new FarmDetailInfo();
+    public void addFarmJointPurchase(String prodImgName, String prodName, String storeName, String mdPrice, String dDay, String puTime){
+        MdDetailInfo mdDetail = new MdDetailInfo();
 
-        farmDetail.setFarmName(farmName);
-        farmDetail.setProdImg(prodImgName);
-        farmDetail.setProdName(prodName);
-        farmDetail.setStoreName(storeName);
-//        farmDetail.setPaySchedule(paySchedule);
-        farmDetail.setPuTerm(puTerm);
-
-        mList.add(farmDetail);
+        mdDetail.setProdImg(prodImgName);
+        mdDetail.setProdName(prodName);
+        mdDetail.setStoreName(storeName);
+        mdDetail.setMdPrice(mdPrice);
+        mdDetail.setDday(dDay);
+        // 미터 및 픽업 예정일 추가해야돼
+        mdDetail.setPuTime(puTime);
+        mList.add(mdDetail);
     }
 }

@@ -13,13 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.R;
 import com.example.consumer_client.farm.FarmDetailAdapter;
-import com.example.consumer_client.farm.FarmDetailInfo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -40,21 +41,21 @@ public class MdListMainActivity extends AppCompatActivity {
     MdService service;
 
     private RecyclerView mMdListRecyclerView;
-    private ArrayList<FarmDetailInfo> mList;
+    private ArrayList<MdDetailInfo> mList;
     private FarmDetailAdapter mMdListMainAdapter;
     Context mContext;
 
     JsonObject res;
     JsonArray jsonArray;
-//    JsonArray pay_schedule;
+    //    JsonArray pay_schedule;
     JsonArray pu_start;
-    JsonArray pu_end;
+    JsonArray dDay;
 
     String user_id;
 
     ArrayList<String> md_id_list = new ArrayList<String>();
 
-    protected void onCreate(@Nullable Bundle savedInstanceState){
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_md_total_list);
 
@@ -70,19 +71,19 @@ public class MdListMainActivity extends AppCompatActivity {
         firstInit();
 
         Intent intent = getIntent(); //intent 값 받기
-        user_id=intent.getStringExtra("user_id");
+        user_id = intent.getStringExtra("user_id");
 
         Call<ResponseBody> call = service.getMdMainData();
         call.enqueue(new Callback<ResponseBody>() {
 
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try{
-                    res =  (JsonObject) jsonParser.parse(response.body().string());
+                try {
+                    res = (JsonObject) jsonParser.parse(response.body().string());
                     jsonArray = res.get("md_result").getAsJsonArray();
 //                    pay_schedule = res.get("pay_schedule").getAsJsonArray();
-                    //pu_start = res.get("pu_start").getAsJsonArray();
-                    //pu_end = res.get("pu_end").getAsJsonArray();
+                    pu_start = res.get("pu_start").getAsJsonArray();
+                    dDay = res.get("dDay").getAsJsonArray();
 
                     //어뎁터 적용
                     mMdListMainAdapter = new FarmDetailAdapter(mList);
@@ -93,16 +94,23 @@ public class MdListMainActivity extends AppCompatActivity {
                     linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                     mMdListRecyclerView.setLayoutManager(linearLayoutManager);
 
-                    for(int i=0;i<jsonArray.size();i++){
+                    Date now = new Date();
+                    SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+                    int now_int = Integer.parseInt(format.format(now));
+
+                    for (int i = 0; i < jsonArray.size(); i++) {
                         md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
 
+                        String realIf0 = dDay.get(i).getAsString();
+                        if (realIf0.equals("0")) realIf0 = "day";
+
+
                         addMdList("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
-                                jsonArray.get(i).getAsJsonObject().get("farm_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
-                                "pu_기간 대신 뭐들어감,,,"
-//                                pay_schedule.get(i).getAsString(),
-                                //pu_start.get(i).getAsString() + " ~ " + pu_end.get(i).getAsString()
+                                jsonArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
+                                "D - " + realIf0,
+                                pu_start.get(i).getAsString()
                         );
                     }
 
@@ -117,8 +125,7 @@ public class MdListMainActivity extends AppCompatActivity {
                                 }
                             }
                     );
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     try {
                         throw e;
@@ -127,6 +134,7 @@ public class MdListMainActivity extends AppCompatActivity {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(MdListMainActivity.this, "상품 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
@@ -134,19 +142,21 @@ public class MdListMainActivity extends AppCompatActivity {
         });
     }
 
-    public void firstInit(){
+    public void firstInit() {
         mMdListRecyclerView = findViewById(R.id.totalOrderListView);
         mList = new ArrayList<>();
     }
 
-    public void addMdList(String mdProdImg, String farmName, String prodName, String storeName, String puTerm){
-        FarmDetailInfo mdDetail = new FarmDetailInfo();
+    public void addMdList(String mdProdImg, String prodName, String storeName, String mdPrice, String dDay, String puTime) {
+        MdDetailInfo mdDetail = new MdDetailInfo();
+
         mdDetail.setProdImg(mdProdImg);
-        mdDetail.setFarmName(farmName);
         mdDetail.setProdName(prodName);
         mdDetail.setStoreName(storeName);
-//        mdDetail.setPaySchedule(paySchedule);
-        mdDetail.setPuTerm(puTerm);
+        mdDetail.setMdPrice(mdPrice);
+        mdDetail.setDday(dDay);
+        // 미터 및 픽업 예정일 추가해야돼
+        mdDetail.setPuTime(puTime);
 
         mList.add(mdDetail);
     }

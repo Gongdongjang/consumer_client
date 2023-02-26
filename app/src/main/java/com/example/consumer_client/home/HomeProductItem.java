@@ -8,6 +8,9 @@ public class HomeProductItem {
     private String homeProdName;
     private String homeProdEx;
     private String homeDistance;
+    private String homeMdPrice;
+    private String dDay;
+    private String homePuTime;
 
     public String getHomeMdId() {
         return homeMdId;
@@ -42,7 +45,21 @@ public class HomeProductItem {
         this.homeProdEx = homeProdEx;
     }
 
+    public String getHomeDistance() { return homeDistance;}
+
     public void setHomeDistance(String homeDistance) {this.homeDistance = homeDistance;}
 
-    public String getHomeDistance() { return homeDistance;}
+    public String getHomeMdPrice() { return homeMdPrice;}
+
+    public void setHomeMdPrice(String homeMdPrice) {this.homeMdPrice = homeMdPrice;}
+
+    public String getHomeDday() { return dDay;}
+
+    public void setHomeDday(String dDay) {this.dDay = dDay;}
+
+    public String getHomePuTime() { return homePuTime;}
+
+    public void setHomePuTime(String homePuTime) {this.homePuTime = homePuTime;}
+
+
 }
