@@ -55,8 +55,8 @@
             android:layout_marginTop="10dp"
             android:text="이름"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/inputName"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:backgroundTint="#1EAA95"
-            android:hint="홍길동"/>
+            android:hint="홍길동" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -72,8 +72,8 @@
             android:layout_marginTop="10dp"
             android:text="연락처"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -95,7 +95,7 @@
                 android:layout_marginTop="5dp"
                 android:backgroundTint="#1EAA95"
                 android:text="인증하기"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </FrameLayout>
 
         <TextView
@@ -104,8 +104,9 @@
             android:layout_marginTop="10dp"
             android:text="인증 번호"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -116,33 +117,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:backgroundTint="#1EAA95" />
-
-            <Button
-                android:id="@+id/numConfirm"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginLeft="280dp"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="#1EAA95"
-                android:text="확인"
-                android:textStyle="bold"/>
         </FrameLayout>
 
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/loginbutton"
+        android:id="@+id/nextStep"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
         android:layout_marginTop="290dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/button_round2"
-        android:enabled="false"
         android:text="다음 단계로"
         android:textColor="@color/white"
         android:textSize="16sp"
-        android:textStyle="bold"
-        android:saveEnabled="false"/>
-
+        android:textStyle="bold" />
 </LinearLayout>

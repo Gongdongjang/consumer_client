@@ -36,9 +36,9 @@ interface LoginService {
 }
 
 public class StandardLoginActivity extends AppCompatActivity {
-    IntegratedLoginService service;
+    LoginService service;
     JsonParser jsonParser;
-    private TextView signup; //회원가입 창으로 가는 텍스트
+    private TextView find; //회원가입 창으로 가는 텍스트
     private EditText id, password;
     private Button loginbutton;
     private static final String TAG="사용자";
@@ -46,13 +46,13 @@ public class StandardLoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_integrated_login);
+        setContentView(R.layout.activity_login);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseurl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        service = retrofit.create(IntegratedLoginService.class);
+        service = retrofit.create(LoginService.class);
         jsonParser = new JsonParser();
 
         loginbutton = findViewById(R.id.loginbutton);
@@ -65,16 +65,6 @@ public class StandardLoginActivity extends AppCompatActivity {
                 tryLogin();
             }
         });
-
-        //회원가입 텍스트 누르면 회원가입 창으로
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
-
     }
     //기본 로그인
     void login() {

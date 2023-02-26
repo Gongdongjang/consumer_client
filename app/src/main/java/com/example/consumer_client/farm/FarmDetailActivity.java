@@ -2,12 +2,9 @@ package com.example.consumer_client.farm;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -21,13 +18,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import net.daum.mf.map.api.MapPOIItem;
-import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapView;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -50,7 +42,7 @@ public class FarmDetailActivity extends AppCompatActivity {
     JsonParser jsonParser;
     JsonObject res;
     JsonArray farmArray, mdArray, pu_start, pu_end;
-    String farm_id, farm_name, farm_info, farm_loc, farm_hours;
+    String farm_id, farm_name, farm_info, farm_loc, farm_main_item, farm_phone;
 
     private RecyclerView mRecyclerView;
     private ArrayList<FarmDetailInfo> mList;
@@ -78,12 +70,12 @@ public class FarmDetailActivity extends AppCompatActivity {
         TextView FarmName = (TextView) findViewById(R.id.FarmName);
         TextView FarmExplain = (TextView) findViewById(R.id.FarmExplain);
         TextView FarmLocation = (TextView) findViewById(R.id.FarmLocation);
-        TextView FarmHourTime = (TextView) findViewById(R.id.FarmHourTime);
-        TextView FarmJointPurchaseCount = (TextView) findViewById(R.id.FarmJointPurchaseCount);
+        TextView FarmMainItem = (TextView) findViewById(R.id.FarmMainItem);
+        TextView FarmPhone = (TextView) findViewById(R.id.FarmPhone);
+        TextView FarmPurchaseCount = (TextView) findViewById(R.id.FarmPurchaseCount);
 
-        //intent로 값 넘길때
         Intent intent;
-        intent=getIntent(); //intent 값 받기
+        intent=getIntent();
 
         user_id=intent.getStringExtra("user_id");
         farm_id = intent.getStringExtra("farm_id");
@@ -105,18 +97,19 @@ public class FarmDetailActivity extends AppCompatActivity {
                         farm_name = farmArray.get(0).getAsJsonObject().get("farm_name").getAsString();
                         farm_info = farmArray.get(0).getAsJsonObject().get("farm_info").getAsString();
                         farm_loc = farmArray.get(0).getAsJsonObject().get("farm_loc").getAsString();
-                        //farm_hours = farmArray.get(0).getAsJsonObject().get("farm_hours").getAsString();
+                        farm_main_item = farmArray.get(0).getAsJsonObject().get("farm_mainItem").getAsString();
+                        farm_phone = farmArray.get(0).getAsJsonObject().get("farm_phone").getAsString();
 
                         //md 정보
                         mdArray = res.get("md_data").getAsJsonArray();
-                        pu_start = res.get("pu_start").getAsJsonArray();
-                        pu_end = res.get("pu_end").getAsJsonArray();
+//                        pu_start = res.get("pu_start").getAsJsonArray();
+//                        pu_end = res.get("pu_end").getAsJsonArray();
 
                         FarmName.setText(farm_name);
                         FarmExplain.setText(farm_info);
                         FarmLocation.setText(farm_loc);
-                        //FarmHourTime.setText(farm_hours);
-                        FarmJointPurchaseCount.setText(String.valueOf(mdArray.size()));
+                        FarmMainItem.setText(farm_main_item);
+                        FarmPurchaseCount.setText(String.valueOf(mdArray.size()));
 
                         //세부 페이지1 (진행 중인 공동구매) 리사이클러뷰 띄우게하기
                         firstInit();
@@ -169,7 +162,7 @@ public class FarmDetailActivity extends AppCompatActivity {
     }
 
     public void firstInit(){
-        mRecyclerView = findViewById(R.id.FarmJointPurchaseView);
+        mRecyclerView = findViewById(R.id.FarmPurchaseView);
         mList = new ArrayList<>();
     }
 
