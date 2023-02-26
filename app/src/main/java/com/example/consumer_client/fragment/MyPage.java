@@ -60,7 +60,7 @@ public class MyPage extends Fragment {
 //            }
 //        });
         //알림리스트
-        TextView MyPage_Notification = (TextView) view.findViewById(R.id.MyPage_Notification);
+        LinearLayout MyPage_Notification = (LinearLayout) view.findViewById(R.id.MyPage_Notification);
         MyPage_Notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
