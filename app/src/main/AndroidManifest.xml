@@ -90,5 +90,7 @@
         <activity android:name=".my_town.StoreMap" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".address.EditTownActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
+        <activity android:name=".notification.NotificationList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
     </application>
 </manifest>

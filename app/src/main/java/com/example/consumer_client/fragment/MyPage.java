@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.consumer_client.R;
 import com.example.consumer_client.farm.FarmActivity;
+import com.example.consumer_client.notification.NotificationList;
 import com.example.consumer_client.shopping_info.ShoppingInfo2Activity;
 import com.example.consumer_client.shopping_info.ShoppingInfoActivity;
 
@@ -41,14 +42,16 @@ public class MyPage extends Fragment {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_my_page, container, false);
 
-        TextView totalFarmTextView = (TextView) view.findViewById(R.id.MyPage_MS_ProdReview);
-//        totalFarmTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), FarmActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        //알림리스트
+        TextView MyPage_Notification = (TextView) view.findViewById(R.id.MyPage_Notification);
+        MyPage_Notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NotificationList.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
 
         //나의 쇼핑정보
         LinearLayout shoppingInfo = (LinearLayout) view.findViewById(R.id.MyPage_MyShopping);
