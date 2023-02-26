@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
 import android.widget.TextView;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private Order frag4;
     private MyPage frag5;
     private TextView change_address;
-    private TextView toolbar_cart;
+    private ImageView toolbar_cart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
