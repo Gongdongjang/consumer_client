@@ -8,11 +8,13 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.R;
 import com.example.consumer_client.farm.FarmDetailAdapter;
+import com.example.consumer_client.store.StoreDetailActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -93,6 +95,9 @@ public class MdListMainActivity extends AppCompatActivity {
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
                     linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                     mMdListRecyclerView.setLayoutManager(linearLayoutManager);
+
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(MdListMainActivity.this, 2, GridLayoutManager.VERTICAL, true);
+                    mMdListRecyclerView.setLayoutManager(gridLayoutManager);
 
                     Date now = new Date();
                     SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
