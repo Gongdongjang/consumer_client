@@ -11,23 +11,65 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#FFFFFF"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/gotoBack"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@drawable/ic_top_arrow" />
+
+            <TextView
+                android:id="@+id/myaddress"
+                android:layout_width="212dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="지역명"
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/gotoCart"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center|right"
+                android:layout_weight="1"
+                android:src="@drawable/ic_cart_shopping" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="2px"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@android:color/darker_gray" />
+
         <TextView
             android:id="@+id/productList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
             android:layout_marginBottom="20dp"
-            android:text="공동장에서 만날 수 있는 모든 농가"
-            android:textColor="#000000"
+            android:text="공동장과 함께하는\n모든 농가를 만나보세요"
+            android:textColor="#151515"
             android:textSize="20dp"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
             android:id="@+id/totalOrderListView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"></androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 </LinearLayout>

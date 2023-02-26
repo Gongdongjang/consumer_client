@@ -30,10 +30,7 @@ public class FarmTotalAdapter extends RecyclerView.Adapter<FarmTotalAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView farmProdImgView;
-        TextView farmName;
-        TextView farmProdName;
-        TextView farmFeature;
-        TextView farmSituation;
+        TextView farmName, farmFeature, farmSituation, farmMainItem;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -50,10 +47,10 @@ public class FarmTotalAdapter extends RecyclerView.Adapter<FarmTotalAdapter.View
                 }
             });
             farmProdImgView = (ImageView) itemView.findViewById(R.id.FarmProdImg_item);
+            farmMainItem = (TextView) itemView.findViewById(R.id.FarmMainItem);
             farmName = (TextView) itemView.findViewById(R.id.FarmName);
-            farmProdName = (TextView) itemView.findViewById(R.id.FarmProdName_item);
-            farmFeature = (TextView) itemView.findViewById(R.id.FarmFeature_info);
-            farmSituation = (TextView) itemView.findViewById(R.id.FarmSituation);
+            farmSituation = (TextView) itemView.findViewById(R.id.FarmCount);
+            farmFeature = (TextView) itemView.findViewById(R.id.FarmFeature);
         }
     }
 
@@ -81,7 +78,7 @@ public class FarmTotalAdapter extends RecyclerView.Adapter<FarmTotalAdapter.View
 
         Glide.with(holder.itemView).load(item.getFarmProdImgView()).into(holder.farmProdImgView);
         holder.farmName.setText(item.getFarmName());
-        holder.farmProdName.setText(item.getFarmProdName());
+        holder.farmMainItem.setText(item.getFarmMainItem());
         holder.farmFeature.setText(item.getFarmFeature());
         holder.farmSituation.setText(String.valueOf(item.getFarmSituation()));
     }

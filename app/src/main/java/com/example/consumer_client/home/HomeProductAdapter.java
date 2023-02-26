@@ -32,7 +32,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         ImageView imgView_item;
         TextView txt_main;
         TextView txt_sub;
-        TextView txt_distance;
+        TextView txt_distance, mdPrice, dDay, puTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -54,6 +54,9 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
             txt_main = (TextView) itemView.findViewById(R.id.homeProdName_item);
             txt_sub = (TextView) itemView.findViewById(R.id.homeProdEx_item);
             txt_distance=(TextView) itemView.findViewById(R.id.storeLocationFromMe);
+            mdPrice = (TextView) itemView.findViewById(R.id.homeProdPrice); //세트별 가격
+            dDay = (TextView) itemView.findViewById(R.id.dDay); //d-day
+            puTime = (TextView)itemView.findViewById(R.id.StoreProdDate);
         }
     }
 
@@ -85,6 +88,9 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         holder.txt_main.setText(item.getHomeProdName());
         holder.txt_sub.setText(item.getHomeProdEx());
         holder.txt_distance.setText(item.getHomeDistance());
+        holder.mdPrice.setText(item.getHomeMdPrice());
+        holder.dDay.setText(item.getHomeDday());
+        holder.puTime.setText(item.getHomePuTime());
     }
 
     @Override

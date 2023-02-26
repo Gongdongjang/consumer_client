@@ -73,7 +73,7 @@ public class OrderDialog extends Dialog {
     CartPostService service;
 
 
-    public OrderDialog(@NonNull Context context, String mdName, String prodNum, String prodPrice,
+    public OrderDialog(@NonNull Context context, String mdName, String prodPrice,
                        String StkRemain, String pu_start, String pu_end, String store_name,
                        String store_id, String store_loc, String user_id, String md_id) {
         super(context);

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.consumer_client.R;
+import com.example.consumer_client.md.MdDetailInfo;
 
 import java.util.ArrayList;
 
@@ -30,11 +31,8 @@ public class FarmDetailAdapter extends RecyclerView.Adapter<FarmDetailAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView prodImg;
-        TextView farmName;
-        TextView prodName;
-        TextView storeName;
-        TextView paySchedule;
-        TextView puTerm;
+//        TextView farmName;
+        TextView prodName, storeName, mdPrice, paySchedule, puTime, dDay;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -50,18 +48,20 @@ public class FarmDetailAdapter extends RecyclerView.Adapter<FarmDetailAdapter.Vi
                     }
                 }
             });
-            prodImg = (ImageView) itemView.findViewById(R.id.ProdImg);
-            farmName = (TextView) itemView.findViewById(R.id.FarmName);
-            prodName = (TextView) itemView.findViewById(R.id.MdName);
-            storeName = (TextView) itemView.findViewById(R.id.StoreName);
-            paySchedule = (TextView) itemView.findViewById(R.id.PaySchedule);
-            puTerm = (TextView) itemView.findViewById(R.id.PuTerm);
+            prodImg = (ImageView) itemView.findViewById(R.id.homeProdImg_item); //제품 사진
+//            farmName = (TextView) itemView.findViewById(R.id.FarmName);
+            prodName = (TextView) itemView.findViewById(R.id.homeProdEx_item); //제품명
+            storeName = (TextView) itemView.findViewById(R.id.homeProdName_item); //스토어명
+            mdPrice = (TextView) itemView.findViewById(R.id.homeProdPrice); //세트별 가격
+//            paySchedule = (TextView) itemView.findViewById(R.id.PaySchedule);
+            dDay = (TextView) itemView.findViewById(R.id.dDay); //d-day
+            puTime = (TextView) itemView.findViewById(R.id.StoreProdDate); //픽업 예정일
         }
     }
 
-    private ArrayList<FarmDetailInfo> mList = null;
+    private ArrayList<MdDetailInfo> mList = null;
 
-    public FarmDetailAdapter(ArrayList<FarmDetailInfo> mList) {
+    public FarmDetailAdapter(ArrayList<MdDetailInfo> mList) {
         this.mList = mList;
     }
 
@@ -72,22 +72,24 @@ public class FarmDetailAdapter extends RecyclerView.Adapter<FarmDetailAdapter.Vi
         Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View view = inflater.inflate(R.layout.md_list, parent, false);
+        View view = inflater.inflate(R.layout.item_home_product, parent, false);
         FarmDetailAdapter.ViewHolder vh = new FarmDetailAdapter.ViewHolder(view);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull FarmDetailAdapter.ViewHolder holder, int position) {
-        FarmDetailInfo item = mList.get(position);
+        MdDetailInfo item = mList.get(position);
 
         Glide.with(holder.itemView).load(item.getProdImg()).into(holder.prodImg);
 //        holder.prodImg.setImageResource(R.drawable.ic_launcher_background);   // 사진 없어서 기본 파일로 이미지 띄움
-        holder.farmName.setText(item.getFarmName());
+//        holder.farmName.setText(item.getFarmName());
         holder.prodName.setText(item.getProdName());
         holder.storeName.setText(item.getStoreName());
+        holder.mdPrice.setText(item.getMdPrice());
+        holder.dDay.setText(item.getDday());
 //        holder.paySchedule.setText(item.getPaySchedule());
-        holder.puTerm.setText(item.getPuTerm());
+        holder.puTime.setText(item.getPuTime());
     }
 
     @Override
