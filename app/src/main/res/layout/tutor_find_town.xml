@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.MyPage"
+    >
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -26,22 +33,22 @@
         android:layout_height="450dp"
         android:layout_marginTop="10dp">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/tracking_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom|end"
-            android:layout_marginStart="342dp"
-            android:layout_marginEnd="13dp"
-            android:layout_marginRight="15sp"
-            android:layout_marginBottom="14dp"
-            android:src="@drawable/ic_baseline_gps_fixed_24"
-            app:backgroundTint="#ffffff"
-            app:elevation="6dp"
-            app:pressedTranslationZ="12dp" />
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/tracking_mode"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_gravity="bottom|end"-->
+<!--            android:layout_marginStart="342dp"-->
+<!--            android:layout_marginEnd="13dp"-->
+<!--            android:layout_marginRight="15sp"-->
+<!--            android:layout_marginBottom="14dp"-->
+<!--            android:src="@drawable/ic_baseline_gps_fixed_24"-->
+<!--            app:backgroundTint="#ffffff"-->
+<!--            app:elevation="6dp"-->
+<!--            app:pressedTranslationZ="12dp" />-->
     </RelativeLayout>
 
     <LinearLayout
@@ -51,6 +58,18 @@
         android:orientation="vertical"
         android:layout_gravity="bottom"
         android:layout_marginTop="15dp">
+
+        <ImageView
+            android:id="@+id/currentLoc"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:backgroundTint="@color/white"
+            android:layout_gravity="right"
+            android:src="@drawable/ic_baseline_gps_fixed_24">
+        </ImageView>
 
         <TextView
             android:id="@+id/textView9"
@@ -164,3 +183,4 @@
             android:backgroundTint="#1EAA95"/>
     </LinearLayout>
 </LinearLayout>
+</ScrollView>

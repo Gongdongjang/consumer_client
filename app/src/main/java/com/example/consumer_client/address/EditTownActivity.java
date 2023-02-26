@@ -86,8 +86,17 @@ public class EditTownActivity extends AppCompatActivity {
                     int address_count = res.get("address_count").getAsInt();
                     Log.d("근처동네", String.valueOf(address_count));
 
+                    //현재위치는 기본세팅
+                    String address_loc0 = addressArray.get(0).getAsJsonObject().get("loc0").getAsString();
+                    txt_address0.setText(address_loc0);
+
                     //사용자가 등록한 주소 불러오기
-                    if (address_count == 1) {
+                    if (address_count==0){
+                        txt_address1.setVisibility(View.GONE);
+                        txt_address2.setVisibility(View.GONE);
+                        txt_address3.setVisibility(View.GONE);
+                    }
+                    else if (address_count == 1) {
                         String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
                         txt_address1.setText(address_loc1);
                         txt_address2.setVisibility(View.GONE);
@@ -119,15 +128,17 @@ public class EditTownActivity extends AppCompatActivity {
             }
         });
 
+        standard_address = txt_address0.getText().toString();
+
         //현재위치로 기준주소지를 설정했을 때 로직 생각하기
         txt_address0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //standard_address = "현재위치";
-                //postStdAddress(userid, standard_address);
-//                Intent intent = new Intent(EditTownActivity.this, MainActivity.class);
-//                intent.putExtra("user_id", userid); //MainActivity로 갈떄 userid가 없으면 오류남
-//                startActivity(intent);
+                standard_address = txt_address0.getText().toString();
+                txt_address0.setBackgroundColor(Color.parseColor("#FF8C3E")); //색 on
+                txt_address1.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off
+                txt_address2.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off
+                txt_address3.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off
             }
         });
 
@@ -136,6 +147,7 @@ public class EditTownActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 standard_address = txt_address1.getText().toString();
+                txt_address0.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off
                 txt_address1.setBackgroundColor(Color.parseColor("#FF8C3E")); //색 on
                 txt_address2.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off
                 txt_address3.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off
@@ -146,6 +158,7 @@ public class EditTownActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 standard_address = txt_address2.getText().toString();
+                txt_address0.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off
                 txt_address2.setBackgroundColor(Color.parseColor("#FF8C3E")); //색 on
                 txt_address1.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off
                 txt_address3.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off
@@ -156,6 +169,7 @@ public class EditTownActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 standard_address = txt_address3.getText().toString();
+                txt_address0.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off
                 txt_address3.setBackgroundColor(Color.parseColor("#FF8C3E")); //색 on
                 txt_address1.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off
                 txt_address2.setBackgroundColor(Color.parseColor("#D3D3D3")); //색 off

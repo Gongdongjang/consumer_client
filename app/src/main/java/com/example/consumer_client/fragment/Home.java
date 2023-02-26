@@ -428,9 +428,9 @@ public class Home extends Fragment
 //        mCurrentLng = mapPointGeo.longitude;
 //        Log.d(TAG, "현재위치 => " + mCurrentLat + "  " + mCurrentLng);
 //        //트래킹 모드가 아닌 단순 현재위치 업데이트일 경우, 한번만 위치 업데이트하고 트래킹을 중단시키기 위한 로직
-//        if (!isTrackingMode) {
-//            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-//        }
+////        if (!isTrackingMode) {
+////            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+////        }
 //    }
 //
 //    @Override
@@ -463,29 +463,29 @@ public class Home extends Fragment
 //            }
 //        }
 //    }
-
-    // GPS 활성화를 위한 메소드들
-    private void showDialogForLocationServiceSetting(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        builder.setTitle("위치 서비스 비활성화");
-        builder.setMessage("앱을 사용하기 위해 위치 서비스가 필요합니다.");
-        builder.setCancelable(true);
-        builder.setPositiveButton("설정",new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent callGPSSettingIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivityForResult(callGPSSettingIntent,GPS_ENABLE_REQUEST_CODE);
-            }
-        }); //여기밑에 setNaviveButton 추가함
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-        builder.create().show();
-    }
-
+//
+//    // GPS 활성화를 위한 메소드들
+//    private void showDialogForLocationServiceSetting(){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+//        builder.setTitle("위치 서비스 비활성화");
+//        builder.setMessage("앱을 사용하기 위해 위치 서비스가 필요합니다.");
+//        builder.setCancelable(true);
+//        builder.setPositiveButton("설정",new DialogInterface.OnClickListener(){
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Intent callGPSSettingIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+//                startActivityForResult(callGPSSettingIntent,GPS_ENABLE_REQUEST_CODE);
+//            }
+//        }); //여기밑에 setNaviveButton 추가함
+//        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int id) {
+//                dialog.cancel();
+//            }
+//        });
+//        builder.create().show();
+//    }
+//
 //    private boolean checkLocationServiceStatus(Activity mActivity) {
 //
 //        LocationManager locationManager = (LocationManager)mActivity.getSystemService(LOCATION_SERVICE);
