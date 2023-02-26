@@ -7,44 +7,17 @@
     tools:context=".MainActivity">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <CheckBox
-                android:id="@+id/CartSelectAll"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:text="전체 선택"
-                android:textColor="@color/black">
-            </CheckBox>
-            <Button
-                android:id="@+id/CartDelete"
-                android:layout_gravity="right"
-                android:layout_marginRight="5dp"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:backgroundTint="#F0F0F0"
-                android:text="선택 삭제"
-                android:textColor="@color/black">
-            </Button>
-        </LinearLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/purple_500"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/CartListRecycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"/>
 
         <View
             android:layout_width="match_parent"

@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.R;
+import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.order.ToPayActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -46,7 +49,7 @@ public class CartListActivity extends AppCompatActivity {
     CartService service;
     JsonParser jsonParser;
     JsonObject res;
-    Context mContext;
+    public static Context mContext;
     JsonArray cart_detail, store_count;
 
     String select_qty, pay_price, pay_comp;
@@ -59,13 +62,13 @@ public class CartListActivity extends AppCompatActivity {
     String md_name, purchase_num, md_price, prod_set;
     String store_name,store_loc;
     String pu_date, pu_time;
-    String user_id, md_id, store_id;
+
+    public String user_id, md_id, store_id;
 
     Integer totalPrice = 0;
-
-    TextView cartTotalPrice, purchaseNum, eachMdTotalPrice;
-
+    TextView cartTotalPrice, purchaseNum;
     Button goToPay;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,11 +96,8 @@ public class CartListActivity extends AppCompatActivity {
         store_loc=intent.getStringExtra("store_loc");
         pu_date = intent.getStringExtra("pickupDate");
         pu_time = intent.getStringExtra("pickupTime");
-        md_id = intent.getStringExtra("md_id");
-        store_id = intent.getStringExtra("store_id");
         select_qty = intent.getStringExtra("select_qty");
 
-//        CartStoreName.setText(store_name);
 
         firstInit();
 
@@ -108,8 +108,6 @@ public class CartListActivity extends AppCompatActivity {
         body.addProperty("pu_date", pu_date);
         body.addProperty("pu_time", pu_time);
         body.addProperty("purchase_num", purchase_num);
-//        purchase_num = purchase_num.substring(0,1);
-//        Log.d("purchase_num", purchase_num);
 
         Call<ResponseBody> call = service.cartListGet(user_id);
         call.enqueue(new Callback<ResponseBody>() {
@@ -120,12 +118,16 @@ public class CartListActivity extends AppCompatActivity {
                         res =  (JsonObject) jsonParser.parse(response.body().string());
                         cart_detail = res.get("cart_detail").getAsJsonArray();
                         store_count = res.get("store_count").getAsJsonArray();
-                        store_name = cart_detail.get(0).getAsJsonObject().get("store_name").getAsString();
-                        select_qty = cart_detail.get(0).getAsJsonObject().get("select_qty").getAsString();
-                        pay_price = cart_detail.get(0).getAsJsonObject().get("pay_price").getAsString();
-                        md_name = cart_detail.get(0).getAsJsonObject().get("md_name").getAsString();
-                        pay_comp = cart_detail.get(0).getAsJsonObject().get("pay_comp").getAsString();
+                        if (cart_detail.size() != 0){
+                            store_name = cart_detail.get(0).getAsJsonObject().get("store_name").getAsString();
+                            select_qty = cart_detail.get(0).getAsJsonObject().get("select_qty").getAsString();
+                            pay_price = cart_detail.get(0).getAsJsonObject().get("pay_price").getAsString();
+                            md_name = cart_detail.get(0).getAsJsonObject().get("md_name").getAsString();
+                            pay_comp = cart_detail.get(0).getAsJsonObject().get("pay_comp").getAsString();
+                            store_id = cart_detail.get(0).getAsJsonObject().get("store_id").getAsString();
+                            md_id = cart_detail.get(0).getAsJsonObject().get("md_id").getAsString();
 
+                        }
                         //어뎁터 적용
                         mCartListAdapter = new CartListAdapter(mList);
                         mCartRecyclerView.setAdapter(mCartListAdapter);
@@ -141,36 +143,38 @@ public class CartListActivity extends AppCompatActivity {
                         linearLayoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
                         mCartRecyclerView2.setLayoutManager(linearLayoutManager2);
 
-                        Log.d("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", "");
-//                        Log.d("=>", cart_detail.getAsJsonObject().toString());
-                        Log.d("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", "");
                         purchaseNum = (TextView) findViewById(R.id.CL_PurchaseNum);
-                        eachMdTotalPrice = (TextView) findViewById(R.id.CL_EachMdTotalPrice);
 
+                        mCartListAdapter.setOnItemClickListener(new CartListAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View v, int pos) {
+                                String user_id = mList.get(pos).getUserId();
+                                String md_name = mList.get(pos).getMdName();
+                                String store_name = mList.get(pos).getStoreName();
+                            }
+
+                            @Override
+                            public void onDeleteClick(View v, int pos) {
+                                mList.remove(pos);
+                                mCartListAdapter.notifyItemRemoved(pos);
+                            }
+                        });
                         for(int i=0;i<cart_detail.size();i++){
                             addCart(cart_detail.get(i).getAsJsonObject().get("store_name").getAsString(),
                                     "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + cart_detail.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                     cart_detail.get(i).getAsJsonObject().get("md_name").getAsString(),
                                     cart_detail.get(i).getAsJsonObject().get("select_qty").getAsString(),
-                                    cart_detail.get(i).getAsJsonObject().get("select_qty").getAsInt() * cart_detail.get(i).getAsJsonObject().get("pay_price").getAsInt(),
+                                    cart_detail.get(i).getAsJsonObject().get("pay_price").getAsInt(),
                                     cart_detail.get(i).getAsJsonObject().get("select_qty").getAsInt() * cart_detail.get(i).getAsJsonObject().get("pay_price").getAsInt(),
                                     cart_detail.get(i).getAsJsonObject().get("pay_comp").getAsString());
                             totalPrice += cart_detail.get(i).getAsJsonObject().get("pay_price").getAsInt() * cart_detail.get(i).getAsJsonObject().get("select_qty").getAsInt() ;
                         }
 
-                        Log.d("@@@@@@@@@@@@@@@@@@@", store_count.get(0).getAsJsonObject().get("COUNT(*)").getAsString());
                         for (int i=0; i<store_count.get(0).getAsJsonObject().get("COUNT(*)").getAsInt();i++){
                             addPrice(cart_detail.get(i).getAsJsonObject().get("select_qty").getAsString(), cart_detail.get(i).getAsJsonObject().get("pay_price").getAsInt(),
                                     cart_detail.get(i).getAsJsonObject().get("select_qty").getAsInt()* cart_detail.get(i).getAsJsonObject().get("pay_price").getAsInt());
                         }
-
                         cartTotalPrice.setText(totalPrice.toString());
-//                        Log.d("계산: ", String.valueOf(Integer.parseInt(md_price) * Integer.parseInt(purchase_num)));
-//                        for(int i=0;i<1;i++){ //size수정하기
-//                            addCart("product Img", md_name, purchase_num, md_price, pu_date + " "+ pu_time, String.valueOf(Integer.parseInt(md_price) * Integer.parseInt(purchase_num)), prod_set);
-//                        }
-//                        Log.d("cart", user_id);
-
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -204,11 +208,10 @@ public class CartListActivity extends AppCompatActivity {
                 i.putExtra("store_name",store_name);
                 i.putExtra("store_id",store_id);
                 i.putExtra("store_loc",store_loc);
-//                i.putExtra("pickupDate",PickUpDate.getText());
-//                i.putExtra("pickupTime",PickUpTime.getText());
                 v.getContext().startActivity(i);
             }
         });
+
     }
 
     public void firstInit(){
@@ -218,15 +221,15 @@ public class CartListActivity extends AppCompatActivity {
         mList2 = new ArrayList<>();
     }
 
-    public void addCart(String storeName, String mdImg, String mdName, String qty, int totalEachPrice, int eachStoreTotalPrice, String mdSet){
+    public void addCart(String storeName, String mdImg, String mdName, String qty, int eachMdPrice, int eachStoreTotalPrice, String mdSet){
         CartListInfo cart = new CartListInfo();
 
         cart.setStoreName(storeName);
         cart.setMdImg(mdImg);
         cart.setMdName(mdName);
         cart.setQty(qty);
-        cart.setEachMdTotalPrice(totalEachPrice);
         cart.setEachStoreTotalPrice(eachStoreTotalPrice);
+        cart.setEachMdPrice(eachMdPrice);
         cart.setMdSet(mdSet);
 
         mList.add(cart);
