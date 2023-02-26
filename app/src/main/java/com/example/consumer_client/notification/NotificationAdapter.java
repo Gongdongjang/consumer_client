@@ -30,18 +30,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            // 아이템 클릭 이벤트 처리.
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {   //md_id 저장
-                    int pos = getAdapterPosition() ;
-                    if (pos != RecyclerView.NO_POSITION) {
-                        mListener.onItemClick(v,pos);
-                    }
-
-                }
-            });
-
             notiTitle=(TextView) itemView.findViewById(R.id.notiTitle);
             notiContent = (TextView) itemView.findViewById(R.id.notiContent);
         }

@@ -124,7 +124,7 @@
                             android:background="@drawable/ic_mypage_alarm">
                         </ImageView>
                         <TextView
-                            android:id="@+id/MyPage_Notice"
+                            android:id="@+id/MyPage_Notification"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
