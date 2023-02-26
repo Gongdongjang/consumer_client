@@ -90,5 +90,9 @@
         <activity android:name=".my_town.StoreMap" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".address.EditTownActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
+        <activity android:name=".mypage.AboutGDJActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".mypage.AccountSettingActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".mypage.UserCenterActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".mypage.AboutCompanyActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 </manifest>

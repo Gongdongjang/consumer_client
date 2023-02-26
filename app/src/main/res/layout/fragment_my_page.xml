@@ -57,6 +57,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:id="@+id/MyPage_UserInfo"
                         android:orientation="horizontal"
                         android:layout_margin="5dp"
                         android:layout_weight="1.5"
@@ -68,7 +69,6 @@
                             android:background="@drawable/ic_mypage_profile">
                         </ImageView>
                         <TextView
-                            android:id="@+id/MyPage_UserInfo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -80,6 +80,7 @@
                             android:textStyle="bold" />
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/MyPage_RecentProd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -93,7 +94,6 @@
                             android:background="@drawable/ic_mypage_list">
                         </ImageView>
                         <TextView
-                            android:id="@+id/MyPage_RecentProd"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -111,6 +111,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/MyPage_Notice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -124,7 +125,6 @@
                             android:background="@drawable/ic_mypage_alarm">
                         </ImageView>
                         <TextView
-                            android:id="@+id/MyPage_Notice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -136,6 +136,7 @@
                             android:textStyle="bold" />
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/MyPage_Keep"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -149,7 +150,6 @@
                             android:background="@drawable/ic_mypage_wish">
                         </ImageView>
                         <TextView
-                            android:id="@+id/MyPage_Keep"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -245,7 +245,6 @@
                 android:orientation="vertical"
                 android:layout_marginBottom="10dp">
                 <TextView
-                    android:id="@+id/MyPage_MS_OrderDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="주문내역"
@@ -253,7 +252,6 @@
                     android:textColor="@color/black"
                     android:layout_marginBottom="5dp"/>
                 <TextView
-                    android:id="@+id/MyPage_MS_Cncl_Chng_Rtrn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="취소 / 교환 / 반품"
@@ -262,7 +260,6 @@
                     android:layout_marginBottom="5dp"/>
 
                 <TextView
-                    android:id="@+id/MyPage_MS_ProdReview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
@@ -278,6 +275,7 @@
             android:background="#F6F6F6"/>
 
             <LinearLayout
+                android:id="@+id/MyPage_MyAccountSetting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
@@ -287,7 +285,6 @@
                 android:layout_marginTop="20dp">
 
                 <TextView
-                    android:id="@+id/MyPage_MyAccountSetting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="나의 계정설정"
@@ -315,7 +312,6 @@
                 android:orientation="vertical"
                 android:layout_marginBottom="10dp">
                 <TextView
-                    android:id="@+id/MyPage_MAS_ChngUserInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="회원정보 수정"
@@ -323,7 +319,6 @@
                     android:textColor="@color/black"
                     android:layout_marginBottom="5dp"/>
                 <TextView
-                    android:id="@+id/MyPage_MAS_SysSetting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="설정"
@@ -339,6 +334,7 @@
             android:background="#F6F6F6"/>
 
             <LinearLayout
+                android:id="@+id/MyPage_UserCenter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
@@ -348,7 +344,6 @@
                 android:layout_marginTop="20dp">
 
                 <TextView
-                    android:id="@+id/MyPage_UserCenter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="고객센터"
@@ -376,7 +371,6 @@
                 android:orientation="vertical"
                 android:layout_marginBottom="10dp">
                 <TextView
-                    android:id="@+id/MyPage_UC_Inqr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="문의하기"
@@ -384,7 +378,6 @@
                     android:textColor="@color/black"
                     android:layout_marginBottom="5dp"/>
                 <TextView
-                    android:id="@+id/MyPage_UC_FAQ"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="FAQ"
@@ -399,6 +392,7 @@
             android:layout_height="10dp"
             android:background="#F6F6F6"/>
             <LinearLayout
+                android:id="@+id/MyPage_AboutGDJ"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
@@ -408,7 +402,6 @@
                 android:layout_marginTop="20dp">
 
                 <TextView
-                    android:id="@+id/MyPage_AboutGDJ"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="about 공동장"
@@ -436,7 +429,6 @@
                 android:orientation="vertical"
                 android:layout_marginBottom="10dp">
                 <TextView
-                    android:id="@+id/MyPage_GDJ_Notice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="공지사항"
@@ -444,7 +436,6 @@
                     android:textColor="@color/black"
                     android:layout_marginBottom="5dp"/>
                 <TextView
-                    android:id="@+id/MyPage_GDJ_Introduce"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="회사소개"
@@ -452,7 +443,6 @@
                     android:textColor="@color/black"
                     android:layout_marginBottom="5dp"/>
                 <TextView
-                    android:id="@+id/MyPage_GDJ_Logout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="로그아웃"

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.consumer_client.farm.FarmActivity;
@@ -97,7 +98,18 @@ public class TotalList extends Fragment {
                 startActivity(intent);
             }
         });
-
+        MyPage myPage = new MyPage();
+        LinearLayout mypage = (LinearLayout) view.findViewById(R.id.H_MyPage);
+        mypage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), MyPage.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("user_id", user_id);
+                myPage.setArguments(bundle);
+//                startActivity(intent);
+            }
+        });
         return view;
     }
 }

@@ -165,6 +165,7 @@
             android:background="#F6F6F6"/>
 
         <LinearLayout
+            android:id="@+id/H_MyPage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
