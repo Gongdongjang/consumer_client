@@ -13,17 +13,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="20dp"
+        android:textSize="16sp"
         android:textColor="@color/black"
         android:text="지역명"/>
 
-    <TextView
+    <ImageView
         android:id="@+id/toolbar_cart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="22dp"
+        android:layout_height="20dp"
         android:layout_marginRight="20dp"
         android:layout_gravity="right"
-        android:textSize="20dp"
-        android:text="장바구니">
-    </TextView>
+        android:src="@drawable/ic_cart_shopping">
+    </ImageView>
 </androidx.appcompat.widget.Toolbar>
