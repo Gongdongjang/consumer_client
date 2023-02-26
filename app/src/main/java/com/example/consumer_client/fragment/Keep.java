@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.consumer_client.farm.FarmDetailAdapter;
-import com.example.consumer_client.farm.FarmDetailInfo;
+import com.example.consumer_client.md.MdDetailInfo;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.R;
 import com.google.gson.JsonArray;
@@ -54,7 +54,7 @@ public class Keep extends Fragment {
     KeeplistService service;
 
     private RecyclerView mMdListRecyclerView;
-    private ArrayList<FarmDetailInfo> mList;
+    private ArrayList<MdDetailInfo> mList;
     private FarmDetailAdapter mMdListMainAdapter;
 
     JsonObject body;
@@ -166,7 +166,7 @@ public class Keep extends Fragment {
     }
 
     public void addKeepList(String mdProdImg, String farmName, String prodName, String storeName, String puTerm){
-        FarmDetailInfo mdDetail = new FarmDetailInfo();
+        MdDetailInfo mdDetail = new MdDetailInfo();
         mdDetail.setProdImg(mdProdImg);
         mdDetail.setFarmName(farmName);
         mdDetail.setProdName(prodName);

@@ -9,8 +9,8 @@
     tools:context=".MainActivity">
 
     <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+        android:id="@+id/md_toolbar"
+        layout="@layout/md_toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -54,17 +54,19 @@
                     android:background="@drawable/top_radius">
 
                     <TextView
+                        android:id="@+id/JP_FarmName_Main"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="50dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:text="환희 농가"
-                        android:textColor="@color/grey"
+                        android:textColor="#A3A3A3"
                         android:textSize="15dp"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/ProdName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="50dp"
@@ -74,12 +76,19 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/ProdInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="50dp"
                         android:layout_marginTop="10dp"
                         android:text="한 줄 소개입니다"
-                        android:textColor="@color/grey"
+                        android:background="@drawable/info_box"
+                        android:backgroundTint="#F1F1F1"
+                        android:textColor="#444444"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="1dp"
+                        android:paddingBottom="1dp"
                         android:textSize="13dp"
                         android:textStyle="bold" />
 
@@ -116,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginBottom="20dp"
-                    android:text="3200"
+                    android:text="3,200"
                     android:textColor="#000000"
                     android:textSize="27dp"
                     android:textStyle="bold" />
@@ -126,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginBottom="20dp"
-                    android:text="원"
+                    android:text=" 원"
                     android:textColor="#000000"
                     android:textSize="27dp"
                     android:textStyle="bold" />
@@ -136,30 +145,37 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatButton
+                <TextView
+                    android:id="@+id/Dday"
                     android:layout_width="60dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="30dp"
                     android:background="@drawable/button_round2"
                     android:text="D - 5"
+                    android:gravity="center"
                     android:textColor="@color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="구매 날짜" />
+                    android:text="구매 날짜"
+                    android:textColor="#848484"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="~" />
+                    android:text="~"
+                    android:textColor="#848484"
+                    />
 
                 <TextView
                     android:id="@+id/purchaseDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#848484"
                     android:text="2023.03.12" />
             </LinearLayout>
 
@@ -183,6 +199,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:text="최소 수량"
+                        android:layout_gravity="center"
                         android:textColor="#1EAA95"
                         android:textSize="15dp"
                         android:textStyle="bold" />
@@ -198,13 +215,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="10"
-                            android:textColor="#000000" />
+                            android:textColor="#848484" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="개"
-                            android:textColor="#000000" />
+                            android:text="개 구매중"
+                            android:textColor="#848484" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -235,13 +252,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="30"
-                            android:textColor="#000000" />
+                            android:textColor="#848484" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="개"
-                            android:textColor="#000000" />
+                            android:textColor="#848484" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -268,17 +285,17 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/JP_PayDate"
+                            android:id="@+id/JP_TotalCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="9"
-                            android:textColor="#000000" />
+                            android:textColor="#848484" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="개 구매중"
-                            android:textColor="#000000" />
+                            android:text="개"
+                            android:textColor="#848484" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -309,21 +326,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="nnnn.nn.nn"
-                            android:textColor="#000000" />
+                            android:textColor="#848484" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="~"
-                            android:textColor="#000000" />
+                            android:textColor="#848484" />
 
                         <TextView
                             android:id="@+id/JP_PU_End"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="nnnn.nn.nn"
-                            android:textColor="#000000" />
+                            android:textColor="#848484" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -390,16 +407,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="15dp">
 
                 <LinearLayout
                     android:layout_width="167dp"
                     android:layout_height="210dp"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
-                    android:background="#E6E6E6"
+                    android:background="@drawable/button_round"
                     android:orientation="vertical">
-
                     <TextView
                         android:layout_width="36dp"
                         android:layout_height="21dp"
@@ -450,7 +467,7 @@
                 <LinearLayout
                     android:layout_width="167dp"
                     android:layout_height="210dp"
-                    android:background="#E6E6E6"
+                    android:background="@drawable/button_round"
                     android:orientation="vertical">
 
                     <TextView

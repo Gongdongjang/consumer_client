@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 //import com.example.consumer_client.cart.CartDialog;
 import com.bumptech.glide.Glide;
@@ -34,7 +35,11 @@ import com.kakao.network.callback.ResponseCallback;
 import com.kakao.util.KakaoParameterException;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,12 +75,9 @@ public class JointPurchaseActivity extends AppCompatActivity {
     JsonObject res, body;
     JsonArray md_detail, keep_date;
 //    String pay_schedule;
-    String pu_start;
-    String pu_end;
-    String user_id, store_id;
+    String pu_start, pu_end, user_id, store_id, md_end, dDay;
     JsonArray keep_data;
-    String message;
-    String store_loc;
+    String message, store_loc;
 
     //Dialog 선언
     OrderDialog orderDialog;
@@ -88,13 +90,22 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
         mContext = this;
 
+        //상단바
+        TextView up_FarmerName = (TextView)findViewById(R.id.up_FarmerName);
+        TextView up_ProdName = (TextView)findViewById(R.id.up_ProdName);
+
         //000 농부님의 000상품 단락
         ImageView MdImgThumbnail = (ImageView) findViewById(R.id.JP_MD_Img);
-        TextView FarmerName = (TextView) findViewById(R.id.FarmerName);
-        TextView MdName = (TextView) findViewById(R.id.ProdName);
+//        TextView FarmerName = (TextView) findViewById(R.id.FarmerName);
         TextView FarmName = (TextView) findViewById(R.id.JP_FarmName_Main);
+        TextView MdName = (TextView) findViewById(R.id.ProdName);
+        TextView ProdInfo = (TextView) findViewById(R.id.ProdInfo);
+        TextView Dday = (TextView) findViewById(R.id.Dday);
+        TextView MdPrice = (TextView) findViewById(R.id.setPerCost);
+        TextView PurchaseDate = (TextView) findViewById(R.id.purchaseDate);
         TextView StkRemain = (TextView) findViewById(R.id.JP_Remain_Count);
         TextView StkGoal = (TextView) findViewById(R.id.JP_Goal_Count);
+        TextView StkTotal = (TextView) findViewById(R.id.JP_TotalCount);
 //        TextView PaySchedule = (TextView) findViewById(R.id.JP_PayDate);
         TextView PuStart = (TextView) findViewById(R.id.JP_PU_Start);
         TextView PuEnd = (TextView) findViewById(R.id.JP_PU_End);
@@ -107,12 +118,11 @@ public class JointPurchaseActivity extends AppCompatActivity {
         //공유하기
         ImageView KakaoShare = (ImageView) findViewById(R.id.KakaoShare);
 
-        //제품설명 단락 + (가격추가함.)
-        ImageView MdImgDetail = (ImageView) findViewById(R.id.JP_MD_Datail_Img);
-        TextView ProdName= (TextView) findViewById(R.id.JP_ProdName);
-        TextView ProdNum= (TextView) findViewById(R.id.JP_Prod_Num);
-        TextView ProdPrice= (TextView) findViewById(R.id.JP_Prod_Price);
-
+//        //제품설명 단락 + (가격추가함.)
+//        ImageView MdImgDetail = (ImageView) findViewById(R.id.JP_MD_Datail_Img);
+//        TextView ProdName= (TextView) findViewById(R.id.ProdName);
+//        TextView ProdNum= (TextView) findViewById(R.id.JP_Prod_Num);
+//        TextView ProdPrice= (TextView) findViewById(R.id.JP_Prod_Price);
 
         //농가와 픽업 스토어 소개 단락
         ImageView FarmFileName = (ImageView) findViewById(R.id.JP_FarmIMG);
@@ -151,21 +161,34 @@ public class JointPurchaseActivity extends AppCompatActivity {
 //                        pay_schedule = res.get("pay_schedule").getAsString();
                         pu_start = res.get("pu_start").getAsString();
                         pu_end = res.get("pu_end").getAsString();
+                        md_end = res.get("md_end").getAsString();
+                        dDay = res.get("dDay").getAsString();
 
-                        Log.d("md_detail", md_detail.toString());
                         store_id = md_detail.get(0).getAsJsonObject().get("store_id").getAsString();
 
                         //스토어 위치(주문하기에서)
                         store_loc=md_detail.get(0).getAsJsonObject().get("store_loc").getAsString();
 
+                        //상단바 setText
+                        up_FarmerName.setText(md_detail.get(0).getAsJsonObject().get("farm_farmer").getAsString());
+                        up_ProdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
+
                         //000 농부님의 000상품 setText
                         Glide.with(JointPurchaseActivity.this).load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/"+md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString()).into(MdImgThumbnail);
 //                        MdImgThumbnail.setImageURI(Uri.parse(md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString()));
-                        FarmerName.setText(md_detail.get(0).getAsJsonObject().get("farm_farmer").getAsString());
-                        MdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
+//                        FarmerName.setText(md_detail.get(0).getAsJsonObject().get("farm_farmer").getAsString());
                         FarmName.setText(md_detail.get(0).getAsJsonObject().get("farm_name").getAsString());
+                        MdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
+                        MdPrice.setText(md_detail.get(0).getAsJsonObject().get("pay_price").getAsString());
+
+                        String realIf0 = dDay;
+                        if (realIf0.equals("0")) realIf0 = "day";
+
+                        Dday.setText("D - "+ realIf0);
+                        PurchaseDate.setText(md_end);
                         StkRemain.setText(md_detail.get(0).getAsJsonObject().get("stk_remain").getAsString());
                         StkGoal.setText(md_detail.get(0).getAsJsonObject().get("stk_goal").getAsString());
+                        StkTotal.setText(md_detail.get(0).getAsJsonObject().get("stk_total").getAsString());
 //                        PaySchedule.setText(pay_schedule);
                         PuStart.setText(pu_start);
                         PuEnd.setText(pu_end);
@@ -173,13 +196,13 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         //공유하기
 
 
-                        //제품설명 setText
-                        Glide.with(JointPurchaseActivity.this).load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/"+md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()).into(MdImgDetail);
-//                        MdImgDetail.setImageURI(Uri.parse(md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()));
-//                        Picasso.get().load(md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()).into(MdImgDetail);
-                        ProdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
-                        ProdNum.setText(md_detail.get(0).getAsJsonObject().get("pay_comp").getAsString());
-                        ProdPrice.setText(md_detail.get(0).getAsJsonObject().get("pay_price").getAsString());
+//                        //제품설명 setText
+//                        Glide.with(JointPurchaseActivity.this).load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/"+md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()).into(MdImgDetail);
+////                        MdImgDetail.setImageURI(Uri.parse(md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()));
+////                        Picasso.get().load(md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()).into(MdImgDetail);
+//                        ProdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
+//                        ProdNum.setText(md_detail.get(0).getAsJsonObject().get("pay_comp").getAsString());
+//                        ProdPrice.setText(md_detail.get(0).getAsJsonObject().get("pay_price").getAsString());
 
                         //농가와 픽업스토어 setText
                         FarmName2.setText(md_detail.get(0).getAsJsonObject().get("farm_name").getAsString());
@@ -327,7 +350,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
         Order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                orderDialog = new OrderDialog(mContext, (String) MdName.getText(),(String) ProdNum.getText(), (String) ProdPrice.getText()
+                orderDialog = new OrderDialog(mContext, (String) MdName.getText(), (String) MdPrice.getText()
                         , (String) StkRemain.getText(), pu_start, pu_end, (String) StoreName.getText(),
                         store_id, store_loc, user_id, md_id);
                 //orderDialog = new OrderDialog(mContext,md_detail.get(0).getAsJsonObject().get("md_name").getAsString(),pu_start,pu_end);

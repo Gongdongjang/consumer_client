@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <Button
-                android:id="@+id/Cart_GoCart"
+                android:id="@+id/MPD_Cancel"
                 android:layout_gravity="left"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
-                android:id="@+id/Cart_GoShopping"
+                android:id="@+id/MPD_Exit"
                 android:layout_gravity="right"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
@@ -57,6 +57,7 @@
                 android:layout_marginBottom="7dp"
                 android:backgroundTint="#1EAA95"
                 android:text="그만하기"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </LinearLayout>

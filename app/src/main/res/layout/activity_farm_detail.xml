@@ -223,17 +223,6 @@
                 android:text="가지 공동구매를 진행 중입니다."
                 android:textColor="#A3A3A3" />
 
-            <TextView
-                android:id="@+id/PurchaseAll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="90dp"
-                android:padding="6dp"
-                android:text="전체 보기 >"
-                android:textColor="#848484"
-                android:textSize="10dp"
-                android:textStyle="bold" />
-
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
