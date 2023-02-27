@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.consumer_client.MainActivity;
@@ -44,10 +45,10 @@ import java.io.IOException;
 
 interface IntegratedLoginService {
 
-    @POST("kakaoLogin")
+    @POST("kakaoLogin/")
     Call<ResponseBody> kakaoLogin(@Body JsonObject body);
 
-    @POST("/googleLogin")
+    @POST("googleLogin/")
     Call<ResponseBody> userGoogleLogin(@Body JsonObject body);
 }
 
@@ -64,7 +65,7 @@ public class IntegratedLoginActivity extends AppCompatActivity {
     Button loginbutton, signupBtn;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_integrated_login);
 
