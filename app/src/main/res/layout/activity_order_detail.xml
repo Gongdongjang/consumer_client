@@ -14,205 +14,299 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="최종 주문 내역"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="@color/black"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="주문 내역을 확인해주세요."
-            android:textSize="15sp"
-            android:gravity="left"
-            android:textColor="@color/black"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/OrderRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="픽업 내역"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="@color/black"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="픽업 스토어 명"
-                    android:textColor="@color/black"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="픽업 스토어 주소"
-                    android:textColor="@color/black"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="픽업 날짜"
-                    android:textColor="@color/black"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/OrderStoreName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="스토어명"
-                    android:textColor="@color/black"/>
-                <TextView
-                    android:id="@+id/OrderStoreAddr"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="서울특별시 성북구 동소문로"
-                    android:textColor="@color/black"/>
-                <TextView
-                    android:id="@+id/OrderPickUpDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2021.9.10 10:00"
-                    android:textColor="@color/black"/>
-            </LinearLayout>
-        </LinearLayout>
-        <RelativeLayout
-            android:id="@+id/farm_map_view"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginBottom="15dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="주문 진행 상황"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="@color/black"/>
+            android:textSize="14sp"
+            android:textColor="#151515"/>
+        <TextView
+            android:id="@+id/order_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="픽업 예정일/ 픽업완료"
+            android:textSize="12sp"
+            android:layout_marginTop="8dp"
+            android:gravity="left"
+            android:textColor="#1EAA95"/>
+
+        <ImageView
+            android:layout_marginTop="26dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/order_status_bar">
+        </ImageView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-10dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/order_status1"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+
+                android:layout_marginLeft="13dp"
+                android:background="@drawable/order_status_on">
+            </ImageView>
+            <ImageView
+                android:id="@+id/order_status2"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="48dp"
+                android:background="@drawable/order_status_on">
+            </ImageView>
+            <ImageView
+                android:id="@+id/order_status3"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="48dp"
+                android:background="@drawable/order_status_on">
+            </ImageView>
+            <ImageView
+                android:id="@+id/order_status4"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="48dp"
+                android:background="@drawable/order_status_on">
+            </ImageView>
+            <ImageView
+                android:id="@+id/order_status5"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="48dp"
+                android:background="@drawable/order_status_on">
+            </ImageView>
+            <ImageView
+                android:id="@+id/order_status6"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="48dp"
+                android:background="@drawable/order_status_on">
+            </ImageView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:id="@+id/txt_order_status1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="공동구매 중"
+                android:textSize="10sp"
+                android:textColor="#A3A3A3"/>
+            <TextView
+                android:id="@+id/txt_order_status2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="공동구매 완료"
+                android:textSize="10sp"
+                android:layout_marginLeft="11dp"
+                android:textColor="#A3A3A3"/>
+            <TextView
+                android:id="@+id/txt_order_status3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="상품 준비 중"
+                android:textSize="10sp"
+                android:layout_marginLeft="10dp"
+                android:textColor="#A3A3A3"/>
+            <TextView
+                android:id="@+id/txt_order_status4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="배송 중"
+                android:textSize="10sp"
+                android:layout_marginLeft="25dp"
+                android:textColor="#A3A3A3"/>
+            <TextView
+                android:id="@+id/txt_order_status5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="스토어 도착"
+                android:textSize="10sp"
+                android:layout_marginLeft="26dp"
+                android:textColor="#A3A3A3"/>
+            <TextView
+                android:id="@+id/txt_order_status6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="픽업 완료"
+                android:textSize="10sp"
+                android:layout_marginLeft="23dp"
+                android:textColor="#A3A3A3" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/img_gray_bar"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="주문하신 제품은 어떠셨나요? 이제 리뷰 작성도 가능해요."
-            android:textSize="15sp"
-            android:gravity="left"
-            android:layout_marginBottom="30dp"
-            android:textColor="@color/black"/>
+            android:text="제품 정보"
+            android:textColor="#151515"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="28dp"
-                android:text="공동구매중"
-                android:textSize="10sp"
-                android:textColor="@color/black"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="공동구매 완료"
-                android:textSize="10sp"
-                android:textColor="@color/black"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="상품 준비중"
-                android:textSize="10sp"
-                android:textColor="@color/black"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="스토어 도착"
-                android:textSize="10sp"
-                android:textColor="@color/black"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:text="픽업 완료"
-                android:textSize="10sp"
-                android:textColor="@color/black"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="5dp"
-                android:background="#979797"
-                android:layout_gravity="center"/>
-            <ImageView
-                android:id="@+id/Lv1_JointPurchasing"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/ic_baseline_circle_24"/>
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="5dp"
-                android:background="#979797"
-                android:layout_gravity="center"/>
-            <ImageView
-                android:id="@+id/Lv2_JointPurchaseComplete"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/ic_baseline_circle_24"/>
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="5dp"
-                android:background="#979797"
-                android:layout_gravity="center"/>
-            <ImageView
-                android:id="@+id/Lv3_PreparingProd"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/ic_baseline_circle_24"/>
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="5dp"
-                android:background="#979797"
-                android:layout_gravity="center"/>
-            <ImageView
-                android:id="@+id/Lv4_ArriveStore"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/ic_baseline_circle_24"/>
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="5dp"
-                android:background="#979797"
-                android:layout_gravity="center"/>
-            <ImageView
-                android:id="@+id/Lv5_PickUpComplete"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/ic_baseline_circle_24"/>
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="5dp"
-                android:background="#979797"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-
-        <Button
-            android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="문의하기\n(취소 / 교환 / 반품)"
-            android:textColor="@color/black"/>
+            android:gravity="center_vertical"
+            android:layout_marginTop="15dp"
+            android:padding="10dp"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ClientOrderProdIMG"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/ic_launcher_background"
+                android:layout_gravity="top"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/OrderStoreName0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="스토어 명"
+                    android:textColor="#848484"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/JP_ProdName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="제품명"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#151515"
+                    android:textSize="14sp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="6dp">
+                        <TextView
+                            android:id="@+id/ClientOrderCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="n세트"
+                            android:textSize="12sp"
+                            android:textColor="#151515"/>
+                    <TextView
+                        android:id="@+id/ClientOrderPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20000원"
+                        android:layout_marginLeft="8dp"
+                        android:textColor="#151515"
+                        android:textSize="12sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--        <Button-->
+        <!--            android:id="@+id/ReviewBtn"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="30dp"-->
+        <!--            android:text="리뷰 작성하기"-->
+        <!--            android:textColor="@color/black" />-->
+
+        <Button
+            android:id="@+id/btn_orderDetail"
+            android:layout_width="368dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:textColor="#1EAA95"
+            android:textStyle="bold"
+            android:backgroundTint="@color/white"
+            android:visibility="gone"
+            android:text="리뷰 작성/ 주문 취소" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/img_gray_bar"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="픽업 장소"
+            android:textColor="#151515"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/OrderStoreName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="스토어 명"
+            android:layout_marginTop="10dp"
+            android:textColor="#444444"
+            android:textSize="14sp"
+            />
+
+        <TextView
+            android:id="@+id/OrderStoreAddr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="스토어 상세위치 "
+            android:textColor="#A3A3A3"
+            android:textSize="12sp"
+            android:layout_marginTop="2dp"
+            />
+
+        <RelativeLayout
+            android:layout_marginTop="8dp"
+            android:id="@+id/store_map_view"
+            android:layout_width="match_parent"
+            android:layout_height="161dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/img_gray_bar"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="문의하기"
+            android:textColor="#151515"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"/>
+
+        <Button
+            android:id="@+id/CustomerCenter"
+            android:layout_width="368dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:backgroundTint="#1EAA95"
+            android:text="고객센터 연결\n(취소/교환/반품)" />
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

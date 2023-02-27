@@ -1,15 +1,17 @@
-package com.example.consumer_client.farm;
+package com.example.consumer_client.md;
 
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class FarmDetailInfo {
+public class MdDetailInfo {
     private String prodImg;
     private String farmName;
     private String prodName;
     private String storeName;
-    private String paySchedule;
     private String puTerm;
+    private String mdPrice;
+    private String dDay;
+    private String puTime;
 
     public String getFarmName() {
         return farmName;
@@ -33,12 +35,6 @@ public class FarmDetailInfo {
         this.storeName = storeName;
     }
 
-    public String getPaySchedule() {
-        return paySchedule;
-    }
-
-    public void setPaySchedule(String paySchedule) {this.paySchedule = paySchedule;}
-
     public String getPuTerm() {
         return puTerm;
     }
@@ -53,6 +49,30 @@ public class FarmDetailInfo {
 
     public void setProdImg(String prodImg) {
         this.prodImg = prodImg;
+    }
+
+    public String getMdPrice() {
+        return mdPrice;
+    }
+
+    public void setMdPrice(String mdPrice) {
+        this.mdPrice = mdPrice;
+    }
+
+    public String getDday() {
+        return dDay;
+    }
+
+    public void setDday(String dDay) {
+        this.dDay = dDay;
+    }
+
+    public String getPuTime() {
+        return puTime;
+    }
+
+    public void setPuTime(String puTime) {
+        this.puTime = puTime;
     }
 
 }

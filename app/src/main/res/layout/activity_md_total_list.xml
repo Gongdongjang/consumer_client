@@ -26,9 +26,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:id="@+id/totalFarmView"
+            android:id="@+id/totalOrderListView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 </LinearLayout>

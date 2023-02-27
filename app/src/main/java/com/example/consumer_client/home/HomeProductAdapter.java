@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.consumer_client.R;
 
 import java.util.ArrayList;
@@ -27,9 +28,11 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView md_id;
         ImageView imgView_item;
         TextView txt_main;
         TextView txt_sub;
+        TextView txt_distance, mdPrice, dDay, puTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -37,17 +40,23 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
             // 아이템 클릭 이벤트 처리.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v) {   //md_id 저장
                     int pos = getAdapterPosition() ;
                     if (pos != RecyclerView.NO_POSITION) {
                         mListener.onItemClick(v,pos);
                     }
+
                 }
             });
 
+            md_id=(TextView) itemView.findViewById(R.id.homeMdId);
             imgView_item = (ImageView) itemView.findViewById(R.id.homeProdImg_item);
             txt_main = (TextView) itemView.findViewById(R.id.homeProdName_item);
             txt_sub = (TextView) itemView.findViewById(R.id.homeProdEx_item);
+            txt_distance=(TextView) itemView.findViewById(R.id.storeLocationFromMe);
+            mdPrice = (TextView) itemView.findViewById(R.id.homeProdPrice); //세트별 가격
+            dDay = (TextView) itemView.findViewById(R.id.dDay); //d-day
+            puTime = (TextView)itemView.findViewById(R.id.StoreProdDate);
         }
     }
 
@@ -74,10 +83,14 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     @Override
     public void onBindViewHolder(@NonNull HomeProductAdapter.ViewHolder holder, int position) {
         HomeProductItem item = mList.get(position);
-
-        holder.imgView_item.setImageResource(R.drawable.ic_launcher_background);   // 사진 없어서 기본 파일로 이미지 띄움
+        holder.md_id.setText(item.getHomeMdId());
+        Glide.with(holder.itemView).load(item.getHomeProdImg()).into(holder.imgView_item);
         holder.txt_main.setText(item.getHomeProdName());
         holder.txt_sub.setText(item.getHomeProdEx());
+        holder.txt_distance.setText(item.getHomeDistance());
+        holder.mdPrice.setText(item.getHomeMdPrice());
+        holder.dDay.setText(item.getHomeDday());
+        holder.puTime.setText(item.getHomePuTime());
     }
 
     @Override

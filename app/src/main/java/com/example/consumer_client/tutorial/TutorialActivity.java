@@ -41,7 +41,7 @@ public class TutorialActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tutorial);
 
         Intent intent = getIntent(); //intent 값 받기
-        String userid=intent.getStringExtra("userid");
+        String userid=intent.getStringExtra("user_id");
 
         viewPager = findViewById(R.id.view_pager);
         dotsLayout = findViewById(R.id.layoutDots);
@@ -73,7 +73,8 @@ public class TutorialActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent i = new Intent(TutorialActivity.this, FindTownActivity.class);
-                i.putExtra("userid",userid);
+                i.putExtra("user_id",userid);
+                i.putExtra("first_time","yes");
                 startActivity(i);
                 finish();
             }
@@ -92,7 +93,8 @@ public class TutorialActivity extends AppCompatActivity {
                 else {
                     // 마지막 페이지라면 메인페이지로 이동
                     Intent i = new Intent(TutorialActivity.this, FindTownActivity.class);
-                    i.putExtra("userid",userid);
+                    i.putExtra("user_id",userid);
+                    i.putExtra("first_time","yes");
                     startActivity(i);
                     finish();
                 }

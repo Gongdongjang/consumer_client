@@ -8,10 +8,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.consumer_client.MainActivity;
@@ -20,7 +22,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.JsonObject;
@@ -42,60 +43,48 @@ import retrofit2.http.POST;
 
 import java.io.IOException;
 
-interface LoginService {
-    @POST("login")
-    Call<ResponseBody> login(@Body JsonObject body);
+interface IntegratedLoginService {
 
-    @POST("kakaoLogin")
+    @POST("kakaoLogin/")
     Call<ResponseBody> kakaoLogin(@Body JsonObject body);
 
-    @POST("/googleLogin")
+    @POST("googleLogin/")
     Call<ResponseBody> userGoogleLogin(@Body JsonObject body);
 }
 
-public class LoginActivity extends AppCompatActivity {
+public class IntegratedLoginActivity extends AppCompatActivity {
 
-    LoginService service;
+    IntegratedLoginService service;
     JsonParser jsonParser;
 
-    TextView sign;
     private static final String TAG="사용자";
-    private TextView signup; //회원가입 창으로 가는 텍스트
-    private Button loginbutton;
-    private Button kakaobutton;
-    private ProgressBar mProgressView;
-    private EditText id;
-    private EditText password;
-    private Button registerButton;
+    private ImageButton kakaobutton, google_sign_in_button;
     private GoogleSignInClient mGoogleSignInClient;
-    private SignInButton google_sign_in_button;
+//    private SignInButton google_sign_in_button;
     private final int RC_SIGN_IN = 1;
+    Button loginbutton, signupBtn;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_integrated_login);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseurl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        service = retrofit.create(LoginService.class);
+        service = retrofit.create(IntegratedLoginService.class);
         jsonParser = new JsonParser();
 
-        //회원가입 버튼
-        sign = findViewById(R.id.signin);
-        loginbutton = (Button) findViewById(R.id.loginbutton);
-        kakaobutton= (Button) findViewById(R.id.kakaobutton);
-        signup = findViewById(R.id.signin); //회원가입
+        loginbutton = findViewById(R.id.loginbutton);
+        kakaobutton= findViewById(R.id.kakaobutton);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        google_sign_in_button = findViewById(R.id.sign_in_button);
-        google_sign_in_button.setSize(SignInButton.SIZE_STANDARD);
+        google_sign_in_button = findViewById(R.id.googleBtn);
 
         //구글 로그인
         google_sign_in_button.setOnClickListener(new View.OnClickListener() {
@@ -105,23 +94,24 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //기본로그인
+        //기본 로그인
         loginbutton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                login();
-                tryLogin();
-            }
-        });
-
-        //회원가입 텍스트 누르면 회원가입 창으로
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                Intent intent = new Intent(IntegratedLoginActivity.this, StandardLoginActivity.class);
                 startActivity(intent);
             }
         });
+
+        signupBtn = findViewById(R.id.signupBtn);
+        signupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(IntegratedLoginActivity.this, AccountInfoActivity.class);
+                startActivity(intent);
+            }
+        });
+
         //네이버
 
         //간편로그인(카카오)
@@ -141,12 +131,10 @@ public class LoginActivity extends AppCompatActivity {
                                 String username=user.getKakaoAccount().getProfile().getNickname();
                                 String nickname= user.getKakaoAccount().getProfile().getNickname();
                                 String refresh_token= oAuthToken.getRefreshToken();
-                                String gender= String.valueOf(user.getKakaoAccount().getGender()); //성별받기
                                 //String email=user.getKakaoAccount().getEmail();
 
                                 Log.i(TAG, "username " + username); // 유저의 고유 아이디를 불러옵니다.
                                 Log.i(TAG, "invoke: nickname=" + user.getKakaoAccount().getProfile().getNickname()); // 유저의 닉네임을 불러옵니다.
-                                Log.i(TAG, "gender " + gender);
 
                                 Log.d("id1",userid);
                                 JsonObject body = new JsonObject();
@@ -155,7 +143,6 @@ public class LoginActivity extends AppCompatActivity {
                                 body.addProperty("nickname", nickname);
                                 body.addProperty("sns_type", "kakao");
                                 body.addProperty("refresh_token", refresh_token);
-                                body.addProperty("gender", gender);
 
                                 Call<ResponseBody> call = service.kakaoLogin(body);
 
@@ -212,102 +199,15 @@ public class LoginActivity extends AppCompatActivity {
         kakaobutton = findViewById(R.id.kakaobutton); //
         kakaobutton.setOnClickListener(new View.OnClickListener() {//로그인 버튼 클릭 시
             @Override public void onClick(View v) {
-                if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)) {
+                if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(IntegratedLoginActivity.this)) {
                     // 카카오톡이 있을 경우?
-                    UserApiClient.getInstance().loginWithKakaoTalk(LoginActivity.this, callback);
+                    UserApiClient.getInstance().loginWithKakaoTalk(IntegratedLoginActivity.this, callback);
                 } else { //카카오톡 없으면 카카오계정으로
-                    UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callback);
+                    UserApiClient.getInstance().loginWithKakaoAccount(IntegratedLoginActivity.this, callback);
                 }
             }
         });
 
-    }
-
-    //기본 로그인
-    void login() {
-        id = (EditText) findViewById(R.id.editID);
-        password = (EditText) findViewById(R.id.editPassword);
-        JsonObject body = new JsonObject();
-        body.addProperty("id", id.getText().toString());
-        body.addProperty("password", password.getText().toString());
-
-        Call<ResponseBody> call = service.login(body);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                Log.d("261", response.toString());
-                if (response.isSuccessful()) {
-                    try {
-                        JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
-                        String access_token = res.get("access_token").getAsString();
-                        if (access_token.equals("id_false")) {
-                            Toast toast = Toast.makeText(getApplicationContext(), "아이디를 확인해주세요.", Toast.LENGTH_LONG);
-                            toast.show();
-                        } else if (access_token.equals("pwd_false")) {
-                            Toast toast = Toast.makeText(getApplicationContext(), "비밀번호를 확인해주세요.", Toast.LENGTH_LONG);
-                            toast.show();
-                        } else {
-                            String refresh_token = res.get("refresh_token").getAsString();
-                            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("access_token", access_token).apply();
-                            editor.putString("refresh_token", refresh_token).apply();
-                            //m으로
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.putExtra("generalid",res.get("id").getAsString());
-                            startActivity(intent);
-                        }
-                        Log.d(TAG, res.get("access_token").getAsString());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else {
-                    try {
-                        Log.d(TAG, "Fail " + response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e(TAG, "onFailure: e " + t.getMessage());
-            }
-        });
-    }
-
-    //함수정리
-    private void tryLogin() {
-        id.setError(null);
-        password.setError(null);
-
-        String uid = id.getText().toString();
-        String upw = password.getText().toString();
-
-        boolean cancel = false;
-        View focusView = null;
-
-        // 아이디의 유효성 검사
-        if (uid.isEmpty()) {
-            id.setError("아이디를 입력해주세요.");
-            focusView = id;
-            cancel = true;
-        }
-
-        // 패스워드의 유효성 검사
-        if (upw.isEmpty()) {
-            password.setError("비밀번호를 입력해주세요.");
-            focusView = password;
-            cancel = true;
-        }
-
-        if (cancel) {
-            focusView.requestFocus();
-        } else {
-            //startLogin(new LoginData(uid, upw));
-        }
     }
 
     //카카오 키해시얻기
@@ -376,7 +276,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         try{
                             JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-                            Toast.makeText(LoginActivity.this, res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(IntegratedLoginActivity.this, res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
 
                             //로그인 버튼 클릭시, 메인 페이지로 이동
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -391,7 +291,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Toast.makeText(LoginActivity.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(IntegratedLoginActivity.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();
                     Log.e("로그인 에러 발생", t.getMessage());
                 }
             });

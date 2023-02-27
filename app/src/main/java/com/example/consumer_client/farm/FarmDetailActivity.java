@@ -5,26 +5,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.R;
+import com.example.consumer_client.md.MdDetailInfo;
+import com.example.consumer_client.md.MdListMainActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import net.daum.mf.map.api.MapPOIItem;
-import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapView;
-
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -46,15 +46,16 @@ public class FarmDetailActivity extends AppCompatActivity {
     FarmDetailService service;
     JsonParser jsonParser;
     JsonObject res;
-    JsonArray farmArray, mdArray, pay_schedule, pu_start, pu_end;
-    String farm_id, farm_name, farm_info, farm_loc, farm_hours;
-    Double farm_lat, farm_long;
+    JsonArray farmArray, mdArray, pu_start, dDay;
+    String farm_id, farm_name, farmer_name, farm_info, farm_loc, farm_main_item, farm_phone, md_price;
 
     private RecyclerView mRecyclerView;
-    private ArrayList<FarmDetailInfo> mList;
+    private ArrayList<MdDetailInfo> mList;
     private FarmDetailAdapter mFarmDetailAdapter;
 
     Context mContext;
+
+    String user_id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,15 +73,19 @@ public class FarmDetailActivity extends AppCompatActivity {
         mContext = this;
 
         TextView FarmName = (TextView) findViewById(R.id.FarmName);
+        TextView UpFarmerName = (TextView) findViewById(R.id.farm_up_FarmerName);
+        TextView FarmerName = (TextView) findViewById(R.id.FarmerName);
+        TextView UpFarmName = (TextView) findViewById(R.id.farm_up_FarmName);
         TextView FarmExplain = (TextView) findViewById(R.id.FarmExplain);
         TextView FarmLocation = (TextView) findViewById(R.id.FarmLocation);
-        TextView FarmHourTime = (TextView) findViewById(R.id.FarmHourTime);
-        TextView FarmJointPurchaseCount = (TextView) findViewById(R.id.FarmJointPurchaseCount);
+        TextView FarmMainItem = (TextView) findViewById(R.id.FarmMainItem);
+        TextView FarmPhone = (TextView) findViewById(R.id.FarmPhone);
+        TextView FarmPurchaseCount = (TextView) findViewById(R.id.FarmPurchaseCount);
 
-        //intent로 값 넘길때
         Intent intent;
-        intent=getIntent(); //intent 값 받기
+        intent=getIntent();
 
+        user_id=intent.getStringExtra("user_id");
         farm_id = intent.getStringExtra("farm_id");
 
         JsonObject body = new JsonObject();
@@ -98,57 +103,28 @@ public class FarmDetailActivity extends AppCompatActivity {
                         //farm 정보
                         farmArray = res.get("farm_data").getAsJsonArray();
                         farm_name = farmArray.get(0).getAsJsonObject().get("farm_name").getAsString();
+                        farmer_name = farmArray.get(0).getAsJsonObject().get("farm_farmer").getAsString();
                         farm_info = farmArray.get(0).getAsJsonObject().get("farm_info").getAsString();
                         farm_loc = farmArray.get(0).getAsJsonObject().get("farm_loc").getAsString();
-                        farm_lat = farmArray.get(0).getAsJsonObject().get("farm_lat").getAsDouble();
-                        farm_long = farmArray.get(0).getAsJsonObject().get("farm_long").getAsDouble();
-                        farm_hours = farmArray.get(0).getAsJsonObject().get("farm_hours").getAsString();
+                        farm_main_item = farmArray.get(0).getAsJsonObject().get("farm_mainItem").getAsString();
+                        farm_phone = farmArray.get(0).getAsJsonObject().get("farm_phone").getAsString();
 
                         //md 정보
                         mdArray = res.get("md_data").getAsJsonArray();
-                        pay_schedule = res.get("pay_schedule").getAsJsonArray();
+
+                        //pu_start
                         pu_start = res.get("pu_start").getAsJsonArray();
-                        pu_end = res.get("pu_end").getAsJsonArray();
+                        dDay = res.get("dDay").getAsJsonArray();
 
                         FarmName.setText(farm_name);
+                        UpFarmName.setText(farm_name);
+                        FarmerName.setText(farmer_name);
+                        UpFarmerName.setText(farmer_name);
                         FarmExplain.setText(farm_info);
                         FarmLocation.setText(farm_loc);
-                        FarmHourTime.setText(farm_hours);
-                        FarmJointPurchaseCount.setText(String.valueOf(mdArray.size()));
-
-                        //지도
-                        MapView mapView = new MapView(mContext);
-                        // 중심점 변경
-                        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(farm_lat, farm_long), true);
-
-                        // 줌 레벨 변경
-                        mapView.setZoomLevel(1, true);
-                        // 줌 인
-                        mapView.zoomIn(true);
-                        // 줌 아웃
-                        mapView.zoomOut(true);
-
-                        ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.farm_map_view);
-                        mapViewContainer.addView(mapView);
-
-                        //농가위치 마커 아이콘 띄우기
-                        MapPoint f_MarkPoint = MapPoint.mapPointWithGeoCoord(farm_lat, farm_long);  //마커찍기
-
-                        MapPOIItem farm_marker=new MapPOIItem();
-                        farm_marker.setItemName(farm_name); //클릭했을때 농가이름 나오기
-                        farm_marker.setTag(0);
-                        farm_marker.setMapPoint(f_MarkPoint);   //좌표입력받아 현위치로 출력
-
-                        //  (클릭 전)기본으로 제공하는 BluePin 마커 모양의 색.
-                        farm_marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-                        // (클릭 후) 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-                        farm_marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-                        // 지도화면 위에 추가되는 아이콘을 추가하기 위한 호출(말풍선 모양)
-                        mapView.addPOIItem(farm_marker);
-
-                        //나중에 농가위치 마커 커스텀 이미지로 바꾸기
-                        //farm_marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-                        //farm_marker.setCustomImageResourceId(R.drawable.homeshape);
+                        FarmMainItem.setText(farm_main_item);
+                        FarmPhone.setText(farm_phone);
+                        FarmPurchaseCount.setText(String.valueOf(mdArray.size()));
 
                         //세부 페이지1 (진행 중인 공동구매) 리사이클러뷰 띄우게하기
                         firstInit();
@@ -162,15 +138,22 @@ public class FarmDetailActivity extends AppCompatActivity {
                         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         mRecyclerView.setLayoutManager(linearLayoutManager);
 
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(FarmDetailActivity.this, 2, GridLayoutManager.VERTICAL, true);
+                        mRecyclerView.setLayoutManager(gridLayoutManager);
+
                         for(int i=0;i<mdArray.size();i++){
-                            addFarmJointPurchase(farm_name, mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), mdArray.get(i).getAsJsonObject().get("store_name").getAsString(), pay_schedule.get(i).getAsString(), pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
+                            String realIf0 = dDay.get(i).getAsString();
+                            if (realIf0.equals("0")) realIf0 = "day";
+
+                            addFarmJointPurchase("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + mdArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(), mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), mdArray.get(i).getAsJsonObject().get("store_name").getAsString(), mdArray.get(i).getAsJsonObject().get("pay_price").getAsString(), "D - " + realIf0,  pu_start.get(i).getAsString());
                         }
+
                         mFarmDetailAdapter.setOnItemClickListener(
                             new FarmDetailAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(FarmDetailActivity.this, JointPurchaseActivity.class);
-
+                                    intent.putExtra("user_id", user_id);
                                     intent.putExtra("md_id", mdArray.get(pos).getAsJsonObject().get("md_id").getAsString());
 
                                     startActivity(intent);
@@ -199,19 +182,20 @@ public class FarmDetailActivity extends AppCompatActivity {
     }
 
     public void firstInit(){
-        mRecyclerView = findViewById(R.id.FarmJointPurchaseView);
+        mRecyclerView = findViewById(R.id.FarmPurchaseView);
         mList = new ArrayList<>();
     }
 
-    public void addFarmJointPurchase(String farmName, String prodName, String storeName, String paySchedule, String puTerm){
-        FarmDetailInfo farmDetail = new FarmDetailInfo();
+    public void addFarmJointPurchase(String prodImgName, String prodName, String storeName, String mdPrice, String dDay, String puTime){
+        MdDetailInfo mdDetail = new MdDetailInfo();
 
-        farmDetail.setFarmName(farmName);
-        farmDetail.setProdName(prodName);
-        farmDetail.setStoreName(storeName);
-        farmDetail.setPaySchedule(paySchedule);
-        farmDetail.setPuTerm(puTerm);
-
-        mList.add(farmDetail);
+        mdDetail.setProdImg(prodImgName);
+        mdDetail.setProdName(prodName);
+        mdDetail.setStoreName(storeName);
+        mdDetail.setMdPrice(mdPrice);
+        mdDetail.setDday(dDay);
+        // 미터 및 픽업 예정일 추가해야돼
+        mdDetail.setPuTime(puTime);
+        mList.add(mdDetail);
     }
 }

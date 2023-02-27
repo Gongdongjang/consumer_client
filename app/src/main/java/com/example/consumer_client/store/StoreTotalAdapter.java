@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.consumer_client.R;
 
 import java.util.ArrayList;
@@ -32,10 +33,7 @@ public class StoreTotalAdapter extends RecyclerView.Adapter<StoreTotalAdapter.Vi
         ImageView storeProdImgView;
         TextView storeName;
         TextView storeLocationFromMe;
-        TextView storeInfo;
-        TextView storeRestDays;
-        TextView storeHours;
-
+        TextView storeInfo, storeProdName, storProdPrice, storeProdDate;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             // 아이템 클릭 이벤트 처리.
@@ -52,11 +50,12 @@ public class StoreTotalAdapter extends RecyclerView.Adapter<StoreTotalAdapter.Vi
             });
             storeid=(TextView) itemView.findViewById(R.id.StoreID);
             storeProdImgView = (ImageView) itemView.findViewById(R.id.StoreProdImg);
-            storeName = (TextView) itemView.findViewById(R.id.StoreName);
             storeLocationFromMe = (TextView) itemView.findViewById(R.id.StoreLocationFromMe);
+            storeName = (TextView) itemView.findViewById(R.id.StoreName);
             storeInfo = (TextView) itemView.findViewById(R.id.StoreInfo);
-            storeRestDays = (TextView) itemView.findViewById(R.id.StoreRestDays);
-            storeHours = (TextView) itemView.findViewById(R.id.StoreHours);
+            storeProdName = (TextView) itemView.findViewById(R.id.StoreProdName);
+            storProdPrice = (TextView) itemView.findViewById(R.id.StoreProdPrice);
+            storeProdDate = (TextView) itemView.findViewById(R.id.StoreProdDate);
         }
     }
 
@@ -83,12 +82,13 @@ public class StoreTotalAdapter extends RecyclerView.Adapter<StoreTotalAdapter.Vi
         StoreTotalInfo item = mList.get(position);
 
         holder.storeid.setText(item.getStoreid());
-        holder.storeProdImgView.setImageResource(R.drawable.ic_launcher_background);
+        Glide.with(holder.itemView).load(item.getStoreProdImgView()).into(holder.storeProdImgView);
         holder.storeName.setText(item.getStoreName());
         holder.storeLocationFromMe.setText(item.getStoreLocationFromMe());
         holder.storeInfo.setText(item.getStoreInfo());
-        holder.storeRestDays.setText(item.getStoreRestDays());
-        holder.storeHours.setText(item.getStoreHours());
+        holder.storeProdName.setText(item.getStoreProdName());
+        holder.storProdPrice.setText(item.getStoreProdPrice());
+        holder.storeProdDate.setText(item.getStoreProdDate());
     }
 
     @Override

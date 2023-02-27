@@ -1,7 +1,9 @@
 package com.example.consumer_client;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -9,17 +11,58 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+
+
+import com.example.consumer_client.address.FindTownActivity;
+import com.example.consumer_client.cart.CartListActivity;
 
 import com.example.consumer_client.fragment.Home;
 import com.example.consumer_client.fragment.Keep;
 import com.example.consumer_client.fragment.MyPage;
 import com.example.consumer_client.fragment.Order;
 import com.example.consumer_client.fragment.TotalList;
+import com.example.consumer_client.md.MdListMainActivity;
 import com.example.consumer_client.tutorial.TutorialActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+
+interface AddresssService {
+    @POST("standard_address/getStdAddress")
+    Call<ResponseBody> getStdAddress(@Body JsonObject body);  //post user_id
+}
 
 public class MainActivity extends AppCompatActivity {
+
+    JsonParser jsonParser;
+    AddresssService service;
+
+    JsonObject res;
+    JsonArray jsonArray;
 
     private BottomNavigationView bottomNavigation;
     private FragmentManager fm;
@@ -29,24 +72,46 @@ public class MainActivity extends AppCompatActivity {
     private Home frag3;
     private Order frag4;
     private MyPage frag5;
+    private TextView change_address;
+    private ImageView toolbar_cart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.baseurl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        service = retrofit.create(AddresssService.class);
+        jsonParser = new JsonParser();
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //상단바 지정
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);    //기본 제목을 없애줍니다.
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent(); //intent 값 받기
 
+//        String standard_address;
+//        String address=intent.getStringExtra("standard_address");
+//        if(address != null) address="현재위치";
+//        else address= standard_address;
+
         //유저id 받기
-        String userid;
+        String user_id;
         String generalid = intent.getStringExtra("generalid");
         String kakaoid = intent.getStringExtra("kakaoid");
         String googleid = intent.getStringExtra("googleid");
 
-        if(generalid != null) userid=generalid;
-        else if(kakaoid !=null) userid=kakaoid;
-        else if(googleid !=null) userid=googleid;
-        else userid=intent.getStringExtra("userid");    //첫 튜토리얼시 findtown에서 넘어온 userid
+        if(generalid != null) user_id=generalid;
+        else if(kakaoid !=null) user_id=kakaoid;
+        else if(googleid !=null) user_id=googleid;
+        else user_id=intent.getStringExtra("user_id");    //첫 튜토리얼시 findtown에서 넘어온 + EditTownActivity에서 넘어온
 
         // 최초 실행 여부를 판단 ->>>
         SharedPreferences pref = getSharedPreferences("checkFirst", Activity.MODE_PRIVATE);
@@ -61,15 +126,39 @@ public class MainActivity extends AppCompatActivity {
             finish();
 
             intent = new Intent(MainActivity.this, TutorialActivity.class);
-            intent.putExtra("userid",userid);
+            intent.putExtra("user_id",user_id);
             startActivity(intent);
         } else{
            //최초 로그인 아닐때
-           intent.putExtra("userid",userid);
+           intent.putExtra("user_id",user_id);
        }
 
-        bottomNavigation = findViewById(R.id.bottom_navi);
+        //===기준 주소정보
+        JsonObject body = new JsonObject();
+        body.addProperty("id", user_id);
 
+        Call<ResponseBody> call = service.getStdAddress(body);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                try {
+                    res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
+                    JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
+                    String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
+                    change_address.setText(standard_address);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "기준 주소 정보 받기 에러 발생", Toast.LENGTH_SHORT).show();
+                Log.e("주소정보", t.getMessage());
+            }
+        });
+
+        bottomNavigation = findViewById(R.id.bottom_navi);
         bottomNavigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -107,6 +196,30 @@ public class MainActivity extends AppCompatActivity {
 
                 setFrag(2); // 첫 프래그먼트 화면을 무엇으로 지정해줄 것인지 선택
 
+        // 지역명
+        //상단바 주소변경 누르면 주소변경/선택 페이지로
+        change_address = findViewById(R.id.change_address);
+        change_address.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(MainActivity.this, FindTownActivity.class);
+                intent.putExtra("user_id", user_id);
+                intent.putExtra("first_time", "no");
+                startActivity(intent);
+            }
+        });
+
+        //상단바 장바구니
+        toolbar_cart = findViewById(R.id.toolbar_cart);
+        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(MainActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void setFrag(int n) {
@@ -141,9 +254,4 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-
-
-
-
 }
