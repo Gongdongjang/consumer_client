@@ -216,10 +216,10 @@ public class OrderDetailActivity extends AppCompatActivity {
                     intent.putExtra("md_fin_price", md_total_price);
                     startActivity(intent);
 
-                } else{ //주문취소
-
-                    //주문취소 팝업 만들고 취소 Retrofit 작성하기
-
+                } else{
+                    //주문취소 팝업
+                    OrderCancelDialog orderCancelDialog= new OrderCancelDialog(mContext,user_id, order_id);
+                    orderCancelDialog.show();
                 }
             }
         });
