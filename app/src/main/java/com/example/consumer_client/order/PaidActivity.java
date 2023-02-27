@@ -39,9 +39,9 @@ public class PaidActivity extends AppCompatActivity {
     String mdName;
     int purchaseNum;
     String totalPrice, store_name, store_loc;
-    Double price;
-    String md_id, store_id, pickupDate, pickupTime; //결제 성공시 order테이블 삽입
-    String user_name, mobile_no; //user정보
+
+    //결제 성공시 order테이블 삽입
+    String md_id, store_id, pickupDate, pickupTime, order_name; //(입금자명도 추가)
 
     OrderInsertService service;
     JsonParser jsonParser;
@@ -73,10 +73,7 @@ public class PaidActivity extends AppCompatActivity {
         store_id = intent.getStringExtra("store_id");
         pickupDate = intent.getStringExtra("pickupDate");
         pickupTime = intent.getStringExtra("pickupTime");
-        //user 정보
-        user_name = intent.getStringExtra("user_name");
-        mobile_no = intent.getStringExtra("mobile_no");
-
+        order_name = intent.getStringExtra("order_name");
         //Log.d("가격", String.valueOf(price));
 
         store_name = intent.getStringExtra("store_name");
@@ -109,6 +106,7 @@ public class PaidActivity extends AppCompatActivity {
         body.addProperty("order_price", order_price);
         body.addProperty("pu_date", pickupDate);
         body.addProperty("pu_time", pickupTime);
+        body.addProperty("order_name", order_name); //입금자명
 
         Call<ResponseBody> call = service.postOrderData(body);
         call.enqueue(new Callback<ResponseBody>() {
@@ -131,7 +129,7 @@ public class PaidActivity extends AppCompatActivity {
             }
         });
 
-        //결제 성공 후 페이지 이동하기
+        //1. 결제 성공 후 메인페이지로
         Button goHome = (Button) findViewById(R.id.Paid_goHome);
         goHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +140,7 @@ public class PaidActivity extends AppCompatActivity {
             }
         });
 
-        //(OrderDetail페이지 data바꾸면 OrderDetail 페이지로 이동한는 것으로 바꿀것)
+        //2. 결제 성공 후 주문상세페이지로
         Button goOrderD = (Button) findViewById(R.id.Paid_goOrderDetail);
         goOrderD.setOnClickListener(new View.OnClickListener() {
             @Override

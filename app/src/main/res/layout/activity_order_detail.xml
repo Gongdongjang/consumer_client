@@ -237,6 +237,7 @@
             android:textColor="#1EAA95"
             android:textStyle="bold"
             android:backgroundTint="@color/white"
+            android:visibility="gone"
             android:text="리뷰 작성/ 주문 취소" />
 
         <ImageView
