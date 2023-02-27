@@ -8,7 +8,9 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.consumer_client.R;
+import com.example.consumer_client.review.ReviewActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -51,7 +54,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     JsonParser jsonParser;
     JsonArray order_detail;
     Context mContext;
-    String store_loc, store_my, store_name, md_name, order_id, pu_date, md_status;
+    String store_loc, store_my, store_name, md_name, order_id, pu_date, md_status, md_qty, md_total_price;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +86,9 @@ public class OrderDetailActivity extends AppCompatActivity {
         md_name = intent.getStringExtra("md_name");
         order_id = intent.getStringExtra("order_id");
 
+        //주문취소 버튼, 리뷰하기 버튼 활성&비활성화
+        Button btn_orderDetail = (Button) findViewById(R.id.btn_orderDetail);
+
         //픽업상태 세팅
         TextView order_status= (TextView) findViewById(R.id.order_status); //+픽업날짜
         ImageView order_status1= (ImageView) findViewById(R.id.order_status1);
@@ -112,10 +118,14 @@ public class OrderDetailActivity extends AppCompatActivity {
                         JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
                         order_detail= res.get("order_detail").getAsJsonArray();
 
+                        md_qty= order_detail.get(0).getAsJsonObject().get("order_select_qty").getAsString();
+                        md_total_price= order_detail.get(0).getAsJsonObject().get("order_price").getAsString();
+                        pu_date= order_detail.get(0).getAsJsonObject().get("order_pu_time").getAsString();
+
                         //img 아직 안함
                         MdName.setText(md_name);
-                        OrderCount.setText(order_detail.get(0).getAsJsonObject().get("order_select_qty").getAsString()+"세트");
-                        OrderPrice.setText(order_detail.get(0).getAsJsonObject().get("order_price").getAsString()+"원");
+                        OrderCount.setText(md_qty+"세트");
+                        OrderPrice.setText(md_total_price+"원");
                         StoreName.setText(store_name);
                         StoreName0.setText(store_name);
                         StoreAddr.setText(store_loc);
@@ -124,34 +134,43 @@ public class OrderDetailActivity extends AppCompatActivity {
                         md_status= res.get("md_status").getAsJsonObject().get("stk_confirm").getAsString();
                         switch (md_status) {
                             case "공동구매 중":
-                                order_status.setText("픽업 예정일 : " + order_detail.get(0).getAsJsonObject().get("order_pu_time").getAsString());
+                                order_status.setText("픽업 예정일 : " + pu_date);
                                 order_status1.setImageResource(R.drawable.order_status_off);
                                 txt_order_status1.setTextColor(Color.parseColor("#1EAA95"));
+
+                                //주문취소 버튼 활성화
+                                btn_orderDetail.setVisibility(View.VISIBLE);
+                                btn_orderDetail.setText("주문 취소하기");
+
                                 break;
                             case "공동구매 완료":
-                                order_status.setText("픽업 예정일 : " + order_detail.get(0).getAsJsonObject().get("order_pu_time").getAsString());
+                                order_status.setText("픽업 예정일 : " + pu_date);
                                 order_status2.setImageResource(R.drawable.order_status_off);
                                 txt_order_status2.setTextColor(Color.parseColor("#1EAA95"));
                                 break;
                             case "상품 준비 중":
-                                order_status.setText("픽업 예정일 : " + order_detail.get(0).getAsJsonObject().get("order_pu_time").getAsString());
+                                order_status.setText("픽업 예정일 : " + pu_date);
                                 order_status3.setImageResource(R.drawable.order_status_off);
                                 txt_order_status3.setTextColor(Color.parseColor("#1EAA95"));
                                 break;
                             case "배송 중":
-                                order_status.setText("픽업 예정일 : " + order_detail.get(0).getAsJsonObject().get("order_pu_time").getAsString());
+                                order_status.setText("픽업 예정일 : " + pu_date);
                                 order_status4.setImageResource(R.drawable.order_status_off);
                                 txt_order_status4.setTextColor(Color.parseColor("#1EAA95"));
                                 break;
                             case "스토어 도착":
-                                order_status.setText("픽업 예정일 : " + order_detail.get(0).getAsJsonObject().get("order_pu_time").getAsString());
+                                order_status.setText("픽업 예정일 : " + pu_date);
                                 order_status5.setImageResource(R.drawable.order_status_off);
                                 txt_order_status5.setTextColor(Color.parseColor("#1EAA95"));
                                 break;
-                            case "픽업 완료":
+                            case "픽업완료":
                                 order_status.setText("픽업 완료");
                                 order_status6.setImageResource(R.drawable.order_status_off);
                                 txt_order_status6.setTextColor(Color.parseColor("#1EAA95"));
+
+                                //리뷰버튼 활성화
+                                btn_orderDetail.setVisibility(View.VISIBLE);
+                                btn_orderDetail.setText("리뷰 작성");
                                 break;
                             default:  //아마 공구 취소..?
                                 order_status.setText(md_status);
@@ -177,6 +196,23 @@ public class OrderDetailActivity extends AppCompatActivity {
             }
         });
 
+        btn_orderDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(btn_orderDetail.getText().toString().equals("리뷰 작성")){
+                    Intent intent = new Intent(OrderDetailActivity.this, ReviewActivity.class);
+                    intent.putExtra("user_id", user_id);
+                    intent.putExtra("md_name", md_name);
+                    intent.putExtra("md_qty", md_qty);
+                    intent.putExtra("md_fin_price", md_total_price);
+                    startActivity(intent);
+                } else{ //주문취소
+
+                    //주문취소 팝업 만들고 취소 Retrofit 작성하기
+
+                }
+            }
+        });
 
         final Geocoder geocoder = new Geocoder(getApplicationContext());
         List<Address> address= null;
@@ -215,6 +251,5 @@ public class OrderDetailActivity extends AppCompatActivity {
         store_marker.setMapPoint(f_MarkPoint);   //좌표입력받아 현위치로 출력
 
         mapView.addPOIItem(store_marker);
-
     }
 }
