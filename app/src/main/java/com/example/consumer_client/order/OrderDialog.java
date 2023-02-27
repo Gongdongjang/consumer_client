@@ -211,9 +211,15 @@ public class OrderDialog extends Dialog {
                             }
                         },pYear,pMonth,pDay);
 
+                //픽업 시작날짜와 현재시간 비교한 후 오늘 이전의 날짜는 선택 불가능 하도록 하기
+                long currentTime= calendar.getTimeInMillis();
+                String month, day;
+                //minDate.set(Integer.parseInt(startDay[0],month,day);
                 //픽업 시작날짜부터 선택가능
                 minDate.set(Integer.parseInt(startDay[0]),Integer.parseInt(startDay[1])-1,Integer.parseInt(startDay[2]));
                 datePickerDialog.getDatePicker().setMinDate(minDate.getTime().getTime());
+
+
                 //픽업 마감날짜까지 선택가능
                 maxDate.set(Integer.parseInt(endDay[0]),Integer.parseInt(endDay[1])-1,Integer.parseInt(endDay[2]));
                 datePickerDialog.getDatePicker().setMaxDate(maxDate.getTimeInMillis());
@@ -238,6 +244,7 @@ public class OrderDialog extends Dialog {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                 PickUpTime.setText(hourOfDay + ":" + minute);
+                                //view.setMi
                             }
                         }, mHour, mMinute, false);
                 timePickerDialog.show();

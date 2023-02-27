@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,20 +27,6 @@ import net.daum.mf.map.api.MapView;
 import java.io.IOException;
 import java.util.List;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
-import retrofit2.http.POST;
-
-interface PayUserService{
-    @POST("payUserInfo")
-    Call<ResponseBody> userInfoData(@Body JsonObject body);
-}
-
 public class ToPayActivity extends AppCompatActivity {
 
     String user_id;
@@ -49,23 +34,10 @@ public class ToPayActivity extends AppCompatActivity {
     String store_id, store_name, store_loc;
     String pickupDate,pickupTime;
 
-    PayUserService service;
-    JsonParser jsonParser;
-    JsonObject res, body;
-    JsonArray pay_user_result;
-    String user_name, mobile_no;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getString(R.string.baseurl))
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        service = retrofit.create(PayUserService.class);
-        jsonParser = new JsonParser();
 
         TextView ProdName=(TextView) findViewById(R.id.JP_ProdName);
         TextView OrderCount = (TextView) findViewById(R.id.ClientOrderCount);
@@ -100,33 +72,6 @@ public class ToPayActivity extends AppCompatActivity {
         PuDate.setText(pickupDate);
         MdTotalPrice.setText(JP_ToTalPrice);
 
-        //주문하기-> Order테이블에 데이터 값 삽입하기Post 요청
-        body = new JsonObject();
-        body.addProperty("user_id", user_id); //
-
-        Call<ResponseBody> call = service.userInfoData(body);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    try {
-                        JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-                        pay_user_result = res.get("pay_user_result").getAsJsonArray();
-                        //Toast.makeText(ToPayActivity.this, res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-
-                        user_name=pay_user_result.get(0).getAsJsonObject().get("user_name").getAsString();
-                        mobile_no=pay_user_result.get(0).getAsJsonObject().get("mobile_no").getAsString();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(ToPayActivity.this, "주문하기 post 에러 발생", Toast.LENGTH_SHORT).show();
-                Log.e("주문하기 post", t.getMessage());
-            }
-        });
 
         final Geocoder geocoder = new Geocoder(getApplicationContext());
         List<Address> address= null;
@@ -182,7 +127,7 @@ public class ToPayActivity extends AppCompatActivity {
 //            Pay_On_Btn.setVisibility(View.VISIBLE);
 //        }
 
-        EditText userName= (EditText) findViewById(R.id.userName);
+        EditText orderName= (EditText) findViewById(R.id.userName);
 
         Pay_Off_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,7 +147,7 @@ public class ToPayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 {
-                    if(userName.getText().toString().equals("")){
+                    if(orderName.getText().toString().equals("")){
                         Toast.makeText(ToPayActivity.this, "입금자 명을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     }
                     else{
@@ -217,8 +162,7 @@ public class ToPayActivity extends AppCompatActivity {
                         i.putExtra("store_loc",store_loc);
                         i.putExtra("pickupDate",pickupDate);
                         i.putExtra("pickupTime",pickupTime);
-                        i.putExtra("user_name",user_name);
-                        i.putExtra("mobile_no",mobile_no);
+                        i.putExtra("order_name",orderName.getText().toString());
                         startActivity(i);
                     }
                 }
