@@ -5,7 +5,6 @@ public class OrderListInfo {
     private String storeProdImgView;
     private String storeName;
     private String mdName;
-    private String storeLocationFromMe;
     private String storeLoc;
     private String mdQty;
     private String orderId;
@@ -46,12 +45,6 @@ public class OrderListInfo {
     public void setMdName(String mdName) {
         this.mdName = mdName;
     }
-
-    public String getStoreLocationFromMe() {
-        return storeLocationFromMe;
-    }
-
-    public void setStoreLocationFromMe(String storeLocationFromMe) {this.storeLocationFromMe = storeLocationFromMe;}
 
     public String getStoreLoc() {
         return storeLoc;

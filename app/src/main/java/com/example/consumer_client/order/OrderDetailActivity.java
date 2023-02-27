@@ -29,6 +29,7 @@ import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -54,7 +55,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     JsonParser jsonParser;
     JsonArray order_detail;
     Context mContext;
-    String store_loc, store_my, store_name, md_name, order_id, pu_date, md_status, md_qty, md_total_price;
+    String store_loc, store_name, md_name, order_id, pu_date, md_status, isPickedUp, md_qty, md_total_price;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,6 +123,8 @@ public class OrderDetailActivity extends AppCompatActivity {
                         md_total_price= order_detail.get(0).getAsJsonObject().get("order_price").getAsString();
                         pu_date= order_detail.get(0).getAsJsonObject().get("order_pu_time").getAsString();
 
+                        isPickedUp=order_detail.get(0).getAsJsonObject().get("order_md_status").getAsString();
+
                         //img 아직 안함
                         MdName.setText(md_name);
                         OrderCount.setText(md_qty+"세트");
@@ -141,7 +144,6 @@ public class OrderDetailActivity extends AppCompatActivity {
                                 //주문취소 버튼 활성화
                                 btn_orderDetail.setVisibility(View.VISIBLE);
                                 btn_orderDetail.setText("주문 취소하기");
-
                                 break;
                             case "공동구매 완료":
                                 order_status.setText("픽업 예정일 : " + pu_date);
@@ -164,13 +166,20 @@ public class OrderDetailActivity extends AppCompatActivity {
                                 txt_order_status5.setTextColor(Color.parseColor("#1EAA95"));
                                 break;
                             case "픽업완료":
-                                order_status.setText("픽업 완료");
-                                order_status6.setImageResource(R.drawable.order_status_off);
-                                txt_order_status6.setTextColor(Color.parseColor("#1EAA95"));
-
-                                //리뷰버튼 활성화
-                                btn_orderDetail.setVisibility(View.VISIBLE);
-                                btn_orderDetail.setText("리뷰 작성");
+                                //실제 소비자의 픽업유무 파악하기
+                                if (Objects.equals(isPickedUp, "1")){
+                                    order_status.setText("픽업 완료");
+                                    order_status6.setImageResource(R.drawable.order_status_off);
+                                    txt_order_status6.setTextColor(Color.parseColor("#1EAA95"));
+                                    //리뷰버튼 활성화
+                                    btn_orderDetail.setVisibility(View.VISIBLE);
+                                    btn_orderDetail.setText("리뷰 작성");
+                                }
+                                else{
+                                    order_status.setText("픽업 예정일 : " + pu_date);
+                                    order_status5.setImageResource(R.drawable.order_status_off);
+                                    txt_order_status5.setTextColor(Color.parseColor("#1EAA95"));
+                                }
                                 break;
                             default:  //아마 공구 취소..?
                                 order_status.setText(md_status);
@@ -206,6 +215,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                     intent.putExtra("md_qty", md_qty);
                     intent.putExtra("md_fin_price", md_total_price);
                     startActivity(intent);
+
                 } else{ //주문취소
 
                     //주문취소 팝업 만들고 취소 Retrofit 작성하기

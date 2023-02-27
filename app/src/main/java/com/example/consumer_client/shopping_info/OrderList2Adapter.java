@@ -1,6 +1,8 @@
 package com.example.consumer_client.shopping_info;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.consumer_client.R;
 import com.example.consumer_client.order.OrderListInfo;
+import com.example.consumer_client.review.ReviewActivity;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class OrderList2Adapter extends RecyclerView.Adapter<OrderList2Adapter.ViewHolder>{
     private ArrayList<String> mData = null;
@@ -33,12 +37,12 @@ public class OrderList2Adapter extends RecyclerView.Adapter<OrderList2Adapter.Vi
         TextView storeid;
         ImageView storeProdImgView;
         TextView storeName;
-        TextView storeLocationFromMe;
         TextView mdName;
         TextView mdQty;
         TextView mdPrice;
         TextView mdStatus;
-        TextView puDate; //픽업하면 mdStatus로 바뀌어야 함
+        TextView puDate;
+        TextView OrderReview;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -57,12 +61,12 @@ public class OrderList2Adapter extends RecyclerView.Adapter<OrderList2Adapter.Vi
 //            storeid = (TextView) itemView.findViewById(R.id.StoreID);
             storeProdImgView = (ImageView) itemView.findViewById(R.id.ProdImg);
             storeName = (TextView) itemView.findViewById(R.id.StoreName);
-            storeLocationFromMe = (TextView) itemView.findViewById(R.id.StoreLocationFromMe);
             mdName = (TextView) itemView.findViewById(R.id.MdName);
             mdQty = (TextView) itemView.findViewById(R.id.MdQty);
             mdPrice = (TextView) itemView.findViewById(R.id.MdPrice);
             puDate = (TextView) itemView.findViewById(R.id.Pudate);
-//            mdStatus = (TextView) itemView.findViewById(R.id.Pudate); //픽업하면 mdStatus로 바뀌어야 함
+            mdStatus = (TextView) itemView.findViewById(R.id.mdStatus);
+            OrderReview = (TextView) itemView.findViewById(R.id.OrderReview);
         }
     }
 
@@ -90,12 +94,28 @@ public class OrderList2Adapter extends RecyclerView.Adapter<OrderList2Adapter.Vi
 //        holder.userid.setText(item.getUserId());
         Glide.with(holder.itemView).load(item.getStoreProdImgView()).into(holder.storeProdImgView);
         holder.storeName.setText(item.getStoreName());
-        holder.storeLocationFromMe.setText(item.getStoreLocationFromMe());
         holder.mdName.setText(item.getMdName());
         holder.mdQty.setText(item.getMdQty());
         holder.mdPrice.setText(item.getMdPrice());
+        holder.mdStatus.setText(item.getMdStatus());
         holder.puDate.setText(item.getPuDate());
         Context context = holder.itemView.getContext();
+
+        if (Objects.equals(item.getMdStatus(), "1")){
+            holder.puDate.setTextColor(Color.parseColor("#848484"));
+            holder.OrderReview.setVisibility(View.VISIBLE);    //리뷰작성 버튼 보이기
+            holder.OrderReview.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view){
+                    Intent intent = new Intent(context, ReviewActivity.class);
+                    intent.putExtra("user_id", item.getUserId());
+                    intent.putExtra("md_name", item.getMdName());
+                    intent.putExtra("md_qty", item.getMdQty());
+                    intent.putExtra("md_fin_price", item.getMdPrice());
+                    context.startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override
