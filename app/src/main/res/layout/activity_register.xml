@@ -81,7 +81,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:backgroundTint="#1EAA95" />
+            android:inputType="textPassword"
+            android:backgroundTint="#1EAA95"
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -96,18 +98,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:backgroundTint="#1EAA95" />
-
-        <TextView
-            android:id="@+id/pwd_check_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="X"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
+            android:backgroundTint="#1EAA95"
+            android:inputType="textPassword"/>
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -120,7 +112,7 @@
         android:background="@drawable/button_round2"
         android:enabled="false"
         android:text="공동장 시작하기"
-        android:textColor="@color/white"
+        android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:textStyle="bold" />
 
