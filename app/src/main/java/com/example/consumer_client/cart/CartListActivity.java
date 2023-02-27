@@ -59,7 +59,7 @@ public class CartListActivity extends AppCompatActivity {
     private RecyclerView mCartRecyclerView, mCartRecyclerView2;
     private ArrayList<CartListInfo> mList, mList2;
     private CartListAdapter mCartListAdapter;
-    private CartListAdapter2 mCartListAdapter2;
+//    private CartListAdapter2 mCartListAdapter2;
 
     String md_name, purchase_num, md_price, prod_set;
     String store_name,store_loc;
@@ -136,17 +136,17 @@ public class CartListActivity extends AppCompatActivity {
                         //어뎁터 적용
                         mCartListAdapter = new CartListAdapter(mList);
                         mCartRecyclerView.setAdapter(mCartListAdapter);
-                        //어뎁터 적용
-                        mCartListAdapter2 = new CartListAdapter2(mList2);
-                        mCartRecyclerView2.setAdapter(mCartListAdapter2);
+//                        //어뎁터 적용
+//                        mCartListAdapter2 = new CartListAdapter2(mList2);
+//                        mCartRecyclerView2.setAdapter(mCartListAdapter2);
 
                         //세로로 세팅
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
                         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         mCartRecyclerView.setLayoutManager(linearLayoutManager);
-                        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(mContext);
-                        linearLayoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
-                        mCartRecyclerView2.setLayoutManager(linearLayoutManager2);
+//                        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(mContext);
+//                        linearLayoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
+//                        mCartRecyclerView2.setLayoutManager(linearLayoutManager2);
 
                         purchaseNum = (TextView) findViewById(R.id.CL_PurchaseNum);
 
@@ -175,11 +175,11 @@ public class CartListActivity extends AppCompatActivity {
                             totalPrice += cart_detail.get(i).getAsJsonObject().get("pay_price").getAsInt() * cart_detail.get(i).getAsJsonObject().get("select_qty").getAsInt() ;
                         }
 
-                        for (int i=0; i<store_count.get(0).getAsJsonObject().get("COUNT(*)").getAsInt();i++){
-                            addPrice(cart_detail.get(i).getAsJsonObject().get("select_qty").getAsString(), cart_detail.get(i).getAsJsonObject().get("pay_price").getAsInt(),
-                                    cart_detail.get(i).getAsJsonObject().get("select_qty").getAsInt()* cart_detail.get(i).getAsJsonObject().get("pay_price").getAsInt());
-                        }
-                        cartTotalPrice.setText(totalPrice.toString());
+//                        for (int i=0; i<store_count.get(0).getAsJsonObject().get("COUNT(*)").getAsInt();i++){
+//                            addPrice(cart_detail.get(i).getAsJsonObject().get("select_qty").getAsString(), cart_detail.get(i).getAsJsonObject().get("pay_price").getAsInt(),
+//                                    cart_detail.get(i).getAsJsonObject().get("select_qty").getAsInt()* cart_detail.get(i).getAsJsonObject().get("pay_price").getAsInt());
+//                        }
+//                        cartTotalPrice.setText(totalPrice.toString());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -262,7 +262,7 @@ public class CartListActivity extends AppCompatActivity {
 
     public void firstInit(){
         mCartRecyclerView = findViewById(R.id.CartListRecycler);
-        mCartRecyclerView2 = findViewById(R.id.CartPayRecyclerView);
+//        mCartRecyclerView2 = findViewById(R.id.CartPayRecyclerView);
         mList = new ArrayList<>();
         mList2 = new ArrayList<>();
     }
@@ -281,14 +281,14 @@ public class CartListActivity extends AppCompatActivity {
         mList.add(cart);
     }
 
-
-    public void addPrice(String qty, int eachMdPrice, int totalPrice){
-        CartListInfo cart = new CartListInfo();
-
-        cart.setQty(qty);
-        cart.setEachMdPrice(eachMdPrice);
-        cart.setTotalPrice(totalPrice);
-
-        mList2.add(cart);
-    }
+//
+//    public void addPrice(String qty, int eachMdPrice, int totalPrice){
+//        CartListInfo cart = new CartListInfo();
+//
+//        cart.setQty(qty);
+//        cart.setEachMdPrice(eachMdPrice);
+//        cart.setTotalPrice(totalPrice);
+//
+//        mList2.add(cart);
+//    }
 }
