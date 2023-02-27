@@ -1,6 +1,7 @@
 package com.example.consumer_client.user;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,6 +25,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
@@ -49,115 +52,76 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-//        id_verify_btn = findViewById(R.id.id_verify_button);
-        id = findViewById(R.id.userId);
-//        id_verify_btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                idCheck(id.getText().toString());
-//            }
-//        });
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.baseurl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        service = retrofit.create(SignUpService.class);
+        jsonParser = new JsonParser();
 
+        id = findViewById(R.id.userId);
         password = findViewById(R.id.password);
         pwConfirm = findViewById(R.id.pwConfirm);
-        pwd_verify_txt = findViewById(R.id.pwd_check_state);
-        pwConfirm.addTextChangedListener(new TextWatcher() {
+        signUpBtn = findViewById(R.id.startGdjangBtn);
+
+        TextWatcher watcher1 = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //EditText 변경 전 발생할 이벤트
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //텍스트의 길이가 변경되었을 경우 발생할 이벤트
 
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                Log.d(TAG, "pwd test");
+            public void afterTextChanged(Editable editable) {
+                //텍스트가 변경될 때마다 발생할 이벤트
+                password.setTextColor(Color.parseColor("#1EAA95"));
+            }
+        };
+
+        TextWatcher watcher2 = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //EditText 변경 전 발생할 이벤트
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //텍스트의 길이가 변경되었을 경우 발생할 이벤트
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //텍스트가 변경될 때마다 발생할 이벤트
                 if (password.getText().toString().equals(pwConfirm.getText().toString())) {
-                    pwd_verify_txt.setText("O");
+                    pwConfirm.setTextColor(Color.parseColor("#1EAA95"));
+                    signUpBtn.setEnabled(true);
                 } else {
-                    pwd_verify_txt.setText("X");
+                    pwConfirm.setTextColor(Color.parseColor("#F75D39"));
+                    signUpBtn.setEnabled(false);
                 }
-                Log.d(TAG, pwd_verify_txt.getText().toString());
             }
-        });
+        };
+
+        password.addTextChangedListener(watcher1);
+        pwConfirm.addTextChangedListener(watcher2);
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (pwd_verify_txt.getText().toString().equals("O")) {
-                    tryRegister(id.getText().toString(), password.getText().toString());
-                } else {
-                    Toast toast = Toast.makeText(getApplicationContext(), "비밀번호를 확인해주세요.", Toast.LENGTH_LONG);
-                    toast.show();
-                }
-
+                register(id.getText().toString(), password.getText().toString());
             }
         });
     }
-//    void idCheck (String id){
-//
-//        JsonObject body = new JsonObject();
-//        body.addProperty("id", id);
-//
-//        Call<ResponseBody> call = service.checkId(body);
-//        call.enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                if (response.isSuccessful()) {
-//                    try {
-//                        JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-//                        if (res.get("is_valid").getAsBoolean()) {
-//                            id_verify_txt.setText("사용할 수 있는 아이디입니다.");
-//                        } else {
-//                            id_verify_txt.setText("사용할 수 없는 아이디입니다.");
-//                        }
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                } else {
-//                    try {
-//                        Log.d(TAG, "Fail " + response.errorBody().string());
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                Log.e(TAG, "onFailure: e " + t.getMessage());
-//            }
-//        });
-//    }
 
-    private void tryRegister(String uid, String pwd) {
-
-        id.setError(null); //오류 있으면 or 비어있으면 멘트 띄우기
-        password.setError(null); //오류 있으면 or 비어있으면 멘트 띄우기
-
-        boolean cancel = false;
-        View focusView = null;
-
-        // 아이디 빈칸 검사
-        if (uid.isEmpty()) {
-            id.setError("아이디를 입력해주세요.");
-            focusView = id;
-            cancel = true;
-        }
-
-        // 패스워드 빈칸 검사
-        if (pwd.isEmpty()) {
-            password.setError("비밀번호를 입력해주세요.");
-            focusView = password;
-            cancel = true;
-        }
-
-        if (cancel) {
-            focusView.requestFocus();
-        } else {
+    private void register(String uid, String pwd) {
             Intent intent = getIntent();
             name = intent.getStringExtra("name");
             phone_number = intent.getStringExtra("phone_number");
@@ -167,6 +131,7 @@ public class SignUpActivity extends AppCompatActivity {
             body.addProperty("name", name);
             body.addProperty("id", uid);
             body.addProperty("password", pwd);
+            Log.d("body_check", body.toString());
 
             Call<ResponseBody> call = service.signUp(body);
             call.enqueue(new Callback<ResponseBody>() {
@@ -175,8 +140,7 @@ public class SignUpActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         try {
                             JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-                            Log.d(TAG, res.get("id").getAsString());
-
+                            Toast.makeText(SignUpActivity.this, res.get("message").getAsString(), Toast.LENGTH_LONG).show();
                             //회원가입 버튼 클릭시, 로그인 페이지로 이동
                             Intent intent = new Intent(getApplicationContext(), IntegratedLoginActivity.class);
                             startActivity(intent);
@@ -197,6 +161,5 @@ public class SignUpActivity extends AppCompatActivity {
                     Log.e(TAG, "onFailure: e " + t.getMessage());
                 }
             });
-        }
     }
 }

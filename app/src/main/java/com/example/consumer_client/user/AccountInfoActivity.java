@@ -48,8 +48,7 @@ public class AccountInfoActivity extends AppCompatActivity {
     private TextView code_verify_txt;
     private EditText code_verify_input, name, mobile_no;
     private Button nextStep, phone_verify_btn, code_verify_btn;
-    String code_confirm;
-    Boolean code_ver;
+    String code_confirm, code_ver;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,9 +64,9 @@ public class AccountInfoActivity extends AppCompatActivity {
         jsonParser = new JsonParser();
 
         name = (EditText) findViewById(R.id.inputName);
-        mobile_no = (EditText) findViewById(R.id.inputCall);
         phone_verify_btn = findViewById(R.id.mobileAuth);
         nextStep = findViewById(R.id.nextStep);
+        mobile_no = (EditText) findViewById(R.id.inputCall);
 
         phone_verify_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,13 +80,12 @@ public class AccountInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 code_verify_input = findViewById(R.id.inputNum);
-
-                if (phoneVerify(code_verify_input.getText().toString(), mobile_no.getText().toString())) {
-                    goNext();
-                } else {
-                    Toast toast = Toast.makeText(getApplicationContext(), "인증 번호 및 전화번호를 확인해주세요.", Toast.LENGTH_LONG);
-                    toast.show();
-                }
+                phoneVerify(code_verify_input.getText().toString(), mobile_no.getText().toString());
+//                if (code_ver.equals("true")) {
+//                } else {
+//                    Toast toast = Toast.makeText(getApplicationContext(), "인증 번호 및 전화번호를 확인해주세요.", Toast.LENGTH_LONG);
+//                    toast.show();
+//                }
             }
         });
     }
@@ -123,7 +121,7 @@ public class AccountInfoActivity extends AppCompatActivity {
         });
     }
 
-    Boolean phoneVerify(String code, String phone_number) {
+    void phoneVerify(String code, String phone_number) {
         JsonObject body = new JsonObject();
         body.addProperty("phone_number", phone_number);
         body.addProperty("code", code);
@@ -134,11 +132,15 @@ public class AccountInfoActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-                    if (res.get("phone_valid").getAsBoolean()) {
-                        code_ver = true;
+                    if (res.get("phone_valid").getAsString().equals("true")) {
+                        goNext();
+
                     } else {
-                        code_ver = false;
+                        Toast toast = Toast.makeText(getApplicationContext(), "인증 번호 및 전화번호를 확인해주세요.", Toast.LENGTH_LONG);
+                        toast.show();
                     }
+                    Log.d("code_ver", code_ver);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -149,7 +151,6 @@ public class AccountInfoActivity extends AppCompatActivity {
 
             }
         });
-        return code_ver;
     }
 
     void goNext() {
