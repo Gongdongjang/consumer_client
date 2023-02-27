@@ -62,6 +62,7 @@ public class CartDialog extends Dialog {
         GoCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cartDialog.dismiss();
                 Intent i = new Intent(v.getContext(), CartListActivity.class);
                 i.putExtra("user_id",user_id);
                 v.getContext().startActivity(i);

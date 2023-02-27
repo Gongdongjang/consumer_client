@@ -41,6 +41,8 @@ interface CartService{
     Call<ResponseBody> cartListGet(@Query("user_id") String user_id);
     @POST("/cartList")
     Call<ResponseBody> cartListPost(@Body JsonObject body);
+    @GET("/cartChecked")
+    Call<ResponseBody> cartChecked(@Query("user_id") String user_id, @Query("row_num") int row_num);
 }
 
 public class CartListActivity extends AppCompatActivity {
@@ -50,7 +52,7 @@ public class CartListActivity extends AppCompatActivity {
     JsonParser jsonParser;
     JsonObject res;
     public static Context mContext;
-    JsonArray cart_detail, store_count;
+    JsonArray cart_detail, store_count, cart_checked;
 
     String select_qty, pay_price, pay_comp;
 
@@ -126,8 +128,11 @@ public class CartListActivity extends AppCompatActivity {
                             pay_comp = cart_detail.get(0).getAsJsonObject().get("pay_comp").getAsString();
                             store_id = cart_detail.get(0).getAsJsonObject().get("store_id").getAsString();
                             md_id = cart_detail.get(0).getAsJsonObject().get("md_id").getAsString();
-
+                            pu_time = cart_detail.get(0).getAsJsonObject().get("cart_pu_time").getAsString();
+                            pu_date = cart_detail.get(0).getAsJsonObject().get("cart_pu_date").getAsString();
+                            store_loc = cart_detail.get(0).getAsJsonObject().get("store_loc").getAsString();
                         }
+
                         //어뎁터 적용
                         mCartListAdapter = new CartListAdapter(mList);
                         mCartRecyclerView.setAdapter(mCartListAdapter);
@@ -197,18 +202,59 @@ public class CartListActivity extends AppCompatActivity {
         goToPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(v.getContext(), ToPayActivity.class);// 넘어감
-                //스토어정보+ dialog 값 전달
-                i.putExtra("user_id",user_id);
-                i.putExtra("md_id",md_id);
-                i.putExtra("mdName",md_name);
-                //i.putExtra("purchaseNum",PurchaseNumSpinner.getSelectedItem().toString());
-                i.putExtra("purchaseNum",select_qty.toString());
-                i.putExtra("JP_ToTalPrice",totalPrice.toString());
-                i.putExtra("store_name",store_name);
-                i.putExtra("store_id",store_id);
-                i.putExtra("store_loc",store_loc);
-                v.getContext().startActivity(i);
+                Boolean is_checked = mCartListAdapter.checked;
+                if (is_checked) {
+                    String store_id = mCartListAdapter.store_id_pub;
+                    String md_id = mCartListAdapter.md_id_pub;
+                    int pos = mCartListAdapter.pos_item;
+
+                    // retrofit 통신 -> 해당 pos의 데이터 가져오기
+                    Call<ResponseBody> call = service.cartChecked(user_id, pos);
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                try {
+                                    res = (JsonObject) jsonParser.parse(response.body().string());
+                                    cart_checked = res.get("cart_checked").getAsJsonArray();
+                                    if (cart_detail.size() != 0) {
+                                        store_name = cart_checked.get(0).getAsJsonObject().get("store_name").getAsString();
+                                        select_qty = cart_checked.get(0).getAsJsonObject().get("select_qty").getAsString();
+                                        pay_price = cart_checked.get(0).getAsJsonObject().get("pay_price").getAsString();
+                                        md_name = cart_checked.get(0).getAsJsonObject().get("md_name").getAsString();
+                                        pay_comp = cart_checked.get(0).getAsJsonObject().get("pay_comp").getAsString();
+                                        pu_time = cart_checked.get(0).getAsJsonObject().get("cart_pu_time").getAsString();
+                                        pu_date = cart_checked.get(0).getAsJsonObject().get("cart_pu_date").getAsString();
+                                        store_loc = cart_checked.get(0).getAsJsonObject().get("store_loc").getAsString();
+
+                                        Intent i = new Intent(v.getContext(), ToPayActivity.class);// 넘어감
+                                        i.putExtra("user_id",user_id);
+                                        i.putExtra("md_id",md_id);
+                                        i.putExtra("mdName",md_name);
+                                        i.putExtra("purchaseNum",select_qty);
+                                        i.putExtra("JP_ToTalPrice",String.valueOf(Integer.valueOf(pay_price) * Integer.valueOf(select_qty)));
+                                        i.putExtra("store_name",store_name);
+                                        i.putExtra("store_id",store_id);
+                                        i.putExtra("store_loc",store_loc);
+                                        i.putExtra("pickupDate", pu_date);
+                                        i.putExtra("pickupTime", pu_time);
+                                        v.getContext().startActivity(i);
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Log.e(TAG, "onFailure: e " + t.getMessage());
+                        }
+                    });
+
+                }
+                else {
+                    Toast.makeText(mContext, "상품을 선택해주세요",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
