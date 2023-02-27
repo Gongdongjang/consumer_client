@@ -31,9 +31,9 @@
         <activity android:name=".address.PlusAddressActivity"/>
         <activity android:name=".MainActivity"/>
         <activity android:name=".md.MdListMainActivity"/>
-        <activity android:name=".user.SignUpActivity"></activity>
-        <activity android:name=".user.StandardLoginActivity"></activity>
-        <activity android:name=".user.AccountInfoActivity"></activity>
+        <activity android:name=".user.SignUpActivity"/>
+        <activity android:name=".user.StandardLoginActivity"/>
+        <activity android:name=".user.AccountInfoActivity"/>
         <activity android:name=".user.StartActivity" />
         <activity android:name=".farm.FarmActivity" />
         <activity android:name=".store.StoreActivity"

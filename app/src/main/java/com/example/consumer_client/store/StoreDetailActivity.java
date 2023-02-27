@@ -39,7 +39,7 @@ import retrofit2.http.POST;
 
 interface StoreDetailService {
     @POST("storeDetail/")
-    Call<ResponseBody> StoreDetail(@Body JsonObject body);    //post store_id
+    Call<ResponseBody> StoreDetail(@Body JsonObject body);
 }
 
 public class StoreDetailActivity extends AppCompatActivity {
