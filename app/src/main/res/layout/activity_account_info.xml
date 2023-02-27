@@ -85,6 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:backgroundTint="#1EAA95"
+                android:inputType="number"
                 android:hint="010-0909-0909" />
 
             <Button
@@ -116,7 +117,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:backgroundTint="#1EAA95" />
+                android:backgroundTint="#1EAA95"
+                android:inputType="number"/>
         </FrameLayout>
 
     </LinearLayout>
