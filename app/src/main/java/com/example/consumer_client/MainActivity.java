@@ -97,41 +97,10 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent(); //intent 값 받기
 
-//        String standard_address;
-//        String address=intent.getStringExtra("standard_address");
-//        if(address != null) address="현재위치";
-//        else address= standard_address;
-
         //유저id 받기
         String user_id;
-        String generalid = intent.getStringExtra("generalid");
-        String kakaoid = intent.getStringExtra("kakaoid");
-        String googleid = intent.getStringExtra("googleid");
-
-        if(generalid != null) user_id=generalid;
-        else if(kakaoid !=null) user_id=kakaoid;
-        else if(googleid !=null) user_id=googleid;
-        else user_id=intent.getStringExtra("user_id");    //첫 튜토리얼시 findtown에서 넘어온 + EditTownActivity에서 넘어온
-
-        // 최초 실행 여부를 판단 ->>>
-        SharedPreferences pref = getSharedPreferences("checkFirst", Activity.MODE_PRIVATE);
-        boolean checkFirst = pref.getBoolean("checkFirst", false);
-
-       if(!checkFirst) //(false일 경우 최초 실행)
-        {
-            // 앱 최초 실행시 근처동네 찾기 세팅하기
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putBoolean("checkFirst",true);
-            editor.apply();
-            finish();
-
-            intent = new Intent(MainActivity.this, TutorialActivity.class);
-            intent.putExtra("user_id",user_id);
-            startActivity(intent);
-        } else{
-           //최초 로그인 아닐때
-           intent.putExtra("user_id",user_id);
-       }
+        user_id=intent.getStringExtra("user_id");    //첫 튜토리얼시 findtown에서 넘어온 + EditTownActivity에서 넘어온
+        intent.putExtra("user_id",user_id);
 
         //===기준 주소정보
         JsonObject body = new JsonObject();
