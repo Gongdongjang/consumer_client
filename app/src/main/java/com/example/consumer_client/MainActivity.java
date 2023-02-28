@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("checkFirst", Activity.MODE_PRIVATE);
         boolean checkFirst = pref.getBoolean("checkFirst", false);
 
-       if(!checkFirst) //(false일 경우 최초 실행)
+        if(!checkFirst) //(false일 경우 최초 실행)
         {
             // 앱 최초 실행시 근처동네 찾기 세팅하기
             SharedPreferences.Editor editor = pref.edit();
@@ -129,9 +129,9 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("user_id",user_id);
             startActivity(intent);
         } else{
-           //최초 로그인 아닐때
-           intent.putExtra("user_id",user_id);
-       }
+            //최초 로그인 아닐때
+            intent.putExtra("user_id",user_id);
+        }
 
         //===기준 주소정보
         JsonObject body = new JsonObject();
@@ -188,13 +188,14 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-                frag1= new TotalList();
-                frag2= new Keep();
-                frag3= new Home();
-                frag4= new Order();
-                frag5= new MyPage();
+        frag1= new TotalList();
+        frag2= new Keep();
+        frag3= new Home();
+        frag4= new Order();
+        frag5= new MyPage();
 
-                setFrag(2); // 첫 프래그먼트 화면을 무엇으로 지정해줄 것인지 선택
+        bottomNavigation.setSelectedItemId(R.id.tab_home);
+        setFrag(2); // 첫 프래그먼트 화면을 무엇으로 지정해줄 것인지 선택
 
         // 지역명
         //상단바 주소변경 누르면 주소변경/선택 페이지로
@@ -227,27 +228,22 @@ public class MainActivity extends AppCompatActivity {
         ft = fm.beginTransaction(); //실제 교체 시 ..
         switch (n) {
             case 0:
-//                Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
                 ft.replace(R.id.Main_Frame, frag1);
                 ft.commit();
                 break;
             case 1:
-//                Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
                 ft.replace(R.id.Main_Frame, frag2);
                 ft.commit();
                 break;
             case 2:
-//                Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
                 ft.replace(R.id.Main_Frame, frag3);
                 ft.commit();
                 break;
             case 3:
-//                Toast.makeText(this, "4", Toast.LENGTH_SHORT).show();
                 ft.replace(R.id.Main_Frame, frag4);
                 ft.commit();
                 break;
             case 4:
-//                Toast.makeText(this, "5", Toast.LENGTH_SHORT).show();
                 ft.replace(R.id.Main_Frame, frag5);
                 ft.commit();
                 break;
