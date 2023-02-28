@@ -149,7 +149,7 @@ public class MdListMainActivity extends AppCompatActivity {
                         double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
                         double distanceMeter = distance(myTownLat, myTownLong, store_lat, store_long, "meter");
 
-                        if (Double.compare(1, distanceKilo) > 0) { //4km 이내 제품들만 보이기
+                        //if (Double.compare(1, distanceKilo) > 0) { //4km 이내 제품들만 보이기
                             //(스토어 데이터가 많이 없으므로 0.4대신 1로 test 중, 기능은 완료)
 
                             md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
@@ -165,7 +165,7 @@ public class MdListMainActivity extends AppCompatActivity {
                                     "D - " + realIf0,
                                     pu_start.get(i).getAsString()
                             );
-                        }
+                       // }
                     }
 
                     //거리 가까운순으로 정렬
