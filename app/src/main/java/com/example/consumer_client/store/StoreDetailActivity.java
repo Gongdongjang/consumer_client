@@ -2,9 +2,11 @@ package com.example.consumer_client.store;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +16,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.consumer_client.farm.FarmDetailActivity;
 import com.example.consumer_client.farm.FarmDetailAdapter;
 import com.example.consumer_client.md.MdDetailInfo;
 import com.example.consumer_client.md.JointPurchaseActivity;
@@ -79,6 +83,8 @@ public class StoreDetailActivity extends AppCompatActivity {
         user_id=intent.getStringExtra("user_id");
         store_id=intent.getStringExtra("storeid");
 
+        ImageView StoreMainImg = findViewById(R.id.StoreMainImg);
+        ImageView StoreStoryImg = findViewById(R.id.StoreStoryImg);
         TextView StoreName = (TextView) findViewById(R.id.StoreName);
         TextView StoreExplain = (TextView) findViewById(R.id.StoreExplain);
         TextView StoreLocation = (TextView) findViewById(R.id.StoreLocation);
@@ -116,6 +122,13 @@ public class StoreDetailActivity extends AppCompatActivity {
                         //영업 or 휴무일 정보
                         storeDate = res.get("store_date").getAsJsonArray();
                         day = res.get("day").getAsString();
+
+                        Glide.with(StoreDetailActivity.this)
+                                .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + storeArray.get(0).getAsJsonObject().get("store_mainImg").getAsString())
+                                .into(StoreMainImg);
+                        Glide.with(StoreDetailActivity.this)
+                                .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + storeArray.get(0).getAsJsonObject().get("store_detailImg").getAsString())
+                                .into(StoreStoryImg);
 
                         StoreName.setText(store_name);
                         StoreExplain.setText(storeArray.get(0).getAsJsonObject().get("store_info").getAsString());
@@ -180,8 +193,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                             if (realIf0.equals("0")) realIf0 = "day";
 
                             addStoreJointPurchase(
-//                                     "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jpArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
-                                    "img",
+                                     "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jpArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                     jpArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                     jpArray.get(i).getAsJsonObject().get("store_name").getAsString(), jpArray.get(i).getAsJsonObject().get("pay_price").getAsString(), "D - " + realIf0,  pu_start.get(i).getAsString());
                         }
