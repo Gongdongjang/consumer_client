@@ -135,21 +135,21 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                         if (address_count == 0) {
                             //String address_loc0 = addressArray.get(0).getAsJsonObject().get("loc0").getAsString();
                             //txt_address0.setText(address_loc0);
-                            txt_address1.setVisibility(View.GONE);
-                            txt_address2.setVisibility(View.GONE);
-                            txt_address3.setVisibility(View.GONE);
+//                            txt_address1.setVisibility(View.GONE);
+//                            txt_address2.setVisibility(View.GONE);
+//                            txt_address3.setVisibility(View.GONE);
                         }
                         if (address_count == 1) {
                             String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
                             txt_address1.setText(address_loc1);
-                            txt_address2.setVisibility(View.GONE);
-                            txt_address3.setVisibility(View.GONE);
+                            //xt_address2.setVisibility(View.GONE);
+                            //txt_address3.setVisibility(View.GONE);
                         } else if (address_count == 2) {
                             String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
                             String address_loc2 = addressArray.get(0).getAsJsonObject().get("loc2").getAsString();
                             txt_address1.setText(address_loc1);
                             txt_address2.setText(address_loc2);
-                            txt_address3.setVisibility(View.GONE);
+                            //txt_address3.setVisibility(View.GONE);
                         } else if (address_count == 3) {
                             String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
                             String address_loc2 = addressArray.get(0).getAsJsonObject().get("loc2").getAsString();

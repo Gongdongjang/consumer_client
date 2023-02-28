@@ -32,7 +32,7 @@ public class FarmDetailAdapter extends RecyclerView.Adapter<FarmDetailAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView prodImg;
 //        TextView farmName;
-        TextView prodName, storeName, mdPrice, paySchedule, puTime, dDay;
+        TextView prodName, storeName, mdPrice, distance, paySchedule, puTime, dDay;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -52,6 +52,7 @@ public class FarmDetailAdapter extends RecyclerView.Adapter<FarmDetailAdapter.Vi
 //            farmName = (TextView) itemView.findViewById(R.id.FarmName);
             prodName = (TextView) itemView.findViewById(R.id.homeProdEx_item); //제품명
             storeName = (TextView) itemView.findViewById(R.id.homeProdName_item); //스토어명
+            distance = (TextView) itemView.findViewById(R.id.storeLocationFromMe);
             mdPrice = (TextView) itemView.findViewById(R.id.homeProdPrice); //세트별 가격
 //            paySchedule = (TextView) itemView.findViewById(R.id.PaySchedule);
             dDay = (TextView) itemView.findViewById(R.id.dDay); //d-day
@@ -86,6 +87,7 @@ public class FarmDetailAdapter extends RecyclerView.Adapter<FarmDetailAdapter.Vi
 //        holder.farmName.setText(item.getFarmName());
         holder.prodName.setText(item.getProdName());
         holder.storeName.setText(item.getStoreName());
+        holder.distance.setText(item.getDistance());
         holder.mdPrice.setText(item.getMdPrice());
         holder.dDay.setText(item.getDday());
 //        holder.paySchedule.setText(item.getPaySchedule());

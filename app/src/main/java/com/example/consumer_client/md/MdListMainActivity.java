@@ -1,9 +1,15 @@
 package com.example.consumer_client.md;
 
+import static com.example.consumer_client.address.LocationDistance.distance;
+
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -14,15 +20,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.R;
 import com.example.consumer_client.farm.FarmDetailAdapter;
+import com.example.consumer_client.home.HomeProductItem;
 import com.example.consumer_client.store.StoreDetailActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -53,7 +64,9 @@ public class MdListMainActivity extends AppCompatActivity {
     JsonArray pu_start;
     JsonArray dDay;
 
-    String user_id;
+    String user_id, standard_address;
+    double myTownLat;   //추가
+    double myTownLong;  //추가
 
     ArrayList<String> md_id_list = new ArrayList<String>();
 
@@ -74,6 +87,25 @@ public class MdListMainActivity extends AppCompatActivity {
 
         Intent intent = getIntent(); //intent 값 받기
         user_id = intent.getStringExtra("user_id");
+        standard_address = intent.getStringExtra("standard_address");
+        TextView myaddress = (TextView) findViewById(R.id.myaddress);
+        myaddress.setText(standard_address);
+//
+//        TextView distance_500m = (TextView) findViewById(R.id.distance_500m);
+//        TextView distance_1km = (TextView) findViewById(R.id.distance_1km);
+//        TextView distance_4km = (TextView) findViewById(R.id.distance_4km);
+//        TextView distance_all = (TextView) findViewById(R.id.distance_all);
+
+        final Geocoder geocoder = new Geocoder(getApplicationContext());
+        List<Address> myAddr = null;
+        try {
+            myAddr = geocoder.getFromLocationName(standard_address, 8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address location = myAddr.get(0);
+        myTownLat= location.getLatitude();
+        myTownLong = location.getLongitude();
 
         Call<ResponseBody> call = service.getMdMainData();
         call.enqueue(new Callback<ResponseBody>() {
@@ -103,21 +135,51 @@ public class MdListMainActivity extends AppCompatActivity {
                     SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
                     int now_int = Integer.parseInt(format.format(now));
 
+
+//
+//
                     for (int i = 0; i < jsonArray.size(); i++) {
-                        md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
 
-                        String realIf0 = dDay.get(i).getAsString();
-                        if (realIf0.equals("0")) realIf0 = "day";
+                        List<Address> address = geocoder.getFromLocationName(jsonArray.get(i).getAsJsonObject().get("store_loc").getAsString(), 8);
+                        Address location = address.get(0);
+                        double store_lat = location.getLatitude();
+                        double store_long = location.getLongitude();
 
+                        //자신이 설정한 위치와 스토어 거리 distance 구하기
+                        double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
+                        double distanceMeter = distance(myTownLat, myTownLong, store_lat, store_long, "meter");
 
-                        addMdList("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
-                                jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
-                                jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
-                                jsonArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
-                                "D - " + realIf0,
-                                pu_start.get(i).getAsString()
-                        );
+                        if (Double.compare(1, distanceKilo) > 0) { //4km 이내 제품들만 보이기
+                            //(스토어 데이터가 많이 없으므로 0.4대신 1로 test 중, 기능은 완료)
+
+                            md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
+
+                            String realIf0 = dDay.get(i).getAsString();
+                            if (realIf0.equals("0")) realIf0 = "day";
+
+                            addMdList("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                    jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
+                                    jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                                    String.format("%.2f", distanceKilo),
+                                    jsonArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
+                                    "D - " + realIf0,
+                                    pu_start.get(i).getAsString()
+                            );
+                        }
                     }
+
+                    //거리 가까운순으로 정렬
+                    mList.sort(new Comparator<MdDetailInfo>() {
+                        @Override
+                        public int compare(MdDetailInfo o1, MdDetailInfo o2) {
+                            int ret;
+                            Double distance1 = Double.valueOf(o1.getDistance());
+                            Double distance2 = Double.valueOf(o2.getDistance());
+                            //거리비교
+                            ret = distance1.compareTo(distance2);
+                            return ret;
+                        }
+                    });
 
                     mMdListMainAdapter.setOnItemClickListener(
                             new FarmDetailAdapter.OnItemClickListener() {
@@ -152,12 +214,12 @@ public class MdListMainActivity extends AppCompatActivity {
         mList = new ArrayList<>();
     }
 
-    public void addMdList(String mdProdImg, String prodName, String storeName, String mdPrice, String dDay, String puTime) {
+    public void addMdList(String mdProdImg, String prodName, String storeName, String distance, String mdPrice, String dDay, String puTime) {
         MdDetailInfo mdDetail = new MdDetailInfo();
-
         mdDetail.setProdImg(mdProdImg);
         mdDetail.setProdName(prodName);
         mdDetail.setStoreName(storeName);
+        mdDetail.setDistance(distance);
         mdDetail.setMdPrice(mdPrice);
         mdDetail.setDday(dDay);
         // 미터 및 픽업 예정일 추가해야돼
