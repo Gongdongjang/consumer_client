@@ -232,7 +232,7 @@ public class CartListActivity extends AppCompatActivity {
                                         i.putExtra("md_id",md_id);
                                         i.putExtra("mdName",md_name);
                                         i.putExtra("purchaseNum",select_qty);
-                                        i.putExtra("JP_ToTalPrice",String.valueOf(Integer.valueOf(pay_price) * Integer.valueOf(select_qty)));
+                                        i.putExtra("JP_ToTalPrice",String.valueOf(Integer.valueOf(pay_price) * Integer.valueOf(select_qty)+"원"));
                                         i.putExtra("store_name",store_name);
                                         i.putExtra("store_id",store_id);
                                         i.putExtra("store_loc",store_loc);
