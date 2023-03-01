@@ -1,41 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:layout_margin="20dp"
     tools:context=".MainActivity">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:text="공지사항"
             android:textStyle="bold"
             android:textSize="18sp"
             android:textColor="@color/black"/>
 
-        <ExpandableListView
-            android:id="@+id/expandableListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#cdcdcd"
-            android:divider="#EAEAEA"
-            android:groupIndicator="@null"
-            android:dividerHeight="1.5dp"/>
+<!--        <ExpandableListView-->
+<!--            android:id="@+id/expandableListView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="#cdcdcd"-->
+<!--            android:divider="#EAEAEA"-->
+<!--            android:groupIndicator="@null"-->
+<!--            android:dividerHeight="1.5dp"/>-->
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:layout_weight="1">
+            android:layout_gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -69,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="5"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
                 android:textSize="15sp"
                 android:textColor="@color/black"/>
             <TextView
@@ -127,7 +123,6 @@
             android:padding="15dp"
             android:textColor="@color/white"
             android:backgroundTint="#1EAA95"
+            android:layout_marginBottom="60dp"
             android:text="회사소개 바로가기"/>
-
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+</LinearLayout>

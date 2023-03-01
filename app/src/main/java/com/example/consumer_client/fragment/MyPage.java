@@ -64,9 +64,7 @@ public class MyPage extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view= inflater.inflate(R.layout.fragment_my_page, container, false);
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_my_page, container, false);
 
@@ -78,8 +76,6 @@ public class MyPage extends Fragment {
         service = (MyPageService) retrofit.create(MyPageService.class);
         jsonParser = new JsonParser();
 
-
-        // retrofit 통신 -> 해당 pos의 데이터 가져오기
         Call<ResponseBody> call = service.getUserName(user_id);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -129,7 +125,6 @@ public class MyPage extends Fragment {
         shoppingInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(mActivity, "현재 오류 수정 중 ♥3♥", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), ShoppingInfoActivity.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
@@ -168,6 +163,7 @@ public class MyPage extends Fragment {
                 startActivity(intent);
             }
         });
+
         return view;
     }
 }
