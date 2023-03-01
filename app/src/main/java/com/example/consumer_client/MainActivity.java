@@ -220,7 +220,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     private void setFrag(int n) {
@@ -248,6 +247,5 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
                 break;
         }
-
     }
 }
