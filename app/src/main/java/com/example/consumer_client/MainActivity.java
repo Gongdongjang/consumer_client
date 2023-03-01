@@ -7,18 +7,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,8 +27,6 @@ import com.example.consumer_client.fragment.Keep;
 import com.example.consumer_client.fragment.MyPage;
 import com.example.consumer_client.fragment.Order;
 import com.example.consumer_client.fragment.TotalList;
-import com.example.consumer_client.md.MdListMainActivity;
-import com.example.consumer_client.tutorial.TutorialActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -48,7 +41,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 interface AddresssService {
@@ -62,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
     AddresssService service;
 
     JsonObject res;
-    JsonArray jsonArray;
 
     private BottomNavigationView bottomNavigation;
     private FragmentManager fm;
@@ -74,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
     private MyPage frag5;
     private TextView change_address;
     private ImageView toolbar_cart;
+    public Context mContext;
+    BackPressDialog backPressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +77,10 @@ public class MainActivity extends AppCompatActivity {
         service = retrofit.create(AddresssService.class);
         jsonParser = new JsonParser();
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mContext = this;
+
         //상단바 지정
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -216,5 +210,11 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        backPressDialog = new BackPressDialog(mContext);
+        backPressDialog.show();
     }
 }

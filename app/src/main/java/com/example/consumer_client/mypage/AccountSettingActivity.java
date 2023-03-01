@@ -1,6 +1,5 @@
 package com.example.consumer_client.mypage;
 
-import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +10,6 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.consumer_client.R;
 import com.example.consumer_client.fragment.MyPage;
@@ -35,8 +31,6 @@ public class AccountSettingActivity extends AppCompatActivity {
         Intent intent = getIntent(); //intent 값 받기
         user_id = intent.getStringExtra("user_id");
         Log.d("user_id ",user_id);
-
-//        linearLayout = (LinearLayout) findViewById(R.id.Activity_UserInfo);
 
         Button cancelBtn = findViewById(R.id.CancelBtn_MP);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
