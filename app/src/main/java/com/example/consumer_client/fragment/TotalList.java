@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,7 @@ public class TotalList extends Fragment {
 
         //서비스 전체보기 (전체 입점농가)
         TextView totalFarmTextView = (TextView) view.findViewById(R.id.showTotalFarm);
-        //Log.d("Totallist", user_id);
+
         totalFarmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,11 +89,10 @@ public class TotalList extends Fragment {
         mypage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), MyPage.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("user_id", user_id);
-                myPage.setArguments(bundle);
-//                startActivity(intent);
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                MyPage myPage = new MyPage();
+                transaction.replace(R.id.Main_Frame, myPage);
+                transaction.commit();
             }
         });
         return view;
