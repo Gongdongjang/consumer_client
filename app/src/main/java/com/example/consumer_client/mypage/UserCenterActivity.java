@@ -23,6 +23,8 @@ public class UserCenterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mypage_customer_service);
 
+        mContext = this;
+
         RecyclerView recyclerView = findViewById(R.id.FAQ_RecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         List<ExpandableAdapter.Item> data = new ArrayList<>();
@@ -56,8 +58,6 @@ public class UserCenterActivity extends AppCompatActivity {
         data.add(places6);
 
         recyclerView.setAdapter(new ExpandableAdapter(data));
-
-        mContext = this;
 
         Intent intent = getIntent(); //intent 값 받기
         user_id = intent.getStringExtra("user_id");

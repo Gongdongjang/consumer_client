@@ -53,7 +53,7 @@ public class CartListActivity extends AppCompatActivity {
 
     String select_qty, pay_price, pay_comp;
 
-    private RecyclerView mCartRecyclerView, mCartRecyclerView2;
+    private RecyclerView mCartRecyclerView;
     private ArrayList<CartListInfo> mList, mList2;
     private CartListAdapter mCartListAdapter;
 //    private CartListAdapter2 mCartListAdapter2;
