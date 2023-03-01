@@ -16,10 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
+import com.example.consumer_client.tutorial.TutorialActivity;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -83,6 +85,7 @@ public class StandardLoginActivity extends AppCompatActivity {
                     try {
                         JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
                         String access_token = res.get("access_token").getAsString();
+                        String first_login = res.get("first_login").getAsString();
                         if (access_token.equals("id_false")) {
                             Toast toast = Toast.makeText(getApplicationContext(), "아이디를 확인해주세요.", Toast.LENGTH_LONG);
                             toast.show();
@@ -95,10 +98,17 @@ public class StandardLoginActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("access_token", access_token).apply();
                             editor.putString("refresh_token", refresh_token).apply();
-                            //m으로
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.putExtra("generalid",res.get("id").getAsString());
-                            startActivity(intent);
+
+                            if(Objects.equals(first_login, "0")){ //최초 로그인 일 시 튜토리얼로
+                                Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
+                                intent.putExtra("user_id",res.get("id").getAsString());
+                                startActivity(intent);
+                            } else{
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.putExtra("user_id",res.get("id").getAsString());
+                                startActivity(intent);
+                            }
+
                         }
                         Log.d(TAG, res.get("access_token").getAsString());
                     } catch (IOException e) {
