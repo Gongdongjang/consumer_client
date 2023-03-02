@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.consumer_client"
-        minSdk 29
+        minSdk 31
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -76,11 +76,20 @@ dependencies {
     // url로 사진 띄우기 위한 glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
-
+    
     //FCM
     implementation platform('com.google.firebase:firebase-bom:31.2.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-messaging:21.1.0'
 
+    //홈화면 슬라이드 배너
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+   // implementation 'me.relex:circleindicator:2.1.4'
+
+
+    //s3 업로드
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.13.5'
+    implementation 'com.amazonaws:aws-android-sdk-cognito:2.13.5'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.13.5'
 }

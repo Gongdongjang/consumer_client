@@ -6,8 +6,9 @@ public class StoreTotalInfo {
     private String storeName;
     private String storeLocationFromMe;
     private String storeInfo;
-    private String storeRestDays;
-    private String storeHours;
+    private String storeProdName;
+    private String storProdPrice;
+    private String storeProdDate;
 
     public String getStoreid() {
         return storeId;
@@ -47,20 +48,28 @@ public class StoreTotalInfo {
 
     public void setStoreLocationFromMe(String storeLocationFromMe) {this.storeLocationFromMe = storeLocationFromMe;}
 
-    public String getStoreRestDays() {
-        return storeRestDays;
+    public String getStoreProdName() {
+        return storeProdName;
     }
 
-    public void setStoreRestDays(String storeRestDays) {
-        this.storeRestDays = storeRestDays;
+    public void setStoreProdName(String storeProdName) {
+        this.storeProdName = storeProdName;
     }
 
-    public String getStoreHours() {
-        return storeHours;
+    public String getStoreProdPrice() {
+        return storProdPrice;
     }
 
-    public void setStoreHours(String storeHours) {
-        this.storeHours = storeHours;
+    public void setStoreProdPrice(String storProdPrice) {
+        this.storProdPrice = storProdPrice;
+    }
+
+    public String getStoreProdDate() {
+        return storeProdDate;
+    }
+
+    public void setStoreProdDate(String storeProdDate) {
+        this.storeProdDate = storeProdDate;
     }
 
 }

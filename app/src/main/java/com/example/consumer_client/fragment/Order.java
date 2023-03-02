@@ -1,11 +1,8 @@
 package com.example.consumer_client.fragment;
 
-import static com.example.consumer_client.address.LocationDistance.distance;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -32,7 +29,7 @@ import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -60,6 +57,7 @@ public class Order extends Fragment {
     Activity mActivity;
     String user_id;
     Context mContext;
+    String isPickuped, pickupDate;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,18 +104,27 @@ public class Order extends Fragment {
                     linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                     mOrderListRecyclerView.setLayoutManager(linearLayoutManager);
 
-                    final Geocoder geocoder = new Geocoder(mActivity);
-
                     for(int i=0;i<orderDetailArray.size();i++) {
-                        String store_loc= orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString();
-                        List<Address> address=  geocoder.getFromLocationName(store_loc,10);
-                        Address location = address.get(0);
-                        double store_lat=location.getLatitude();
-                        double store_long=location.getLongitude();
 
-                        double distanceKilo =
-                                distance(37.59272, 127.016544, store_lat, store_long, "kilometer");
-                        addOrderList(user_id, orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(), "제품 이미지", orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString(), orderDetailArray.get(i).getAsJsonObject().get("order_md_status").getAsString(), pu_date.get(i).getAsString());
+                        //픽업 여부 확인 후 pickupDate 설정
+                        isPickuped=orderDetailArray.get(i).getAsJsonObject().get("order_md_status").toString();
+                        if (Objects.equals(isPickuped, "1")) {
+                            pickupDate="픽업 완료";
+                        }
+                        else {
+                            pickupDate="픽업 예정일 "+ pu_date.get(i).getAsString();
+                        }
+                        addOrderList(user_id, orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(),
+                                orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(),
+                                "제품이미지",
+                                // "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + orderDetailArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                                //String.format("%.2f", distanceKilo),
+                                orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(),
+                                orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString()+"세트",
+                                orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString()+"원",
+                                isPickuped, //mdStatus
+                                pickupDate);
                     }
 
                     mOrderListAdapter.setOnItemClickListener (
@@ -127,12 +134,8 @@ public class Order extends Fragment {
                                     Intent intent = new Intent(mActivity, OrderDetailActivity.class);
                                     intent.putExtra("user_id", user_id);
                                     intent.putExtra("store_loc", mList.get(pos).getStoreLoc());
-                                    intent.putExtra("store_my", mList.get(pos).getStoreLocationFromMe());
                                     intent.putExtra("store_name", mList.get(pos).getStoreName());
                                     intent.putExtra("md_name", mList.get(pos).getMdName());
-                                    intent.putExtra("md_qty", mList.get(pos).getMdQty());
-                                    intent.putExtra("md_price", mList.get(pos).getMdPrice());
-                                    intent.putExtra("md_status", mList.get(pos).getMdStatus());
                                     intent.putExtra("order_id", mList.get(pos).getOrderId());
                                     startActivity(intent);
                                 }
@@ -158,14 +161,13 @@ public class Order extends Fragment {
         mList = new ArrayList<>();
     }
 
-    public void addOrderList(String userId, String orderId, String storeLoc, String mdImgView, String storeName, String storeLocationFromMe, String mdName, String mdQty, String mdPrice, String mdStatus, String puDate){
+    public void addOrderList(String userId, String orderId, String storeLoc, String mdImgView, String storeName, String mdName, String mdQty, String mdPrice, String mdStatus, String puDate){
         OrderListInfo order = new OrderListInfo();
         order.setUserId(userId);
         order.setOrderId(orderId);
         order.setStoreLoc(storeLoc);
         order.setStoreProdImgView(mdImgView);
         order.setStoreName(storeName);
-        order.setStoreLocationFromMe(storeLocationFromMe);
         order.setMdName(mdName);
         order.setMdQty(mdQty);
         order.setMdPrice(mdPrice);

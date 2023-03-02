@@ -13,9 +13,9 @@
     <application
         android:name=".user.KakaoApplication"
         android:allowBackup="true"
-        android:icon="@drawable/kakaotalk_20220324_152807451"
+        android:icon="@drawable/ic_logo1"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/kakaotalk_20220324_152807451"
+        android:roundIcon="@drawable/ic_logo1"
         android:supportsRtl="true"
         android:theme="@style/Theme.Consumer_client"
         android:usesCleartextTraffic="true"
@@ -23,15 +23,18 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key"/>
-
-        <activity android:name=".user.LoginActivity"/>
+        <meta-data android:name="android.max_aspect" android:value="2.1" />
+        <activity android:name=".user.IntegratedLoginActivity"/>
         <activity android:name=".tutorial.TutorialActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+         <activity android:name=".tutorial.SplashActivity"/>
         <activity android:name=".address.FindTownActivity"/>
         <activity android:name=".address.PlusAddressActivity"/>
         <activity android:name=".MainActivity"/>
         <activity android:name=".md.MdListMainActivity"/>
-        <activity android:name=".user.RegisterActivity" />
+        <activity android:name=".user.SignUpActivity"/>
+        <activity android:name=".user.StandardLoginActivity"/>
+        <activity android:name=".user.AccountInfoActivity"/>
         <activity android:name=".user.StartActivity" />
         <activity android:name=".farm.FarmActivity" />
         <activity android:name=".store.StoreActivity"
@@ -50,7 +53,7 @@
         </activity>
 
         <activity android:name=".order.ToPayActivity" />
-        <activity android:name=".PayActivity" />
+        <activity android:name=".order.PaidActivity" />
 
         <activity android:name=".order.OrderDetailActivity" />
         <activity android:name=".review.ReviewActivity" />
@@ -88,20 +91,12 @@
         <activity android:name=".my_town.StoreMap" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".address.EditTownActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
-<!--    .tutorial.SplashActivity
-.alarm.Alarm-->
-        <activity android:name=".tutorial.SplashActivity"/>
-        <service
-            android:name=".alarm.FCMService"
-            android:enabled="true"
-            android:exported="true">
-
-                <intent-filter>
-                        <action android:name="com.google.firebase.MESSAGING_EVENT" />
-                </intent-filter>
-        </service>
-
         <activity android:name=".alarm.AlarmList" />
+        <activity android:name=".mypage.AboutGDJActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".mypage.AccountSettingActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".mypage.UserCenterActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".mypage.AboutCompanyActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".notification.NotificationList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
     </application>
 </manifest>

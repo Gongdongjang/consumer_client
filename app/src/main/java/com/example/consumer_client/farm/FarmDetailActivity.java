@@ -1,33 +1,51 @@
 package com.example.consumer_client.farm;
 
+import static com.example.consumer_client.address.LocationDistance.distance;
+
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+
+import android.net.Uri;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.R;
+import com.example.consumer_client.md.MdDetailInfo;
+import com.example.consumer_client.md.MdListMainActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import net.daum.mf.map.api.MapPOIItem;
-import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapView;
+import com.kakao.kakaolink.v2.KakaoLinkResponse;
+import com.kakao.kakaolink.v2.KakaoLinkService;
+import com.kakao.message.template.ButtonObject;
+import com.kakao.message.template.ContentObject;
+import com.kakao.message.template.FeedTemplate;
+import com.kakao.message.template.LinkObject;
+import com.kakao.network.ErrorResult;
+import com.kakao.network.callback.ResponseCallback;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -49,17 +67,18 @@ public class FarmDetailActivity extends AppCompatActivity {
     FarmDetailService service;
     JsonParser jsonParser;
     JsonObject res;
-    JsonArray farmArray, mdArray, pu_start, pu_end;
-    String farm_id, farm_name, farm_info, farm_loc, farm_hours;
-    Double farm_lat, farm_long;
+    JsonArray farmArray, mdArray, pu_start, dDay;
+    String farm_id, farm_name, farmer_name, farm_info, farm_loc, farm_main_item, farm_phone, md_price;
 
     private RecyclerView mRecyclerView;
-    private ArrayList<FarmDetailInfo> mList;
+    private ArrayList<MdDetailInfo> mList;
     private FarmDetailAdapter mFarmDetailAdapter;
 
     Context mContext;
 
-    String user_id;
+    String user_id, standard_address;
+    double myTownLat;
+    double myTownLong;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,18 +95,37 @@ public class FarmDetailActivity extends AppCompatActivity {
 
         mContext = this;
 
+        ImageView FarmMainImg = findViewById(R.id.FarmMainImg);
+        ImageView FarmStoryImg = findViewById(R.id.FarmStoryImg);
         TextView FarmName = (TextView) findViewById(R.id.FarmName);
+        TextView UpFarmerName = (TextView) findViewById(R.id.farm_up_FarmerName);
+        TextView FarmerName = (TextView) findViewById(R.id.FarmerName);
+        TextView UpFarmName = (TextView) findViewById(R.id.farm_up_FarmName);
         TextView FarmExplain = (TextView) findViewById(R.id.FarmExplain);
         TextView FarmLocation = (TextView) findViewById(R.id.FarmLocation);
-        TextView FarmHourTime = (TextView) findViewById(R.id.FarmHourTime);
-        TextView FarmJointPurchaseCount = (TextView) findViewById(R.id.FarmJointPurchaseCount);
+        TextView FarmMainItem = (TextView) findViewById(R.id.FarmMainItem);
+        TextView FarmPhone = (TextView) findViewById(R.id.FarmPhone);
+        TextView FarmPurchaseCount = (TextView) findViewById(R.id.FarmPurchaseCount);
+        //공유하기
+        ImageView KakaoShare = (ImageView) findViewById(R.id.KakaoShare);
 
-        //intent로 값 넘길때
         Intent intent;
-        intent=getIntent(); //intent 값 받기
+        intent=getIntent();
 
         user_id=intent.getStringExtra("user_id");
         farm_id = intent.getStringExtra("farm_id");
+        standard_address=intent.getStringExtra("standard_address");
+
+        final Geocoder geocoder = new Geocoder(getApplicationContext());
+        List<Address> myAddr = null;
+        try {
+            myAddr = geocoder.getFromLocationName(standard_address, 8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address location = myAddr.get(0);
+        myTownLat= location.getLatitude();
+        myTownLong = location.getLongitude();
 
         JsonObject body = new JsonObject();
         body.addProperty("farm_id", farm_id);
@@ -104,63 +142,73 @@ public class FarmDetailActivity extends AppCompatActivity {
                         //farm 정보
                         farmArray = res.get("farm_data").getAsJsonArray();
                         farm_name = farmArray.get(0).getAsJsonObject().get("farm_name").getAsString();
+                        farmer_name = farmArray.get(0).getAsJsonObject().get("farm_farmer").getAsString();
                         farm_info = farmArray.get(0).getAsJsonObject().get("farm_info").getAsString();
                         farm_loc = farmArray.get(0).getAsJsonObject().get("farm_loc").getAsString();
-                        farm_hours = farmArray.get(0).getAsJsonObject().get("farm_hours").getAsString();
+                        farm_main_item = farmArray.get(0).getAsJsonObject().get("farm_mainItem").getAsString();
+                        farm_phone = farmArray.get(0).getAsJsonObject().get("farm_phone").getAsString();
 
                         //md 정보
                         mdArray = res.get("md_data").getAsJsonArray();
-                        pu_start = res.get("pu_start").getAsJsonArray();
-                        pu_end = res.get("pu_end").getAsJsonArray();
 
+                        //pu_start
+                        pu_start = res.get("pu_start").getAsJsonArray();
+                        dDay = res.get("dDay").getAsJsonArray();
+
+//                        FarmMainImg.setImageDrawable("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(0).getAsJsonObject().get("farm_mainImg"));
+                        Glide.with(FarmDetailActivity.this)
+                                .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(0).getAsJsonObject().get("farm_mainImg").getAsString())
+                                .into(FarmMainImg);
+                        Glide.with(FarmDetailActivity.this)
+                                .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(0).getAsJsonObject().get("farm_detailImg").getAsString())
+                                .into(FarmStoryImg);
                         FarmName.setText(farm_name);
+                        UpFarmName.setText(farm_name);
+                        FarmerName.setText(farmer_name);
+                        UpFarmerName.setText(farmer_name);
                         FarmExplain.setText(farm_info);
                         FarmLocation.setText(farm_loc);
-                        FarmHourTime.setText(farm_hours);
-                        FarmJointPurchaseCount.setText(String.valueOf(mdArray.size()));
+                        FarmMainItem.setText(farm_main_item);
+                        FarmPhone.setText(farm_phone);
+                        FarmPurchaseCount.setText(String.valueOf(mdArray.size()));
+                        //공유하기
+                        KakaoShare.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    FeedTemplate params = FeedTemplate
+                                            .newBuilder(ContentObject.newBuilder(mdArray.get(0).getAsJsonObject().get("farm_farmer").getAsString() +" 농부님의 " + mdArray.get(0).getAsJsonObject().get("md_name").getAsString(),
+                                                    "https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/191/791/81191791_1555664874860_1_600x600.JPG",
+                                                    LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
+                                                            .setMobileWebUrl("https://developers.kakao.com").build())
+                                                    .setDescrption(mdArray.get(0).getAsJsonObject().get("farm_name").getAsString()+"에서 " + mdArray.get(0).getAsJsonObject().get("md_name").getAsString() +" 왔어용~")
+                                                    .build())
+                                            .addButton(new ButtonObject("웹에서 보기", LinkObject.newBuilder().setWebUrl("https://developers.kakao.com").setMobileWebUrl("https://developers.kakao.com").build()))
+                                            .addButton(new ButtonObject("앱에서 보기", LinkObject.newBuilder()
+                                                    .setWebUrl("https://developers.kakao.com")
+                                                    .setMobileWebUrl("https://developers.kakao.com")
+                                                    .setAndroidExecutionParams("key1=value1")
+                                                    .setIosExecutionParams("key1=value1")
+                                                    .build()))
+                                            .build();
 
-                        //농가 위치-> 위도, 경도 구하기
-                        final Geocoder geocoder = new Geocoder(getApplicationContext());
-                        List<Address> address=  geocoder.getFromLocationName(farm_loc,10);
-                        Address location = address.get(0);
-                        double farm_lat=location.getLatitude();
-                        double farm_long=location.getLongitude();
+                                    Map<String, String> serverCallbackArgs = new HashMap<String, String>();
+                                    serverCallbackArgs.put("user_id", "${current_user_id}");
+                                    serverCallbackArgs.put("product_id", "${shared_product_id}");
 
-                        Log.d("addressList_lat", String.valueOf(farm_lat));
-                        Log.d("addressList_lon", String.valueOf(farm_long));
 
-                        //지도
-                        MapView mapView = new MapView(mContext);
-                        // 중심점 변경
-                        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(farm_lat, farm_long), true);
-                        // 줌 레벨 변경
-                        mapView.setZoomLevel(1, true);
-                        // 줌 인
-                        mapView.zoomIn(true);
-                        // 줌 아웃
-                        mapView.zoomOut(true);
+                                    KakaoLinkService.getInstance().sendDefault(mContext, params, new ResponseCallback<KakaoLinkResponse>() {
+                                        @Override
+                                        public void onFailure(ErrorResult errorResult) {}
 
-                        ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.farm_map_view);
-                        mapViewContainer.addView(mapView);
-
-                        //농가위치 마커 아이콘 띄우기
-                        MapPoint f_MarkPoint = MapPoint.mapPointWithGeoCoord(farm_lat, farm_long);  //마커찍기
-
-                        MapPOIItem farm_marker=new MapPOIItem();
-                        farm_marker.setItemName(farm_name); //클릭했을때 농가이름 나오기
-                        farm_marker.setTag(0);
-                        farm_marker.setMapPoint(f_MarkPoint);   //좌표입력받아 현위치로 출력
-
-                        //  (클릭 전)기본으로 제공하는 BluePin 마커 모양의 색.
-                        farm_marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-                        // (클릭 후) 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-                        farm_marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-                        // 지도화면 위에 추가되는 아이콘을 추가하기 위한 호출(말풍선 모양)
-                        mapView.addPOIItem(farm_marker);
-
-                        //나중에 농가위치 마커 커스텀 이미지로 바꾸기
-                        //farm_marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-                        //farm_marker.setCustomImageResourceId(R.drawable.homeshape);
+                                        @Override
+                                        public void onSuccess(KakaoLinkResponse result) {
+                                        }
+                                    });
+                                } catch (Exception e) {
+                                    e.printStackTrace();}
+                            }
+                        });
 
                         //세부 페이지1 (진행 중인 공동구매) 리사이클러뷰 띄우게하기
                         firstInit();
@@ -174,10 +222,42 @@ public class FarmDetailActivity extends AppCompatActivity {
                         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         mRecyclerView.setLayoutManager(linearLayoutManager);
 
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(FarmDetailActivity.this, 2, GridLayoutManager.VERTICAL, false);
+                        mRecyclerView.setLayoutManager(gridLayoutManager);
+
                         for(int i=0;i<mdArray.size();i++){
-                            addFarmJointPurchase(farm_name, "https://gdjang.s3.ap-northeast-2.amazonaws.com/" + mdArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(), mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), mdArray.get(i).getAsJsonObject().get("store_name").getAsString(),pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
+
+                            List<Address> address = null;
+                            try {
+                                address = geocoder.getFromLocationName(mdArray.get(i).getAsJsonObject().get("store_loc").getAsString(), 8);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Address location = address.get(0);
+                            double store_lat = location.getLatitude();
+                            double store_long = location.getLongitude();
+                            //자신이 설정한 위치와 스토어 거리 distance 구하기
+                            double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
+
+
+                            String realIf0 = dDay.get(i).getAsString();
+                            if (realIf0.equals("0")) realIf0 = "day";
+
+                            addFarmJointPurchase("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + mdArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(), mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), mdArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), mdArray.get(i).getAsJsonObject().get("pay_price").getAsString(), "D - " + realIf0,  pu_start.get(i).getAsString());
                         }
-                        Log.d("FarmDetail", user_id);
+
+                        //거리 가까운순으로 정렬
+                        mList.sort(new Comparator<MdDetailInfo>() {
+                            @Override
+                            public int compare(MdDetailInfo o1, MdDetailInfo o2) {
+                                int ret;
+                                Double distance1 = Double.valueOf(o1.getDistance());
+                                Double distance2 = Double.valueOf(o2.getDistance());
+                                //거리비교
+                                ret = distance1.compareTo(distance2);
+                                return ret;
+                            }
+                        });
 
                         mFarmDetailAdapter.setOnItemClickListener(
                             new FarmDetailAdapter.OnItemClickListener() {
@@ -213,20 +293,21 @@ public class FarmDetailActivity extends AppCompatActivity {
     }
 
     public void firstInit(){
-        mRecyclerView = findViewById(R.id.FarmJointPurchaseView);
+        mRecyclerView = findViewById(R.id.FarmPurchaseView);
         mList = new ArrayList<>();
     }
 
-    public void addFarmJointPurchase(String farmName, String prodImgName, String prodName, String storeName, String puTerm){
-        FarmDetailInfo farmDetail = new FarmDetailInfo();
+    public void addFarmJointPurchase(String prodImgName, String prodName, String storeName, String distance, String mdPrice, String dDay, String puTime){
+        MdDetailInfo mdDetail = new MdDetailInfo();
 
-        farmDetail.setFarmName(farmName);
-        farmDetail.setProdImg(prodImgName);
-        farmDetail.setProdName(prodName);
-        farmDetail.setStoreName(storeName);
-//        farmDetail.setPaySchedule(paySchedule);
-        farmDetail.setPuTerm(puTerm);
-
-        mList.add(farmDetail);
+        mdDetail.setProdImg(prodImgName);
+        mdDetail.setProdName(prodName);
+        mdDetail.setStoreName(storeName);
+        mdDetail.setDistance(distance);
+        mdDetail.setMdPrice(mdPrice);
+        mdDetail.setDday(dDay);
+        // 미터 및 픽업 예정일 추가해야돼
+        mdDetail.setPuTime(puTime);
+        mList.add(mdDetail);
     }
 }

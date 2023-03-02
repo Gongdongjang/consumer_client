@@ -1,38 +1,52 @@
 package com.example.consumer_client.store;
 
+import static com.example.consumer_client.address.LocationDistance.distance;
+
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.media.Image;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.consumer_client.farm.FarmDetailActivity;
 import com.example.consumer_client.farm.FarmDetailAdapter;
-import com.example.consumer_client.farm.FarmDetailInfo;
+import com.example.consumer_client.md.MdDetailInfo;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.R;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import net.daum.mf.map.api.MapPOIItem;
-import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapView;
+import com.kakao.kakaolink.v2.KakaoLinkResponse;
+import com.kakao.kakaolink.v2.KakaoLinkService;
+import com.kakao.message.template.ButtonObject;
+import com.kakao.message.template.ContentObject;
+import com.kakao.message.template.FeedTemplate;
+import com.kakao.message.template.LinkObject;
+import com.kakao.network.ErrorResult;
+import com.kakao.network.callback.ResponseCallback;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -45,7 +59,7 @@ import retrofit2.http.POST;
 
 interface StoreDetailService {
     @POST("storeDetail/")
-    Call<ResponseBody> StoreDetail(@Body JsonObject body);    //post store_id
+    Call<ResponseBody> StoreDetail(@Body JsonObject body);
 }
 
 public class StoreDetailActivity extends AppCompatActivity {
@@ -53,18 +67,20 @@ public class StoreDetailActivity extends AppCompatActivity {
     StoreDetailService service;
     JsonParser jsonParser;
     JsonObject res;
-    JsonArray storeArray,jpArray,rvwArray, pu_start, pu_end;
+    JsonArray storeArray, jpArray,rvwArray, pu_start, pu_end, storeDate, dDay;
     String store_id, store_name;
     Context mContext;
 
     private RecyclerView mRecyclerView;
     private RecyclerView reviewRecyclerView;
-    private ArrayList<FarmDetailInfo> mList;
+    private ArrayList<MdDetailInfo> mList;
     private ArrayList<StoreReviewInfo> mReviewList;
-    private FarmDetailAdapter mFarmDetailAdapter;
+    private FarmDetailAdapter mStoreDetailAdapter;
     private StoreReviewAdapter mStoreReviewAdapter;
 
-    String user_id;
+    String user_id, standard_address, day;
+    double myTownLat;
+    double myTownLong;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,13 +100,35 @@ public class StoreDetailActivity extends AppCompatActivity {
         intent=getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
         store_id=intent.getStringExtra("storeid");
+        standard_address=intent.getStringExtra("standard_address");
 
+        TextView change_address = findViewById(R.id.change_address);
+        ImageView StoreMainImg = findViewById(R.id.StoreMainImg);
+        ImageView StoreStoryImg = findViewById(R.id.StoreStoryImg);
         TextView StoreName = (TextView) findViewById(R.id.StoreName);
         TextView StoreExplain = (TextView) findViewById(R.id.StoreExplain);
         TextView StoreLocation = (TextView) findViewById(R.id.StoreLocation);
-        TextView StoreHourTime = (TextView) findViewById(R.id.StoreHourTime);
-        //TextView StoreDayOff = (TextView) findViewById(R.id.StoreDayOff);
+        TextView StoreStart = (TextView) findViewById(R.id.StoreStart);
+        TextView StoreEnd = (TextView) findViewById(R.id.StoreEnd);
+        TextView StoreWeek = (TextView) findViewById(R.id.StoreWeek);
+        TextView StoreCall = (TextView) findViewById(R.id.StoreCall);
         TextView StoreJointPurchaseCount = (TextView) findViewById(R.id.StoreJointPurchaseCount);
+
+        //공유하기
+        ImageView KakaoShare = (ImageView) findViewById(R.id.KakaoShare);
+        change_address.setText(standard_address);
+
+        final Geocoder geocoder = new Geocoder(getApplicationContext());
+        List<Address> myAddr = null;
+        try {
+            myAddr = geocoder.getFromLocationName(standard_address, 8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address location = myAddr.get(0);
+        myTownLat= location.getLatitude();
+        myTownLong = location.getLongitude();
+
 
         JsonObject body = new JsonObject();
         body.addProperty("id", store_id);
@@ -106,92 +144,168 @@ public class StoreDetailActivity extends AppCompatActivity {
 
                         //store정보
                         storeArray= res.get("store_result").getAsJsonArray();
+
                         //md정보
-                        jpArray=res.get("jp_result").getAsJsonArray();
+                        jpArray = res.get("jp_result").getAsJsonArray();
                         pu_start = res.get("pu_start").getAsJsonArray();
                         pu_end = res.get("pu_end").getAsJsonArray();
+                        dDay = res.get("dDay").getAsJsonArray();
+
                         //리뷰정보
-                        rvwArray= res.get("review_result").getAsJsonArray();
-                        store_name=storeArray.get(0).getAsJsonObject().get("store_name").getAsString();
+                        rvwArray = res.get("review_result").getAsJsonArray();
+                        store_name = storeArray.get(0).getAsJsonObject().get("store_name").getAsString();
+
+                        //영업 or 휴무일 정보
+                        storeDate = res.get("store_date").getAsJsonArray();
+                        day = res.get("day").getAsString();
+
+                        //공유하기
+                        KakaoShare.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    FeedTemplate params = FeedTemplate
+                                            .newBuilder(ContentObject.newBuilder(jpArray.get(0).getAsJsonObject().get("farm_farmer").getAsString() +" 농부님의 " + jpArray.get(0).getAsJsonObject().get("md_name").getAsString(),
+                                                    "https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/191/791/81191791_1555664874860_1_600x600.JPG",
+                                                    LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
+                                                            .setMobileWebUrl("https://developers.kakao.com").build())
+                                                    .setDescrption(jpArray.get(0).getAsJsonObject().get("farm_name").getAsString()+"에서 " + jpArray.get(0).getAsJsonObject().get("md_name").getAsString() +" 왔어용~")
+                                                    .build())
+                                            .addButton(new ButtonObject("웹에서 보기", LinkObject.newBuilder().setWebUrl("https://developers.kakao.com").setMobileWebUrl("https://developers.kakao.com").build()))
+                                            .addButton(new ButtonObject("앱에서 보기", LinkObject.newBuilder()
+                                                    .setWebUrl("https://developers.kakao.com")
+                                                    .setMobileWebUrl("https://developers.kakao.com")
+                                                    .setAndroidExecutionParams("key1=value1")
+                                                    .setIosExecutionParams("key1=value1")
+                                                    .build()))
+                                            .build();
+
+                                    Map<String, String> serverCallbackArgs = new HashMap<String, String>();
+                                    serverCallbackArgs.put("user_id", "${current_user_id}");
+                                    serverCallbackArgs.put("product_id", "${shared_product_id}");
+
+
+                                    KakaoLinkService.getInstance().sendDefault(mContext, params, new ResponseCallback<KakaoLinkResponse>() {
+                                        @Override
+                                        public void onFailure(ErrorResult errorResult) {}
+
+                                        @Override
+                                        public void onSuccess(KakaoLinkResponse result) {
+                                        }
+                                    });
+                                } catch (Exception e) {
+                                    e.printStackTrace();}
+                            }
+                        });
+
+                        Glide.with(StoreDetailActivity.this)
+                                .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + storeArray.get(0).getAsJsonObject().get("store_mainImg").getAsString())
+                                .into(StoreMainImg);
+                        Glide.with(StoreDetailActivity.this)
+                                .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + storeArray.get(0).getAsJsonObject().get("store_detailImg").getAsString())
+                                .into(StoreStoryImg);
 
                         StoreName.setText(store_name);
                         StoreExplain.setText(storeArray.get(0).getAsJsonObject().get("store_info").getAsString());
                         StoreLocation.setText(storeArray.get(0).getAsJsonObject().get("store_loc").getAsString());
-                        StoreHourTime.setText(storeArray.get(0).getAsJsonObject().get("store_hours").getAsString());
-                        //StoreDayOff.setText(storeArray.get(0).getAsJsonObject().get("store_restDays").getAsString());
-                        StoreJointPurchaseCount.setText(String.valueOf(jpArray.size()));
 
-                        final Geocoder geocoder = new Geocoder(getApplicationContext());
-                        String store_loc= storeArray.get(0).getAsJsonObject().get("store_loc").getAsString();
-                        List<Address> address=  geocoder.getFromLocationName(store_loc,10);
+                        List<Address> address = null;
+                        try {
+                            address = geocoder.getFromLocationName(storeArray.get(0).getAsJsonObject().get("store_loc").getAsString(), 8);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         Address location = address.get(0);
-                        double store_lat=location.getLatitude();
-                        double store_long=location.getLongitude();
+                        double store_lat = location.getLatitude();
+                        double store_long = location.getLongitude();
+                        //자신이 설정한 위치와 스토어 거리 distance 구하기
+                        double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
 
-                        //지도
-                        MapView mapView = new MapView(mContext);
-                        // 중심점 변경
-                        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(35.01426900000000, 126.7169940), true);
-                        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(store_lat, store_long), true);
+                        if(day.equals("일")){
+                            StoreStart.setText(storeDate.get(0).getAsJsonObject().get("hours_sun1").getAsString());
+                            StoreEnd.setText(storeDate.get(0).getAsJsonObject().get("hours_sun2").getAsString());
+                        }
+                        else if(day.equals("월")){
+                            StoreStart.setText(storeDate.get(0).getAsJsonObject().get("hours_mon1").getAsString());
+                            StoreEnd.setText(storeDate.get(0).getAsJsonObject().get("hours_mon2").getAsString());
+                        }
+                        else if(day.equals("화")){
+                            StoreStart.setText(storeDate.get(0).getAsJsonObject().get("hours_tue1").getAsString());
+                            StoreEnd.setText(storeDate.get(0).getAsJsonObject().get("hours_tue2").getAsString());
+                        }
+                        else if(day.equals("수")){
+                            StoreStart.setText(storeDate.get(0).getAsJsonObject().get("hours_wed1").getAsString());
+                            StoreEnd.setText(storeDate.get(0).getAsJsonObject().get("hours_wed2").getAsString());
+                        }
+                        else if(day.equals("목")){
+                            StoreStart.setText(storeDate.get(0).getAsJsonObject().get("hours_thu1").getAsString());
+                            StoreEnd.setText(storeDate.get(0).getAsJsonObject().get("hours_thu2").getAsString());
+                        }
+                        else if(day.equals("금")){
+                            StoreStart.setText(storeDate.get(0).getAsJsonObject().get("hours_fri1").getAsString());
+                            StoreEnd.setText(storeDate.get(0).getAsJsonObject().get("hours_fri2").getAsString());
+                        }
+                        else if(day.equals("토")){
+                            StoreStart.setText(storeDate.get(0).getAsJsonObject().get("hours_sat1").getAsString());
+                            StoreEnd.setText(storeDate.get(0).getAsJsonObject().get("hours_sat2").getAsString());
+                        }
 
-                        // 줌 레벨 변경
-                        mapView.setZoomLevel(1, true);
-                        // 줌 인
-                        mapView.zoomIn(true);
-                        // 줌 아웃
-                        mapView.zoomOut(true);
-
-                        ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.store_map_view);
-                        mapViewContainer.addView(mapView);
-
-                        //스토어위치 마커 아이콘 띄우기
-                        MapPoint f_MarkPoint = MapPoint.mapPointWithGeoCoord(store_lat, store_long);  //마커찍기
-
-                        MapPOIItem store_marker=new MapPOIItem();
-                        store_marker.setItemName(store_name); //클릭했을때 가게이름 나오기
-                        store_marker.setTag(0);
-                        store_marker.setMapPoint(f_MarkPoint);   //좌표입력받아 현위치로 출력
-
-                        //  (클릭 전)기본으로 제공하는 BluePin 마커 모양의 색.
-                        store_marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-                        // (클릭 후) 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-                        store_marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-                        // 지도화면 위에 추가되는 아이콘을 추가하기 위한 호출(말풍선 모양)
-                        mapView.addPOIItem(store_marker);
+                        // 휴무일 다시 처리 -> 어떻게 출력되는지 확인
+                        StoreWeek.setText(storeDate.get(0).getAsJsonObject().get("hours_week").getAsString());
+                        StoreCall.setText(storeArray.get(0).getAsJsonObject().get("store_phone").getAsString());
+                        StoreJointPurchaseCount.setText(String.valueOf(jpArray.size()));
 
                         firstInit();
 
                         //어뎁터 적용
-                        mFarmDetailAdapter = new FarmDetailAdapter(mList);
-                        mRecyclerView.setAdapter(mFarmDetailAdapter);
+                        mStoreDetailAdapter = new FarmDetailAdapter(mList);
+                        mRecyclerView.setAdapter(mStoreDetailAdapter);
 
-                        //세로로 세팅
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        mRecyclerView.setLayoutManager(linearLayoutManager);
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(StoreDetailActivity.this, 2, GridLayoutManager.VERTICAL, false);
+                        mRecyclerView.setLayoutManager(gridLayoutManager);
 
-                        //어뎁터 적용
-                        mStoreReviewAdapter = new StoreReviewAdapter(mReviewList);
-                        reviewRecyclerView.setAdapter(mStoreReviewAdapter);
+//                       //리뷰 어뎁터 적용
+//                       mStoreReviewAdapter = new StoreReviewAdapter(mReviewList);
+//                       reviewRecyclerView.setAdapter(mStoreReviewAdapter);
 
                         //두 칸으로 세팅
-                        GridLayoutManager gridLayoutManager = new GridLayoutManager(StoreDetailActivity.this, 2, GridLayoutManager.VERTICAL, true);
-                        reviewRecyclerView.setLayoutManager(gridLayoutManager);
+                        //GridLayoutManager gridLayoutManager = new GridLayoutManager(StoreDetailActivity.this, 2, GridLayoutManager.VERTICAL, false);
+                        //reviewRecyclerView.setLayoutManager(gridLayoutManager);
 
                         //진행중인 공동구매 md
                         for(int i=0;i<jpArray.size();i++){
-                            addFarmJointPurchase(jpArray.get(i).getAsJsonObject().get("farm_name").getAsString(),
-                                    "https://gdjang.s3.ap-northeast-2.amazonaws.com/" + jpArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+
+                            String realIf0 = dDay.get(i).getAsString();
+                            if (realIf0.equals("0")) realIf0 = "day";
+
+                            addStoreJointPurchase(
+                                     "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jpArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                     jpArray.get(i).getAsJsonObject().get("md_name").getAsString(),
-                                    jpArray.get(i).getAsJsonObject().get("store_name").getAsString(),pu_start.get(i).getAsString()+" ~ "+pu_end.get(i).getAsString());
+                                    jpArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                                    String.format("%.2f", distanceKilo),
+                                    jpArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
+                                    "D - " + realIf0,  pu_start.get(i).getAsString());
                         }
 
-                        //리뷰
-                        for(int i=0;i<rvwArray.size();i++){
-                            addReview("product Img", "@id " + i, rvwArray.get(i).getAsJsonObject().get("md_name").getAsString(), rvwArray.get(i).getAsJsonObject().get("rvw_rating").getAsString(),rvwArray.get(i).getAsJsonObject().get("rvw_content").getAsString());
-                        }
+//                        //리뷰
+//                        for(int i=0;i<rvwArray.size();i++){
+//                            addReview("product Img", "@id " + i, rvwArray.get(i).getAsJsonObject().get("md_name").getAsString(), rvwArray.get(i).getAsJsonObject().get("rvw_rating").getAsString(),rvwArray.get(i).getAsJsonObject().get("rvw_content").getAsString());
+//                        }
 
-                        mFarmDetailAdapter.setOnItemClickListener(
+                        //거리 가까운순으로 정렬
+                        mList.sort(new Comparator<MdDetailInfo>() {
+                            @Override
+                            public int compare(MdDetailInfo o1, MdDetailInfo o2) {
+                                int ret;
+                                Double distance1 = Double.valueOf(o1.getDistance());
+                                Double distance2 = Double.valueOf(o2.getDistance());
+                                //거리비교
+                                ret = distance1.compareTo(distance2);
+                                return ret;
+                            }
+                        });
+
+                        mStoreDetailAdapter.setOnItemClickListener(
                                 new FarmDetailAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(View v, int pos) {
@@ -220,23 +334,25 @@ public class StoreDetailActivity extends AppCompatActivity {
     }
 
     public void firstInit(){
-        mRecyclerView = findViewById(R.id.FarmJointPurchaseView);
+        mRecyclerView = findViewById(R.id.FarmPurchaseView);
         reviewRecyclerView = findViewById(R.id.StoreReview);
         mList = new ArrayList<>();
         mReviewList = new ArrayList<>();
     }
 
-    public void addFarmJointPurchase(String farmName, String prodImgName, String prodName, String storeName, String puTerm){
-        FarmDetailInfo farmDetail = new FarmDetailInfo();
+    public void addStoreJointPurchase(String prodImgName, String prodName, String storeName, String distance, String mdPrice, String dDay, String puTime){
+        MdDetailInfo mdDetail = new MdDetailInfo();
 
-        farmDetail.setFarmName(farmName);
-        farmDetail.setProdImg(prodImgName);
-        farmDetail.setProdName(prodName);
-        farmDetail.setStoreName(storeName);
-//        farmDetail.setPaySchedule(paySchedule);
-        farmDetail.setPuTerm(puTerm);
+        mdDetail.setProdImg(prodImgName);
+        mdDetail.setProdName(prodName);
+        mdDetail.setStoreName(storeName);
+        mdDetail.setDistance(distance);
+        mdDetail.setMdPrice(mdPrice);
+        mdDetail.setDday(dDay);
+//        mdDetail.setPaySchedule(paySchedule);
+        mdDetail.setPuTime(puTime);
 
-        mList.add(farmDetail);
+        mList.add(mdDetail);
     }
 
     public void addReview(String userProfileImg, String userID, String prodName, String starCount, String reviewMessage){

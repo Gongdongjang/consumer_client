@@ -5,8 +5,11 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -19,47 +22,85 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.consumer_client.R;
+import com.example.consumer_client.cart.CartDialog;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import java.io.IOException;
 import java.util.Calendar;
 
-public class OrderDialog extends Dialog {
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
 
-    ImageView btn_shutdown, btn_date, btn_time;
+interface CartPostService{
+    @POST("cartPost")
+    Call<ResponseBody> cartPost(@Body JsonObject body);
+}
+
+public class OrderDialog extends Dialog {
+    String TAG = OrderDialog.class.getSimpleName();
+
+    ImageView btn_shutdown, btn_date, btn_time, BringBasketCheck;
+    boolean basketChek = false;
 
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
 
     //Spinner PurchaseNumSpinner;
-    Button mdPlusBtn, mdMinusBtn;
+    ImageView mdPlusBtn, mdMinusBtn;
     EditText PurchaseNum;
     int count;
 
-    TextView PickUpDate, PickUpTime;
-    CheckBox BringBasketCheck;
-    TextView PopupProdName, PopupProdNum, PopupProdPrice;
+    TextView PickUpDate, PickUpTime, JP_Remain_Count;
+    TextView JP_ToTalPrice, JP_SelectCount;
     Button JP_OrderBtn;
     ImageView JP_CartBtn;
     Context mContext;
 
+    CartDialog cartDialog;
+    OrderDialog orderDialog;
     //popuporderActivitiy
-    Boolean selectNum = false;
-    String user_id;
 
-    public OrderDialog(@NonNull Context context, String mdName, String prodNum, String prodPrice,
+    JsonObject body;
+    JsonParser jsonParser;
+    CartPostService service;
+
+
+    public OrderDialog(@NonNull Context context, String mdName, String prodPrice,
                        String StkRemain, String pu_start, String pu_end, String store_name,
                        String store_id, String store_loc, String user_id, String md_id) {
         super(context);
-        setContentView(R.layout.activity_payment_popup);
+        setContentView(R.layout.activity_payment_popup2);
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(context.getString(R.string.baseurl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        jsonParser = new JsonParser();
+        service = retrofit.create(CartPostService.class);
+        body = new JsonObject();
+        body.addProperty("user_id", user_id);
+        body.addProperty("md_id", md_id);
+        body.addProperty("store_id", store_id);
+
+        orderDialog = this;
         Log.d("유저아이디", user_id);
 
         //상품명 + n개 000원 추가했음.
-        PopupProdName=findViewById(R.id.PopupProdName);
-        PopupProdName.setText(mdName);
-        PopupProdNum=findViewById(R.id.PopupProdNum);
-        PopupProdNum.setText(prodNum);
-        PopupProdPrice=findViewById(R.id.PopupProdPrice);
-        PopupProdPrice.setText(prodPrice);
+//        PopupProdName=findViewById(R.id.PopupProdName);
+//        PopupProdName.setText(mdName);
+//        PopupProdNum=findViewById(R.id.PopupProdNum);
+//        PopupProdNum.setText(prodNum);
+//        PopupProdPrice=findViewById(R.id.PopupProdPrice);
+//        PopupProdPrice.setText(prodPrice);
 
         //픽업기간 세팅하기
         PickUpDate=findViewById(R.id.PickUpDate);
@@ -83,12 +124,32 @@ public class OrderDialog extends Dialog {
 
         //상품개수
         count=Integer.parseInt(String.valueOf(PurchaseNum.getText()));
-        //상품남은 재고 >= 세트선택 * prodNum 계산하기 위해
-        int idx=prodNum.indexOf("개"); //prodNum가 ex)1개 이렇게 되어있으니 '개' 문자 자르기
-        int prodCount= Integer.parseInt(prodNum.substring(0,idx));
+        //상품남은 재고
+        JP_Remain_Count=findViewById(R.id.JP_Remain_Count);
+        JP_Remain_Count.setText(StkRemain+"개");
 
         //장바구니 지참체크
         BringBasketCheck=findViewById(R.id.BringBasketCheck);
+        BringBasketCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (basketChek){
+                    basketChek = false;
+                    BringBasketCheck.setImageResource(R.drawable.ic_check_off);
+                }else {
+                    basketChek = true;
+                    BringBasketCheck.setImageResource(R.drawable.ic_check_on);
+                }
+            }
+        });
+
+        //총 수량, 총 가격
+        JP_SelectCount=findViewById(R.id.JP_SelectCount);
+        JP_ToTalPrice=findViewById(R.id.JP_ToTalPrice);
+        //디폴트
+        JP_SelectCount.setText(PurchaseNum.getText().toString()+"개");
+        JP_ToTalPrice.setText(Integer.parseInt(PurchaseNum.getText().toString()) * Integer.parseInt(prodPrice) + "원");
+
 
         //+버튼
         mdPlusBtn.setOnClickListener(new View.OnClickListener() {
@@ -96,11 +157,13 @@ public class OrderDialog extends Dialog {
             public void onClick(View v) {
                 //재고 있을 시 count++
                 Log.d("count 개수: ", String.valueOf(count));
-                if(Integer.parseInt(StkRemain) < (count+1) * prodCount){ //n세트 * m개
-                    Toast.makeText(getContext(), "재고가 부족합니다", Toast.LENGTH_SHORT).show();
+                if(Integer.parseInt(StkRemain) < (count+1) ){ //n세트 * m개
+                    Toast.makeText(getContext(), "재고 확인 후 다시 주문해주세요", Toast.LENGTH_SHORT).show();
                 }else{
                     count++;
                     PurchaseNum.setText(count+"");
+                    JP_SelectCount.setText(PurchaseNum.getText().toString()+"개");
+                    JP_ToTalPrice.setText(Integer.parseInt(PurchaseNum.getText().toString()) * Integer.parseInt(prodPrice) + "원");
                 }
             }
         });
@@ -115,6 +178,8 @@ public class OrderDialog extends Dialog {
                 else{
                     count--;
                     PurchaseNum.setText(count+"");
+                    JP_SelectCount.setText(PurchaseNum.getText().toString()+"개");
+                    JP_ToTalPrice.setText(Integer.parseInt(PurchaseNum.getText().toString()) * Integer.parseInt(prodPrice) + "원");
                 }
             }
         });
@@ -146,9 +211,15 @@ public class OrderDialog extends Dialog {
                             }
                         },pYear,pMonth,pDay);
 
+                //픽업 시작날짜와 현재시간 비교한 후 오늘 이전의 날짜는 선택 불가능 하도록 하기
+                long currentTime= calendar.getTimeInMillis();
+                String month, day;
+                //minDate.set(Integer.parseInt(startDay[0],month,day);
                 //픽업 시작날짜부터 선택가능
                 minDate.set(Integer.parseInt(startDay[0]),Integer.parseInt(startDay[1])-1,Integer.parseInt(startDay[2]));
                 datePickerDialog.getDatePicker().setMinDate(minDate.getTime().getTime());
+
+
                 //픽업 마감날짜까지 선택가능
                 maxDate.set(Integer.parseInt(endDay[0]),Integer.parseInt(endDay[1])-1,Integer.parseInt(endDay[2]));
                 datePickerDialog.getDatePicker().setMaxDate(maxDate.getTimeInMillis());
@@ -173,50 +244,13 @@ public class OrderDialog extends Dialog {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                 PickUpTime.setText(hourOfDay + ":" + minute);
+                                //view.setMi
                             }
                         }, mHour, mMinute, false);
                 timePickerDialog.show();
             }
 
         });
-
-        //닫기버튼
-        btn_shutdown=findViewById(R.id.btn_shutdown);
-        btn_shutdown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-
-        //장바구니 버튼
-//        JP_CartBtn=findViewById(R.id.JP_CartBtn);
-//        JP_CartBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(v.getContext(), CartListActivity.class);
-//                if(BringBasketCheck.isChecked()){   //장바구니 지참사항 확인해야 넘어감
-//                    //스토어정보+ dialog 값 전달
-//                    i.putExtra("mdName",mdName);
-//                    //i.putExtra("purchaseNum",PurchaseNumSpinner.getSelectedItem().toString());
-//                    i.putExtra("purchaseNum",PurchaseNum.getText());    // + - 버튼으로 변경
-//                    i.putExtra("prodPrice",prodPrice);
-//                    i.putExtra("store_name",store_name);
-//                    i.putExtra("store_loc",store_loc);
-//                    i.putExtra("store_lat",store_lat);
-//                    i.putExtra("store_long",store_long);
-//                    i.putExtra("pickupDate",PickUpDate.getText());
-//                    i.putExtra("pickupTime",PickUpTime.getText());
-//                    v.getContext().startActivity(i);
-//                    if (selectNum){
-//                        Toast.makeText(getContext(), "제품을 장바구니에 담았습니다.", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//                else{
-//                    Toast.makeText(getContext(), "장바구니 지참사항 확인하셨나요?", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
 
         //주문하기 버튼
         JP_OrderBtn=findViewById(R.id.JP_OrderBtn);
@@ -225,17 +259,21 @@ public class OrderDialog extends Dialog {
             public void onClick(View v) {
                 Intent i = new Intent(v.getContext(), ToPayActivity.class);
                 //수량+-버튼이 아닌 직접 입력했을 수도 있으니 다시 한번 재고 수량확인
-                if(Integer.parseInt(StkRemain) < Integer.parseInt(PurchaseNum.getText().toString()) * prodCount){ //n세트 * m개
+                if(Integer.parseInt(StkRemain) < Integer.parseInt(PurchaseNum.getText().toString()) ){ //n세트 * m개
                     Toast.makeText(getContext(), "재고가 부족합니다.", Toast.LENGTH_SHORT).show();
-                }else{
-                    if(BringBasketCheck.isChecked()){   //장바구니 지참사항 확인해야 넘어감
+                }else if (PickUpDate.getText().toString().equals("") || PickUpTime.getText().toString().equals("")){
+                    Toast.makeText(getContext(), "픽업 날짜와 시간을 입력하세요.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if(basketChek){   //장바구니 지참사항 확인해야
+                        // 넘어감
                         //스토어정보+ dialog 값 전달
                         i.putExtra("user_id",user_id);
                         i.putExtra("md_id",md_id);
                         i.putExtra("mdName",mdName);
                         //i.putExtra("purchaseNum",PurchaseNumSpinner.getSelectedItem().toString());
                         i.putExtra("purchaseNum",PurchaseNum.getText().toString());
-                        i.putExtra("prodPrice",prodPrice);
+                        i.putExtra("JP_ToTalPrice",JP_ToTalPrice.getText());
                         i.putExtra("store_name",store_name);
                         i.putExtra("store_id",store_id);
                         i.putExtra("store_loc",store_loc);
@@ -244,6 +282,61 @@ public class OrderDialog extends Dialog {
                         v.getContext().startActivity(i);
                     }
                     else{
+                        Toast.makeText(getContext(), "장바구니 지참사항 확인하셨나요?", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+        // 장바구니 버튼
+        JP_CartBtn = findViewById(R.id.JP_CartBtn);
+        JP_CartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                body.addProperty("pu_date", PickUpDate.getText().toString());
+                body.addProperty("pu_time", PickUpTime.getText().toString());
+                body.addProperty("purchase_num", PurchaseNum.getText().toString());
+
+                if(Integer.parseInt(StkRemain) < Integer.parseInt(PurchaseNum.getText().toString()) ){ //n세트 * m개
+                    Toast.makeText(getContext(), "재고가 부족합니다.", Toast.LENGTH_SHORT).show();
+                }else if (PickUpDate.getText().toString().equals("") || PickUpTime.getText().toString().equals("")){
+                    Toast.makeText(getContext(), "픽업 날짜와 시간을 입력하세요.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if (basketChek) {   //장바구니 지참사항 확인해야
+                        // cart 테이블에 데이터 값 삽입하기 Post 요청
+                        Log.d("*********", body.toString());
+                        Call<ResponseBody> call = service.cartPost(body);
+                        call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                Log.d("~~~~~~~~", response.toString());
+                                if (response.isSuccessful()){
+                                    try {
+                                        JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                else {
+                                    try {
+                                        Log.d(TAG, "Fail " + response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                            }
+                        });
+
+                        orderDialog.dismiss();
+                        cartDialog = new CartDialog(context, user_id);
+                        cartDialog.show();
+                    } else {
                         Toast.makeText(getContext(), "장바구니 지참사항 확인하셨나요?", Toast.LENGTH_SHORT).show();
                     }
                 }

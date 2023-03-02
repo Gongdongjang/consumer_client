@@ -1,11 +1,13 @@
 package com.example.consumer_client.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,15 +17,39 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.consumer_client.R;
-import com.example.consumer_client.farm.FarmActivity;
-import com.example.consumer_client.shopping_info.ShoppingInfo2Activity;
+import com.example.consumer_client.mypage.AboutGDJActivity;
+import com.example.consumer_client.mypage.AccountSettingActivity;
+import com.example.consumer_client.mypage.UserCenterActivity;
+import com.example.consumer_client.notification.NotificationList;
 import com.example.consumer_client.shopping_info.ShoppingInfoActivity;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
+
+interface MyPageService {
+    @GET("mypage")
+    Call<ResponseBody> getUserName(@Query("user_id") String user_id);
+}
 
 public class MyPage extends Fragment {
     private View view;
     Activity mActivity;
     String user_id;
+    Context mContext;
+    JsonParser jsonParser;
+    MyPageService service;
+    JsonArray user_info;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,24 +57,68 @@ public class MyPage extends Fragment {
         mActivity = getActivity();
         Intent intent = mActivity.getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
+        Bundle extra = getArguments();
+        if(extra != null){
+            user_id = extra.getString("user_id");
+        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view= inflater.inflate(R.layout.fragment_my_page, container, false);
-
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_my_page, container, false);
 
-        TextView totalFarmTextView = (TextView) view.findViewById(R.id.MyPage_MS_ProdReview);
-//        totalFarmTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), FarmActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        mContext = view.getContext();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(mContext.getString(R.string.baseurl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        service = (MyPageService) retrofit.create(MyPageService.class);
+        jsonParser = new JsonParser();
+
+        Call<ResponseBody> call = service.getUserName(user_id);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                        user_info = res.get("user_info").getAsJsonArray();
+                        String user_name = user_info.get(0).getAsJsonObject().get("user_name").getAsString();
+                        TextView MyPage_UserName = view.findViewById(R.id.MyPage_UserName);
+                        MyPage_UserName.setText(user_name);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("MyPage", "onFailure: e " + t.getMessage());
+            }
+        });
+
+        LinearLayout myPage_Keep = (LinearLayout) view.findViewById(R.id.MyPage_Keep);
+        myPage_Keep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                Keep keep = new Keep();
+                transaction.replace(R.id.Main_Frame, keep);
+                transaction.commit();
+            }
+        });
+
+        //알림리스트
+        LinearLayout MyPage_Notification = (LinearLayout) view.findViewById(R.id.MyPage_Notification);
+        MyPage_Notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NotificationList.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
 
         //나의 쇼핑정보
         LinearLayout shoppingInfo = (LinearLayout) view.findViewById(R.id.MyPage_MyShopping);
@@ -60,26 +130,40 @@ public class MyPage extends Fragment {
                 startActivity(intent);
             }
         });
-        //상세 주문 내역
-        TextView orderlist = (TextView) view.findViewById(R.id.MyPage_MS_OrderDetail);
-        orderlist.setOnClickListener(new View.OnClickListener() {
+
+        //나의 계정 정보
+        LinearLayout myPage_MyAccountSetting = (LinearLayout) view.findViewById(R.id.MyPage_MyAccountSetting);
+        myPage_MyAccountSetting.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ShoppingInfoActivity.class);
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AccountSettingActivity.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
         });
-        //상품리뷰
-        TextView reviewlist = (TextView) view.findViewById(R.id.MyPage_MS_ProdReview);
-        reviewlist.setOnClickListener(new View.OnClickListener() {
+
+        //고객 센터
+        LinearLayout myPage_UserCenter = (LinearLayout) view.findViewById(R.id.MyPage_UserCenter);
+        myPage_UserCenter.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ShoppingInfo2Activity.class);
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), UserCenterActivity.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
         });
+
+        //about 공동장
+        LinearLayout myPage_AboutGDJ = (LinearLayout) view.findViewById(R.id.MyPage_AboutGDJ);
+        myPage_AboutGDJ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AboutGDJActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 }

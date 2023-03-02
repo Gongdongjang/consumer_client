@@ -9,15 +9,20 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.R;
+import com.example.consumer_client.address.EditTownActivity;
+import com.example.consumer_client.farm.FarmActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -37,29 +42,39 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import retrofit2.http.GET;
 
-
 interface StoreService {
     @GET("/storeView")
     Call<ResponseBody> getStoreData();
+
 }
 
 public class StoreActivity extends AppCompatActivity {
     StoreService service;
     JsonParser jsonParser;
     JsonObject res;
-    JsonArray storeArray;
+    JsonArray storeArray, pu_start;
 
     private RecyclerView mStoreRecyclerView;
     private ArrayList<StoreTotalInfo> mList;
     private StoreTotalAdapter mStoreTotalAdapter;
     Context mContext;
 
-    String user_id;
+    String user_id, standard_address;
+    double myTownLat;
+    double myTownLong;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_total_list);
+        
+        //상단바 지정
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        //actionBar.setDisplayShowCustomEnabled(true);
+        //actionBar.setDisplayShowTitleEnabled(false);    //기본 제목을 없애줍니다.
+        //actionBar.setDisplayHomeAsUpEnabled(true);
 
         mContext = this;
 
@@ -74,7 +89,38 @@ public class StoreActivity extends AppCompatActivity {
 
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
+        standard_address=intent.getStringExtra("standard_address");
+        TextView change_address = (TextView) findViewById(R.id.change_address);
+        change_address.setText(standard_address);
 
+        //===기준 주소정보
+        JsonObject body = new JsonObject();
+        body.addProperty("id", user_id);
+        
+        final Geocoder geocoder = new Geocoder(getApplicationContext());
+        List<Address> address = null;
+        try {
+            address = geocoder.getFromLocationName(standard_address,10);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address location = address.get(0);
+        myTownLat = location.getLatitude();
+        myTownLong=location.getLongitude();
+
+        // 지역명
+        //상단바 주소변경 누르면 주소변경/선택 페이지로
+//        change_address.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v){
+//                Log.d("클릭", "확인");
+//                Intent intent = new Intent(StoreActivity.this, EditTownActivity.class);
+//                intent.putExtra("user_id", user_id);
+//                startActivity(intent);
+//            }
+//        });
+
+        //-----스토어 정보 불러오기
         Call<ResponseBody> call = service.getStoreData();
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -82,6 +128,7 @@ public class StoreActivity extends AppCompatActivity {
                 try {
                     res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
                     storeArray = res.get("store_result").getAsJsonArray();  //json배열
+                    pu_start = res.get("pu_start").getAsJsonArray();
 
                     //어뎁터 적용
                     mStoreTotalAdapter = new StoreTotalAdapter(mList);
@@ -104,11 +151,11 @@ public class StoreActivity extends AppCompatActivity {
 
                         //자신이 설정한 위치와 스토어 거리 distance 구하기
                         double distanceKilo =
-                                distance(37.59272, 127.016544, store_lat, store_long, "kilometer");
+                                distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
 
                         addStore(storeArray.get(i).getAsJsonObject().get("store_id").getAsString(),
-                                "https://gdjang.s3.ap-northeast-2.amazonaws.com/" + storeArray.get(i).getAsJsonObject().get("store_thumbnail").getAsString(),
-                                storeArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), storeArray.get(i).getAsJsonObject().get("store_info").getAsString(), "휴무일 없어진거니?", storeArray.get(i).getAsJsonObject().get("store_hours").getAsString());
+                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + storeArray.get(i).getAsJsonObject().get("store_thumbnail").getAsString(),
+                                storeArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), storeArray.get(i).getAsJsonObject().get("store_info").getAsString(), storeArray.get(i).getAsJsonObject().get("md_name").getAsString(), storeArray.get(i).getAsJsonObject().get("pay_price").getAsString(), pu_start.get(i).getAsString());
                     }
                     //거리 가까운순으로 정렬
                     mList.sort(new Comparator<StoreTotalInfo>() {
@@ -129,6 +176,7 @@ public class StoreActivity extends AppCompatActivity {
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(StoreActivity.this, StoreDetailActivity.class);
                                     intent.putExtra("user_id", user_id);
+                                    intent.putExtra("standard_address", standard_address);
                                     intent.putExtra("storeid", mList.get(pos).getStoreid());
                                     startActivity(intent);
                                 }
@@ -152,7 +200,7 @@ public class StoreActivity extends AppCompatActivity {
         mList = new ArrayList<>();
     }
 
-    public void addStore(String storeId, String storeProdImgView, String storeName, String storeLocationFromMe, String storeInfo, String storeRestDays, String storeHours){
+    public void addStore(String storeId, String storeProdImgView, String storeName, String storeLocationFromMe, String storeInfo, String storeProdName, String storProdPrice, String storeProdDate){
         StoreTotalInfo store = new StoreTotalInfo();
 
         store.setStoreid(storeId);
@@ -160,8 +208,9 @@ public class StoreActivity extends AppCompatActivity {
         store.setStoreName(storeName);
         store.setStoreLocationFromMe(storeLocationFromMe);
         store.setStoreInfo(storeInfo);
-        store.setStoreRestDays(storeRestDays);
-        store.setStoreHours(storeHours);
+        store.setStoreProdName(storeProdName);
+        store.setStoreProdPrice(storProdPrice);
+        store.setStoreProdDate(storeProdDate);
         mList.add(store);
     }
 }

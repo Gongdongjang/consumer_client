@@ -2,15 +2,16 @@ package com.example.consumer_client.cart;
 
 public class CartListInfo {
     private String userId;
-    private String storeProdImgView;
+    private String mdImg;
     private String storeName;
     private String mdName;
-    private String mdPrice;
-    private String puDate;
-    private String totalPrice;
-    private String paycount;
-    private String prodSet;
-    private String prodCount;
+    private int eachMdPrice;
+    private String eachMdTotalPriceP;
+    private int eachMdTotalPrice;
+    private int eachStoreTotalPrice;
+    private String mdSet;
+    private String qty;
+    private int totalPrice;
 
     public String getUserId() {
         return userId;
@@ -20,12 +21,12 @@ public class CartListInfo {
         this.userId = userId;
     }
 
-    public String getStoreProdImgView() {
-        return storeProdImgView;
+    public String getMdImg() {
+        return mdImg;
     }
 
-    public void setStoreProdImgView(String storeProdImgView) {
-        this.storeProdImgView = storeProdImgView;
+    public void setMdImg(String mdImg) {
+        this.mdImg = mdImg;
     }
 
     public String getStoreName() {
@@ -44,52 +45,54 @@ public class CartListInfo {
         this.mdName = mdName;
     }
 
-    public String getMdPrice() {
-        return mdPrice;
+    public String getEachMdPrice() {
+        return String.valueOf(eachMdPrice);
     }
 
-    public void setMdPrice(String mdPrice) {
-        this.mdPrice = mdPrice;
+    public void setEachMdPrice(int eachMdPrice) {
+        this.eachMdPrice = eachMdPrice;
     }
 
-    public String getPuDate() {
-        return puDate;
+    public String getEachMdTotalPriceP() {
+        return eachMdTotalPriceP;
     }
 
-    public void setPuDate(String puDate) {
-        this.puDate = puDate;
+    public void setEachMdTotalPriceP(String eachMdTotalPriceP) {
+        this.eachMdTotalPriceP = eachMdTotalPriceP;
     }
 
-    public String getTotalPrice() {
-        return totalPrice;
+    public String getEachMdTotalPrice() {
+        return String.valueOf(eachMdTotalPrice);
     }
 
-    public void setTotalPrice(String totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setEachMdTotalPrice(int eachMdTotalPrice) {
+        this.eachMdTotalPrice = eachMdTotalPrice;
     }
 
-    public String getPayCount() {
-        return paycount;
+    public String getEachStoreTotalPrice() {
+        return String.valueOf(eachStoreTotalPrice);
     }
 
-    public void setPayCount(String paycount) {
-        this.paycount = paycount;
+    public void setEachStoreTotalPrice(int eachStoreTotalPrice) {
+        this.eachStoreTotalPrice = eachStoreTotalPrice;
     }
 
-    public String getProdSet() {
-        return prodSet;
+    public String getMdSet() {
+        return mdSet;
     }
 
-    public void setProdSet(String prodSet) {
-        this.prodSet = prodSet;
+    public void setMdSet(String mdSet) {
+        this.mdSet = mdSet;
     }
 
-    public String getProdCount() {
-        return prodCount;
+    public String getQty() {
+        return qty;
     }
 
-    public void setProdCount(String prodCount) {
-        this.prodCount = prodCount;
+    public void setQty(String qty) {
+        this.qty = qty;
     }
 
+    public String getTotalPrice() {return String.valueOf(totalPrice);}
+    public void setTotalPrice(int totalPrice){this.totalPrice = totalPrice;}
 }

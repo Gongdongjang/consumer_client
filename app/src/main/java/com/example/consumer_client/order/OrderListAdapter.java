@@ -2,6 +2,7 @@ package com.example.consumer_client.order;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.consumer_client.R;
 import com.example.consumer_client.review.ReviewActivity;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
     private ArrayList<String> mData = null;
@@ -58,7 +61,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             mdQty = (TextView) itemView.findViewById(R.id.MdQty);
             mdPrice = (TextView) itemView.findViewById(R.id.MdPrice);
             puDate = (TextView) itemView.findViewById(R.id.Pudate);
-            mdStatus = (TextView) itemView.findViewById(R.id.Pudate); //픽업하면 mdStatus로 바뀌어야 함
+            mdStatus = (TextView) itemView.findViewById(R.id.mdStatus); //픽업완료 상태 0이면 픽업예정일, 1이면 픽업완료
             OrderReview = (TextView) itemView.findViewById(R.id.OrderReview);
         }
     }
@@ -85,25 +88,31 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     public void onBindViewHolder(@NonNull OrderListAdapter.ViewHolder holder, int position) {
         OrderListInfo item = mList.get(position);
         holder.user_id.setText(item.getUserId());
-        holder.storeProdImgView.setImageResource(R.drawable.ic_launcher_background);
+        //Glide.with(holder.itemView).load(item.getStoreProdImgView()).into(holder.storeProdImgView);
+        holder.storeProdImgView.setImageResource(R.drawable.img_gongdongjang_logo);
         holder.storeName.setText(item.getStoreName());
-        holder.storeLocationFromMe.setText(item.getStoreLocationFromMe());
         holder.mdName.setText(item.getMdName());
         holder.mdQty.setText(item.getMdQty());
         holder.mdPrice.setText(item.getMdPrice());
+        holder.mdStatus.setText(item.getMdStatus());
         holder.puDate.setText(item.getPuDate());
         Context context = holder.itemView.getContext();
-        holder.OrderReview.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent intent = new Intent(context, ReviewActivity.class);
-                intent.putExtra("user_id", item.getUserId());
-                intent.putExtra("md_name", item.getMdName());
-                intent.putExtra("md_qty", item.getMdQty());
-                intent.putExtra("md_fin_price", String.valueOf(Integer.parseInt(item.getMdQty()) * Integer.parseInt(item.getMdPrice())));
-                context.startActivity(intent);
-            }
-        });
+
+        if (Objects.equals(item.getMdStatus(), "1")){
+            holder.puDate.setTextColor(Color.parseColor("#848484"));
+            holder.OrderReview.setVisibility(View.VISIBLE);    //리뷰작성 버튼 보이기
+            holder.OrderReview.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view){
+                    Intent intent = new Intent(context, ReviewActivity.class);
+                    intent.putExtra("user_id", item.getUserId());
+                    intent.putExtra("md_name", item.getMdName());
+                    intent.putExtra("md_qty", item.getMdQty());
+                    intent.putExtra("md_fin_price", item.getMdPrice());
+                    context.startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override
