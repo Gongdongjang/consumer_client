@@ -27,6 +27,7 @@
         <activity android:name=".user.IntegratedLoginActivity"/>
         <activity android:name=".tutorial.TutorialActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+         <activity android:name=".tutorial.SplashActivity"/>
         <activity android:name=".address.FindTownActivity"/>
         <activity android:name=".address.PlusAddressActivity"/>
         <activity android:name=".MainActivity"/>
@@ -60,7 +61,7 @@
         <activity android:name=".cart.CartListActivity" />
 
         <activity
-            android:name=".tutorial.SplashActivity"
+            android:name=".alarm.Alarm"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -90,6 +91,7 @@
         <activity android:name=".my_town.StoreMap" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".address.EditTownActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
+        <activity android:name=".alarm.AlarmList" />
         <activity android:name=".mypage.AboutGDJActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".mypage.AccountSettingActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".mypage.UserCenterActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
