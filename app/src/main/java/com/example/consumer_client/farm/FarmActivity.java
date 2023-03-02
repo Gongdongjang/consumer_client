@@ -148,7 +148,7 @@ public class FarmActivity extends AppCompatActivity {
 
                         //자신이 설정한 위치와 스토어 거리 distance 구하기
           //              double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
-                     addFarm("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(i).getAsJsonObject().get("farm_thumbnail").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
+                     addFarm("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(i).getAsJsonObject().get("farm_mainImg").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
 
                         //2023.02.21. 이미지 때문인지 오류나서 주석처리함...
                         //addFarm(

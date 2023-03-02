@@ -100,7 +100,6 @@ public class JointPurchaseActivity extends AppCompatActivity {
 //        TextView FarmerName = (TextView) findViewById(R.id.FarmerName);
         TextView FarmName = (TextView) findViewById(R.id.JP_FarmName_Main);
         TextView MdName = (TextView) findViewById(R.id.ProdName);
-        TextView ProdInfo = (TextView) findViewById(R.id.ProdInfo);
         TextView Dday = (TextView) findViewById(R.id.Dday);
         TextView MdPrice = (TextView) findViewById(R.id.setPerCost);
         TextView PurchaseDate = (TextView) findViewById(R.id.purchaseDate);
@@ -194,9 +193,17 @@ public class JointPurchaseActivity extends AppCompatActivity {
 //                        PaySchedule.setText(pay_schedule);
                         PuStart.setText(pu_start);
                         PuEnd.setText(pu_end);
+                        
                         Glide.with(JointPurchaseActivity.this)
                                 .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString())
                                 .into(JP_MD_Datail_Img);
+                        //프로필 이미지
+                        Glide.with(JointPurchaseActivity.this)
+                                .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + md_detail.get(0).getAsJsonObject().get("farm_thumbnail").getAsString())
+                                .into(FarmFileName);
+                        Glide.with(JointPurchaseActivity.this)
+                                .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + md_detail.get(0).getAsJsonObject().get("store_thumbnail").getAsString())
+                                .into(StoreFileName);
 
                         //공유하기
                         KakaoShare.setOnClickListener(new View.OnClickListener() {
