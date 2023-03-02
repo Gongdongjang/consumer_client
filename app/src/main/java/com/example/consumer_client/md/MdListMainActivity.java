@@ -135,11 +135,6 @@ public class MdListMainActivity extends AppCompatActivity {
                     mMdListMainAdapter = new FarmDetailAdapter(mList);
                     mMdListRecyclerView.setAdapter(mMdListMainAdapter);
 
-                    //세로로 세팅
-                    //LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-                    //linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    //mMdListRecyclerView.setLayoutManager(linearLayoutManager);
-
                     GridLayoutManager gridLayoutManager = new GridLayoutManager(MdListMainActivity.this, 2, GridLayoutManager.VERTICAL, false);
                     mMdListRecyclerView.setLayoutManager(gridLayoutManager);
 
@@ -197,12 +192,9 @@ public class MdListMainActivity extends AppCompatActivity {
                         //if (Double.compare(distance_std, distanceKilo) > 0) { //4km 이내 제품들만 보이기
                         //(스토어 데이터가 많이 없으므로 0.4대신 1로 test 중, 기능은 완료)
 
-                        Log.d("MdList 거리비교까지? ", String.valueOf(distance_std));
-                        //md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
+                        md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
                         String realIf0 = dDay.get(i).getAsString();
                         if (realIf0.equals("0")) realIf0 = "day";
-
-                        Log.d("MdList 거리비교까지? ", "202행");
 
                         addMdList("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
@@ -235,8 +227,8 @@ public class MdListMainActivity extends AppCompatActivity {
                                 @Override
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(MdListMainActivity.this, JointPurchaseActivity.class);
-                                    intent.putExtra("md_id", md_id_list.get(pos));
                                     intent.putExtra("user_id", user_id);
+                                    intent.putExtra("md_id", md_id_list.get(pos));
                                     startActivity(intent);
                                 }
                             }
