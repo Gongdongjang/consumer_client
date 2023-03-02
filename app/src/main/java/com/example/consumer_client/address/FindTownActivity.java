@@ -23,11 +23,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
+import com.example.consumer_client.alarm.Alarm;
 import com.example.consumer_client.network.NetworkStatus;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -39,7 +38,6 @@ import net.daum.mf.map.api.MapView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import okhttp3.ResponseBody;
@@ -342,13 +340,13 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         btn_finish_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(addresslist.size()>0){
+                if(addresslist.size()>=0){
                     registAddress(userid, addresslist, first_time); //서버에 주소 저장
+                    //알림 페이지로 이동
+                    Intent intent = new Intent(FindTownActivity.this, Alarm.class);
+                    intent.putExtra("user_id",userid);
+                    startActivity(intent);
                 }
-                //메인 페이지로 이동
-                Intent intent = new Intent(FindTownActivity.this, MainActivity.class);
-                intent.putExtra("user_id",userid);
-                startActivity(intent);
             }
         });
 

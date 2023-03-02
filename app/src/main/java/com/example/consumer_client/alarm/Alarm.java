@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
-import com.example.consumer_client.address.FindTownActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -28,14 +27,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-interface FcmService {
+interface TokenPostService {
     @POST("alarm_token")
     Call<ResponseBody> fcmTokenRegister(@Body JsonObject body);
 }
 
 public class Alarm extends AppCompatActivity {
 
-    FcmService service;
+    TokenPostService service;
     JsonParser jsonParser;
 
     @Override
@@ -44,10 +43,12 @@ public class Alarm extends AppCompatActivity {
                 .baseUrl(getString(R.string.baseurl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        service = retrofit.create(FcmService.class);
+        service = retrofit.create(TokenPostService.class);
+        jsonParser = new JsonParser();
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_town);
+        //
+        setContentView(R.layout.activity_alarmlist);
 
         //토픽 구독
         FirebaseMessaging.getInstance().subscribeToTopic("userTopic");
@@ -63,12 +64,9 @@ public class Alarm extends AppCompatActivity {
                             Log.w("Fetching FCm registration token filed", task.getException());
                             return;
                         }
-                        String msg = task.getResult();
-                        Log.d("token", msg);
-
-                        registerFcmToken(userid, msg);
-                        JsonObject body = new JsonObject();
-                        body.addProperty("id", userid);
+                        String token = task.getResult();
+                        Log.d("Alarm token", token);
+                        registerFcmToken(userid, token);
                     }
                 });
         //String token = FirebaseMessaging.getInstance().getToken().getResult();
@@ -86,9 +84,10 @@ public class Alarm extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     try {
                         JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                        //Log.d("Alarm:", res.get("message").getAsString());
                         //메인 페이지로 이동
                         Intent intent = new Intent(Alarm.this, MainActivity.class);
-                        intent.putExtra("user_id",userid);
+                        intent.putExtra("user_id", userid);
                         startActivity(intent);
 
                     } catch (IOException e) {

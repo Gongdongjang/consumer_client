@@ -66,7 +66,7 @@ public class FCMService extends FirebaseMessagingService {
 
         builder.setContentTitle(title)
                 .setContentText(body)
-                .setSmallIcon(R.drawable.ic_baseline_star_24)
+                .setSmallIcon(R.drawable.img_gongdongjang_logo)
                 .setContentIntent(pendingIntent);
                 //.setSmallIcon(R.drawable.ic_launcher_background);
 

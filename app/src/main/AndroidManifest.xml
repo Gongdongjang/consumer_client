@@ -27,7 +27,15 @@
         <activity android:name=".user.IntegratedLoginActivity"/>
         <activity android:name=".tutorial.TutorialActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
-         <activity android:name=".tutorial.SplashActivity"/>
+        <activity
+            android:name=".tutorial.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".address.FindTownActivity"/>
         <activity android:name=".address.PlusAddressActivity"/>
         <activity android:name=".MainActivity"/>
