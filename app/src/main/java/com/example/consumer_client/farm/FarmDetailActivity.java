@@ -29,13 +29,23 @@ import com.example.consumer_client.md.MdListMainActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.kakao.kakaolink.v2.KakaoLinkResponse;
+import com.kakao.kakaolink.v2.KakaoLinkService;
+import com.kakao.message.template.ButtonObject;
+import com.kakao.message.template.ContentObject;
+import com.kakao.message.template.FeedTemplate;
+import com.kakao.message.template.LinkObject;
+import com.kakao.network.ErrorResult;
+import com.kakao.network.callback.ResponseCallback;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -96,6 +106,8 @@ public class FarmDetailActivity extends AppCompatActivity {
         TextView FarmMainItem = (TextView) findViewById(R.id.FarmMainItem);
         TextView FarmPhone = (TextView) findViewById(R.id.FarmPhone);
         TextView FarmPurchaseCount = (TextView) findViewById(R.id.FarmPurchaseCount);
+        //공유하기
+        ImageView KakaoShare = (ImageView) findViewById(R.id.KakaoShare);
 
         Intent intent;
         intent=getIntent();
@@ -159,6 +171,44 @@ public class FarmDetailActivity extends AppCompatActivity {
                         FarmMainItem.setText(farm_main_item);
                         FarmPhone.setText(farm_phone);
                         FarmPurchaseCount.setText(String.valueOf(mdArray.size()));
+                        //공유하기
+                        KakaoShare.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    FeedTemplate params = FeedTemplate
+                                            .newBuilder(ContentObject.newBuilder(mdArray.get(0).getAsJsonObject().get("farm_farmer").getAsString() +" 농부님의 " + mdArray.get(0).getAsJsonObject().get("md_name").getAsString(),
+                                                    "https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/191/791/81191791_1555664874860_1_600x600.JPG",
+                                                    LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
+                                                            .setMobileWebUrl("https://developers.kakao.com").build())
+                                                    .setDescrption(mdArray.get(0).getAsJsonObject().get("farm_name").getAsString()+"에서 " + mdArray.get(0).getAsJsonObject().get("md_name").getAsString() +" 왔어용~")
+                                                    .build())
+                                            .addButton(new ButtonObject("웹에서 보기", LinkObject.newBuilder().setWebUrl("https://developers.kakao.com").setMobileWebUrl("https://developers.kakao.com").build()))
+                                            .addButton(new ButtonObject("앱에서 보기", LinkObject.newBuilder()
+                                                    .setWebUrl("https://developers.kakao.com")
+                                                    .setMobileWebUrl("https://developers.kakao.com")
+                                                    .setAndroidExecutionParams("key1=value1")
+                                                    .setIosExecutionParams("key1=value1")
+                                                    .build()))
+                                            .build();
+
+                                    Map<String, String> serverCallbackArgs = new HashMap<String, String>();
+                                    serverCallbackArgs.put("user_id", "${current_user_id}");
+                                    serverCallbackArgs.put("product_id", "${shared_product_id}");
+
+
+                                    KakaoLinkService.getInstance().sendDefault(mContext, params, new ResponseCallback<KakaoLinkResponse>() {
+                                        @Override
+                                        public void onFailure(ErrorResult errorResult) {}
+
+                                        @Override
+                                        public void onSuccess(KakaoLinkResponse result) {
+                                        }
+                                    });
+                                } catch (Exception e) {
+                                    e.printStackTrace();}
+                            }
+                        });
 
                         //세부 페이지1 (진행 중인 공동구매) 리사이클러뷰 띄우게하기
                         firstInit();

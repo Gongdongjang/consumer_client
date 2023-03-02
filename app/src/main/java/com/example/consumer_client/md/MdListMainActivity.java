@@ -149,7 +149,7 @@ public class MdListMainActivity extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             // 어댑터에서 정의한 메서드를 통해 스피너에서 선택한 아이템의 이름을 받아온다
                             selectedItem = adapter.getItem();
-                            Toast.makeText(MdListMainActivity.this, "선택한 아이템 : " + selectedItem, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MdListMainActivity.this, "선택한 거리 : " + selectedItem, Toast.LENGTH_SHORT).show();
 
                             // 어댑터에서 정의하는 게 귀찮다면 아래처럼 구할 수도 있다
                             // getItemAtPosition()의 리턴형은 Object이므로 String 캐스팅이 필요하다

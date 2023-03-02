@@ -82,12 +82,12 @@ public class MainActivity extends AppCompatActivity {
         mContext = this;
 
         //상단바 지정
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);    //기본 제목을 없애줍니다.
-        actionBar.setDisplayHomeAsUpEnabled(true);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setDisplayShowCustomEnabled(true);
+//        actionBar.setDisplayShowTitleEnabled(false);    //기본 제목을 없애줍니다.
+//        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent(); //intent 값 받기
 

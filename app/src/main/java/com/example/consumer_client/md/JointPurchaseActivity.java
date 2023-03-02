@@ -199,15 +199,44 @@ public class JointPurchaseActivity extends AppCompatActivity {
                                 .into(JP_MD_Datail_Img);
 
                         //공유하기
+                        KakaoShare.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    FeedTemplate params = FeedTemplate
+                                            .newBuilder(ContentObject.newBuilder(md_detail.get(0).getAsJsonObject().get("farm_farmer").getAsString() +" 농부님의 " + md_detail.get(0).getAsJsonObject().get("md_name").getAsString(),
+                                                    "https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/191/791/81191791_1555664874860_1_600x600.JPG",
+                                                    LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
+                                                            .setMobileWebUrl("https://developers.kakao.com").build())
+                                                    .setDescrption(md_detail.get(0).getAsJsonObject().get("farm_name").getAsString()+"에서 " + md_detail.get(0).getAsJsonObject().get("md_name").getAsString() +" 왔어용~")
+                                                    .build())
+                                            .addButton(new ButtonObject("웹에서 보기", LinkObject.newBuilder().setWebUrl("https://developers.kakao.com").setMobileWebUrl("https://developers.kakao.com").build()))
+                                            .addButton(new ButtonObject("앱에서 보기", LinkObject.newBuilder()
+                                                    .setWebUrl("https://developers.kakao.com")
+                                                    .setMobileWebUrl("https://developers.kakao.com")
+                                                    .setAndroidExecutionParams("key1=value1")
+                                                    .setIosExecutionParams("key1=value1")
+                                                    .build()))
+                                            .build();
+
+                                    Map<String, String> serverCallbackArgs = new HashMap<String, String>();
+                                    serverCallbackArgs.put("user_id", "${current_user_id}");
+                                    serverCallbackArgs.put("product_id", "${shared_product_id}");
 
 
-//                        //제품설명 setText
-//                        Glide.with(JointPurchaseActivity.this).load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/"+md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()).into(MdImgDetail);
-////                        MdImgDetail.setImageURI(Uri.parse(md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()));
-////                        Picasso.get().load(md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString()).into(MdImgDetail);
-//                        ProdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
-//                        ProdNum.setText(md_detail.get(0).getAsJsonObject().get("pay_comp").getAsString());
-//                        ProdPrice.setText(md_detail.get(0).getAsJsonObject().get("pay_price").getAsString());
+                                    KakaoLinkService.getInstance().sendDefault(mContext, params, new ResponseCallback<KakaoLinkResponse>() {
+                                        @Override
+                                        public void onFailure(ErrorResult errorResult) {}
+
+                                        @Override
+                                        public void onSuccess(KakaoLinkResponse result) {
+                                        }
+                                    });
+                                } catch (Exception e) {
+                                    e.printStackTrace();}
+                            }
+                        });
+
 
                         //농가와 픽업스토어 setText
                         FarmName2.setText(md_detail.get(0).getAsJsonObject().get("farm_name").getAsString());
@@ -296,44 +325,46 @@ public class JointPurchaseActivity extends AppCompatActivity {
                 });
             }
         });
-
-        KakaoShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    FeedTemplate params = FeedTemplate
-                            .newBuilder(ContentObject.newBuilder("공동장 김세모 농부님의 수박",
-                                    "https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/191/791/81191791_1555664874860_1_600x600.JPG",
-                                    LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
-                                            .setMobileWebUrl("https://developers.kakao.com").build())
-                                    .setDescrption("세모농장에서 수박이 왔어용~")
-                                    .build())
-                            .addButton(new ButtonObject("웹에서 보기", LinkObject.newBuilder().setWebUrl("https://developers.kakao.com").setMobileWebUrl("https://developers.kakao.com").build()))
-                            .addButton(new ButtonObject("앱에서 보기", LinkObject.newBuilder()
-                                    .setWebUrl("https://developers.kakao.com")
-                                    .setMobileWebUrl("https://developers.kakao.com")
-                                    .setAndroidExecutionParams("key1=value1")
-                                    .setIosExecutionParams("key1=value1")
-                                    .build()))
-                            .build();
-
-                    Map<String, String> serverCallbackArgs = new HashMap<String, String>();
-                    serverCallbackArgs.put("user_id", "${current_user_id}");
-                    serverCallbackArgs.put("product_id", "${shared_product_id}");
-
-
-                    KakaoLinkService.getInstance().sendDefault(mContext, params, new ResponseCallback<KakaoLinkResponse>() {
-                        @Override
-                        public void onFailure(ErrorResult errorResult) {}
-
-                        @Override
-                        public void onSuccess(KakaoLinkResponse result) {
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();}
-            }
-        });
+        
+//        //공유하기
+//
+//        KakaoShare.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                try {
+//                    FeedTemplate params = FeedTemplate
+//                            .newBuilder(ContentObject.newBuilder("공동장 김세모 농부님의 수박",
+//                                    "https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/191/791/81191791_1555664874860_1_600x600.JPG",
+//                                    LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
+//                                            .setMobileWebUrl("https://developers.kakao.com").build())
+//                                    .setDescrption("세모농장에서 수박이 왔어용~")
+//                                    .build())
+//                            .addButton(new ButtonObject("웹에서 보기", LinkObject.newBuilder().setWebUrl("https://developers.kakao.com").setMobileWebUrl("https://developers.kakao.com").build()))
+//                            .addButton(new ButtonObject("앱에서 보기", LinkObject.newBuilder()
+//                                    .setWebUrl("https://developers.kakao.com")
+//                                    .setMobileWebUrl("https://developers.kakao.com")
+//                                    .setAndroidExecutionParams("key1=value1")
+//                                    .setIosExecutionParams("key1=value1")
+//                                    .build()))
+//                            .build();
+//
+//                    Map<String, String> serverCallbackArgs = new HashMap<String, String>();
+//                    serverCallbackArgs.put("user_id", "${current_user_id}");
+//                    serverCallbackArgs.put("product_id", "${shared_product_id}");
+//
+//
+//                    KakaoLinkService.getInstance().sendDefault(mContext, params, new ResponseCallback<KakaoLinkResponse>() {
+//                        @Override
+//                        public void onFailure(ErrorResult errorResult) {}
+//
+//                        @Override
+//                        public void onSuccess(KakaoLinkResponse result) {
+//                        }
+//                    });
+//                } catch (Exception e) {
+//                    e.printStackTrace();}
+//            }
+//        });
 
         //다이얼로그 밖의 화면은 흐리게 만들어줌
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
