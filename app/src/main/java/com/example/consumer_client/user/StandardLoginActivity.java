@@ -80,7 +80,7 @@ public class StandardLoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                Log.d("261", response.toString());
+                Log.d("81", response.toString());
                 if (response.isSuccessful()) {
                     try {
                         JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
@@ -88,10 +88,12 @@ public class StandardLoginActivity extends AppCompatActivity {
                         String first_login = res.get("first_login").getAsString();
                         if (access_token.equals("id_false")) {
                             Toast toast = Toast.makeText(getApplicationContext(), "아이디를 확인해주세요.", Toast.LENGTH_LONG);
+                            Log.d(TAG, "아이티틀림");
                             toast.show();
                         } else if (access_token.equals("pwd_false")) {
                             Toast toast = Toast.makeText(getApplicationContext(), "비밀번호를 확인해주세요.", Toast.LENGTH_LONG);
                             toast.show();
+                            Log.d(TAG, "비밀번호틀림");
                         } else {
                             String refresh_token = res.get("refresh_token").getAsString();
                             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());

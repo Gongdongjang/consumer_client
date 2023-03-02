@@ -123,7 +123,7 @@ public class Home extends Fragment
     private TextView productList; //제품리스트 클릭하는 텍스트트
     private TextView change_address, home_userid;
 
-    String user_id;
+    String user_id, standard_address;
     Button popupBtn;
     private ReviewDialog reviewDialog;
 
@@ -154,56 +154,6 @@ public class Home extends Fragment
         //mapView = new MapView(mActivity);
 
 
-        //--------배너 자동슬라이드 주석-----
-//        int images[] = {
-//                R.drawable.home_banner1,
-//                R.drawable.img_gongdongjang_logo,
-//        };
-//
-//        v_fllipper = view.findViewById(R.id.image_slide);
-//
-//        for(int image : images) {
-//            fllipperImages(image);
-//        } ---------------------------------------------
-
-
-        //팝업테스트
-//        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-//        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-//        layoutParams.dimAmount = 0.8f;
-//        getActivity().getWindow().setAttributes(layoutParams);
-//
-//        popupBtn = view.findViewById(R.id.PopupEx);
-//        popupBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                reviewDialog = new ReviewDialog(mActivity, "작성 중인 내용이 삭제됩니다.\n 리뷰 작성을 그만하시겠습니까?");
-//                reviewDialog.show();
-//            }
-//        });
-
-        //제품리스트 누르면 제품리스트(메인) 화면으로
-        productList = view.findViewById(R.id.productList);
-        productList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mActivity, MdListMainActivity.class);
-                intent.putExtra("user_id", user_id);
-                startActivity(intent);
-            }
-        });
-
-        //우리동네 공동구매 지도로 보기 로 이동.
-        ImageView gotoMap = view.findViewById(R.id.gotoMap);
-        gotoMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mActivity, StoreMap.class);
-                intent.putExtra("user_id", user_id);
-                startActivity(intent);
-            }
-        });
-
         //유저아이디 띄우기
 //        home_userid = view.findViewById(R.id.home_userid);
 //        home_userid.setText("아이디:"+ user_id);
@@ -224,7 +174,7 @@ public class Home extends Fragment
                 try {
                     res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
                     JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
-                    String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
+                    standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
 //                    if(standard_address.equals("현재위치")){
 //                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
 //                        myTownLat=mCurrentLat;
@@ -252,6 +202,31 @@ public class Home extends Fragment
             }
         });
 
+
+        //제품리스트 누르면 제품리스트(메인) 화면으로
+        productList = view.findViewById(R.id.productList);
+        productList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, MdListMainActivity.class);
+                intent.putExtra("user_id", user_id);
+                intent.putExtra("standard_address", standard_address);
+                startActivity(intent);
+            }
+        });
+
+        //우리동네 공동구매 지도로 보기 로 이동.
+        ImageView gotoMap = view.findViewById(R.id.gotoMap);
+        gotoMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, StoreMap.class);
+                intent.putExtra("user_id", user_id);
+                intent.putExtra("standard_address", standard_address);
+                startActivity(intent);
+            }
+        });
+
         //=====상품 정보
         Call<ResponseBody> mdcall = service.getMdMainData();
         mdcall.enqueue(new Callback<ResponseBody>() {
@@ -276,7 +251,7 @@ public class Home extends Fragment
                     final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
 
                     for (int i = 0; i < jsonArray.size(); i++) {
-                        List<Address> address = geocoder.getFromLocationName(jsonArray.get(i).getAsJsonObject().get("store_loc").getAsString(), 10);
+                        List<Address> address = geocoder.getFromLocationName(jsonArray.get(i).getAsJsonObject().get("store_loc").getAsString(), 8);
                         Address location = address.get(0);
                         double store_lat = location.getLatitude();
                         double store_long = location.getLongitude();
@@ -323,6 +298,7 @@ public class Home extends Fragment
                                     Intent intent = new Intent(mActivity, JointPurchaseActivity.class);
                                     intent.putExtra("md_id", mList.get(pos).getHomeMdId()); //md_id 넘기기
                                     intent.putExtra("user_id", user_id);
+                                    intent.putExtra("standard_address", standard_address);
                                     startActivity(intent);
                                 }
                             }
@@ -481,26 +457,26 @@ public class Home extends Fragment
 //    }
 
     // GPS 활성화를 위한 메소드들
-    private void showDialogForLocationServiceSetting() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        builder.setTitle("위치 서비스 비활성화");
-        builder.setMessage("앱을 사용하기 위해 위치 서비스가 필요합니다.");
-        builder.setCancelable(true);
-        builder.setPositiveButton("설정", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent callGPSSettingIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivityForResult(callGPSSettingIntent, GPS_ENABLE_REQUEST_CODE);
-            }
-        }); //여기밑에 setNaviveButton 추가함
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-        builder.create().show();
-    }
+//    private void showDialogForLocationServiceSetting() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+//        builder.setTitle("위치 서비스 비활성화");
+//        builder.setMessage("앱을 사용하기 위해 위치 서비스가 필요합니다.");
+//        builder.setCancelable(true);
+//        builder.setPositiveButton("설정", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Intent callGPSSettingIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+//                startActivityForResult(callGPSSettingIntent, GPS_ENABLE_REQUEST_CODE);
+//            }
+//        }); //여기밑에 setNaviveButton 추가함
+//        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int id) {
+//                dialog.cancel();
+//            }
+//        });
+//        builder.create().show();
+//    }
 
 //    private boolean checkLocationServiceStatus(Activity mActivity) {
 //

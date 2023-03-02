@@ -1,8 +1,13 @@
 package com.example.consumer_client.store;
 
+import static com.example.consumer_client.address.LocationDistance.distance;
+
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.media.Image;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +18,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -30,7 +34,9 @@ import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -62,7 +68,9 @@ public class StoreDetailActivity extends AppCompatActivity {
     private FarmDetailAdapter mStoreDetailAdapter;
     private StoreReviewAdapter mStoreReviewAdapter;
 
-    String user_id, day;
+    String user_id, standard_address, day;
+    double myTownLat;
+    double myTownLong;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +90,7 @@ public class StoreDetailActivity extends AppCompatActivity {
         intent=getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
         store_id=intent.getStringExtra("storeid");
+        standard_address=intent.getStringExtra("standard_address");
 
         ImageView StoreMainImg = findViewById(R.id.StoreMainImg);
         ImageView StoreStoryImg = findViewById(R.id.StoreStoryImg);
@@ -93,6 +102,18 @@ public class StoreDetailActivity extends AppCompatActivity {
         TextView StoreWeek = (TextView) findViewById(R.id.StoreWeek);
         TextView StoreCall = (TextView) findViewById(R.id.StoreCall);
         TextView StoreJointPurchaseCount = (TextView) findViewById(R.id.StoreJointPurchaseCount);
+
+        final Geocoder geocoder = new Geocoder(getApplicationContext());
+        List<Address> myAddr = null;
+        try {
+            myAddr = geocoder.getFromLocationName(standard_address, 8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address location = myAddr.get(0);
+        myTownLat= location.getLatitude();
+        myTownLong = location.getLongitude();
+
 
         JsonObject body = new JsonObject();
         body.addProperty("id", store_id);
@@ -134,6 +155,18 @@ public class StoreDetailActivity extends AppCompatActivity {
                         StoreExplain.setText(storeArray.get(0).getAsJsonObject().get("store_info").getAsString());
                         StoreLocation.setText(storeArray.get(0).getAsJsonObject().get("store_loc").getAsString());
 
+                        List<Address> address = null;
+                        try {
+                            address = geocoder.getFromLocationName(storeArray.get(0).getAsJsonObject().get("store_loc").getAsString(), 8);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Address location = address.get(0);
+                        double store_lat = location.getLatitude();
+                        double store_long = location.getLongitude();
+                        //자신이 설정한 위치와 스토어 거리 distance 구하기
+                        double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
+
                         if(day.equals("일")){
                             StoreStart.setText(storeDate.get(0).getAsJsonObject().get("hours_sun1").getAsString());
                             StoreEnd.setText(storeDate.get(0).getAsJsonObject().get("hours_sun2").getAsString());
@@ -174,34 +207,49 @@ public class StoreDetailActivity extends AppCompatActivity {
                         mStoreDetailAdapter = new FarmDetailAdapter(mList);
                         mRecyclerView.setAdapter(mStoreDetailAdapter);
 
-                        //세로로 세팅
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        mRecyclerView.setLayoutManager(linearLayoutManager);
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(StoreDetailActivity.this, 2, GridLayoutManager.VERTICAL, false);
+                        mRecyclerView.setLayoutManager(gridLayoutManager);
 
-//                        //어뎁터 적용
-//                        mStoreReviewAdapter = new StoreReviewAdapter(mReviewList);
-//                        reviewRecyclerView.setAdapter(mStoreReviewAdapter);
+//                       //리뷰 어뎁터 적용
+//                       mStoreReviewAdapter = new StoreReviewAdapter(mReviewList);
+//                       reviewRecyclerView.setAdapter(mStoreReviewAdapter);
 
-//                        //두 칸으로 세팅
-//                        GridLayoutManager gridLayoutManager = new GridLayoutManager(StoreDetailActivity.this, 2, GridLayoutManager.VERTICAL, true);
-//                        reviewRecyclerView.setLayoutManager(gridLayoutManager);
+                        //두 칸으로 세팅
+                        //GridLayoutManager gridLayoutManager = new GridLayoutManager(StoreDetailActivity.this, 2, GridLayoutManager.VERTICAL, false);
+                        //reviewRecyclerView.setLayoutManager(gridLayoutManager);
 
                         //진행중인 공동구매 md
                         for(int i=0;i<jpArray.size();i++){
+
                             String realIf0 = dDay.get(i).getAsString();
                             if (realIf0.equals("0")) realIf0 = "day";
 
                             addStoreJointPurchase(
                                      "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jpArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                     jpArray.get(i).getAsJsonObject().get("md_name").getAsString(),
-                                    jpArray.get(i).getAsJsonObject().get("store_name").getAsString(), jpArray.get(i).getAsJsonObject().get("pay_price").getAsString(), "D - " + realIf0,  pu_start.get(i).getAsString());
+                                    jpArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                                    String.format("%.2f", distanceKilo),
+                                    jpArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
+                                    "D - " + realIf0,  pu_start.get(i).getAsString());
                         }
 
 //                        //리뷰
 //                        for(int i=0;i<rvwArray.size();i++){
 //                            addReview("product Img", "@id " + i, rvwArray.get(i).getAsJsonObject().get("md_name").getAsString(), rvwArray.get(i).getAsJsonObject().get("rvw_rating").getAsString(),rvwArray.get(i).getAsJsonObject().get("rvw_content").getAsString());
 //                        }
+
+                        //거리 가까운순으로 정렬
+                        mList.sort(new Comparator<MdDetailInfo>() {
+                            @Override
+                            public int compare(MdDetailInfo o1, MdDetailInfo o2) {
+                                int ret;
+                                Double distance1 = Double.valueOf(o1.getDistance());
+                                Double distance2 = Double.valueOf(o2.getDistance());
+                                //거리비교
+                                ret = distance1.compareTo(distance2);
+                                return ret;
+                            }
+                        });
 
                         mStoreDetailAdapter.setOnItemClickListener(
                                 new FarmDetailAdapter.OnItemClickListener() {
@@ -238,12 +286,13 @@ public class StoreDetailActivity extends AppCompatActivity {
         mReviewList = new ArrayList<>();
     }
 
-    public void addStoreJointPurchase(String prodImgName, String prodName, String storeName, String mdPrice, String dDay, String puTime){
+    public void addStoreJointPurchase(String prodImgName, String prodName, String storeName, String distance, String mdPrice, String dDay, String puTime){
         MdDetailInfo mdDetail = new MdDetailInfo();
 
         mdDetail.setProdImg(prodImgName);
         mdDetail.setProdName(prodName);
         mdDetail.setStoreName(storeName);
+        mdDetail.setDistance(distance);
         mdDetail.setMdPrice(mdPrice);
         mdDetail.setDday(dDay);
 //        mdDetail.setPaySchedule(paySchedule);
