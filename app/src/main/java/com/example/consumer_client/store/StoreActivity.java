@@ -60,7 +60,6 @@ public class StoreActivity extends AppCompatActivity {
     Context mContext;
 
     String user_id, standard_address;
-    private TextView change_address;
     double myTownLat;
     double myTownLong;
 
@@ -68,14 +67,6 @@ public class StoreActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_total_list);
-
-        //상단바 지정
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        //actionBar.setDisplayShowCustomEnabled(true);
-        //actionBar.setDisplayShowTitleEnabled(false);    //기본 제목을 없애줍니다.
-        //actionBar.setDisplayHomeAsUpEnabled(true);
 
         mContext = this;
 
@@ -91,6 +82,8 @@ public class StoreActivity extends AppCompatActivity {
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
         standard_address=intent.getStringExtra("standard_address");
+        TextView myaddress = (TextView) findViewById(R.id.myaddress);
+        myaddress.setText(standard_address);
 
         //===기준 주소정보
         JsonObject body = new JsonObject();
@@ -179,6 +172,7 @@ public class StoreActivity extends AppCompatActivity {
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(StoreActivity.this, StoreDetailActivity.class);
                                     intent.putExtra("user_id", user_id);
+                                    intent.putExtra("standard_address", standard_address);
                                     intent.putExtra("storeid", mList.get(pos).getStoreid());
                                     startActivity(intent);
                                 }

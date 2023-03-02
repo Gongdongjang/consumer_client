@@ -108,6 +108,7 @@ public class TotalList extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FarmActivity.class);
                 intent.putExtra("user_id", user_id);
+                intent.putExtra("standard_address", standard_address);
                 startActivity(intent);
             }
         });

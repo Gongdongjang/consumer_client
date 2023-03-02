@@ -65,8 +65,8 @@ public class MdListMainActivity extends AppCompatActivity {
     JsonArray dDay;
 
     String user_id, standard_address;
-    double myTownLat;   //추가
-    double myTownLong;  //추가
+    double myTownLat;
+    double myTownLong;
 
     ArrayList<String> md_id_list = new ArrayList<String>();
 
@@ -228,6 +228,7 @@ public class MdListMainActivity extends AppCompatActivity {
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(MdListMainActivity.this, JointPurchaseActivity.class);
                                     intent.putExtra("user_id", user_id);
+                                    intent.putExtra("standard_address", standard_address);
                                     intent.putExtra("md_id", md_id_list.get(pos));
                                     startActivity(intent);
                                 }

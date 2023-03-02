@@ -222,6 +222,7 @@ public class Home extends Fragment
             public void onClick(View view) {
                 Intent intent = new Intent(mActivity, StoreMap.class);
                 intent.putExtra("user_id", user_id);
+                intent.putExtra("standard_address", standard_address);
                 startActivity(intent);
             }
         });
@@ -297,6 +298,7 @@ public class Home extends Fragment
                                     Intent intent = new Intent(mActivity, JointPurchaseActivity.class);
                                     intent.putExtra("md_id", mList.get(pos).getHomeMdId()); //md_id 넘기기
                                     intent.putExtra("user_id", user_id);
+                                    intent.putExtra("standard_address", standard_address);
                                     startActivity(intent);
                                 }
                             }

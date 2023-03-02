@@ -33,7 +33,9 @@
                 android:gravity="center"
                 android:text="지역명"
                 android:textColor="#000000"
-                android:textSize="20dp"
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textStyle="bold" />
 
             <ImageView

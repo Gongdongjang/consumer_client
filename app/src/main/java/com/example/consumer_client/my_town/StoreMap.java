@@ -7,20 +7,17 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-
-import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.ProgressDialog;
 import com.example.consumer_client.R;
 import com.example.consumer_client.store.StoreDetailActivity;
-import com.example.consumer_client.store.StoreTotalAdapter;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -101,6 +98,8 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
         standard_address=intent.getStringExtra("standard_address");
+        TextView myaddress = (TextView) findViewById(R.id.myaddress);
+        myaddress.setText(standard_address);
 
         final Geocoder geocoder = new Geocoder(getApplicationContext());
         List<Address> address = null;
@@ -209,6 +208,7 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
         Intent intent = new Intent(StoreMap.this, StoreDetailActivity.class);
         intent.putExtra("user_id", user_id);
+        intent.putExtra("standard_address", standard_address);
         intent.putExtra("storeid", String.valueOf(mapPOIItem.getTag())); //store_id 넘기기 드디어!!
         startActivity(intent);
     }
