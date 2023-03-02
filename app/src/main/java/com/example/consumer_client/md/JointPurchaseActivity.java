@@ -204,11 +204,11 @@ public class JointPurchaseActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 try {
                                     FeedTemplate params = FeedTemplate
-                                            .newBuilder(ContentObject.newBuilder(md_detail.get(0).getAsJsonObject().get("farm_farmer").getAsString() +" 농부님의 " + md_detail.get(0).getAsJsonObject().get("md_name").getAsString(),
-                                                    "https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/191/791/81191791_1555664874860_1_600x600.JPG",
+                                            .newBuilder(ContentObject.newBuilder(md_detail.get(0).getAsJsonObject().get("farm_farmer").getAsString() +" 농부의 " + md_detail.get(0).getAsJsonObject().get("md_name").getAsString() + "구매하기!",
+                                                    "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                                     LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
                                                             .setMobileWebUrl("https://developers.kakao.com").build())
-                                                    .setDescrption(md_detail.get(0).getAsJsonObject().get("farm_name").getAsString()+"에서 " + md_detail.get(0).getAsJsonObject().get("md_name").getAsString() +" 왔어용~")
+                                                    .setDescrption("근처에서 직접 픽업하고 소포장을 줄여 환경도 지키자!")
                                                     .build())
                                             .addButton(new ButtonObject("웹에서 보기", LinkObject.newBuilder().setWebUrl("https://developers.kakao.com").setMobileWebUrl("https://developers.kakao.com").build()))
                                             .addButton(new ButtonObject("앱에서 보기", LinkObject.newBuilder()

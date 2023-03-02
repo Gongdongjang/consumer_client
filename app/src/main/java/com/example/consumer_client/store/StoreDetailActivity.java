@@ -165,11 +165,11 @@ public class StoreDetailActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 try {
                                     FeedTemplate params = FeedTemplate
-                                            .newBuilder(ContentObject.newBuilder(jpArray.get(0).getAsJsonObject().get("farm_farmer").getAsString() +" 농부님의 " + jpArray.get(0).getAsJsonObject().get("md_name").getAsString(),
-                                                    "https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/191/791/81191791_1555664874860_1_600x600.JPG",
+                                            .newBuilder(ContentObject.newBuilder(store_name+"에서 픽업하기!",
+                                                    "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + storeArray.get(0).getAsJsonObject().get("store_mainImg").getAsString(),
                                                     LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
                                                             .setMobileWebUrl("https://developers.kakao.com").build())
-                                                    .setDescrption(jpArray.get(0).getAsJsonObject().get("farm_name").getAsString()+"에서 " + jpArray.get(0).getAsJsonObject().get("md_name").getAsString() +" 왔어용~")
+                                                    .setDescrption("근처에서 직접 픽업하고 소포장을 줄여 환경도 지키자!")
                                                     .build())
                                             .addButton(new ButtonObject("웹에서 보기", LinkObject.newBuilder().setWebUrl("https://developers.kakao.com").setMobileWebUrl("https://developers.kakao.com").build()))
                                             .addButton(new ButtonObject("앱에서 보기", LinkObject.newBuilder()
