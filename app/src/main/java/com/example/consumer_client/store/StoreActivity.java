@@ -67,6 +67,14 @@ public class StoreActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_total_list);
+        
+        //상단바 지정
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        //actionBar.setDisplayShowCustomEnabled(true);
+        //actionBar.setDisplayShowTitleEnabled(false);    //기본 제목을 없애줍니다.
+        //actionBar.setDisplayHomeAsUpEnabled(true);
 
         mContext = this;
 
@@ -82,17 +90,13 @@ public class StoreActivity extends AppCompatActivity {
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
         standard_address=intent.getStringExtra("standard_address");
-        TextView myaddress = (TextView) findViewById(R.id.myaddress);
-        myaddress.setText(standard_address);
+        TextView change_address = (TextView) findViewById(R.id.change_address);
+        change_address.setText(standard_address);
 
         //===기준 주소정보
         JsonObject body = new JsonObject();
         body.addProperty("id", user_id);
-
-//        change_address = findViewById(R.id.change_address);
-
-        //String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
-  //      change_address.setText(standard_address);
+        
         final Geocoder geocoder = new Geocoder(getApplicationContext());
         List<Address> address = null;
         try {

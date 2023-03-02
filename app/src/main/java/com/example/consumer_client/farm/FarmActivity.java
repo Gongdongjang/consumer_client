@@ -70,6 +70,14 @@ public class FarmActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farm_total_list);
+        
+        //상단바 지정
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        //actionBar.setDisplayShowCustomEnabled(true);
+        //actionBar.setDisplayShowTitleEnabled(false);    //기본 제목을 없애줍니다.
+        //actionBar.setDisplayHomeAsUpEnabled(true);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseurl))
@@ -88,9 +96,8 @@ public class FarmActivity extends AppCompatActivity {
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
         standard_address=intent.getStringExtra("standard_address");
-        TextView myaddress = (TextView) findViewById(R.id.myaddress);
-        myaddress.setText(standard_address);
-
+        TextView change_address = (TextView) findViewById(R.id.change_address);
+        change_address.setText(standard_address);
 
         // 지역명
         //상단바 주소변경 누르면 주소변경/선택 페이지로
@@ -141,7 +148,7 @@ public class FarmActivity extends AppCompatActivity {
 
                         //자신이 설정한 위치와 스토어 거리 distance 구하기
           //              double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
-                     addFarm("product Img", farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
+                     addFarm("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(i).getAsJsonObject().get("farm_thumbnail").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
 
                         //2023.02.21. 이미지 때문인지 오류나서 주석처리함...
                         //addFarm(

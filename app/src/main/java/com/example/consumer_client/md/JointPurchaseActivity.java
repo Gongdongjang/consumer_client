@@ -20,6 +20,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.bumptech.glide.Glide;
 import com.example.consumer_client.order.OrderDialog;
 import com.example.consumer_client.R;
+import com.example.consumer_client.store.StoreDetailActivity;
 import com.example.consumer_client.user.KakaoApplication;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -131,6 +132,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
         ImageView StoreFileName = (ImageView) findViewById(R.id.JP_StoreIMG);
         TextView StoreName = (TextView) findViewById(R.id.JP_StoreName);
         TextView StoreInfo = (TextView) findViewById(R.id.JP_StoreDesc);
+        ImageView JP_MD_Datail_Img = findViewById(R.id.JP_MD_Datail_Img);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseurl))
@@ -192,6 +194,9 @@ public class JointPurchaseActivity extends AppCompatActivity {
 //                        PaySchedule.setText(pay_schedule);
                         PuStart.setText(pu_start);
                         PuEnd.setText(pu_end);
+                        Glide.with(JointPurchaseActivity.this)
+                                .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString())
+                                .into(JP_MD_Datail_Img);
 
                         //공유하기
 

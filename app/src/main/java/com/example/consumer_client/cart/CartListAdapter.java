@@ -69,7 +69,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
         TextView storeName, eachStoreTotalPrice, mdName, mdSet, qty;
         String TAG = CartListActivity.class.getSimpleName();
         Button deleteBtn;
-        JsonArray cart_checked, cart_update;
+        JsonArray cart_checked;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -162,13 +162,37 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
                             mListener.onDeleteClick(view, pos);
                         }
                     }
-
-                    Call<ResponseBody> call = service.cartDelete(user_id, store_id, md_id);
+                    //pos에 있는 store_id, md_id 받아내기
+                    Call<ResponseBody> call = service.cartChecked(user_id, pos);
                     call.enqueue(new Callback<ResponseBody>() {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                             try {
                                 JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                                cart_checked = res.get("cart_checked").getAsJsonArray();
+                                store_id_pub = cart_checked.get(0).getAsJsonObject().get("store_id").getAsString();
+                                md_id_pub = cart_checked.get(0).getAsJsonObject().get("md_id").getAsString();
+
+                                if (checkBtn.getTag().equals("checked")){
+                                    checkBtn.setTag("check");
+                                    checked_count = 0;
+                                }
+
+                                Call<ResponseBody> call2 = service.cartDelete(user_id, store_id_pub, md_id_pub);
+                                call2.enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call2, Response<ResponseBody> response) {
+                                        try {
+                                            JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call2, Throwable t) {
+                                        Log.e(TAG, "onFailure: e " + t.getMessage());
+                                    }
+                                });
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

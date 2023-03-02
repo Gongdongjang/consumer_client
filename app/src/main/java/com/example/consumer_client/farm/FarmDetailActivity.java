@@ -6,9 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+
+import android.net.Uri;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -17,6 +21,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.md.MdDetailInfo;
@@ -80,6 +85,8 @@ public class FarmDetailActivity extends AppCompatActivity {
 
         mContext = this;
 
+        ImageView FarmMainImg = findViewById(R.id.FarmMainImg);
+        ImageView FarmStoryImg = findViewById(R.id.FarmStoryImg);
         TextView FarmName = (TextView) findViewById(R.id.FarmName);
         TextView UpFarmerName = (TextView) findViewById(R.id.farm_up_FarmerName);
         TextView FarmerName = (TextView) findViewById(R.id.FarmerName);
@@ -136,6 +143,13 @@ public class FarmDetailActivity extends AppCompatActivity {
                         pu_start = res.get("pu_start").getAsJsonArray();
                         dDay = res.get("dDay").getAsJsonArray();
 
+//                        FarmMainImg.setImageDrawable("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(0).getAsJsonObject().get("farm_mainImg"));
+                        Glide.with(FarmDetailActivity.this)
+                                .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(0).getAsJsonObject().get("farm_mainImg").getAsString())
+                                .into(FarmMainImg);
+                        Glide.with(FarmDetailActivity.this)
+                                .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(0).getAsJsonObject().get("farm_detailImg").getAsString())
+                                .into(FarmStoryImg);
                         FarmName.setText(farm_name);
                         UpFarmName.setText(farm_name);
                         FarmerName.setText(farmer_name);
