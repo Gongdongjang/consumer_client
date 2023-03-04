@@ -6,25 +6,11 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/AlarmTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="알림 제목"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.137" />
-
-    <TextView
         android:id="@+id/AlarmBody"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="540dp"
-        android:text="알림 내용"
+        android:text="알림 token 저장 페이지...\n안보이게 해야함"
         android:textColor="@color/black"
         android:textSize="17dp"
         app:layout_constraintBottom_toBottomOf="parent"

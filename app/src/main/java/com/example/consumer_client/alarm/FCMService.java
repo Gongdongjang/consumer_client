@@ -79,7 +79,6 @@ public class FCMService extends FirebaseMessagingService {
 
         Notification notification = builder.build();
         notificationManager.notify(1, notification);
-
     }
 
 }
