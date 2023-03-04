@@ -31,12 +31,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <ImageView
+                    <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/JP_MD_Img"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:layout_gravity="top"
-                        android:src="@drawable/ic_launcher_background" />
+                        android:layout_height="300dp" />
+
+                    <me.relex.circleindicator.CircleIndicator3
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/indicator"
+                        android:layout_marginBottom="10dp"
+                        android:layout_gravity="bottom"/>
 
                     <ImageView
                         android:id="@+id/KakaoShare"

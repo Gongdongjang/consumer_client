@@ -12,12 +12,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.viewpager2.widget.ViewPager2;
 
 //import com.example.consumer_client.cart.CartDialog;
 import com.bumptech.glide.Glide;
+import com.example.consumer_client.FragPagerAdapter;
+import com.example.consumer_client.ItemDetailPagerAdapter;
 import com.example.consumer_client.order.OrderDialog;
 import com.example.consumer_client.R;
 import com.example.consumer_client.store.StoreDetailActivity;
@@ -40,10 +44,12 @@ import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import me.relex.circleindicator.CircleIndicator3;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -75,10 +81,11 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
     JsonObject res, body;
     JsonArray md_detail, keep_date;
-//    String pay_schedule;
+    //    String pay_schedule;
     String pu_start, pu_end, user_id, store_id, md_end, dDay;
     JsonArray keep_data;
     String message, store_loc;
+    String[] imgUrl = new String[5];
 
     //Dialog 선언
     OrderDialog orderDialog;
@@ -92,11 +99,11 @@ public class JointPurchaseActivity extends AppCompatActivity {
         mContext = this;
 
         //상단바
-        TextView up_FarmerName = (TextView)findViewById(R.id.up_FarmerName);
-        TextView up_ProdName = (TextView)findViewById(R.id.up_ProdName);
+        TextView up_FarmerName = (TextView) findViewById(R.id.up_FarmerName);
+        TextView up_ProdName = (TextView) findViewById(R.id.up_ProdName);
 
         //000 농부님의 000상품 단락
-        ImageView MdImgThumbnail = (ImageView) findViewById(R.id.JP_MD_Img);
+//        ImageView MdImgThumbnail = (ImageView) findViewById(R.id.JP_MD_Img);
 //        TextView FarmerName = (TextView) findViewById(R.id.FarmerName);
         TextView FarmName = (TextView) findViewById(R.id.JP_FarmName_Main);
         TextView MdName = (TextView) findViewById(R.id.ProdName);
@@ -141,7 +148,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
         jsonParser = new JsonParser();
 
         Intent intent = getIntent(); //intent 값 받기
-        user_id=intent.getStringExtra("user_id");
+        user_id = intent.getStringExtra("user_id");
         md_id = intent.getStringExtra("md_id");
 
         body = new JsonObject();
@@ -157,7 +164,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call2, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     try {
-                        res =  (JsonObject) jsonParser.parse(response.body().string());
+                        res = (JsonObject) jsonParser.parse(response.body().string());
                         md_detail = res.get("md_detail_result").getAsJsonArray();
 //                        pay_schedule = res.get("pay_schedule").getAsString();
                         pu_start = res.get("pu_start").getAsString();
@@ -167,15 +174,31 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
                         store_id = md_detail.get(0).getAsJsonObject().get("store_id").getAsString();
 
+                        imgUrl[0] = md_detail.get(0).getAsJsonObject().get("mdImg_slide01").isJsonNull() ? "null" : "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + md_detail.get(0).getAsJsonObject().get("mdImg_slide01").getAsString();
+                        imgUrl[1] = md_detail.get(0).getAsJsonObject().get("mdImg_slide02").isJsonNull() ? "null" : "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + md_detail.get(0).getAsJsonObject().get("mdImg_slide02").getAsString();
+                        imgUrl[2] = md_detail.get(0).getAsJsonObject().get("mdImg_slide03").isJsonNull() ? "null" : "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + md_detail.get(0).getAsJsonObject().get("mdImg_slide03").getAsString();
+                        imgUrl[3] = md_detail.get(0).getAsJsonObject().get("mdImg_slide04").isJsonNull() ? "null" : "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + md_detail.get(0).getAsJsonObject().get("mdImg_slide04").getAsString();
+                        imgUrl[4] = md_detail.get(0).getAsJsonObject().get("mdImg_slide05").isJsonNull() ? "null" : "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + md_detail.get(0).getAsJsonObject().get("mdImg_slide05").getAsString();
+
+                        int count = 0;
+                        for(int i = 0; i < 5; i++){
+                            if(!imgUrl[i].equals("null")){
+                                count++;
+                            }
+                        }
+                        Log.d("count", String.valueOf(count));
+//                        가로 슬라이더
+                        setInit(count, imgUrl[0], imgUrl[1], imgUrl[2], imgUrl[3], imgUrl[4]);
+
                         //스토어 위치(주문하기에서)
-                        store_loc=md_detail.get(0).getAsJsonObject().get("store_loc").getAsString();
+                        store_loc = md_detail.get(0).getAsJsonObject().get("store_loc").getAsString();
 
                         //상단바 setText
                         up_FarmerName.setText(md_detail.get(0).getAsJsonObject().get("farm_farmer").getAsString());
                         up_ProdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
 
                         //000 농부님의 000상품 setText
-                        Glide.with(JointPurchaseActivity.this).load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/"+md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString()).into(MdImgThumbnail);
+//                        Glide.with(JointPurchaseActivity.this).load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/"+md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString()).into(MdImgThumbnail);
 //                        MdImgThumbnail.setImageURI(Uri.parse(md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString()));
 //                        FarmerName.setText(md_detail.get(0).getAsJsonObject().get("farm_farmer").getAsString());
                         FarmName.setText(md_detail.get(0).getAsJsonObject().get("farm_name").getAsString());
@@ -185,7 +208,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         String realIf0 = dDay;
                         if (realIf0.equals("0")) realIf0 = "day";
 
-                        Dday.setText("D - "+ realIf0);
+                        Dday.setText("D - " + realIf0);
                         PurchaseDate.setText(md_end);
                         StkRemain.setText(md_detail.get(0).getAsJsonObject().get("stk_remain").getAsString());
                         StkGoal.setText(md_detail.get(0).getAsJsonObject().get("stk_goal").getAsString());
@@ -193,10 +216,11 @@ public class JointPurchaseActivity extends AppCompatActivity {
 //                        PaySchedule.setText(pay_schedule);
                         PuStart.setText(pu_start);
                         PuEnd.setText(pu_end);
-                        
+
                         Glide.with(JointPurchaseActivity.this)
                                 .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + md_detail.get(0).getAsJsonObject().get("mdImg_detail").getAsString())
                                 .into(JP_MD_Datail_Img);
+
                         //프로필 이미지
                         Glide.with(JointPurchaseActivity.this)
                                 .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + md_detail.get(0).getAsJsonObject().get("farm_thumbnail").getAsString())
@@ -211,7 +235,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 try {
                                     FeedTemplate params = FeedTemplate
-                                            .newBuilder(ContentObject.newBuilder(md_detail.get(0).getAsJsonObject().get("farm_farmer").getAsString() +" 농부의 " + md_detail.get(0).getAsJsonObject().get("md_name").getAsString() + "구매하기!",
+                                            .newBuilder(ContentObject.newBuilder(md_detail.get(0).getAsJsonObject().get("farm_farmer").getAsString() + " 농부의 " + md_detail.get(0).getAsJsonObject().get("md_name").getAsString() + "구매하기!",
                                                     "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                                     LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
                                                             .setMobileWebUrl("https://developers.kakao.com").build())
@@ -233,14 +257,16 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
                                     KakaoLinkService.getInstance().sendDefault(mContext, params, new ResponseCallback<KakaoLinkResponse>() {
                                         @Override
-                                        public void onFailure(ErrorResult errorResult) {}
+                                        public void onFailure(ErrorResult errorResult) {
+                                        }
 
                                         @Override
                                         public void onSuccess(KakaoLinkResponse result) {
                                         }
                                     });
                                 } catch (Exception e) {
-                                    e.printStackTrace();}
+                                    e.printStackTrace();
+                                }
                             }
                         });
 
@@ -257,8 +283,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
-                else {
+                } else {
                     try {
                         Log.d(TAG, "Fail " + response.errorBody().string());
                     } catch (IOException e) {
@@ -294,6 +319,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e(TAG, "onFailure: e " + t.getMessage());
@@ -325,6 +351,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
+
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Log.e(TAG, "onFailure: e " + t.getMessage());
@@ -332,46 +359,6 @@ public class JointPurchaseActivity extends AppCompatActivity {
                 });
             }
         });
-        
-//        //공유하기
-//
-//        KakaoShare.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                try {
-//                    FeedTemplate params = FeedTemplate
-//                            .newBuilder(ContentObject.newBuilder("공동장 김세모 농부님의 수박",
-//                                    "https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/191/791/81191791_1555664874860_1_600x600.JPG",
-//                                    LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
-//                                            .setMobileWebUrl("https://developers.kakao.com").build())
-//                                    .setDescrption("세모농장에서 수박이 왔어용~")
-//                                    .build())
-//                            .addButton(new ButtonObject("웹에서 보기", LinkObject.newBuilder().setWebUrl("https://developers.kakao.com").setMobileWebUrl("https://developers.kakao.com").build()))
-//                            .addButton(new ButtonObject("앱에서 보기", LinkObject.newBuilder()
-//                                    .setWebUrl("https://developers.kakao.com")
-//                                    .setMobileWebUrl("https://developers.kakao.com")
-//                                    .setAndroidExecutionParams("key1=value1")
-//                                    .setIosExecutionParams("key1=value1")
-//                                    .build()))
-//                            .build();
-//
-//                    Map<String, String> serverCallbackArgs = new HashMap<String, String>();
-//                    serverCallbackArgs.put("user_id", "${current_user_id}");
-//                    serverCallbackArgs.put("product_id", "${shared_product_id}");
-//
-//
-//                    KakaoLinkService.getInstance().sendDefault(mContext, params, new ResponseCallback<KakaoLinkResponse>() {
-//                        @Override
-//                        public void onFailure(ErrorResult errorResult) {}
-//
-//                        @Override
-//                        public void onSuccess(KakaoLinkResponse result) {
-//                        }
-//                    });
-//                } catch (Exception e) {
-//                    e.printStackTrace();}
-//            }
-//        });
 
         //다이얼로그 밖의 화면은 흐리게 만들어줌
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
@@ -388,7 +375,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
 //                cartDialog.show();
 //            }
 //        });
-        
+
         //주문 클릭
         Order.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -400,7 +387,50 @@ public class JointPurchaseActivity extends AppCompatActivity {
                 orderDialog.show();
             }
         });
-
     }
+
+    //뷰페이저2 실행 메서드
+    private void setInit(int count, String pic1, String pic2, String pic3, String pic4, String pic5) {
+        ViewPager2 viewPageSetUp = findViewById(R.id.JP_MD_Img);
+        ItemDetailPagerAdapter itemDetailPagerAdapter = new ItemDetailPagerAdapter(count,this, pic1, pic2, pic3, pic4, pic5);
+        viewPageSetUp.setAdapter(itemDetailPagerAdapter);
+        viewPageSetUp.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        viewPageSetUp.setOffscreenPageLimit(count); //페이지 한계 지정 개수
+        viewPageSetUp.setCurrentItem(1000); //무한처럼 보이도록 하려고
+
+//        CircleIndicator3 indicator = findViewById(R.id.indicator);
+//        indicator.setViewPager(viewPageSetUp);
+
+        //페이지끼리 간격
+        final float pageMargin = (float) getResources().getDimensionPixelOffset(R.dimen.pageMargin);
+        //final float pageMaring=(float) getResources().getDimensionPixelOffset;
+        //페이지 보이는 정도
+        final float pageOffset = (float) getResources().getDimensionPixelOffset(R.dimen.offset);
+        //final float pageOffset=(float) getResources().getDimensionPixelOffset(2;
+        viewPageSetUp.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+            }
+        });
+        viewPageSetUp.setPageTransformer(new ViewPager2.PageTransformer() {
+            @Override
+            public void transformPage(@NonNull View page, float position) {
+                float offset = position * -(2 * pageOffset + pageMargin);
+                if (-1 > position) {
+                    page.setTranslationX(-offset);
+                } else if (1 >= position) {
+                    float scaleFactor = Math.max(0.7f, 1 - Math.abs(position - 0.14285715f));
+                    page.setTranslationX(offset);
+                    page.setScaleY(scaleFactor);
+                    page.setAlpha(scaleFactor);
+                } else {
+                    page.setAlpha(0f);
+                    page.setTranslationX(offset);
+                }
+            }
+        });
+    }
+
 
 }
