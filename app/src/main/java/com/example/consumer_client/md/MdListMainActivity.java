@@ -26,6 +26,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.consumer_client.CustomSpinnerAdapter;
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
+import com.example.consumer_client.cart.CartListActivity;
+import com.example.consumer_client.farm.FarmDetailActivity;
 import com.example.consumer_client.farm.FarmDetailAdapter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -109,6 +111,17 @@ public class MdListMainActivity extends AppCompatActivity {
                 Intent intent1 = new Intent(MdListMainActivity.this, MainActivity.class);
                 intent1.putExtra("user_id", user_id);
                 startActivity(intent1);
+            }
+        });
+
+        //상단바 장바구니
+        ImageView gotoCart = findViewById(R.id.gotoCart);
+        gotoCart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(MdListMainActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
             }
         });
 

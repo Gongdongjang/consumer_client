@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.consumer_client.MainActivity;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.farm.FarmActivity;
 import com.example.consumer_client.farm.FarmDetailActivity;
 import com.example.consumer_client.farm.FarmDetailAdapter;
@@ -104,6 +105,7 @@ public class StoreDetailActivity extends AppCompatActivity {
         store_id=intent.getStringExtra("storeid");
         standard_address=intent.getStringExtra("standard_address");
 
+        //뒤로가기
         ImageView toolbar_goBack = findViewById(R.id.toolbar_goBack);
         toolbar_goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +114,17 @@ public class StoreDetailActivity extends AppCompatActivity {
                 intent1.putExtra("user_id", user_id);
                 intent1.putExtra("standard_address", standard_address);
                 startActivity(intent1);
+            }
+        });
+
+        //상단바 장바구니
+        ImageView toolbar_cart = findViewById(R.id.toolbar_cart);
+        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(StoreDetailActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
             }
         });
 

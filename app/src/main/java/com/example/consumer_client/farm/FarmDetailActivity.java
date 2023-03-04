@@ -23,11 +23,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.consumer_client.MainActivity;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.md.MdDetailInfo;
 import com.example.consumer_client.md.MdListMainActivity;
 import com.example.consumer_client.store.StoreActivity;
+import com.example.consumer_client.store.StoreDetailActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -118,6 +120,7 @@ public class FarmDetailActivity extends AppCompatActivity {
         farm_id = intent.getStringExtra("farm_id");
         standard_address=intent.getStringExtra("standard_address");
 
+        //뒤로가기
         ImageView toolbar_goBack = findViewById(R.id.up_mdArrow);
         toolbar_goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,6 +133,16 @@ public class FarmDetailActivity extends AppCompatActivity {
             }
         });
 
+        //상단바 장바구니
+        ImageView toolbar_cart = findViewById(R.id.toolbar_cart);
+        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(FarmDetailActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
 
         final Geocoder geocoder = new Geocoder(getApplicationContext());
         List<Address> myAddr = null;

@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.address.EditTownActivity;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.home.HomeProductItem;
 import com.example.consumer_client.store.StoreActivity;
 import com.google.gson.JsonArray;
@@ -101,6 +102,7 @@ public class FarmActivity extends AppCompatActivity {
         TextView change_address = (TextView) findViewById(R.id.change_address);
         change_address.setText(standard_address);
 
+        //뒤로가기
         ImageView toolbar_goBack = findViewById(R.id.toolbar_goBack);
         toolbar_goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +110,17 @@ public class FarmActivity extends AppCompatActivity {
                 Intent intent1 = new Intent(FarmActivity.this, MainActivity.class);
                 intent1.putExtra("user_id", user_id);
                 startActivity(intent1);
+            }
+        });
+
+        //상단바 장바구니
+        ImageView toolbar_cart = findViewById(R.id.toolbar_cart);
+        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(FarmActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
             }
         });
 

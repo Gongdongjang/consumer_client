@@ -283,10 +283,11 @@ public class Home extends Fragment
                         @Override
                         public int compare(HomeProductItem o1, HomeProductItem o2) {
                             int ret;
-                            Double distance1 = Double.valueOf(o1.getHomeDistance().substring(o1.getHomeDistance().length() - 2));
+                            Double distance1 = Double.valueOf(o1.getHomeDistance().length() - 2);
                             Double distance2 = Double.valueOf(o2.getHomeDistance().substring(o2.getHomeDistance().length() - 2));
                             //거리비교
                             ret = distance1.compareTo(distance2);
+                            Log.d("ret", String.valueOf(distance1));
                             return ret;
                         }
                     });
