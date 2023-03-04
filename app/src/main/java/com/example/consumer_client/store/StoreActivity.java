@@ -8,7 +8,11 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,12 +21,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.consumer_client.BackPressDialog;
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.address.EditTownActivity;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.farm.FarmActivity;
+import com.example.consumer_client.fragment.TotalList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -62,6 +72,9 @@ public class StoreActivity extends AppCompatActivity {
     String user_id, standard_address;
     double myTownLat;
     double myTownLong;
+    BackPressDialog backPressDialog;
+    private FragmentManager fm;
+    private FragmentTransaction ft;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +87,7 @@ public class StoreActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         //actionBar.setDisplayShowCustomEnabled(true);
         //actionBar.setDisplayShowTitleEnabled(false);    //기본 제목을 없애줍니다.
-        //actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
 
         mContext = this;
 
@@ -92,6 +105,40 @@ public class StoreActivity extends AppCompatActivity {
         standard_address=intent.getStringExtra("standard_address");
         TextView change_address = (TextView) findViewById(R.id.change_address);
         change_address.setText(standard_address);
+
+        //뒤로가기
+        ImageView toolbar_goBack = findViewById(R.id.toolbar_goBack);
+        toolbar_goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                LayoutInflater inflater = getLayoutInflater();
+//
+//                View layout = inflater.inflate(R.layout.activity_main, (ViewGroup) findViewById(R.id.HomeNavi));
+////                onBackPressed();
+////                FrameLayout fl = layout.findViewById(R.id.Main_Frame);
+//                fm = getSupportFragmentManager();
+//                ft = fm.beginTransaction();
+//                Bundle bundle = new Bundle();
+//                bundle.putString("user_id", user_id);
+//                TotalList tl = new TotalList();
+//                tl.setArguments(bundle);
+//                ft.replace(layout.getId(), tl).commit();
+                Intent intent1 = new Intent(StoreActivity.this, MainActivity.class);
+                intent1.putExtra("user_id", user_id);
+                startActivity(intent1);
+            }
+        });
+
+        //상단바 장바구니
+        ImageView toolbar_cart = findViewById(R.id.toolbar_cart);
+        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(StoreActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
 
         //===기준 주소정보
         JsonObject body = new JsonObject();
@@ -154,7 +201,7 @@ public class StoreActivity extends AppCompatActivity {
                                 distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
 
                         addStore(storeArray.get(i).getAsJsonObject().get("store_id").getAsString(),
-                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + storeArray.get(i).getAsJsonObject().get("store_thumbnail").getAsString(),
+                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + storeArray.get(i).getAsJsonObject().get("store_mainImg").getAsString(),
                                 storeArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), storeArray.get(i).getAsJsonObject().get("store_info").getAsString(), storeArray.get(i).getAsJsonObject().get("md_name").getAsString(), storeArray.get(i).getAsJsonObject().get("pay_price").getAsString(), pu_start.get(i).getAsString());
                     }
                     //거리 가까운순으로 정렬
@@ -213,4 +260,10 @@ public class StoreActivity extends AppCompatActivity {
         store.setStoreProdDate(storeProdDate);
         mList.add(store);
     }
+
+//    @Override
+//    public void onBackPressed() {
+//        backPressDialog = new BackPressDialog(mContext);
+//        backPressDialog.show();
+//    }
 }

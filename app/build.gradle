@@ -12,6 +12,7 @@ android {
         targetSdk 31
         versionCode 1
         versionName "1.0"
+        //
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -64,9 +65,9 @@ dependencies {
 
     //구글 로그인
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
-
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation 'com.squareup.picasso:picasso:2.8'
+
     //결제 슬라이딩
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
 
@@ -87,8 +88,7 @@ dependencies {
 
     //홈화면 슬라이드 배너
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-   // implementation 'me.relex:circleindicator:2.1.4'
-
+    implementation 'me.relex:circleindicator:2.1.6'
 
     //s3 업로드
     implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.13.5'

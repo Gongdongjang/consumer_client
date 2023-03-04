@@ -9,6 +9,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +24,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.address.EditTownActivity;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.home.HomeProductItem;
+import com.example.consumer_client.store.StoreActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -99,6 +102,29 @@ public class FarmActivity extends AppCompatActivity {
         TextView change_address = (TextView) findViewById(R.id.change_address);
         change_address.setText(standard_address);
 
+        //뒤로가기
+        ImageView toolbar_goBack = findViewById(R.id.toolbar_goBack);
+        toolbar_goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(FarmActivity.this, MainActivity.class);
+                intent1.putExtra("user_id", user_id);
+                startActivity(intent1);
+            }
+        });
+
+        //상단바 장바구니
+        ImageView toolbar_cart = findViewById(R.id.toolbar_cart);
+        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(FarmActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+
+
         // 지역명
         //상단바 주소변경 누르면 주소변경/선택 페이지로
 //        change_address.setOnClickListener(new View.OnClickListener(){
@@ -148,7 +174,7 @@ public class FarmActivity extends AppCompatActivity {
 
                         //자신이 설정한 위치와 스토어 거리 distance 구하기
           //              double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
-                     addFarm("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(i).getAsJsonObject().get("farm_thumbnail").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
+                     addFarm("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(i).getAsJsonObject().get("farm_mainImg").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
 
                         //2023.02.21. 이미지 때문인지 오류나서 주석처리함...
                         //addFarm(

@@ -113,9 +113,7 @@ public class OrderList extends AppCompatActivity {
                                 orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString()+"세트",
                                 orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString()+"원",
                                 isPickuped,
-                                pickupDate,
-                                orderDetailArray.get(i).getAsJsonObject().get("store_lat").getAsString(),
-                                orderDetailArray.get(i).getAsJsonObject().get("store_long").getAsString());
+                                pickupDate);
                     }
 
                     mOrderListAdapter.setOnItemClickListener (
@@ -152,7 +150,7 @@ public class OrderList extends AppCompatActivity {
         mList = new ArrayList<>();
     }
 
-    public void addOrderList(String userId, String orderId, String storeLoc, String mdImgView, String storeName, String mdName, String mdQty, String mdPrice, String mdStatus, String puDate, String storeLat, String storeLong){
+    public void addOrderList(String userId, String orderId, String storeLoc, String mdImgView, String storeName, String mdName, String mdQty, String mdPrice, String mdStatus, String puDate){
         OrderListInfo order = new OrderListInfo();
         order.setUserId(userId);
         order.setOrderId(orderId);
@@ -164,8 +162,6 @@ public class OrderList extends AppCompatActivity {
         order.setMdPrice(mdPrice);
         order.setMdStatus(mdStatus);
         order.setPuDate(puDate);
-        order.setStoreLat(storeLat);
-        order.setStoreLong(storeLong);
         mList.add(order);
     }
 }

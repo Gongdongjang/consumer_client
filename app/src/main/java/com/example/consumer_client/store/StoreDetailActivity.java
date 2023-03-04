@@ -21,6 +21,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.consumer_client.MainActivity;
+import com.example.consumer_client.cart.CartListActivity;
+import com.example.consumer_client.farm.FarmActivity;
 import com.example.consumer_client.farm.FarmDetailActivity;
 import com.example.consumer_client.farm.FarmDetailAdapter;
 import com.example.consumer_client.md.MdDetailInfo;
@@ -102,6 +105,29 @@ public class StoreDetailActivity extends AppCompatActivity {
         store_id=intent.getStringExtra("storeid");
         standard_address=intent.getStringExtra("standard_address");
 
+        //뒤로가기
+        ImageView toolbar_goBack = findViewById(R.id.toolbar_goBack);
+        toolbar_goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(StoreDetailActivity.this, StoreActivity.class);
+                intent1.putExtra("user_id", user_id);
+                intent1.putExtra("standard_address", standard_address);
+                startActivity(intent1);
+            }
+        });
+
+        //상단바 장바구니
+        ImageView toolbar_cart = findViewById(R.id.toolbar_cart);
+        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(StoreDetailActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+
         TextView change_address = findViewById(R.id.change_address);
         ImageView StoreMainImg = findViewById(R.id.StoreMainImg);
         ImageView StoreStoryImg = findViewById(R.id.StoreStoryImg);
@@ -165,11 +191,11 @@ public class StoreDetailActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 try {
                                     FeedTemplate params = FeedTemplate
-                                            .newBuilder(ContentObject.newBuilder(jpArray.get(0).getAsJsonObject().get("farm_farmer").getAsString() +" 농부님의 " + jpArray.get(0).getAsJsonObject().get("md_name").getAsString(),
-                                                    "https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/191/791/81191791_1555664874860_1_600x600.JPG",
+                                            .newBuilder(ContentObject.newBuilder(store_name+"에서 픽업하기!",
+                                                    "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + storeArray.get(0).getAsJsonObject().get("store_mainImg").getAsString(),
                                                     LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
                                                             .setMobileWebUrl("https://developers.kakao.com").build())
-                                                    .setDescrption(jpArray.get(0).getAsJsonObject().get("farm_name").getAsString()+"에서 " + jpArray.get(0).getAsJsonObject().get("md_name").getAsString() +" 왔어용~")
+                                                    .setDescrption("근처에서 직접 픽업하고 소포장을 줄여 환경도 지키자!")
                                                     .build())
                                             .addButton(new ButtonObject("웹에서 보기", LinkObject.newBuilder().setWebUrl("https://developers.kakao.com").setMobileWebUrl("https://developers.kakao.com").build()))
                                             .addButton(new ButtonObject("앱에서 보기", LinkObject.newBuilder()
@@ -275,17 +301,19 @@ public class StoreDetailActivity extends AppCompatActivity {
                         //진행중인 공동구매 md
                         for(int i=0;i<jpArray.size();i++){
 
-                            String realIf0 = dDay.get(i).getAsString();
-                            if (realIf0.equals("0")) realIf0 = "day";
+                            String realIf0;
+                            if (dDay.get(i).getAsString().equals("0")) realIf0 = "D - day";
+                            else if(dDay.get(i).getAsInt() < 0) realIf0 = "D + "+ Math.abs(dDay.get(i).getAsInt());
+                            else realIf0 = "D - " + dDay.get(i).getAsString();
 
                             addStoreJointPurchase(
                                      "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jpArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                     jpArray.get(i).getAsJsonObject().get("md_id").getAsString(),
                                     jpArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                     jpArray.get(i).getAsJsonObject().get("store_name").getAsString(),
-                                    String.format("%.2f", distanceKilo),
+                                    String.format("%.2f", distanceKilo)+"km",
                                     jpArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
-                                    "D - " + realIf0,  pu_start.get(i).getAsString());
+                                    realIf0,  pu_start.get(i).getAsString());
                         }
 
 //                        //리뷰
@@ -298,8 +326,8 @@ public class StoreDetailActivity extends AppCompatActivity {
                             @Override
                             public int compare(MdDetailInfo o1, MdDetailInfo o2) {
                                 int ret;
-                                Double distance1 = Double.valueOf(o1.getDistance());
-                                Double distance2 = Double.valueOf(o2.getDistance());
+                                Double distance1 = Double.valueOf(o1.getDistance().substring(0, o1.getDistance().length() - 2));
+                                Double distance2 = Double.valueOf(o2.getDistance().substring(0, o2.getDistance().length() - 2));
                                 //거리비교
                                 ret = distance1.compareTo(distance2);
                                 return ret;

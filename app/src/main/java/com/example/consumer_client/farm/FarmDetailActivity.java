@@ -22,10 +22,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.consumer_client.MainActivity;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.md.MdDetailInfo;
 import com.example.consumer_client.md.MdListMainActivity;
+import com.example.consumer_client.store.StoreActivity;
+import com.example.consumer_client.store.StoreDetailActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -116,6 +120,30 @@ public class FarmDetailActivity extends AppCompatActivity {
         farm_id = intent.getStringExtra("farm_id");
         standard_address=intent.getStringExtra("standard_address");
 
+        //뒤로가기
+        ImageView toolbar_goBack = findViewById(R.id.up_mdArrow);
+        toolbar_goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(
+                        FarmDetailActivity.this, FarmActivity.class);
+                intent1.putExtra("user_id", user_id);
+                intent1.putExtra("standard_address", standard_address);
+                startActivity(intent1);
+            }
+        });
+
+        //상단바 장바구니
+        ImageView toolbar_cart = findViewById(R.id.toolbar_cart);
+        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(FarmDetailActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+
         final Geocoder geocoder = new Geocoder(getApplicationContext());
         List<Address> myAddr = null;
         try {
@@ -177,11 +205,11 @@ public class FarmDetailActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 try {
                                     FeedTemplate params = FeedTemplate
-                                            .newBuilder(ContentObject.newBuilder(mdArray.get(0).getAsJsonObject().get("farm_farmer").getAsString() +" 농부님의 " + mdArray.get(0).getAsJsonObject().get("md_name").getAsString(),
-                                                    "https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/191/791/81191791_1555664874860_1_600x600.JPG",
+                                            .newBuilder(ContentObject.newBuilder(mdArray.get(0).getAsJsonObject().get("farm_farmer").getAsString() +" 농부님의 " + farm_name + "에서 구매하기!",
+                                                    "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(0).getAsJsonObject().get("farm_mainImg").getAsString(),
                                                     LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
                                                             .setMobileWebUrl("https://developers.kakao.com").build())
-                                                    .setDescrption(mdArray.get(0).getAsJsonObject().get("farm_name").getAsString()+"에서 " + mdArray.get(0).getAsJsonObject().get("md_name").getAsString() +" 왔어용~")
+                                                    .setDescrption("근처에서 직접 픽업하고 소포장을 줄여 환경도 지키자!")
                                                     .build())
                                             .addButton(new ButtonObject("웹에서 보기", LinkObject.newBuilder().setWebUrl("https://developers.kakao.com").setMobileWebUrl("https://developers.kakao.com").build()))
                                             .addButton(new ButtonObject("앱에서 보기", LinkObject.newBuilder()
@@ -239,11 +267,20 @@ public class FarmDetailActivity extends AppCompatActivity {
                             //자신이 설정한 위치와 스토어 거리 distance 구하기
                             double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
 
+                            String realIf0;
+                            if (dDay.get(i).getAsString().equals("0")) realIf0 = "D - day";
+                            else if(dDay.get(i).getAsInt() < 0) realIf0 = "D + "+ Math.abs(dDay.get(i).getAsInt());
+                            else realIf0 = "D - " + dDay.get(i).getAsString();
 
-                            String realIf0 = dDay.get(i).getAsString();
-                            if (realIf0.equals("0")) realIf0 = "day";
-
-                            addFarmJointPurchase("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + mdArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(), mdArray.get(i).getAsJsonObject().get("md_id").getAsString(), mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), mdArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), mdArray.get(i).getAsJsonObject().get("pay_price").getAsString(), "D - " + realIf0,  pu_start.get(i).getAsString());
+                            addFarmJointPurchase(
+                                    "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + mdArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                    mdArray.get(i).getAsJsonObject().get("md_id").getAsString(), 
+                                    mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), 
+                                    mdArray.get(i).getAsJsonObject().get("store_name").getAsString(), 
+                                    String.format("%.2f", distanceKilo)+"km",
+                                    mdArray.get(i).getAsJsonObject().get("pay_price").getAsString(), 
+                                    realIf0,  
+                                    pu_start.get(i).getAsString());
                         }
 
                         //거리 가까운순으로 정렬
@@ -251,8 +288,8 @@ public class FarmDetailActivity extends AppCompatActivity {
                             @Override
                             public int compare(MdDetailInfo o1, MdDetailInfo o2) {
                                 int ret;
-                                Double distance1 = Double.valueOf(o1.getDistance());
-                                Double distance2 = Double.valueOf(o2.getDistance());
+                                Double distance1 = Double.valueOf(o1.getDistance().substring(0, o1.getDistance().length() - 2));
+                                Double distance2 = Double.valueOf(o2.getDistance().substring(0, o2.getDistance().length() - 2));
                                 //거리비교
                                 ret = distance1.compareTo(distance2);
                                 return ret;

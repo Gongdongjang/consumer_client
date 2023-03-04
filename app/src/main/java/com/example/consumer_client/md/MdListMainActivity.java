@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,7 +24,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.CustomSpinnerAdapter;
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
+import com.example.consumer_client.cart.CartListActivity;
+import com.example.consumer_client.farm.FarmDetailActivity;
 import com.example.consumer_client.farm.FarmDetailAdapter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -75,6 +81,7 @@ public class MdListMainActivity extends AppCompatActivity {
     private CustomSpinnerAdapter adapter;
     private String selectedItem, distance_what;
     private Double distance_std;
+    private ImageView gotoBack;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +93,6 @@ public class MdListMainActivity extends AppCompatActivity {
                 .build();
         service = retrofit.create(MdService.class);
         jsonParser = new JsonParser();
-
         mContext = this;
 
         firstInit();
@@ -96,6 +102,28 @@ public class MdListMainActivity extends AppCompatActivity {
         standard_address = intent.getStringExtra("standard_address");
         TextView myaddress = (TextView) findViewById(R.id.myaddress);
         myaddress.setText(standard_address);
+
+        //뒤로가기
+        gotoBack = findViewById(R.id.gotoBack);
+        gotoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(MdListMainActivity.this, MainActivity.class);
+                intent1.putExtra("user_id", user_id);
+                startActivity(intent1);
+            }
+        });
+
+        //상단바 장바구니
+        ImageView gotoCart = findViewById(R.id.gotoCart);
+        gotoCart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(MdListMainActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
 
         final Geocoder geocoder = new Geocoder(getApplicationContext());
         List<Address> myAddr = null;
@@ -110,7 +138,7 @@ public class MdListMainActivity extends AppCompatActivity {
 
         spinner = findViewById(R.id.spinner);
         // 스피너 안에 넣을 데이터 임의 생성
-        list.add("500m");
+        list.add("0.5km");
         list.add("1km");
         list.add("2km");
         list.add("4km");
@@ -156,7 +184,7 @@ public class MdListMainActivity extends AppCompatActivity {
                             String otherItem = (String) spinner.getItemAtPosition(position);
                             //Log.e(TAG, "getItemAtPosition() - 선택한 아이템 : " + otherItem);
 
-                            if(Objects.equals(selectedItem, "500m")){
+                            if(Objects.equals(selectedItem, "0.5km")){
                                 //distance_what="ki"
                                 distance_std=0.05;
                             }else if (Objects.equals(selectedItem, "1km")){
@@ -192,20 +220,20 @@ public class MdListMainActivity extends AppCompatActivity {
                         //if (Double.compare(distance_std, distanceKilo) > 0) { //4km 이내 제품들만 보이기
                         //(스토어 데이터가 많이 없으므로 0.4대신 1로 test 중, 기능은 완료)
 
-                        //md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
-                        String realIf0 = dDay.get(i).getAsString();
-                        if (realIf0.equals("0")) realIf0 = "day";
+                        String realIf0;
+                        if (dDay.get(i).getAsString().equals("0")) realIf0 = "D - day";
+                        else if(dDay.get(i).getAsInt() < 0) realIf0 = "D + "+ Math.abs(dDay.get(i).getAsInt());
+                        else realIf0 = "D - " + dDay.get(i).getAsString();
 
                         addMdList("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("md_id").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
-                                String.format("%.2f", distanceKilo),
+                                String.format("%.2f", distanceKilo)+"km",
                                 jsonArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
-                                "D - " + realIf0,
+                                realIf0,
                                 pu_start.get(i).getAsString()
                         );
-                        //}
                     }
 
 
@@ -215,8 +243,8 @@ public class MdListMainActivity extends AppCompatActivity {
                         @Override
                         public int compare(MdDetailInfo o1, MdDetailInfo o2) {
                             int ret;
-                            Double distance1 = Double.valueOf(o1.getDistance());
-                            Double distance2 = Double.valueOf(o2.getDistance());
+                            Double distance1 = Double.valueOf(o1.getDistance().substring(0, o1.getDistance().length() - 2));
+                            Double distance2 = Double.valueOf(o2.getDistance().substring(0, o2.getDistance().length() - 2));
                             //거리비교
                             ret = distance1.compareTo(distance2);
                             return ret;

@@ -133,7 +133,6 @@ public class Home extends Fragment
         mActivity = getActivity();
         Intent intent = mActivity.getIntent(); //intent 값 받기
         user_id = intent.getStringExtra("user_id");
-
     }
 
     @Override
@@ -262,16 +261,18 @@ public class Home extends Fragment
                         if (Double.compare(1, distanceKilo) > 0) { //4km 이내 제품들만 보이기
                             //(스토어 데이터가 많이 없으므로 0.4대신 1로 test 중, 기능은 완료)
 
-                            String realIf0 = dDay.get(i).getAsString();
-                            if (realIf0.equals("0")) realIf0 = "day";
+                            String realIf0;
+                            if (dDay.get(i).getAsString().equals("0")) realIf0 = "D - day";
+                            else if(dDay.get(i).getAsInt() < 0) realIf0 = "D + "+ Math.abs(dDay.get(i).getAsInt());
+                            else realIf0 = "D - " + dDay.get(i).getAsString();
 
                             addItem(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString(),
                                     "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                     jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                     jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
-                                    String.format("%.2f", distanceKilo),
+                                    String.format("%.2f", distanceKilo), //+"km",
                                     jsonArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
-                                    "D - " + realIf0,
+                                    realIf0,
                                     pu_start.get(i).getAsString()
                             );
                         }
@@ -282,10 +283,11 @@ public class Home extends Fragment
                         @Override
                         public int compare(HomeProductItem o1, HomeProductItem o2) {
                             int ret;
-                            Double distance1 = Double.valueOf(o1.getHomeDistance());
-                            Double distance2 = Double.valueOf(o2.getHomeDistance());
+                            Double distance1 = Double.valueOf(o1.getHomeDistance().substring(o1.getHomeDistance().length() - 2));
+                            Double distance2 = Double.valueOf(o2.getHomeDistance().substring(o2.getHomeDistance().length() - 2));
                             //거리비교
                             ret = distance1.compareTo(distance2);
+                            Log.d("ret", String.valueOf(distance1));
                             return ret;
                         }
                     });

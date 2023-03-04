@@ -31,12 +31,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <ImageView
+                    <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/JP_MD_Img"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:layout_gravity="top"
-                        android:src="@drawable/ic_launcher_background" />
+                        android:layout_height="300dp" />
+
+                    <me.relex.circleindicator.CircleIndicator3
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/indicator"
+                        android:layout_marginBottom="10dp"
+                        android:layout_gravity="bottom"/>
 
                     <ImageView
                         android:id="@+id/KakaoShare"
@@ -73,23 +78,6 @@
                         android:text="갈아먹기 좋은 싱싱당근"
                         android:textColor="@color/black"
                         android:textSize="25dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/ProdInfo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="50dp"
-                        android:layout_marginTop="10dp"
-                        android:text="한 줄 소개입니다"
-                        android:background="@drawable/info_box"
-                        android:backgroundTint="#F1F1F1"
-                        android:textColor="#444444"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:paddingTop="1dp"
-                        android:paddingBottom="1dp"
-                        android:textSize="13dp"
                         android:textStyle="bold" />
 
                     <View
