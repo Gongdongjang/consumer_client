@@ -239,11 +239,20 @@ public class FarmDetailActivity extends AppCompatActivity {
                             //자신이 설정한 위치와 스토어 거리 distance 구하기
                             double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
 
+                            String realIf0;
+                            if (dDay.get(i).getAsString().equals("0")) realIf0 = "D - day";
+                            else if(dDay.get(i).getAsInt() < 0) realIf0 = "D + "+ Math.abs(dDay.get(i).getAsInt());
+                            else realIf0 = "D - " + dDay.get(i).getAsString();
 
-                            String realIf0 = dDay.get(i).getAsString();
-                            if (realIf0.equals("0")) realIf0 = "day";
 
-                            addFarmJointPurchase("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + mdArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(), mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), mdArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo)+"km", mdArray.get(i).getAsJsonObject().get("pay_price").getAsString(), "D - " + realIf0,  pu_start.get(i).getAsString());
+                            addFarmJointPurchase(
+                                    "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + mdArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                    mdArray.get(i).getAsJsonObject().get("md_name").getAsString(),
+                                    mdArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                                    String.format("%.2f", distanceKilo)+"km",
+                                    mdArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
+                                    realIf0,
+                                    pu_start.get(i).getAsString());
                         }
 
                         //거리 가까운순으로 정렬

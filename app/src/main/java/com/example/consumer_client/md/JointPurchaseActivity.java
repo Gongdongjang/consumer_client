@@ -186,8 +186,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
                                 count++;
                             }
                         }
-                        Log.d("count", String.valueOf(count));
-//                        가로 슬라이더
+                        //가로 슬라이더
                         setInit(count, imgUrl[0], imgUrl[1], imgUrl[2], imgUrl[3], imgUrl[4]);
 
                         //스토어 위치(주문하기에서)
@@ -205,10 +204,12 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         MdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
                         MdPrice.setText(md_detail.get(0).getAsJsonObject().get("pay_price").getAsString());
 
-                        String realIf0 = dDay;
-                        if (realIf0.equals("0")) realIf0 = "day";
+                        String realIf0;
+                        if (dDay.equals("0")) realIf0 = "D - day";
+                        else if(Integer.parseInt(dDay) < 0) realIf0 = "D + "+ Math.abs(Integer.parseInt(dDay));
+                        else realIf0 = "D - " + dDay;
 
-                        Dday.setText("D - " + realIf0);
+                        Dday.setText(realIf0);
                         PurchaseDate.setText(md_end);
                         StkRemain.setText(md_detail.get(0).getAsJsonObject().get("stk_remain").getAsString());
                         StkGoal.setText(md_detail.get(0).getAsJsonObject().get("stk_goal").getAsString());

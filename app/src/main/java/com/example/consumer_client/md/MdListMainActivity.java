@@ -193,18 +193,19 @@ public class MdListMainActivity extends AppCompatActivity {
                         //(스토어 데이터가 많이 없으므로 0.4대신 1로 test 중, 기능은 완료)
 
                         md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
-                        String realIf0 = dDay.get(i).getAsString();
-                        if (realIf0.equals("0")) realIf0 = "day";
+                        String realIf0;
+                        if (dDay.get(i).getAsString().equals("0")) realIf0 = "D - day";
+                        else if(dDay.get(i).getAsInt() < 0) realIf0 = "D + "+ Math.abs(dDay.get(i).getAsInt());
+                        else realIf0 = "D - " + dDay.get(i).getAsString();
 
                         addMdList("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                 String.format("%.2f", distanceKilo)+"km",
                                 jsonArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
-                                "D - " + realIf0,
+                                realIf0,
                                 pu_start.get(i).getAsString()
                         );
-                        //}
                     }
 
 

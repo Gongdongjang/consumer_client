@@ -275,8 +275,10 @@ public class StoreDetailActivity extends AppCompatActivity {
                         //진행중인 공동구매 md
                         for(int i=0;i<jpArray.size();i++){
 
-                            String realIf0 = dDay.get(i).getAsString();
-                            if (realIf0.equals("0")) realIf0 = "day";
+                            String realIf0;
+                            if (dDay.get(i).getAsString().equals("0")) realIf0 = "D - day";
+                            else if(dDay.get(i).getAsInt() < 0) realIf0 = "D + "+ Math.abs(dDay.get(i).getAsInt());
+                            else realIf0 = "D - " + dDay.get(i).getAsString();
 
                             addStoreJointPurchase(
                                      "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jpArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
@@ -284,7 +286,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                                     jpArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                     String.format("%.2f", distanceKilo)+"km",
                                     jpArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
-                                    "D - " + realIf0,  pu_start.get(i).getAsString());
+                                    realIf0,  pu_start.get(i).getAsString());
                         }
 
 //                        //리뷰
