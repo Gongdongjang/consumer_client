@@ -308,6 +308,7 @@ public class StoreDetailActivity extends AppCompatActivity {
 
                             addStoreJointPurchase(
                                      "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jpArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                    jpArray.get(i).getAsJsonObject().get("md_id").getAsString(),
                                     jpArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                     jpArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                     String.format("%.2f", distanceKilo)+"km",
@@ -339,7 +340,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                                     public void onItemClick(View v, int pos) {
                                         Intent intent = new Intent(StoreDetailActivity.this, JointPurchaseActivity.class);
                                         intent.putExtra("user_id", user_id);
-                                        intent.putExtra("md_id", jpArray.get(pos).getAsJsonObject().get("md_id").getAsString());
+                                        intent.putExtra("md_id", mList.get(pos).getMdId());
                                         startActivity(intent);
                                     }
                                 }
@@ -368,10 +369,11 @@ public class StoreDetailActivity extends AppCompatActivity {
         mReviewList = new ArrayList<>();
     }
 
-    public void addStoreJointPurchase(String prodImgName, String prodName, String storeName, String distance, String mdPrice, String dDay, String puTime){
+    public void addStoreJointPurchase(String prodImgName, String mdId, String prodName, String storeName, String distance, String mdPrice, String dDay, String puTime){
         MdDetailInfo mdDetail = new MdDetailInfo();
 
         mdDetail.setProdImg(prodImgName);
+        mdDetail.setMdId(mdId);
         mdDetail.setProdName(prodName);
         mdDetail.setStoreName(storeName);
         mdDetail.setDistance(distance);

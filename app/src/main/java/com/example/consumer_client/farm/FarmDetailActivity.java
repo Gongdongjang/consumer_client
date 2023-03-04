@@ -272,14 +272,14 @@ public class FarmDetailActivity extends AppCompatActivity {
                             else if(dDay.get(i).getAsInt() < 0) realIf0 = "D + "+ Math.abs(dDay.get(i).getAsInt());
                             else realIf0 = "D - " + dDay.get(i).getAsString();
 
-
                             addFarmJointPurchase(
                                     "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + mdArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
-                                    mdArray.get(i).getAsJsonObject().get("md_name").getAsString(),
-                                    mdArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                                    mdArray.get(i).getAsJsonObject().get("md_id").getAsString(), 
+                                    mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), 
+                                    mdArray.get(i).getAsJsonObject().get("store_name").getAsString(), 
                                     String.format("%.2f", distanceKilo)+"km",
-                                    mdArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
-                                    realIf0,
+                                    mdArray.get(i).getAsJsonObject().get("pay_price").getAsString(), 
+                                    realIf0,  
                                     pu_start.get(i).getAsString());
                         }
 
@@ -302,7 +302,7 @@ public class FarmDetailActivity extends AppCompatActivity {
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(FarmDetailActivity.this, JointPurchaseActivity.class);
                                     intent.putExtra("user_id", user_id);
-                                    intent.putExtra("md_id", mdArray.get(pos).getAsJsonObject().get("md_id").getAsString());
+                                    intent.putExtra("md_id", mList.get(pos).getMdId());
 
                                     startActivity(intent);
                                 }
@@ -334,10 +334,11 @@ public class FarmDetailActivity extends AppCompatActivity {
         mList = new ArrayList<>();
     }
 
-    public void addFarmJointPurchase(String prodImgName, String prodName, String storeName, String distance, String mdPrice, String dDay, String puTime){
+    public void addFarmJointPurchase(String prodImgName, String mdId, String prodName, String storeName, String distance, String mdPrice, String dDay, String puTime){
         MdDetailInfo mdDetail = new MdDetailInfo();
 
         mdDetail.setProdImg(prodImgName);
+        mdDetail.setMdId(mdId);
         mdDetail.setProdName(prodName);
         mdDetail.setStoreName(storeName);
         mdDetail.setDistance(distance);

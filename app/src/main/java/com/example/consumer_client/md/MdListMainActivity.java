@@ -220,13 +220,13 @@ public class MdListMainActivity extends AppCompatActivity {
                         //if (Double.compare(distance_std, distanceKilo) > 0) { //4km 이내 제품들만 보이기
                         //(스토어 데이터가 많이 없으므로 0.4대신 1로 test 중, 기능은 완료)
 
-                        md_id_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
                         String realIf0;
                         if (dDay.get(i).getAsString().equals("0")) realIf0 = "D - day";
                         else if(dDay.get(i).getAsInt() < 0) realIf0 = "D + "+ Math.abs(dDay.get(i).getAsInt());
                         else realIf0 = "D - " + dDay.get(i).getAsString();
 
                         addMdList("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                jsonArray.get(i).getAsJsonObject().get("md_id").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                 String.format("%.2f", distanceKilo)+"km",
@@ -258,7 +258,7 @@ public class MdListMainActivity extends AppCompatActivity {
                                     Intent intent = new Intent(MdListMainActivity.this, JointPurchaseActivity.class);
                                     intent.putExtra("user_id", user_id);
                                     intent.putExtra("standard_address", standard_address);
-                                    intent.putExtra("md_id", md_id_list.get(pos));
+                                    intent.putExtra("md_id", mList.get(pos).getMdId());
                                     startActivity(intent);
                                 }
                             }
@@ -285,10 +285,11 @@ public class MdListMainActivity extends AppCompatActivity {
         mList = new ArrayList<>();
     }
 
-    public void addMdList(String mdProdImg,
+    public void addMdList(String mdProdImg, String mdId,
                           String prodName, String storeName, String distance, String mdPrice, String dDay, String puTime) {
         MdDetailInfo mdDetail = new MdDetailInfo();
         mdDetail.setProdImg(mdProdImg);
+        mdDetail.setMdId(mdId);
         mdDetail.setProdName(prodName);
         mdDetail.setStoreName(storeName);
         mdDetail.setDistance(distance);
