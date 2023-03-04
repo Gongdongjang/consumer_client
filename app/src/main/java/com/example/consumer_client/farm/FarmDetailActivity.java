@@ -23,11 +23,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.consumer_client.MainActivity;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.md.MdDetailInfo;
 import com.example.consumer_client.md.MdListMainActivity;
 import com.example.consumer_client.store.StoreActivity;
+import com.example.consumer_client.store.StoreDetailActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -118,6 +120,7 @@ public class FarmDetailActivity extends AppCompatActivity {
         farm_id = intent.getStringExtra("farm_id");
         standard_address=intent.getStringExtra("standard_address");
 
+        //뒤로가기
         ImageView toolbar_goBack = findViewById(R.id.up_mdArrow);
         toolbar_goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,6 +133,16 @@ public class FarmDetailActivity extends AppCompatActivity {
             }
         });
 
+        //상단바 장바구니
+        ImageView toolbar_cart = findViewById(R.id.toolbar_cart);
+        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(FarmDetailActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
 
         final Geocoder geocoder = new Geocoder(getApplicationContext());
         List<Address> myAddr = null;
@@ -259,14 +272,14 @@ public class FarmDetailActivity extends AppCompatActivity {
                             else if(dDay.get(i).getAsInt() < 0) realIf0 = "D + "+ Math.abs(dDay.get(i).getAsInt());
                             else realIf0 = "D - " + dDay.get(i).getAsString();
 
-
                             addFarmJointPurchase(
                                     "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + mdArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
-                                    mdArray.get(i).getAsJsonObject().get("md_name").getAsString(),
-                                    mdArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                                    mdArray.get(i).getAsJsonObject().get("md_id").getAsString(), 
+                                    mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), 
+                                    mdArray.get(i).getAsJsonObject().get("store_name").getAsString(), 
                                     String.format("%.2f", distanceKilo)+"km",
-                                    mdArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
-                                    realIf0,
+                                    mdArray.get(i).getAsJsonObject().get("pay_price").getAsString(), 
+                                    realIf0,  
                                     pu_start.get(i).getAsString());
                         }
 
@@ -289,7 +302,7 @@ public class FarmDetailActivity extends AppCompatActivity {
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(FarmDetailActivity.this, JointPurchaseActivity.class);
                                     intent.putExtra("user_id", user_id);
-                                    intent.putExtra("md_id", mdArray.get(pos).getAsJsonObject().get("md_id").getAsString());
+                                    intent.putExtra("md_id", mList.get(pos).getMdId());
 
                                     startActivity(intent);
                                 }
@@ -321,10 +334,11 @@ public class FarmDetailActivity extends AppCompatActivity {
         mList = new ArrayList<>();
     }
 
-    public void addFarmJointPurchase(String prodImgName, String prodName, String storeName, String distance, String mdPrice, String dDay, String puTime){
+    public void addFarmJointPurchase(String prodImgName, String mdId, String prodName, String storeName, String distance, String mdPrice, String dDay, String puTime){
         MdDetailInfo mdDetail = new MdDetailInfo();
 
         mdDetail.setProdImg(prodImgName);
+        mdDetail.setMdId(mdId);
         mdDetail.setProdName(prodName);
         mdDetail.setStoreName(storeName);
         mdDetail.setDistance(distance);

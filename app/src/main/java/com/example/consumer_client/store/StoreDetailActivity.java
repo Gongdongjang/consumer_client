@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.consumer_client.MainActivity;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.farm.FarmActivity;
 import com.example.consumer_client.farm.FarmDetailActivity;
 import com.example.consumer_client.farm.FarmDetailAdapter;
@@ -104,6 +105,7 @@ public class StoreDetailActivity extends AppCompatActivity {
         store_id=intent.getStringExtra("storeid");
         standard_address=intent.getStringExtra("standard_address");
 
+        //뒤로가기
         ImageView toolbar_goBack = findViewById(R.id.toolbar_goBack);
         toolbar_goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +114,17 @@ public class StoreDetailActivity extends AppCompatActivity {
                 intent1.putExtra("user_id", user_id);
                 intent1.putExtra("standard_address", standard_address);
                 startActivity(intent1);
+            }
+        });
+
+        //상단바 장바구니
+        ImageView toolbar_cart = findViewById(R.id.toolbar_cart);
+        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(StoreDetailActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
             }
         });
 
@@ -295,6 +308,7 @@ public class StoreDetailActivity extends AppCompatActivity {
 
                             addStoreJointPurchase(
                                      "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jpArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                    jpArray.get(i).getAsJsonObject().get("md_id").getAsString(),
                                     jpArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                     jpArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                     String.format("%.2f", distanceKilo)+"km",
@@ -326,7 +340,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                                     public void onItemClick(View v, int pos) {
                                         Intent intent = new Intent(StoreDetailActivity.this, JointPurchaseActivity.class);
                                         intent.putExtra("user_id", user_id);
-                                        intent.putExtra("md_id", jpArray.get(pos).getAsJsonObject().get("md_id").getAsString());
+                                        intent.putExtra("md_id", mList.get(pos).getMdId());
                                         startActivity(intent);
                                     }
                                 }
@@ -355,10 +369,11 @@ public class StoreDetailActivity extends AppCompatActivity {
         mReviewList = new ArrayList<>();
     }
 
-    public void addStoreJointPurchase(String prodImgName, String prodName, String storeName, String distance, String mdPrice, String dDay, String puTime){
+    public void addStoreJointPurchase(String prodImgName, String mdId, String prodName, String storeName, String distance, String mdPrice, String dDay, String puTime){
         MdDetailInfo mdDetail = new MdDetailInfo();
 
         mdDetail.setProdImg(prodImgName);
+        mdDetail.setMdId(mdId);
         mdDetail.setProdName(prodName);
         mdDetail.setStoreName(storeName);
         mdDetail.setDistance(distance);

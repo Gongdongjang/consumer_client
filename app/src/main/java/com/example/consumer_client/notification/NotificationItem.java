@@ -4,6 +4,7 @@ public class NotificationItem {
 
     private String notiTitle;
     private String notiContent;
+    private String target;
 
     public String getNotiTitle() {
         return notiTitle;
@@ -17,7 +18,9 @@ public class NotificationItem {
         return notiContent;
     }
 
-    public void setNotiContent(String notiContent) {
-        this.notiContent = notiContent;
+    public void setNotiContent(String notiContent) {this.notiContent = notiContent;
     }
+    public String getTarget() {return target;}
+
+    public void setTarget(String target) {this.target = target;}
 }

@@ -28,11 +28,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
 
 interface NotiService {
-    @GET("notification")
-    Call<ResponseBody> getNotification();  //post user_id
+    @POST("notification")
+    Call<ResponseBody> getNotification(@Body JsonObject body);  //post user_id
 }
 
 public class NotificationList  extends AppCompatActivity {
@@ -65,8 +66,11 @@ public class NotificationList  extends AppCompatActivity {
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
 
+        JsonObject body = new JsonObject();
+        body.addProperty("id", user_id);
+
         //noti정보 불러오기
-        Call<ResponseBody> call= service.getNotification();
+        Call<ResponseBody> call= service.getNotification(body);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
@@ -84,7 +88,10 @@ public class NotificationList  extends AppCompatActivity {
                     mNotificationRecycler.setLayoutManager(linearLayoutManager);
 
                     for (int i = 0; i < notiArray.size(); i++) {
-                        addNoti(notiArray.get(i).getAsJsonObject().get("notification_title").getAsString(), notiArray.get(i).getAsJsonObject().get("notification_content").getAsString());
+                        addNoti(notiArray.get(i).getAsJsonObject().get("notification_title").getAsString(),
+                                notiArray.get(i).getAsJsonObject().get("notification_content").getAsString(),
+                                notiArray.get(i).getAsJsonObject().get("notification_target").getAsString());
+                       // #F7F7F7
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -103,10 +110,11 @@ public class NotificationList  extends AppCompatActivity {
         mList = new ArrayList<>();
     }
 
-    private void addNoti(String notiTitle, String notiContent) {
+    private void addNoti(String notiTitle, String notiContent, String target) {
         NotificationItem noti = new NotificationItem();
         noti.setNotiTitle(notiTitle);
         noti.setNotiContent(notiContent);
+        noti.setTarget(target);
         mList.add(noti);
     }
 }

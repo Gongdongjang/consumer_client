@@ -2,6 +2,7 @@ package com.example.consumer_client.md;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +23,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.example.consumer_client.FragPagerAdapter;
 import com.example.consumer_client.ItemDetailPagerAdapter;
+import com.example.consumer_client.cart.CartListActivity;
+import com.example.consumer_client.farm.FarmDetailActivity;
 import com.example.consumer_client.order.OrderDialog;
 import com.example.consumer_client.R;
 import com.example.consumer_client.store.StoreDetailActivity;
@@ -162,6 +165,17 @@ public class JointPurchaseActivity extends AppCompatActivity {
                 intent1.putExtra("user_id", user_id);
                 intent1.putExtra("standard_address", standard_address);
                 startActivity(intent1);
+            }
+        });
+
+        //상단바 장바구니
+        ImageView toolbar_cart = findViewById(R.id.toolbar_cart);
+        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(JointPurchaseActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
             }
         });
 

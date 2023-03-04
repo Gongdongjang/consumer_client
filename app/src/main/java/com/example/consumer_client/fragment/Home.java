@@ -270,7 +270,7 @@ public class Home extends Fragment
                                     "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                     jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                     jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
-                                    String.format("%.2f", distanceKilo)+"km",
+                                    String.format("%.2f", distanceKilo), //+"km",
                                     jsonArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
                                     realIf0,
                                     pu_start.get(i).getAsString()
@@ -287,6 +287,7 @@ public class Home extends Fragment
                             Double distance2 = Double.valueOf(o2.getHomeDistance().substring(o2.getHomeDistance().length() - 2));
                             //거리비교
                             ret = distance1.compareTo(distance2);
+                            Log.d("ret", String.valueOf(distance1));
                             return ret;
                         }
                     });

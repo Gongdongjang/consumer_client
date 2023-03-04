@@ -1,9 +1,11 @@
 package com.example.consumer_client.notification;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.consumer_client.R;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
     public interface OnItemClickListener {
@@ -26,12 +29,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView notiTitle;
         TextView notiContent;
+        LinearLayout notification_linear;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             notiTitle=(TextView) itemView.findViewById(R.id.notiTitle);
             notiContent = (TextView) itemView.findViewById(R.id.notiContent);
+            notification_linear= (LinearLayout) itemView.findViewById(R.id.notification_linear);
         }
     }
 
@@ -59,6 +64,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         NotificationItem item = mList.get(position);
         holder.notiTitle.setText(item.getNotiTitle());
         holder.notiContent.setText(item.getNotiContent());
+
+        if (Objects.equals(item.getTarget(), "개인")){
+            holder.notification_linear.setBackgroundColor(Color.parseColor("#F7F7F7"));
+        }
     }
 
     @Override
