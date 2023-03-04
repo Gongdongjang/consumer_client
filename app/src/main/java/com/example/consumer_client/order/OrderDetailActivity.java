@@ -20,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.consumer_client.R;
 import com.example.consumer_client.review.ReviewActivity;
-import com.example.consumer_client.store.StoreDetailActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

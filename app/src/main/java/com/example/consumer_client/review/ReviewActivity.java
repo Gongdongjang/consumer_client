@@ -23,7 +23,7 @@ public class ReviewActivity<starScore> extends AppCompatActivity {
     String md_name, md_qty, md_fin_price;
     ImageView reviewImg1, reviewImg2, reviewImg3;
     RatingBar ratingBar;
-    TextView starScore;
+//    TextView starScore;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,16 +56,16 @@ public class ReviewActivity<starScore> extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "리뷰 사진을 선택하세요"), PICTURE_REQUEST_CODE);
             }
         });
-        starScore = findViewById(R.id.scoreRate);
-        starScore.setText("0점");
+//        starScore = findViewById(R.id.scoreRate);
+//        starScore.setText("0점");
 
-        ratingBar = findViewById(R.id.ratingBar);
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                starScore.setText(rating+"점");
-            }
-        });
+//        ratingBar = findViewById(R.id.ratingBar);
+//        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+//            @Override
+//            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+//                starScore.setText(rating+"점");
+//            }
+//        });
     }
 
     @Override
