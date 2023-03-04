@@ -122,7 +122,7 @@ public class Order extends Fragment {
                                 //String.format("%.2f", distanceKilo),
                                 orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                 orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString()+"세트",
-                                orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString()+"원",
+                                orderDetailArray.get(i).getAsJsonObject().get("order_price").getAsString()+"원",
                                 isPickuped, //mdStatus
                                 pickupDate);
                     }
