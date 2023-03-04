@@ -199,7 +199,7 @@ public class MdListMainActivity extends AppCompatActivity {
                         addMdList("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
-                                String.format("%.2f", distanceKilo),
+                                String.format("%.2f", distanceKilo)+"km",
                                 jsonArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
                                 "D - " + realIf0,
                                 pu_start.get(i).getAsString()
@@ -214,8 +214,8 @@ public class MdListMainActivity extends AppCompatActivity {
                         @Override
                         public int compare(MdDetailInfo o1, MdDetailInfo o2) {
                             int ret;
-                            Double distance1 = Double.valueOf(o1.getDistance());
-                            Double distance2 = Double.valueOf(o2.getDistance());
+                            Double distance1 = Double.valueOf(o1.getDistance().substring(0, o1.getDistance().length() - 2));
+                            Double distance2 = Double.valueOf(o2.getDistance().substring(0, o2.getDistance().length() - 2));
                             //거리비교
                             ret = distance1.compareTo(distance2);
                             return ret;

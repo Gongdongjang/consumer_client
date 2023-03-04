@@ -243,7 +243,7 @@ public class FarmDetailActivity extends AppCompatActivity {
                             String realIf0 = dDay.get(i).getAsString();
                             if (realIf0.equals("0")) realIf0 = "day";
 
-                            addFarmJointPurchase("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + mdArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(), mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), mdArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo), mdArray.get(i).getAsJsonObject().get("pay_price").getAsString(), "D - " + realIf0,  pu_start.get(i).getAsString());
+                            addFarmJointPurchase("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + mdArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(), mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), mdArray.get(i).getAsJsonObject().get("store_name").getAsString(), String.format("%.2f", distanceKilo)+"km", mdArray.get(i).getAsJsonObject().get("pay_price").getAsString(), "D - " + realIf0,  pu_start.get(i).getAsString());
                         }
 
                         //거리 가까운순으로 정렬
@@ -251,8 +251,8 @@ public class FarmDetailActivity extends AppCompatActivity {
                             @Override
                             public int compare(MdDetailInfo o1, MdDetailInfo o2) {
                                 int ret;
-                                Double distance1 = Double.valueOf(o1.getDistance());
-                                Double distance2 = Double.valueOf(o2.getDistance());
+                                Double distance1 = Double.valueOf(o1.getDistance().substring(0, o1.getDistance().length() - 2));
+                                Double distance2 = Double.valueOf(o2.getDistance().substring(0, o2.getDistance().length() - 2));
                                 //거리비교
                                 ret = distance1.compareTo(distance2);
                                 return ret;
