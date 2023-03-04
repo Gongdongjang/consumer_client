@@ -133,7 +133,6 @@ public class Home extends Fragment
         mActivity = getActivity();
         Intent intent = mActivity.getIntent(); //intent 값 받기
         user_id = intent.getStringExtra("user_id");
-
     }
 
     @Override

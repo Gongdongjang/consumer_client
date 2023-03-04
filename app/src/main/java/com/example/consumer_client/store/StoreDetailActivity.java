@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.consumer_client.MainActivity;
+import com.example.consumer_client.farm.FarmActivity;
 import com.example.consumer_client.farm.FarmDetailActivity;
 import com.example.consumer_client.farm.FarmDetailAdapter;
 import com.example.consumer_client.md.MdDetailInfo;
@@ -101,6 +103,17 @@ public class StoreDetailActivity extends AppCompatActivity {
         user_id=intent.getStringExtra("user_id");
         store_id=intent.getStringExtra("storeid");
         standard_address=intent.getStringExtra("standard_address");
+
+        ImageView toolbar_goBack = findViewById(R.id.toolbar_goBack);
+        toolbar_goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(StoreDetailActivity.this, StoreActivity.class);
+                intent1.putExtra("user_id", user_id);
+                intent1.putExtra("standard_address", standard_address);
+                startActivity(intent1);
+            }
+        });
 
         TextView change_address = findViewById(R.id.change_address);
         ImageView StoreMainImg = findViewById(R.id.StoreMainImg);

@@ -22,10 +22,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.md.MdDetailInfo;
 import com.example.consumer_client.md.MdListMainActivity;
+import com.example.consumer_client.store.StoreActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -115,6 +117,19 @@ public class FarmDetailActivity extends AppCompatActivity {
         user_id=intent.getStringExtra("user_id");
         farm_id = intent.getStringExtra("farm_id");
         standard_address=intent.getStringExtra("standard_address");
+
+        ImageView toolbar_goBack = findViewById(R.id.up_mdArrow);
+        toolbar_goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(
+                        FarmDetailActivity.this, FarmActivity.class);
+                intent1.putExtra("user_id", user_id);
+                intent1.putExtra("standard_address", standard_address);
+                startActivity(intent1);
+            }
+        });
+
 
         final Geocoder geocoder = new Geocoder(getApplicationContext());
         List<Address> myAddr = null;

@@ -9,6 +9,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.address.EditTownActivity;
 import com.example.consumer_client.home.HomeProductItem;
+import com.example.consumer_client.store.StoreActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -98,6 +100,17 @@ public class FarmActivity extends AppCompatActivity {
         standard_address=intent.getStringExtra("standard_address");
         TextView change_address = (TextView) findViewById(R.id.change_address);
         change_address.setText(standard_address);
+
+        ImageView toolbar_goBack = findViewById(R.id.toolbar_goBack);
+        toolbar_goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(FarmActivity.this, MainActivity.class);
+                intent1.putExtra("user_id", user_id);
+                startActivity(intent1);
+            }
+        });
+
 
         // 지역명
         //상단바 주소변경 누르면 주소변경/선택 페이지로

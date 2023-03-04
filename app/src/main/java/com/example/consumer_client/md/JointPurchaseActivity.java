@@ -82,7 +82,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
     JsonObject res, body;
     JsonArray md_detail, keep_date;
     //    String pay_schedule;
-    String pu_start, pu_end, user_id, store_id, md_end, dDay;
+    String pu_start, pu_end, user_id, store_id, md_end, dDay, standard_address;
     JsonArray keep_data;
     String message, store_loc;
     String[] imgUrl = new String[5];
@@ -101,6 +101,8 @@ public class JointPurchaseActivity extends AppCompatActivity {
         //상단바
         TextView up_FarmerName = (TextView) findViewById(R.id.up_FarmerName);
         TextView up_ProdName = (TextView) findViewById(R.id.up_ProdName);
+        //뒤로가기
+        ImageView up_mdArrow = findViewById(R.id.up_mdArrow);
 
         //000 농부님의 000상품 단락
 //        ImageView MdImgThumbnail = (ImageView) findViewById(R.id.JP_MD_Img);
@@ -149,13 +151,23 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
         Intent intent = getIntent(); //intent 값 받기
         user_id = intent.getStringExtra("user_id");
+        standard_address = intent.getStringExtra("standard_address");
         md_id = intent.getStringExtra("md_id");
+
+        //뒤로가기
+        up_mdArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(JointPurchaseActivity.this, MdListMainActivity.class);
+                intent1.putExtra("user_id", user_id);
+                intent1.putExtra("standard_address", standard_address);
+                startActivity(intent1);
+            }
+        });
 
         body = new JsonObject();
         body.addProperty("user_id", user_id);
         body.addProperty("md_id", md_id);
-
-        Log.d("JointPurchase", user_id);
 
         //상세페이지 데이터 등록
         Call<ResponseBody> call2 = service.postMdId(body);

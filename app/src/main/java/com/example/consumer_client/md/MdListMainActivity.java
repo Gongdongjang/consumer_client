@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +24,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.CustomSpinnerAdapter;
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.farm.FarmDetailAdapter;
 import com.google.gson.JsonArray;
@@ -75,6 +79,7 @@ public class MdListMainActivity extends AppCompatActivity {
     private CustomSpinnerAdapter adapter;
     private String selectedItem, distance_what;
     private Double distance_std;
+    private ImageView gotoBack;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +91,6 @@ public class MdListMainActivity extends AppCompatActivity {
                 .build();
         service = retrofit.create(MdService.class);
         jsonParser = new JsonParser();
-
         mContext = this;
 
         firstInit();
@@ -96,6 +100,17 @@ public class MdListMainActivity extends AppCompatActivity {
         standard_address = intent.getStringExtra("standard_address");
         TextView myaddress = (TextView) findViewById(R.id.myaddress);
         myaddress.setText(standard_address);
+
+        //뒤로가기
+        gotoBack = findViewById(R.id.gotoBack);
+        gotoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(MdListMainActivity.this, MainActivity.class);
+                intent1.putExtra("user_id", user_id);
+                startActivity(intent1);
+            }
+        });
 
         final Geocoder geocoder = new Geocoder(getApplicationContext());
         List<Address> myAddr = null;
@@ -110,7 +125,7 @@ public class MdListMainActivity extends AppCompatActivity {
 
         spinner = findViewById(R.id.spinner);
         // 스피너 안에 넣을 데이터 임의 생성
-        list.add("500m");
+        list.add("0.5km");
         list.add("1km");
         list.add("2km");
         list.add("4km");
@@ -156,7 +171,7 @@ public class MdListMainActivity extends AppCompatActivity {
                             String otherItem = (String) spinner.getItemAtPosition(position);
                             //Log.e(TAG, "getItemAtPosition() - 선택한 아이템 : " + otherItem);
 
-                            if(Objects.equals(selectedItem, "500m")){
+                            if(Objects.equals(selectedItem, "0.5km")){
                                 //distance_what="ki"
                                 distance_std=0.05;
                             }else if (Objects.equals(selectedItem, "1km")){
