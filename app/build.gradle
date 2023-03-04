@@ -1,14 +1,15 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
-    compileSdk 32
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.example.consumer_client"
-        minSdk 31
-        targetSdk 32
+        minSdk 30
+        targetSdk 31
         versionCode 1
         versionName "1.0"
         //
@@ -71,11 +72,19 @@ dependencies {
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
 
     //부트페이 결제기능 구현
-    implementation 'io.github.bootpay:android:4.0.8'
+    //implementation 'io.github.bootpay:android:4.0.8'
 
     // url로 사진 띄우기 위한 glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    
+    //FCM
+    implementation platform('com.google.firebase:firebase-bom:31.2.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-auth'
+    //implementation 'com.google.firebase:firebase-messaging:21.1.0'
+    implementation 'com.google.firebase:firebase-core:21.1.1'
+    implementation 'com.google.firebase:firebase-messaging:23.1.1'
 
     //홈화면 슬라이드 배너
     implementation 'androidx.viewpager2:viewpager2:1.0.0'

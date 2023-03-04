@@ -36,7 +36,7 @@ public class ShoppingInfoActivity extends TabActivity {
         intent = new Intent().setClass(this, CancelList.class);
         intent.putExtra("user_id", user_id);
         spec = tabHost.newTabSpec("CancelList"); // 객체를 생성
-        spec.setIndicator("취소/교환/반품"); //탭의 이름 설정
+        spec.setIndicator("취소내역"); //탭의 이름 설정
         spec.setContent(intent);
         tabHost.addTab(spec);
 
