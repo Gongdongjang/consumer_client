@@ -17,8 +17,10 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.consumer_client.R;
 import com.example.consumer_client.review.ReviewActivity;
+import com.example.consumer_client.store.StoreDetailActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -118,14 +120,18 @@ public class OrderDetailActivity extends AppCompatActivity {
                     try {
                         JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
                         order_detail= res.get("order_detail").getAsJsonArray();
+                        pu_date = res.get("pu_date").getAsString();
 
                         md_qty= order_detail.get(0).getAsJsonObject().get("order_select_qty").getAsString();
                         md_total_price= order_detail.get(0).getAsJsonObject().get("order_price").getAsString();
-                        pu_date= order_detail.get(0).getAsJsonObject().get("order_pu_time").getAsString();
 
                         isPickedUp=order_detail.get(0).getAsJsonObject().get("order_md_status").getAsString();
 
-                        //img 아직 안함
+                        ImageView ClientOrderProdIMG = findViewById(R.id.ClientOrderProdIMG);
+                        Glide.with(OrderDetailActivity.this)
+                                .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + order_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString())
+                                .into(ClientOrderProdIMG);
+
                         MdName.setText(md_name);
                         OrderCount.setText(md_qty+"세트");
                         OrderPrice.setText(md_total_price+"원");
