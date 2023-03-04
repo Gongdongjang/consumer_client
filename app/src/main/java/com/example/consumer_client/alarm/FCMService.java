@@ -21,6 +21,8 @@ public class FCMService extends FirebaseMessagingService {
 
     private static final String CHANNEL_ID = "test";
     private static final CharSequence CHANNEL_NAME = "1";
+    String title;
+    String content;
 
     @Override
     public void onNewToken(@NonNull String token) {
@@ -36,11 +38,15 @@ public class FCMService extends FirebaseMessagingService {
         //Log.i("############# msg body: ", (remoteMessage.getNotification().getBody()));
         //Log.i("############# msg title: ", (remoteMessage.getNotification().getTitle()));
         //Log.i("############# msg data: ", (remoteMessage.getNotification().get()));
-//        if (msg.getData().isEmpty()) {
-//            showNotificationMessage(msg.getNotification().getTitle(), msg.getNotification().getBody());  // Notification으로 받을 때
-//        } else {
-//            showDataMessage(msg.getData().get("title"), msg.getData().get("content"));  // Data로 받을 때
-//        }
+        if (remoteMessage.getData().isEmpty()) {
+            //showNotificationMessage(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());  // Notification으로 받을 때
+            title = remoteMessage.getNotification().getTitle();
+            content = remoteMessage.getNotification().getBody();
+        } else {
+            //showDataMessage(remoteMessage.getData().get("title"), remoteMessage.getData().get("content"));  // Data로 받을 때
+            title = remoteMessage.getData().get("title");
+            content = remoteMessage.getData().get("content");
+        }
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
 
         NotificationCompat.Builder builder = null;
@@ -60,14 +66,15 @@ public class FCMService extends FirebaseMessagingService {
         //푸시를 클릭했을때 이동//
         Intent intent = new Intent(this, AlarmList.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("title",title);
-        intent.putExtra("body",body);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        //intent.putExtra("title",title);
+        //intent.putExtra("body",body);
+        //intent.putExtra("user_id", user_id);
+        //PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
         builder.setContentTitle(title)
                 .setContentText(body)
-                .setSmallIcon(R.drawable.img_gongdongjang_logo)
-                .setContentIntent(pendingIntent);
+                .setSmallIcon(R.drawable.img_gongdongjang_logo);
+                //.setContentIntent(pendingIntent);
                 //.setSmallIcon(R.drawable.ic_launcher_background);
 
         Notification notification = builder.build();

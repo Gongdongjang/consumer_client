@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
+import com.example.consumer_client.notification.NotificationList;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -17,6 +18,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -84,11 +86,17 @@ public class Alarm extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     try {
                         JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-                        //Log.d("Alarm:", res.get("message").getAsString());
-                        //메인 페이지로 이동
-                        Intent intent = new Intent(Alarm.this, MainActivity.class);
-                        intent.putExtra("user_id", userid);
-                        startActivity(intent);
+                        if(Objects.equals(res.get("message").getAsString(), "토큰 업데이트")){
+                            //알림리스트 페이지로
+                            Intent intent = new Intent(Alarm.this, NotificationList.class);
+                            intent.putExtra("user_id", userid);
+                            startActivity(intent);
+                        } else{
+                            //메인 페이지로 이동
+                            Intent intent = new Intent(Alarm.this, MainActivity.class);
+                            intent.putExtra("user_id", userid);
+                            startActivity(intent);
+                        }
 
                     } catch (IOException e) {
                         e.printStackTrace();
