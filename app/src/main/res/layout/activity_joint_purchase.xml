@@ -36,13 +36,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="300dp" />
 
-                    <me.relex.circleindicator.CircleIndicator3
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:id="@+id/indicator"
-                        android:layout_marginBottom="10dp"
-                        android:layout_gravity="bottom"/>
-
                     <ImageView
                         android:id="@+id/KakaoShare"
                         android:layout_width="30dp"
