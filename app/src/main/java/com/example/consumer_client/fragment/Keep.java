@@ -14,9 +14,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.farm.FarmDetailAdapter;
 import com.example.consumer_client.md.MdDetailInfo;
 import com.example.consumer_client.md.JointPurchaseActivity;
@@ -92,6 +94,17 @@ public class Keep extends Fragment {
         jsonParser = new JsonParser();
 
         firstInit();
+
+        //상단바 장바구니
+        ImageView gotoCart = (ImageView) view.findViewById(R.id.gotoCart);
+        gotoCart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(mActivity, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
 
         Log.d("user_id", user_id);
         body = new JsonObject();

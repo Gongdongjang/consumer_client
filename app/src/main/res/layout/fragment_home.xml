@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.Home">
+    tools:context=".fragment.Home"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/main_toolbar"
+        android:id="@+id/toolbar"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F6F6F6"/>
+
+    <androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-<!--    이미지 자동슬라이드 주석
-        <ViewFlipper-->
-<!--            android:id="@+id/image_slide"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="400dp"/>-->
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager2"
@@ -159,3 +167,4 @@
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
+</LinearLayout>

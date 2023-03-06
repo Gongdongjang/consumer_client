@@ -97,29 +97,29 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("user_id",user_id);
 
         //===기준 주소정보
-        JsonObject body = new JsonObject();
-        body.addProperty("id", user_id);
-
-        Call<ResponseBody> call = service.getStdAddress(body);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                try {
-                    res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
-                    JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
-                    String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
-                    change_address.setText(standard_address);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "기준 주소 정보 받기 에러 발생", Toast.LENGTH_SHORT).show();
-                Log.e("주소정보", t.getMessage());
-            }
-        });
+//        JsonObject body = new JsonObject();
+//        body.addProperty("id", user_id);
+//
+//        Call<ResponseBody> call = service.getStdAddress(body);
+//        call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+//                try {
+//                    res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
+//                    JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
+//                    String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
+//                    change_address.setText(standard_address);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                Toast.makeText(getApplicationContext(), "기준 주소 정보 받기 에러 발생", Toast.LENGTH_SHORT).show();
+//                Log.e("주소정보", t.getMessage());
+//            }
+//        });
 
         bottomNavigation = findViewById(R.id.bottom_navi);
         bottomNavigation.setOnNavigationItemSelectedListener(
@@ -162,27 +162,27 @@ public class MainActivity extends AppCompatActivity {
 
         // 지역명
         //상단바 주소변경 누르면 주소변경/선택 페이지로
-        change_address = findViewById(R.id.change_address);
-        change_address.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(MainActivity.this, FindTownActivity.class);
-                intent.putExtra("user_id", user_id);
-                intent.putExtra("first_time", "no");
-                startActivity(intent);
-            }
-        });
-
-        //상단바 장바구니
-        toolbar_cart = findViewById(R.id.toolbar_cart);
-        toolbar_cart.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(MainActivity.this, CartListActivity.class);
-                intent.putExtra("user_id", user_id);
-                startActivity(intent);
-            }
-        });
+//        change_address = findViewById(R.id.change_address);
+//        change_address.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v){
+//                Intent intent = new Intent(MainActivity.this, FindTownActivity.class);
+//                intent.putExtra("user_id", user_id);
+//                intent.putExtra("first_time", "no");
+//                startActivity(intent);
+//            }
+//        });
+//
+//        //상단바 장바구니
+//        toolbar_cart = findViewById(R.id.toolbar_cart);
+//        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v){
+//                Intent intent = new Intent(MainActivity.this, CartListActivity.class);
+//                intent.putExtra("user_id", user_id);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     private void setFrag(int n) {
