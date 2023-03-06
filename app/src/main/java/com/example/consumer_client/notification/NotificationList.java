@@ -11,11 +11,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.R;
 
+import com.example.consumer_client.fragment.MyPage;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -64,13 +67,13 @@ public class NotificationList  extends AppCompatActivity {
         firstInit();
 
         Intent intent = getIntent(); //intent 값 받기
-        user_id=intent.getStringExtra("user_id");
+        user_id = intent.getStringExtra("user_id");
 
         JsonObject body = new JsonObject();
         body.addProperty("id", user_id);
 
         //noti정보 불러오기
-        Call<ResponseBody> call= service.getNotification(body);
+        Call<ResponseBody> call = service.getNotification(body);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
@@ -91,19 +94,21 @@ public class NotificationList  extends AppCompatActivity {
                         addNoti(notiArray.get(i).getAsJsonObject().get("notification_title").getAsString(),
                                 notiArray.get(i).getAsJsonObject().get("notification_content").getAsString(),
                                 notiArray.get(i).getAsJsonObject().get("notification_target").getAsString());
-                       // #F7F7F7
+                        // #F7F7F7
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(NotificationList.this, "알림정보 에러 발생", Toast.LENGTH_SHORT).show();
                 Log.e("스토어", t.getMessage());
             }
         });
-}
+
+    }
 
     private void firstInit() {
         mNotificationRecycler = findViewById(R.id.NotificationRecycler);
@@ -117,4 +122,16 @@ public class NotificationList  extends AppCompatActivity {
         noti.setTarget(target);
         mList.add(noti);
     }
+
+    //뒤로가기 버튼 시 화면전환 (토큰 update 화면 안보이게)
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        MyPage myPage = new MyPage();
+        transaction.replace(R.id.Main_Frame, myPage);
+        transaction.commit();
+    }
+
 }
