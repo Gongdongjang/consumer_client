@@ -13,7 +13,7 @@ public class ShoppingInfoActivity extends TabActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mypage_tab_host);;
+        setContentView(R.layout.mypage_tab_host);
 
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");

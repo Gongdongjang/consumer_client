@@ -48,10 +48,15 @@
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="#F0F0F0" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+
             android:orientation="vertical">
 
             <LinearLayout
@@ -61,7 +66,8 @@
                 android:layout_marginBottom="8dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:background="@drawable/button_round"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:padding="10dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -99,7 +105,6 @@
                         android:textColor="#151515"
                         android:textSize="14dp"
                         android:textStyle="bold" />
-
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -144,6 +149,12 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/img_gray_bar"
+                android:layout_gravity="center"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -201,6 +212,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginTop="10dp"
+                android:layout_margin="20dp"
                 android:background="@drawable/button_round"
                 android:padding="15dp"
                 android:hint="리뷰를 작성해주세요"
@@ -210,22 +222,41 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:orientation="horizontal"
                 android:layout_marginBottom="8dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="left"
-                    android:text="사진 첨부"
+                    android:text="사진 첨부 ("
+                    android:textStyle="bold"
                     android:textColor="#848484"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/imgNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textStyle="bold"
+                    android:text="0"
+                    android:textColor="#848484"
+                    android:textSize="15sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textStyle="bold"
+                    android:text="/3)"
+                    android:textColor="#848484"
+                    android:textSize="15sp" />
 
                 <ImageButton
                     android:id="@+id/addImg"
+                    android:layout_marginLeft="250dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_baseline_add_box_24" />
@@ -234,7 +265,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -243,7 +275,7 @@
                     android:layout_height="80dp"
                     android:layout_marginRight="15dp"
                     android:adjustViewBounds="true"
-                    android:background="#EAEAEA"
+                    android:background="@drawable/button_round"
                     android:maxWidth="80dp"
                     android:maxHeight="80dp" />
 
@@ -253,7 +285,7 @@
                     android:layout_height="80dp"
                     android:layout_marginRight="15dp"
                     android:adjustViewBounds="true"
-                    android:background="#EAEAEA"
+                    android:background="@drawable/button_round"
                     android:maxWidth="80dp"
                     android:maxHeight="80dp" />
 
@@ -261,9 +293,8 @@
                     android:id="@+id/reviewImg3"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_marginRight="15dp"
                     android:adjustViewBounds="true"
-                    android:background="#EAEAEA"
+                    android:background="@drawable/button_round"
                     android:maxWidth="80dp"
                     android:maxHeight="80dp" />
             </LinearLayout>
@@ -278,21 +309,26 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/reviewCancel"
-                    android:layout_width="150dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:background="@drawable/button_round"
+                    android:layout_weight="1"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/button_round"
                     android:textSize="14dp"
                     android:text="취소"
+                    android:textStyle="bold"
                     android:textColor="#1EAA95" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/reviewReg"
-                    android:layout_width="150dp"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
                     android:layout_height="40dp"
+                    android:layout_marginRight="20dp"
                     android:background="@drawable/button_round2"
-                    android:layout_marginLeft="30dp"
                     android:textSize="14dp"
+                    android:textStyle="bold"
                     android:text="등록하기"
                     android:textColor="#FFFFFF" />
             </LinearLayout>

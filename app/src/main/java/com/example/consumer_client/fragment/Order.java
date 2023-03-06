@@ -129,8 +129,7 @@ public class Order extends Fragment {
                         }
                         addOrderList(user_id, orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(),
                                 orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(),
-                                "제품이미지",
-                                // "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + orderDetailArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                 "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + orderDetailArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                 orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                 //String.format("%.2f", distanceKilo),
                                 orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(),

@@ -12,7 +12,6 @@ android {
         targetSdk 31
         versionCode 1
         versionName "1.0"
-        //
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -54,12 +53,12 @@ dependencies {
 
 
     //네이버 로그인
-   // implementation 'com.naver.nid:naveridlogin-android-sdk:4.2.6'   // import from jcenter
+    // implementation 'com.naver.nid:naveridlogin-android-sdk:4.2.6'   // import from jcenter
 //
 //    // naveridlogin dependencies
     //def android_x_version = "1.0.0"
     //implementation "androidx.appcompat:appcompat:$android_x_version"
-   // implementation "androidx.legacy:legacy-support-core-utils:$android_x_version"
+    // implementation "androidx.legacy:legacy-support-core-utils:$android_x_version"
     //implementation "androidx.browser:browser:$android_x_version"
     //implementation "androidx.legacy:legacy-support-v4:$android_x_version"
 
@@ -67,7 +66,6 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation 'com.squareup.picasso:picasso:2.8'
-
     //결제 슬라이딩
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
 
@@ -77,7 +75,7 @@ dependencies {
     // url로 사진 띄우기 위한 glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
-    
+
     //FCM
     implementation platform('com.google.firebase:firebase-bom:31.2.0')
     implementation 'com.google.firebase:firebase-analytics'
@@ -88,7 +86,7 @@ dependencies {
 
     //홈화면 슬라이드 배너
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation 'me.relex:circleindicator:2.1.6'
+    // implementation 'me.relex:circleindicator:2.1.4'
 
     //s3 업로드
     implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.13.5'

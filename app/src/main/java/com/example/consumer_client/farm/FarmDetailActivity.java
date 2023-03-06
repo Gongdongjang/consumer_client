@@ -344,8 +344,8 @@ public class FarmDetailActivity extends AppCompatActivity {
         mdDetail.setDistance(distance);
         mdDetail.setMdPrice(mdPrice);
         mdDetail.setDday(dDay);
-        // 미터 및 픽업 예정일 추가해야돼
         mdDetail.setPuTime(puTime);
+
         mList.add(mdDetail);
     }
 }
