@@ -4,38 +4,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <TextView
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="리뷰 작성하기"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="@color/black"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="나의 주문내역"
-            android:layout_marginTop="20dp"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:gravity="left"
-            android:textColor="@color/black"/>
+            android:layout_height="60dp"
+            android:background="#FFFFFF"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/gotoBack"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@drawable/ic_top_arrow" />
+
+            <TextView
+                android:id="@+id/myaddress"
+                android:layout_width="212dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="내가 쓴 리뷰"
+                android:textColor="#000000"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/gotoCart"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center|right"
+                android:layout_weight="1"
+                android:src="@drawable/ic_cart_shopping" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#EAEAEA"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:padding="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="8dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ReviewCheckProdImg"
@@ -53,140 +75,125 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/JP_StoreName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="스토어명"
+                    android:textColor="#848484"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/ReviewCheckProdName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:text="제품명"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
+                    android:textColor="#151515"
+                    android:textSize="14dp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
                     android:orientation="horizontal">
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/ReviewCheckOrderCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="20dp"
-                        android:orientation="vertical">
+                        android:text="3"
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="주문수량"
-                            android:textColor="@color/black" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="결제 예정 금액"
-                            android:textColor="@color/black" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:text="세트"
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/ReviewCheckOrderPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="119,900"
+                        android:textColor="#151515"
+                        android:textSize="12dp"
+                        android:textStyle="bold" />
 
-                            <TextView
-                                android:id="@+id/ReviewCheckOrderCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="n"
-                                android:textColor="@color/black" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="원"
+                        android:textColor="#151515"
+                        android:textSize="12dp"
+                        android:textStyle="bold" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="개"
-                                android:textColor="@color/black" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/ReviewCheckOrderPrice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="n"
-                                android:textColor="@color/black" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="원"
-                                android:textColor="@color/black" />
-                        </LinearLayout>
-                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/img_gray_bar"
+            android:layout_gravity="center"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="리뷰 확인하기"
-            android:layout_marginTop="20dp"
-            android:textStyle="bold"
-            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
             android:gravity="left"
-            android:textColor="@color/black"/>
+            android:text="상품 리뷰"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <LinearLayout
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="나의 별점"
-                android:textStyle="bold"
-                android:textSize="15sp"
-                android:gravity="left"
-                android:textColor="@color/black"/>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_marginLeft="15dp">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/Star_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_star_24"/>
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_product_review_list_on_14px"/>
                 <ImageView
                     android:id="@+id/Star_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_star_24"/>
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_product_review_list_on_14px"/>
                 <ImageView
                     android:id="@+id/Star_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_star_24"/>
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_product_review_list_on_14px"/>
                 <ImageView
                     android:id="@+id/Star_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_star_half_24"/>
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_product_review_list_on_14px"/>
                 <ImageView
                     android:id="@+id/Star_5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_star_border_24"/>
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_product_review_list_off_14px"/>
+
             </LinearLayout>
         </LinearLayout>
 
@@ -194,24 +201,32 @@
             android:id="@+id/ReviewCheckImg"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="#EAEAEA"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/button_round" />
 
         <TextView
             android:id="@+id/ReviewCheckContent"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="#EAEAEA"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/ReviewCheckEditBtn"
-            android:layout_width="match_parent"
+            android:layout_width="368dp"
+            android:layout_gravity="center"
+            android:backgroundTint="#F1F1F1"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="50dp"
+            android:background="@drawable/button_round"
             android:text="수정하기"
-            android:textColor="@color/black"/>
-
+            android:textStyle="bold"
+            android:textColor="#A3A3A3"
+            android:enabled="false" />
     </LinearLayout>
+
 </androidx.core.widget.NestedScrollView>
