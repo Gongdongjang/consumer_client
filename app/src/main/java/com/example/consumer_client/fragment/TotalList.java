@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -101,9 +102,20 @@ public class TotalList extends Fragment {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_total_list, container, false);
 
+        //상단바
+        ImageView cancel = (ImageView) view.findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                Home home = new Home();
+                transaction.replace(R.id.Main_Frame, home);
+                transaction.commit();
+            }
+        });
+
         //서비스 전체보기 (전체 입점농가)
         TextView totalFarmTextView = (TextView) view.findViewById(R.id.showTotalFarm);
-
         totalFarmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

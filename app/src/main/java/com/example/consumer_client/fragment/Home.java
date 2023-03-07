@@ -45,7 +45,10 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.consumer_client.FragPagerAdapter;
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.ReviewDialog;
+import com.example.consumer_client.address.FindTownActivity;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.md.MdListMainActivity;
 import com.example.consumer_client.R;
@@ -122,6 +125,7 @@ public class Home extends Fragment
 
     private TextView productList; //제품리스트 클릭하는 텍스트트
     private TextView change_address, home_userid;
+    private ImageView toolbar_cart;
 
     String user_id, standard_address;
     Button popupBtn;
@@ -133,6 +137,10 @@ public class Home extends Fragment
         mActivity = getActivity();
         Intent intent = mActivity.getIntent(); //intent 값 받기
         user_id = intent.getStringExtra("user_id");
+
+        if(getArguments() != null){
+            user_id = getArguments().getString("user_id"); //값을 받아옴
+        }
     }
 
     @Override
@@ -148,19 +156,31 @@ public class Home extends Fragment
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
-
-        //--------------
-        //mapView = new MapView(mActivity);
-
-
-        //유저아이디 띄우기
-//        home_userid = view.findViewById(R.id.home_userid);
-//        home_userid.setText("아이디:"+ user_id);
-
         //product recyclerview 초기화
         firstInit();
-        //mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
-        //mapViewContainer.addView(mapView);
+
+        //상단바 주소변경 누르면 주소변경/선택 페이지로
+        change_address = view.findViewById(R.id.change_address);
+        change_address.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(mActivity, FindTownActivity.class);
+                intent.putExtra("user_id", user_id);
+                intent.putExtra("first_time", "no");
+                startActivity(intent);
+            }
+        });
+
+        //상단바 장바구니
+        toolbar_cart = view.findViewById(R.id.toolbar_cart);
+        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(mActivity, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
 
         //===주소정보
         JsonObject body = new JsonObject();
@@ -174,20 +194,12 @@ public class Home extends Fragment
                     res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
                     JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
                     standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
-//                    if(standard_address.equals("현재위치")){
-//                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-//                        myTownLat=mCurrentLat;
-//                        myTownLong=mCurrentLng;
-//                    }else{
-//                        //mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOff );  //현재위치 탐색 중지
+                    change_address.setText(standard_address);
                     final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
                     List<Address> address = geocoder.getFromLocationName(standard_address, 10);
                     Address location = address.get(0);
                     myTownLat = location.getLatitude();
                     myTownLong = location.getLongitude();
-//                        // 중심점 변경
-//                        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(myTownLat, myTownLong), true);
-//                    }
 
                 } catch (IOException e) {
                     e.printStackTrace();

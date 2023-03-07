@@ -1,15 +1,10 @@
 package com.example.consumer_client.fragment;
 
-import static com.example.consumer_client.address.LocationDistance.distance;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,9 +14,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.farm.FarmDetailAdapter;
 import com.example.consumer_client.md.MdDetailInfo;
 import com.example.consumer_client.md.JointPurchaseActivity;
@@ -102,6 +99,18 @@ public class Keep extends Fragment {
 
         firstInit();
 
+        //상단바 장바구니
+        ImageView gotoCart = (ImageView) view.findViewById(R.id.gotoCart);
+        gotoCart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(mActivity, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+
+        Log.d("user_id", user_id);
         //===주소정보
         JsonObject body = new JsonObject();
         body.addProperty("id", user_id);

@@ -13,11 +13,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.consumer_client.R;
 import com.example.consumer_client.alarm.Alarm;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.mypage.AboutGDJActivity;
 import com.example.consumer_client.mypage.AccountSettingActivity;
 import com.example.consumer_client.mypage.UserCenterActivity;
@@ -96,6 +98,17 @@ public class MyPage extends Fragment {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("MyPage", "onFailure: e " + t.getMessage());
+            }
+        });
+
+        //상단바 장바구니
+        ImageView gotoCart = (ImageView) view.findViewById(R.id.gotoCart);
+        gotoCart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(mActivity, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
             }
         });
 

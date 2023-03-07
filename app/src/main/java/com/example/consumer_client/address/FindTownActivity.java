@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.alarm.Alarm;
 import com.example.consumer_client.network.NetworkStatus;
@@ -108,7 +109,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         txt_address2= findViewById(R.id.txt_address2);
         txt_address3=findViewById(R.id.txt_address3);
 
-
         JsonObject body1 = new JsonObject();
         body1.addProperty("id", userid);
 
@@ -189,15 +189,19 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         mapViewContainer.addView(mapView);
         mapView.setMapViewEventListener(this);
 
+//        marker = new MapPOIItem();
+//        marker.setDraggable(true);
+
         if (!checkLocationServicesStatus()) {
             showDialogForLocationServiceSetting();
         }else {
             checkRunTimePermission();
         }
         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-
-        marker = new MapPOIItem();
-        marker.setDraggable(true);
+        //marker.setCustomImageAnchorPointOffset(new MapPOIItem.ImageOffset());
+        // (MapPOIItem.MarkerType.RedPin);
+        //mapView.setCustomCurrentLocationMarkerTrackingImage(R.drawable.location_pin, marker.getCustomImageAnchorPointOffset());
+        //mapView.setCustomCurrentLocationMarkerTrackingImage(R.drawable.location_pin, new MapPOIItem.ImageOffset(16, 16));
 
         gpsTracker= new GpsTracker(FindTownActivity.this);
 
@@ -229,6 +233,10 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
 
                 //마커표시 왜 안될까?
 //                mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
+                //mapView.setCurrentLocationMarker();
+
+                //marker.setCustomImageAnchorPointOffset(new MapPOIItem.ImageOffset(16,16));
+                //mapView.setCustomCurrentLocationMarkerTrackingImage(R.drawable.ic_baseline_location_on_24, marker.getCustomImageAnchorPointOffset());
 //                MapPoint f_MarkPoint = MapPoint.mapPointWithGeoCoord(latitude, latitude);
 //                marker.setMarkerType(MapPOIItem.MarkerType.RedPin);
 //                marker.setMapPoint(f_MarkPoint);
@@ -340,10 +348,18 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         btn_finish_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(addresslist.size()>=0){
+                if(Objects.equals(first_time, "yes")) {
                     registAddress(userid, addresslist, first_time); //서버에 주소 저장
                     //알림 페이지로 이동
                     Intent intent = new Intent(FindTownActivity.this, Alarm.class);
+                    intent.putExtra("user_id",userid);
+                    startActivity(intent);
+//                   if(addresslist.size()>0)){
+                }
+                else{
+                    registAddress(userid, addresslist, first_time); //서버에 주소 저장
+                    //메인 페이지로 이동
+                    Intent intent = new Intent(FindTownActivity.this, MainActivity.class);
                     intent.putExtra("user_id",userid);
                     startActivity(intent);
                 }
@@ -386,19 +402,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         if (requestCode == SEARCH_ADDRESS_ACTIVITY) {
             if (resultCode == RESULT_OK) {
                 String data = intent.getExtras().getString("data");
-//                Log.d("근처동네-전체주소", "대한민국 "+ data);
-//                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-//                //String address= null;
-//                try {
-//                    List<Address> address = geocoder.getFromLocationName(data,8);
-//                    Address location = address.get(0);
-//                    Log.d("@@주소", String.valueOf(address));
-//
-//                    //short_address= location.getThoroughfare();
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
 
                 number = intent.getStringExtra("number");
                 if (data != null) {
