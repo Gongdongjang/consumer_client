@@ -85,7 +85,6 @@ public class StandardLoginActivity extends AppCompatActivity {
                     try {
                         JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
                         String access_token = res.get("access_token").getAsString();
-                        String first_login = res.get("first_login").getAsString();
                         if (access_token.equals("id_false")) {
                             Toast toast = Toast.makeText(getApplicationContext(), "아이디를 확인해주세요.", Toast.LENGTH_LONG);
                             Log.d(TAG, "아이티틀림");
@@ -95,6 +94,7 @@ public class StandardLoginActivity extends AppCompatActivity {
                             toast.show();
                             Log.d(TAG, "비밀번호틀림");
                         } else {
+                            String first_login = res.get("first_login").getAsString();
                             String refresh_token = res.get("refresh_token").getAsString();
                             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                             SharedPreferences.Editor editor = sharedPreferences.edit();
