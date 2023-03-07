@@ -193,7 +193,7 @@ public class Keep extends Fragment {
                         addKeepList("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
-                                String.format("%.2f", distanceKilo) + "km",
+                                String.format("%.2f", distanceKilo), //+ "km",
                                 jsonArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
                                 realIf0,
                                 pu_start.get(i).getAsString());
