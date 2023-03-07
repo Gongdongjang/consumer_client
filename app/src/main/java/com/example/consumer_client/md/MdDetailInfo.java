@@ -5,10 +5,12 @@ import android.widget.TextView;
 
 public class MdDetailInfo {
     private String prodImg;
+    private String mdId;
     private String farmName;
     private String prodName;
     private String storeName;
     private String puTerm;
+    private String distance;
     private String mdPrice;
     private String dDay;
     private String puTime;
@@ -51,6 +53,10 @@ public class MdDetailInfo {
         this.prodImg = prodImg;
     }
 
+    public String getDistance() {return distance;}
+
+    public void setDistance(String distance) {this.distance = distance;}
+
     public String getMdPrice() {
         return mdPrice;
     }
@@ -75,4 +81,19 @@ public class MdDetailInfo {
         this.puTime = puTime;
     }
 
+    public String getMdId() {
+        return mdId;
+    }
+
+    public void setMdId(String mdId) {
+        this.mdId = mdId;
+    }
+
+    public String getdDay() {
+        return dDay;
+    }
+
+    public void setdDay(String dDay) {
+        this.dDay = dDay;
+    }
 }

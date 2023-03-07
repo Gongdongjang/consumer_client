@@ -25,9 +25,9 @@ import androidx.core.content.ContextCompat;
 
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
+import com.example.consumer_client.alarm.Alarm;
 import com.example.consumer_client.network.NetworkStatus;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -39,7 +39,6 @@ import net.daum.mf.map.api.MapView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import okhttp3.ResponseBody;
@@ -110,7 +109,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         txt_address2= findViewById(R.id.txt_address2);
         txt_address3=findViewById(R.id.txt_address3);
 
-
         JsonObject body1 = new JsonObject();
         body1.addProperty("id", userid);
 
@@ -135,21 +133,21 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                         if (address_count == 0) {
                             //String address_loc0 = addressArray.get(0).getAsJsonObject().get("loc0").getAsString();
                             //txt_address0.setText(address_loc0);
-                            txt_address1.setVisibility(View.GONE);
-                            txt_address2.setVisibility(View.GONE);
-                            txt_address3.setVisibility(View.GONE);
+//                            txt_address1.setVisibility(View.GONE);
+//                            txt_address2.setVisibility(View.GONE);
+//                            txt_address3.setVisibility(View.GONE);
                         }
                         if (address_count == 1) {
                             String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
                             txt_address1.setText(address_loc1);
-                            txt_address2.setVisibility(View.GONE);
-                            txt_address3.setVisibility(View.GONE);
+                            //xt_address2.setVisibility(View.GONE);
+                            //txt_address3.setVisibility(View.GONE);
                         } else if (address_count == 2) {
                             String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
                             String address_loc2 = addressArray.get(0).getAsJsonObject().get("loc2").getAsString();
                             txt_address1.setText(address_loc1);
                             txt_address2.setText(address_loc2);
-                            txt_address3.setVisibility(View.GONE);
+                            //txt_address3.setVisibility(View.GONE);
                         } else if (address_count == 3) {
                             String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
                             String address_loc2 = addressArray.get(0).getAsJsonObject().get("loc2").getAsString();
@@ -191,15 +189,19 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         mapViewContainer.addView(mapView);
         mapView.setMapViewEventListener(this);
 
+//        marker = new MapPOIItem();
+//        marker.setDraggable(true);
+
         if (!checkLocationServicesStatus()) {
             showDialogForLocationServiceSetting();
         }else {
             checkRunTimePermission();
         }
         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-
-        marker = new MapPOIItem();
-        marker.setDraggable(true);
+        //marker.setCustomImageAnchorPointOffset(new MapPOIItem.ImageOffset());
+        // (MapPOIItem.MarkerType.RedPin);
+        //mapView.setCustomCurrentLocationMarkerTrackingImage(R.drawable.location_pin, marker.getCustomImageAnchorPointOffset());
+        //mapView.setCustomCurrentLocationMarkerTrackingImage(R.drawable.location_pin, new MapPOIItem.ImageOffset(16, 16));
 
         gpsTracker= new GpsTracker(FindTownActivity.this);
 
@@ -231,6 +233,10 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
 
                 //마커표시 왜 안될까?
 //                mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
+                //mapView.setCurrentLocationMarker();
+
+                //marker.setCustomImageAnchorPointOffset(new MapPOIItem.ImageOffset(16,16));
+                //mapView.setCustomCurrentLocationMarkerTrackingImage(R.drawable.ic_baseline_location_on_24, marker.getCustomImageAnchorPointOffset());
 //                MapPoint f_MarkPoint = MapPoint.mapPointWithGeoCoord(latitude, latitude);
 //                marker.setMarkerType(MapPOIItem.MarkerType.RedPin);
 //                marker.setMapPoint(f_MarkPoint);
@@ -342,13 +348,21 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         btn_finish_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(addresslist.size()>0){
+                if(Objects.equals(first_time, "yes")) {
                     registAddress(userid, addresslist, first_time); //서버에 주소 저장
+                    //알림 페이지로 이동
+                    Intent intent = new Intent(FindTownActivity.this, Alarm.class);
+                    intent.putExtra("user_id",userid);
+                    startActivity(intent);
+//                   if(addresslist.size()>0)){
                 }
-                //메인 페이지로 이동
-                Intent intent = new Intent(FindTownActivity.this, MainActivity.class);
-                intent.putExtra("user_id",userid);
-                startActivity(intent);
+                else{
+                    registAddress(userid, addresslist, first_time); //서버에 주소 저장
+                    //메인 페이지로 이동
+                    Intent intent = new Intent(FindTownActivity.this, MainActivity.class);
+                    intent.putExtra("user_id",userid);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -388,19 +402,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         if (requestCode == SEARCH_ADDRESS_ACTIVITY) {
             if (resultCode == RESULT_OK) {
                 String data = intent.getExtras().getString("data");
-//                Log.d("근처동네-전체주소", "대한민국 "+ data);
-//                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-//                //String address= null;
-//                try {
-//                    List<Address> address = geocoder.getFromLocationName(data,8);
-//                    Address location = address.get(0);
-//                    Log.d("@@주소", String.valueOf(address));
-//
-//                    //short_address= location.getThoroughfare();
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
 
                 number = intent.getStringExtra("number");
                 if (data != null) {

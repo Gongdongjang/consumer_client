@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
+import com.example.consumer_client.tutorial.TutorialActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -42,6 +43,7 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 import java.io.IOException;
+import java.util.Objects;
 
 interface IntegratedLoginService {
 
@@ -129,18 +131,17 @@ public class IntegratedLoginActivity extends AppCompatActivity {
 
                                 String userid=Long.toString(user.getId());
                                 String username=user.getKakaoAccount().getProfile().getNickname();
-                                String nickname= user.getKakaoAccount().getProfile().getNickname();
+                                //String nickname= user.getKakaoAccount().getProfile().getNickname();
                                 String refresh_token= oAuthToken.getRefreshToken();
                                 //String email=user.getKakaoAccount().getEmail();
 
                                 Log.i(TAG, "username " + username); // 유저의 고유 아이디를 불러옵니다.
-                                Log.i(TAG, "invoke: nickname=" + user.getKakaoAccount().getProfile().getNickname()); // 유저의 닉네임을 불러옵니다.
 
                                 Log.d("id1",userid);
                                 JsonObject body = new JsonObject();
                                 body.addProperty("id", userid);
                                 body.addProperty("username", username);
-                                body.addProperty("nickname", nickname);
+                                //body.addProperty("nickname", nickname);
                                 body.addProperty("sns_type", "kakao");
                                 body.addProperty("refresh_token", refresh_token);
 
@@ -154,13 +155,19 @@ public class IntegratedLoginActivity extends AppCompatActivity {
                                             try {
                                                 JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
 //                                                Log.d("217행",res.toString());
-                                                Log.d("179행", res.get("id").getAsString());
+                                                //Log.d("179행", res.get("id").getAsString());
 
-                                                //로그인 버튼 클릭시, 메인 페이지로 이동 + 유저아이디 같이 넘기기
-                                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                                intent.putExtra("kakaoid",res.get("id").getAsString());
+                                                String first_login = res.get("first_login").getAsString();
 
-                                                startActivity(intent);
+                                                if(Objects.equals(first_login, "0")){ //최초 로그인 일 시 튜토리얼로
+                                                    Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
+                                                    intent.putExtra("user_id",res.get("id").getAsString());
+                                                    startActivity(intent);
+                                                } else{
+                                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                    intent.putExtra("user_id",res.get("id").getAsString());
+                                                    startActivity(intent);
+                                                }
 
                                             } catch (IOException e) {
                                                 e.printStackTrace();
@@ -278,10 +285,18 @@ public class IntegratedLoginActivity extends AppCompatActivity {
                             JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
                             Toast.makeText(IntegratedLoginActivity.this, res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
 
-                            //로그인 버튼 클릭시, 메인 페이지로 이동
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.putExtra("googleid",res.get("id").getAsString());
-                            startActivity(intent);
+                            String first_login = res.get("first_login").getAsString();
+
+                            if(Objects.equals(first_login, "0")){ //최초 로그인 일 시 튜토리얼로
+                                Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
+                                intent.putExtra("user_id",res.get("id").getAsString());
+                                startActivity(intent);
+                            } else{
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.putExtra("user_id",res.get("id").getAsString());
+                                startActivity(intent);
+                            }
+
                         }
                         catch(IOException e){
                             e.printStackTrace();

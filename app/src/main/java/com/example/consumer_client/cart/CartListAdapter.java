@@ -69,7 +69,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
         TextView storeName, eachStoreTotalPrice, mdName, mdSet, qty;
         String TAG = CartListActivity.class.getSimpleName();
         Button deleteBtn;
-        JsonArray cart_checked, cart_update;
+        JsonArray cart_checked;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

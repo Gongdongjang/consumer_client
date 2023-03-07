@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.R;
-import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.order.ToPayActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -56,7 +53,7 @@ public class CartListActivity extends AppCompatActivity {
 
     String select_qty, pay_price, pay_comp;
 
-    private RecyclerView mCartRecyclerView, mCartRecyclerView2;
+    private RecyclerView mCartRecyclerView;
     private ArrayList<CartListInfo> mList, mList2;
     private CartListAdapter mCartListAdapter;
 //    private CartListAdapter2 mCartListAdapter2;
@@ -232,7 +229,7 @@ public class CartListActivity extends AppCompatActivity {
                                         i.putExtra("md_id",md_id);
                                         i.putExtra("mdName",md_name);
                                         i.putExtra("purchaseNum",select_qty);
-                                        i.putExtra("JP_ToTalPrice",String.valueOf(Integer.valueOf(pay_price) * Integer.valueOf(select_qty)));
+                                        i.putExtra("JP_ToTalPrice",String.valueOf(Integer.valueOf(pay_price) * Integer.valueOf(select_qty)+"원"));
                                         i.putExtra("store_name",store_name);
                                         i.putExtra("store_id",store_id);
                                         i.putExtra("store_loc",store_loc);

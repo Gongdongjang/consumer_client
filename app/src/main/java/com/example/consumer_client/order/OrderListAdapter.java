@@ -88,8 +88,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     public void onBindViewHolder(@NonNull OrderListAdapter.ViewHolder holder, int position) {
         OrderListInfo item = mList.get(position);
         holder.user_id.setText(item.getUserId());
-        //Glide.with(holder.itemView).load(item.getStoreProdImgView()).into(holder.storeProdImgView);
-        holder.storeProdImgView.setImageResource(R.drawable.img_gongdongjang_logo);
+        Glide.with(holder.itemView).load(item.getStoreProdImgView()).into(holder.storeProdImgView);
+//        holder.storeProdImgView.setImageResource(R.drawable.img_gongdongjang_logo);
         holder.storeName.setText(item.getStoreName());
         holder.mdName.setText(item.getMdName());
         holder.mdQty.setText(item.getMdQty());

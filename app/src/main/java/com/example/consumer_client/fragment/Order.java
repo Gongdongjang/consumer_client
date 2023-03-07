@@ -15,9 +15,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.consumer_client.R;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.order.OrderDetailActivity;
 import com.example.consumer_client.order.OrderListAdapter;
 import com.example.consumer_client.order.OrderListInfo;
@@ -86,6 +88,17 @@ public class Order extends Fragment {
 
         firstInit();
 
+        //상단바 장바구니
+        ImageView gotoCart = (ImageView) view.findViewById(R.id.gotoCart);
+        gotoCart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(mActivity, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
@@ -116,13 +129,12 @@ public class Order extends Fragment {
                         }
                         addOrderList(user_id, orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(),
                                 orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(),
-                                "제품이미지",
-                                // "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + orderDetailArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                 "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + orderDetailArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                 orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                 //String.format("%.2f", distanceKilo),
                                 orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                 orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString()+"세트",
-                                orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString()+"원",
+                                orderDetailArray.get(i).getAsJsonObject().get("order_price").getAsString()+"원",
                                 isPickuped, //mdStatus
                                 pickupDate);
                     }

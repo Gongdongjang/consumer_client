@@ -1,35 +1,58 @@
 package com.example.consumer_client.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
-import com.example.consumer_client.farm.FarmActivity;
+import com.example.consumer_client.alarm.Alarm;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.mypage.AboutGDJActivity;
 import com.example.consumer_client.mypage.AccountSettingActivity;
 import com.example.consumer_client.mypage.UserCenterActivity;
 import com.example.consumer_client.notification.NotificationList;
-import com.example.consumer_client.shopping_info.ShoppingInfo2Activity;
 import com.example.consumer_client.shopping_info.ShoppingInfoActivity;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
+
+interface MyPageService {
+    @GET("mypage")
+    Call<ResponseBody> getUserName(@Query("user_id") String user_id);
+}
 
 public class MyPage extends Fragment {
     private View view;
     Activity mActivity;
     String user_id;
+    Context mContext;
+    JsonParser jsonParser;
+    MyPageService service;
+    JsonArray user_info;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,27 +67,71 @@ public class MyPage extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view= inflater.inflate(R.layout.fragment_my_page, container, false);
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_my_page, container, false);
 
-//        LinearLayout myPage_Keep = (LinearLayout) view.findViewById(R.id.MyPage_Keep);
-//        myPage_Keep.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), Keep.class);
-//                intent.putExtra("user_id", user_id);
-//                startActivity(intent);
-//            }
-//        });
+        mContext = view.getContext();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(mContext.getString(R.string.baseurl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        service = (MyPageService) retrofit.create(MyPageService.class);
+        jsonParser = new JsonParser();
+
+        Call<ResponseBody> call = service.getUserName(user_id);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                        user_info = res.get("user_info").getAsJsonArray();
+                        String user_name = user_info.get(0).getAsJsonObject().get("user_name").getAsString();
+                        TextView MyPage_UserName = view.findViewById(R.id.MyPage_UserName);
+                        MyPage_UserName.setText(user_name);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("MyPage", "onFailure: e " + t.getMessage());
+            }
+        });
+
+        //상단바 장바구니
+        ImageView gotoCart = (ImageView) view.findViewById(R.id.gotoCart);
+        gotoCart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(mActivity, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+
+        LinearLayout myPage_Keep = (LinearLayout) view.findViewById(R.id.MyPage_Keep);
+        myPage_Keep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                Keep keep = new Keep();
+                transaction.replace(R.id.Main_Frame, keep);
+                transaction.commit();
+            }
+        });
+
         //알림리스트
         LinearLayout MyPage_Notification = (LinearLayout) view.findViewById(R.id.MyPage_Notification);
         MyPage_Notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), NotificationList.class);
+
+                Intent intent = new Intent(getActivity(), Alarm.class);
+
+
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
@@ -75,7 +142,6 @@ public class MyPage extends Fragment {
         shoppingInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(mActivity, "현재 오류 수정 중 ♥3♥", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), ShoppingInfoActivity.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
@@ -114,6 +180,7 @@ public class MyPage extends Fragment {
                 startActivity(intent);
             }
         });
+
         return view;
     }
 }

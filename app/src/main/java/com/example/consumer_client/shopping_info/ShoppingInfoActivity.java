@@ -13,7 +13,7 @@ public class ShoppingInfoActivity extends TabActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mypage_tab_host);;
+        setContentView(R.layout.mypage_tab_host);
 
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
@@ -29,6 +29,14 @@ public class ShoppingInfoActivity extends TabActivity {
         intent.putExtra("user_id", user_id);
         spec = tabHost.newTabSpec("ShoppingInfo"); // 객체를 생성
         spec.setIndicator("상세주문내역"); //탭의 이름 설정
+        spec.setContent(intent);
+        tabHost.addTab(spec);
+
+        //탭에서 액티비티를 사용할 수 있도록 인텐트 생성
+        intent = new Intent().setClass(this, CancelList.class);
+        intent.putExtra("user_id", user_id);
+        spec = tabHost.newTabSpec("CancelList"); // 객체를 생성
+        spec.setIndicator("취소내역"); //탭의 이름 설정
         spec.setContent(intent);
         tabHost.addTab(spec);
 

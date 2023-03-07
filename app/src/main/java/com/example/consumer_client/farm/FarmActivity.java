@@ -9,6 +9,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +24,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.address.EditTownActivity;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.home.HomeProductItem;
+import com.example.consumer_client.store.StoreActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -64,17 +67,13 @@ public class FarmActivity extends AppCompatActivity {
     JsonObject res;
     JsonArray farmArray, mdArray;
 
-    String user_id;
-
-    private TextView change_address;
-    double myTownLat;   //추가
-    double myTownLong;  //추가
+    String user_id, standard_address;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farm_total_list);
-
+        
         //상단바 지정
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -99,39 +98,32 @@ public class FarmActivity extends AppCompatActivity {
 
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
+        standard_address=intent.getStringExtra("standard_address");
+        TextView change_address = (TextView) findViewById(R.id.change_address);
+        change_address.setText(standard_address);
 
-        //===기준 주소정보
-//        JsonObject body = new JsonObject();
-//        body.addProperty("id", user_id);
-//
-//        change_address = findViewById(R.id.change_address);
-//
-//        Call<ResponseBody> address_call = service.getStdAddress(body);
-//        address_call.enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-//                try {
-//                    res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
-//                    JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
-//                    String standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
-//                    change_address.setText(standard_address);
-//                    final Geocoder geocoder = new Geocoder(getApplicationContext());
-//                    List<Address> address = geocoder.getFromLocationName(standard_address,10);
-//                    Address location = address.get(0);
-//                    myTownLat = location.getLatitude();
-//                    myTownLong=location.getLongitude();
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                Toast.makeText(getApplicationContext(), "기준 주소 정보 받기 에러 발생", Toast.LENGTH_SHORT).show();
-//                Log.e("주소정보", t.getMessage());
-//            }
-//        });
+        //뒤로가기
+        ImageView toolbar_goBack = findViewById(R.id.toolbar_goBack);
+        toolbar_goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(FarmActivity.this, MainActivity.class);
+                intent1.putExtra("user_id", user_id);
+                startActivity(intent1);
+            }
+        });
+
+        //상단바 장바구니
+        ImageView toolbar_cart = findViewById(R.id.toolbar_cart);
+        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(FarmActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+
 
         // 지역명
         //상단바 주소변경 누르면 주소변경/선택 페이지로
@@ -182,7 +174,7 @@ public class FarmActivity extends AppCompatActivity {
 
                         //자신이 설정한 위치와 스토어 거리 distance 구하기
           //              double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
-                     addFarm("product Img", farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
+                     addFarm("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(i).getAsJsonObject().get("farm_mainImg").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
 
                         //2023.02.21. 이미지 때문인지 오류나서 주석처리함...
                         //addFarm(
@@ -195,6 +187,7 @@ public class FarmActivity extends AppCompatActivity {
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(FarmActivity.this, FarmDetailActivity.class);
                                     intent.putExtra("user_id", user_id);
+                                    intent.putExtra("standard_address", standard_address);
                                     intent.putExtra("farm_id",farmArray.get(pos).getAsJsonObject().get("farm_id").getAsString());
                                     startActivity(intent);
                                 }

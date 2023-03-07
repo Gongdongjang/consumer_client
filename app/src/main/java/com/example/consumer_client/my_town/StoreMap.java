@@ -7,20 +7,17 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-
-import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.ProgressDialog;
 import com.example.consumer_client.R;
 import com.example.consumer_client.store.StoreDetailActivity;
-import com.example.consumer_client.store.StoreTotalAdapter;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -77,7 +74,9 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
     JsonObject res;
     JsonArray storeArray;
 
-    String user_id;
+    String user_id, standard_address;
+    double myTownLat;
+    double myTownLong;
     ArrayList<StoreData> dataArr= new ArrayList<StoreData>();
 
     Context mContext;
@@ -98,6 +97,20 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
 
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
+        standard_address=intent.getStringExtra("standard_address");
+        TextView myaddress = (TextView) findViewById(R.id.myaddress);
+        myaddress.setText(standard_address);
+
+        final Geocoder geocoder = new Geocoder(getApplicationContext());
+        List<Address> address = null;
+        try {
+            address = geocoder.getFromLocationName(standard_address,10);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address location = address.get(0);
+        myTownLat = location.getLatitude();
+        myTownLong=location.getLongitude();
 
         MapView mapView = new MapView(mContext);
         mapView.setPOIItemEventListener(this);
@@ -124,8 +137,7 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
                     //MapView mapView = new MapView(mContext);
 
                     // 중심점 변경 (사용자가 설정한 위치로 지도중심점 띄우기)
-                    mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(37.5912999, 127.0221068), true);
-                    //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(store_lat, store_long), true);
+                    mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(myTownLat, myTownLong), true);
 
                     // 줌 레벨 변경
                     mapView.setZoomLevel(1, true);
@@ -194,11 +206,9 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
 
     @Override
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
-//        Log.d("말풍선클릭함수 진입", "Clicked"+ mapPOIItem.getItemName());
-//        Log.d("말풍선 getTag", String.valueOf(mapPOIItem.getTag()));
-        //Toast.makeText(this, "Clicked: " + mapPOIItem.getItemName(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(StoreMap.this, StoreDetailActivity.class);
         intent.putExtra("user_id", user_id);
+        intent.putExtra("standard_address", standard_address);
         intent.putExtra("storeid", String.valueOf(mapPOIItem.getTag())); //store_id 넘기기 드디어!!
         startActivity(intent);
     }
