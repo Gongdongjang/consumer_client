@@ -52,6 +52,7 @@ import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.ReviewDialog;
 import com.example.consumer_client.address.EditTownActivity;
 import com.example.consumer_client.address.FindTownActivity;
+import com.example.consumer_client.alarm.Alarm;
 import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.md.MdListMainActivity;
@@ -122,12 +123,7 @@ public class Home extends Fragment
     String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION};
 
     Activity mActivity;
-    MapView mapView;
-    ViewGroup mapViewContainer;
     LocationManager lm;
-    MapPoint currentMapPoint;
-    private double mCurrentLng; //Long = X, Lat = Yㅌ
-    private double mCurrentLat;
 
     double myTownLat;   //추가
     double myTownLong;  //추가
@@ -136,7 +132,7 @@ public class Home extends Fragment
 
     private TextView productList; //제품리스트 클릭하는 텍스트트
     private TextView change_address, home_userid;
-    private ImageView toolbar_cart;
+    private ImageView toolbar_cart, toolbar_notification;
 
     String user_id, standard_address;
     String address;
@@ -308,6 +304,17 @@ public class Home extends Fragment
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(mActivity, "주소정보 받아오기 오류 발생", Toast.LENGTH_SHORT).show();
                 Log.e("주소정보", t.getMessage());
+            }
+        });
+
+        //상단바 알림
+        toolbar_notification= view.findViewById(R.id.toolbar_notification);
+        toolbar_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, Alarm.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
             }
         });
 
