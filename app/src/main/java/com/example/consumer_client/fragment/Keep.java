@@ -1,10 +1,15 @@
 package com.example.consumer_client.fragment;
 
+import static com.example.consumer_client.address.LocationDistance.distance;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -202,7 +207,7 @@ public class Keep extends Fragment {
                         addKeepList("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
-                                String.format("%.2f", distanceKilo) + "km",
+                                String.format("%.2f", distanceKilo), //+ "km",
                                 jsonArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
                                 realIf0,
                                 pu_start.get(i).getAsString());
