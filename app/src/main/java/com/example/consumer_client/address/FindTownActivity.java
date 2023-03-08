@@ -112,10 +112,10 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         JsonObject body1 = new JsonObject();
         body1.addProperty("id", userid);
 
-        Button goto_std_address = findViewById(R.id.goto_std_address);
-        if(Objects.equals(first_time, "yes")){
-            goto_std_address.setVisibility(View.GONE);
-        } else{
+        //Button goto_std_address = findViewById(R.id.goto_std_address);
+        //if(Objects.equals(first_time, "yes")){
+          //  goto_std_address.setVisibility(View.GONE);
+        //} else{
             Call<ResponseBody> call = service.addressInfo(body1);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
@@ -169,16 +169,16 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                 }
             });
 
-        }
+      //  }
         //기준주소지 설정하는 페이지로 이동
-        goto_std_address.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(FindTownActivity.this, EditTownActivity.class);
-                intent.putExtra("user_id", userid);
-                startActivity(intent);
-            }
-        });
+//        goto_std_address.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(FindTownActivity.this, EditTownActivity.class);
+//                intent.putExtra("user_id", userid);
+//                startActivity(intent);
+//            }
+//        });
 
         //지도
         mapView = new MapView(this);

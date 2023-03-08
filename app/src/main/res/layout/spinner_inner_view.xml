@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:background="#F0F0F0"
+    android:padding="10dp">
 
     <!-- 클릭 시 나타나는 스피너 안의 텍스트뷰들 -->
     <TextView

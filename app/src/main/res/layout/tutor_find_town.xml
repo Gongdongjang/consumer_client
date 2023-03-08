@@ -162,14 +162,14 @@
                 android:ellipsize="end"/>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/goto_std_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:text="기준 주소 설정"
-            android:layout_gravity="right"
-            android:textColor="@color/black" />
+<!--        <Button-->
+<!--            android:id="@+id/goto_std_address"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:backgroundTint="@color/white"-->
+<!--            android:text="기준 주소 설정"-->
+<!--            android:layout_gravity="right"-->
+<!--            android:textColor="@color/black" />-->
 
         <Button
             android:id="@+id/btn_finish_address"
