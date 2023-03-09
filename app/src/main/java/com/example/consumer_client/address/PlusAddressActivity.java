@@ -18,6 +18,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -98,10 +99,15 @@ public class PlusAddressActivity extends AppCompatActivity {
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         try {
                             JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-                            Toast.makeText(getApplicationContext(), "주소가 삭제되었습니다.", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(PlusAddressActivity.this, FindTownActivity.class);
-                            intent.putExtra("user_id",user_id);
-                            startActivity(intent);
+                            if (Objects.equals(res.get("message").getAsString(), "기준주소지로 설정되어 주소 삭제 불가합니다.")){
+                                Toast.makeText(getApplicationContext(), res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(getApplicationContext(), "주소가 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(PlusAddressActivity.this, FindTownActivity.class);
+                                intent.putExtra("user_id",user_id);
+                                startActivity(intent);
+                            }
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
