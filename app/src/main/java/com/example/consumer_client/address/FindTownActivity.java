@@ -128,7 +128,9 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                         Log.d("근처동네", String.valueOf(address_count));
 
                         String address_loc0 = addressArray.get(0).getAsJsonObject().get("loc0").getAsString();
-                        txt_address0.setText(address_loc0);
+                        String str = address_loc0.substring(address_loc0.indexOf(" ")+1);   //00동 나오게 주소 공백
+                        String str1 = str.substring(str.indexOf(" ")+1);
+                        txt_address0.setText(str1);
 
                         //사용자가 등록한 주소 불러오기
                         if (address_count == 0) {
@@ -140,22 +142,37 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                         }
                         if (address_count == 1) {
                             String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
-                            txt_address1.setText(address_loc1);
-                            //xt_address2.setVisibility(View.GONE);
-                            //txt_address3.setVisibility(View.GONE);
+                            String str_0 = address_loc1.substring(address_loc0.indexOf(" ")+1);   //00동 나오게 주소 공백
+                            String str_1 = str_0.substring(str_0.indexOf(" ")+1);
+                            txt_address1.setText(str_1);
+
                         } else if (address_count == 2) {
                             String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
                             String address_loc2 = addressArray.get(0).getAsJsonObject().get("loc2").getAsString();
-                            txt_address1.setText(address_loc1);
-                            txt_address2.setText(address_loc2);
-                            //txt_address3.setVisibility(View.GONE);
+
+                            String str_0 = address_loc1.substring(address_loc1.indexOf(" ")+1);   //00동 나오게 주소 공백
+                            String str_1 = str_0.substring(str_0.indexOf(" ")+1);
+                            txt_address1.setText(str_1);
+
+                            String str_2 = address_loc2.substring(address_loc2.indexOf(" ")+1);   //00동 나오게 주소 공백
+                            String str_3 = str_2.substring(str_2.indexOf(" ")+1);
+                            txt_address2.setText(str_3);
                         } else if (address_count == 3) {
                             String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
                             String address_loc2 = addressArray.get(0).getAsJsonObject().get("loc2").getAsString();
                             String address_loc3 = addressArray.get(0).getAsJsonObject().get("loc3").getAsString();
-                            txt_address1.setText(address_loc1);
-                            txt_address2.setText(address_loc2);
-                            txt_address3.setText(address_loc3);
+
+                            String str_0 = address_loc1.substring(address_loc1.indexOf(" ")+1);   //00동 나오게 주소 공백
+                            String str_1 = str_0.substring(str_0.indexOf(" ")+1);
+                            txt_address1.setText(str_1);
+
+                            String str_2 = address_loc2.substring(address_loc2.indexOf(" ")+1);   //00동 나오게 주소 공백
+                            String str_3 = str_2.substring(str_2.indexOf(" ")+1);
+                            txt_address2.setText(str_3);
+
+                            String str_4 = address_loc3.substring(address_loc3.indexOf(" ")+1);   //00동 나오게 주소 공백
+                            String str_5 = str_4.substring(str_4.indexOf(" ")+1);
+                            txt_address3.setText(str_5);
                         }
 
                     } catch (IOException e) {
@@ -200,8 +217,10 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
 
         //만약에 위치정보 허용안했으면 오류나는것 같은...처리해줘야함
         currentAddr=getCurrentAddress(latitude,longitude);
-        Log.d("현재위치0: ", currentAddr);
-        txt_address0.setText(currentAddr.substring(5)); //현재위치 입력하기
+        //Log.d("현재위치0: ", currentAddr);
+        String str = (currentAddr.substring(5)).substring(currentAddr.indexOf(" ")+1);   //00동 나오게 주소 공백
+        String str1 = str.substring(str.indexOf(" ")+1);
+        txt_address0.setText(str1);
 
         //현재위치 세팅
         ImageView currentLoc=findViewById(R.id.currentLoc);
@@ -215,8 +234,10 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                 double longitude= gpsTracker.getLongitude();
 
                 currentAddr=getCurrentAddress(latitude,longitude);
-                Log.d("현재위치0: ", currentAddr);
-                txt_address0.setText(currentAddr.substring(5)); //현재위치 입력하기
+                //Log.d("현재위치0: ", currentAddr);
+                String str = (currentAddr.substring(5)).substring(currentAddr.indexOf(" ")+1);   //00동 나오게 주소 공백
+                String str1 = str.substring(str.indexOf(" ")+1);
+                txt_address0.setText(str1);
 
             }
         });
@@ -334,20 +355,21 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
 
                 number = intent.getStringExtra("number");
                 if (data != null) {
-                    //Log.i("test", "data:" + data);
-                    //Log.i("test", "number:" + number);
                     if (Objects.equals(number, "1")) {
-                        txt_address1.setText(data);
-                        str = txt_address1.getText().toString();
+                        str = data.substring(data.indexOf(" ")+1);   //00동 나오게 주소 공백
+                        String str1 = str.substring(str.indexOf(" ")+1);
+                        txt_address1.setText(str1);
                     } else if (Objects.equals(number, "2")) {
-                        txt_address2.setText(data);
-                        str = txt_address2.getText().toString();
+                        str = data.substring(data.indexOf(" ")+1);   //00동 나오게 주소 공백
+                        String str1 = str.substring(str.indexOf(" ")+1);
+                        txt_address2.setText(str1);
                     } else {
-                        txt_address3.setText(data);
-                        str = txt_address3.getText().toString();
+                        str = data.substring(data.indexOf(" ")+1);   //00동 나오게 주소 공백
+                        String str1 = str.substring(str.indexOf(" ")+1);
+                        txt_address3.setText(str1);
                     }
                     //주소 리스트에 저장
-                    addresslist.add(str);
+                    addresslist.add(data);
                 }
             }
         }
