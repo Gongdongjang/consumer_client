@@ -292,6 +292,7 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
 
                     Log.i("주소설정페이지", "주소입력창 클릭");
                     Intent intent = new Intent(getApplicationContext(), PlusAddressActivity.class);
+                    intent.putExtra("user_id",userid);
                     intent.putExtra("number","1");
                     //startActivity(intent);
                     // 화면전환 애니메이션 없애기
@@ -312,6 +313,7 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
 
                     Log.i("주소설정페이지", "주소입력창 클릭");
                     Intent intent = new Intent(getApplicationContext(), PlusAddressActivity.class);
+                    intent.putExtra("user_id",userid);
                     intent.putExtra("number","2");
                     // 화면전환 애니메이션 없애기
                     overridePendingTransition(0, 0);
@@ -331,6 +333,7 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
 
                     Log.i("주소설정페이지", "주소입력창 클릭");
                     Intent intent = new Intent(getApplicationContext(), PlusAddressActivity.class);
+                    intent.putExtra("user_id",userid);
                     intent.putExtra("number","3");
                     // 화면전환 애니메이션 없애기
                     overridePendingTransition(0, 0);
