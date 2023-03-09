@@ -77,6 +77,7 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
     MapPOIItem marker;
     String number;
     String currentAddr;
+    String userid;
     //카카오맵 위치
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
@@ -98,7 +99,7 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         setContentView(R.layout.tutor_find_town);
 
         Intent intent = getIntent(); //intent 값 받기
-        String userid=intent.getStringExtra("user_id");
+        userid=intent.getStringExtra("user_id");
         //처음실행이면 Tutorial에서 first_time 값이 yes이다. 메인들어가서 상단바 클릭했을땐 no.
         String first_time= intent.getStringExtra("first_time");
 
@@ -169,17 +170,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                 }
             });
 
-      //  }
-        //기준주소지 설정하는 페이지로 이동
-//        goto_std_address.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(FindTownActivity.this, EditTownActivity.class);
-//                intent.putExtra("user_id", userid);
-//                startActivity(intent);
-//            }
-//        });
-
         //지도
         mapView = new MapView(this);
         mapView.setZoomLevel(1, true);
@@ -208,9 +198,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         double latitude=gpsTracker.getLatitude();
         double longitude= gpsTracker.getLongitude();
 
-//        Log.d("위도경도", String.valueOf(latitude));
-//        Log.d("위도경도", String.valueOf(longitude));
-
         //만약에 위치정보 허용안했으면 오류나는것 같은...처리해줘야함
         currentAddr=getCurrentAddress(latitude,longitude);
         Log.d("현재위치0: ", currentAddr);
@@ -231,58 +218,8 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                 Log.d("현재위치0: ", currentAddr);
                 txt_address0.setText(currentAddr.substring(5)); //현재위치 입력하기
 
-                //마커표시 왜 안될까?
-//                mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
-                //mapView.setCurrentLocationMarker();
-
-                //marker.setCustomImageAnchorPointOffset(new MapPOIItem.ImageOffset(16,16));
-                //mapView.setCustomCurrentLocationMarkerTrackingImage(R.drawable.ic_baseline_location_on_24, marker.getCustomImageAnchorPointOffset());
-//                MapPoint f_MarkPoint = MapPoint.mapPointWithGeoCoord(latitude, latitude);
-//                marker.setMarkerType(MapPOIItem.MarkerType.RedPin);
-//                marker.setMapPoint(f_MarkPoint);
-//                mapView.addPOIItem(marker);
             }
         });
-
-        //현재위치 탐색 버튼
-//        FloatingActionButton tracking_mode= findViewById(R.id.tracking_mode);
-//        tracking_mode.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
-//                mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-//                //marker.setDraggable(true);
-////                MapPoint.GeoCoordinate mapPointGeo = currentMapPoint.getMapPointGeoCoord();
-////                Log.d("근처동네-현재위치0", String.format("내위치 (%f,%f) accuracy", mapPointGeo.latitude, mapPointGeo.longitude));
-////
-////                currentMapPoint = MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude);
-////                marker.setMarkerType(MapPOIItem.MarkerType.RedPin);
-////                marker.setMapPoint(currentMapPoint);
-//                    //onCurrentLocationUpdate(mapView,currentMapPoint,1);
-//                //LocationManager l =getSystemService(Context.LOCATION_SERVICE) as LocationManger;
-//
-//                //gpsCurrent();
-////                gpsTracker= new GpsTracker(FindTownActivity.this);
-////
-////                double latitude=gpsTracker.getLatitude();
-////                double longitude= gpsTracker.getLatitude();
-////
-////                String address=getCurrentAddress(latitude,longitude);
-////                Log.d("현재위치: ", address);
-////                txt_address0.setText(address.substring(5)); //현재위치 입력하기
-////                mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
-////                MapPoint f_MarkPoint = MapPoint.mapPointWithGeoCoord(latitude, latitude);
-////                marker.setMarkerType(MapPOIItem.MarkerType.RedPin);
-////                marker.setMapPoint(f_MarkPoint);
-////                mapView.addPOIItem(marker);
-//                //Toast.makeText(FindTownActivity.this, "현재위치 \n위도" + latitude + "경도"+longitude,Toast.LENGTH_SHORT).show();
-//                //Log.d("현재위치: ", "위도->"+latitude+"경도->"+long)
-//            }
-//        });
-
-//        JsonObject body = new JsonObject();
-//        body.addProperty("id", userid);
-//        body.addProperty("first_time",first_time);
 
         txt_address1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -371,17 +308,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
 
     }
 
-//    public void gpsCurrent(){
-//        gpsTracker= new GpsTracker(FindTownActivity.this);
-//
-//        double latitude=gpsTracker.getLatitude();
-//        double longitude= gpsTracker.getLatitude();
-//
-//        String address=getCurrentAddress(latitude,longitude);
-//        Log.d("현재위치-함수이다. ", address);
-//        txt_address0.setText(address.substring(5)); //현재위치 입력하기
-//    }
-
     private String getCurrentAddress(double latitude, double longitude) {
         Geocoder geocoder = new Geocoder(getApplicationContext());
 
@@ -469,11 +395,11 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         });
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        mapViewContainer.removeAllViews();
-//    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapViewContainer.removeAllViews();
+    }
 
     @Override
     public void onRequestPermissionsResult(int permsRequestCode,
@@ -509,6 +435,14 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                 }
             }
         }
+    }
+
+    //뒤로가기
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.putExtra("user_id", userid);
+        startActivity(intent);
     }
 
     @Override
