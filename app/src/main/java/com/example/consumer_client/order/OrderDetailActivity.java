@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.consumer_client.R;
+import com.example.consumer_client.fragment.Order;
 import com.example.consumer_client.review.ReviewActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -56,7 +57,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     JsonParser jsonParser;
     JsonArray order_detail;
     Context mContext;
-    String store_loc, store_name, md_name, order_id, pu_date, md_status, isPickedUp, md_qty, md_total_price;
+    String store_loc, store_name, md_name, order_id, pu_date, md_status, isPickedUp, md_qty, md_total_price, mdimg_thumbnail;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +88,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         store_name = intent.getStringExtra("store_name");
         md_name = intent.getStringExtra("md_name");
         order_id = intent.getStringExtra("order_id");
+        mdimg_thumbnail = intent.getStringExtra("mdimg_thumbnail");
 
         //주문취소 버튼, 리뷰하기 버튼 활성&비활성화
         Button btn_orderDetail = (Button) findViewById(R.id.btn_orderDetail);
@@ -132,8 +134,8 @@ public class OrderDetailActivity extends AppCompatActivity {
                                 .into(ClientOrderProdIMG);
 
                         MdName.setText(md_name);
-                        OrderCount.setText(md_qty+"세트");
-                        OrderPrice.setText(md_total_price+"원");
+                        OrderCount.setText(md_qty);
+                        OrderPrice.setText(md_total_price);
                         StoreName.setText(store_name);
                         StoreName0.setText(store_name);
                         StoreAddr.setText(store_loc);
@@ -216,9 +218,13 @@ public class OrderDetailActivity extends AppCompatActivity {
                 if(btn_orderDetail.getText().toString().equals("리뷰 작성")){
                     Intent intent = new Intent(OrderDetailActivity.this, ReviewActivity.class);
                     intent.putExtra("user_id", user_id);
+                    intent.putExtra("order_id", order_id);
                     intent.putExtra("md_name", md_name);
+                    intent.putExtra("store_loc", store_loc);
+                    intent.putExtra("store_name", store_name);
                     intent.putExtra("md_qty", md_qty);
                     intent.putExtra("md_fin_price", md_total_price);
+                    intent.putExtra("mdimg_thumbnail", mdimg_thumbnail);
                     startActivity(intent);
 
                 } else{
@@ -266,5 +272,13 @@ public class OrderDetailActivity extends AppCompatActivity {
         store_marker.setMapPoint(f_MarkPoint);   //좌표입력받아 현위치로 출력
 
         mapView.addPOIItem(store_marker);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, Order.class);
+        intent.putExtra("user_id", user_id);
+        startActivity(intent);
+        finish(); // optional, depending on your use case
     }
 }
