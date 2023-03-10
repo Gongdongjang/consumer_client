@@ -1,6 +1,7 @@
 package com.example.consumer_client.user;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -38,8 +39,6 @@ import retrofit2.http.Query;
 interface LoginService {
     @POST("login")
     Call<ResponseBody> login(@Body JsonObject body);
-    @POST("postAutoLogin")
-    Call<ResponseBody> postAutoLogin(@Body JsonObject body);
 }
 
 public class StandardLoginActivity extends AppCompatActivity {
@@ -64,14 +63,28 @@ public class StandardLoginActivity extends AppCompatActivity {
 
         loginbutton = findViewById(R.id.loginbutton);
 
-        //기본로그인
-        loginbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                login();
-                tryLogin();
-            }
-        });
+        // 자동로그인 바로 이동
+
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", Activity.MODE_PRIVATE);
+
+        String loginId = sharedPreferences.getString("inputId", null);
+        String loginPwd = sharedPreferences.getString("inputPwd", null);
+
+        if(loginId != null && loginPwd != null) {
+            Log.d("아이디 ", loginId);
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.putExtra("user_id", loginId);
+            startActivity(intent);
+        } else {
+            //기본로그인
+            loginbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    login();
+                    tryLogin();
+                }
+            });
+        }
     }
     //기본 로그인
     void login() {
@@ -108,20 +121,11 @@ public class StandardLoginActivity extends AppCompatActivity {
 
                             CheckBox AutoLoginBtn = findViewById(R.id.AutoLoginBtn);
                             if(AutoLoginBtn.isChecked()){
-                                JsonObject body = new JsonObject();
-                                body.addProperty("user_id", id.getText().toString());
-                                Call<ResponseBody> call1 = service.postAutoLogin(body);
-                                call1.enqueue(new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        JsonObject res = (JsonObject) jsonParser.parse(response.body().toString());
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        Log.e(TAG, "onFailure: e " + t.getMessage());
-                                    }
-                                });
+                                sharedPreferences = getSharedPreferences("sharedPreferences", Activity.MODE_PRIVATE);
+                                SharedPreferences.Editor autoLogin = sharedPreferences.edit();
+                                autoLogin.putString("inputId", id.getText().toString());
+                                autoLogin.putString("inputPwd", password.getText().toString());
+                                autoLogin.commit();
                             }
 
                             if(Objects.equals(first_login, "0")){ //최초 로그인 일 시 튜토리얼로
