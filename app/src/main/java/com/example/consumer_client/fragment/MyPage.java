@@ -3,6 +3,7 @@ package com.example.consumer_client.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -25,6 +26,7 @@ import com.example.consumer_client.mypage.AccountSettingActivity;
 import com.example.consumer_client.mypage.UserCenterActivity;
 import com.example.consumer_client.notification.NotificationList;
 import com.example.consumer_client.shopping_info.ShoppingInfoActivity;
+import com.example.consumer_client.user.IntegratedLoginActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -43,6 +45,8 @@ import retrofit2.http.Query;
 interface MyPageService {
     @GET("mypage")
     Call<ResponseBody> getUserName(@Query("user_id") String user_id);
+    @GET("logout")
+    Call<ResponseBody> logout();
 }
 
 public class MyPage extends Fragment {
@@ -130,8 +134,6 @@ public class MyPage extends Fragment {
             public void onClick(View v) {
 
                 Intent intent = new Intent(getActivity(), Alarm.class);
-
-
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
@@ -178,6 +180,37 @@ public class MyPage extends Fragment {
                 Intent intent = new Intent(getActivity(), AboutGDJActivity.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
+            }
+        });
+
+        //로그아웃
+        TextView btn_logout = (TextView) view.findViewById(R.id.btn_logout);
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<ResponseBody> call = service.logout();
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        JsonObject res = (JsonObject) jsonParser.parse(response.body().toString());
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.e("MyPage", "onFailure: e " + t.getMessage());
+                    }
+                });
+
+                Intent intent = new Intent(getActivity(), IntegratedLoginActivity.class);
+                startActivity(intent);
+
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences", Activity.MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit();
+
+                System.exit(0);
             }
         });
 
