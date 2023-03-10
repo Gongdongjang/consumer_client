@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,11 +31,15 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 interface LoginService {
     @POST("login")
     Call<ResponseBody> login(@Body JsonObject body);
+    @POST("postAutoLogin")
+    Call<ResponseBody> postAutoLogin(@Body JsonObject body);
 }
 
 public class StandardLoginActivity extends AppCompatActivity {
@@ -100,6 +105,24 @@ public class StandardLoginActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("access_token", access_token).apply();
                             editor.putString("refresh_token", refresh_token).apply();
+
+                            CheckBox AutoLoginBtn = findViewById(R.id.AutoLoginBtn);
+                            if(AutoLoginBtn.isChecked()){
+                                JsonObject body = new JsonObject();
+                                body.addProperty("user_id", id.getText().toString());
+                                Call<ResponseBody> call1 = service.postAutoLogin(body);
+                                call1.enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        JsonObject res = (JsonObject) jsonParser.parse(response.body().toString());
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                        Log.e(TAG, "onFailure: e " + t.getMessage());
+                                    }
+                                });
+                            }
 
                             if(Objects.equals(first_login, "0")){ //최초 로그인 일 시 튜토리얼로
                                 Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);

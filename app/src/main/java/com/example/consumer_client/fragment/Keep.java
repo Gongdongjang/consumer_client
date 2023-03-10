@@ -78,6 +78,8 @@ public class Keep extends Fragment {
     TextView noKeep;
     double myTownLat, myTownLong;
 
+    ArrayList<String> keep_list = new ArrayList<String>();
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
