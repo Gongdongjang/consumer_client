@@ -134,7 +134,7 @@ public class Home extends Fragment
     private TextView change_address, home_userid;
     private ImageView toolbar_cart, toolbar_notification;
 
-    String user_id, standard_address;
+    public String user_id, standard_address;
     String address;
     Button popupBtn;
     private ReviewDialog reviewDialog;
@@ -146,6 +146,8 @@ public class Home extends Fragment
     int address_count;
     //스피터 반복호출 막기
     private boolean  isFirstSelected = true; // 전역변수로 선언
+
+    public static Context mContext;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -161,6 +163,7 @@ public class Home extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mContext = getContext();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseurl))

@@ -65,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
     private MyPage frag5;
     private TextView change_address;
     private ImageView toolbar_cart;
-    public Context mContext;
+    public static Context mContext;
+    public String user_id;
     BackPressDialog backPressDialog;
 
     @Override
@@ -84,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent(); //intent 값 받기
 
         //유저id 받기
-        String user_id;
         user_id=intent.getStringExtra("user_id");    //첫 튜토리얼시 findtown에서 넘어온 + EditTownActivity에서 넘어온
         intent.putExtra("user_id",user_id);
 
