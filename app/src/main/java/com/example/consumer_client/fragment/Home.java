@@ -1,18 +1,12 @@
 package com.example.consumer_client.fragment;
 
-import static android.content.Context.LOCATION_SERVICE;
-import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
-
 import static com.example.consumer_client.address.LocationDistance.distance;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
@@ -20,33 +14,22 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.CompositePageTransformer;
-import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.os.Handler;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 import com.example.consumer_client.FragPagerAdapter;
-import com.example.consumer_client.MainActivity;
-import com.example.consumer_client.ReviewDialog;
+import com.example.consumer_client.review.ReviewCancelDialog;
 import com.example.consumer_client.address.FindTownActivity;
 import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.md.JointPurchaseActivity;
@@ -55,20 +38,16 @@ import com.example.consumer_client.R;
 import com.example.consumer_client.home.HomeProductAdapter;
 import com.example.consumer_client.home.HomeProductItem;
 import com.example.consumer_client.my_town.StoreMap;
-import com.example.consumer_client.store.StoreTotalInfo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -129,7 +108,7 @@ public class Home extends Fragment
 
     String user_id, standard_address;
     Button popupBtn;
-    private ReviewDialog reviewDialog;
+    private ReviewCancelDialog reviewCancelDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
