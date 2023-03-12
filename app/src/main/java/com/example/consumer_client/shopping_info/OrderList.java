@@ -109,8 +109,8 @@ public class OrderList extends AppCompatActivity {
                                 "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + orderDetailArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                 orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                 orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(),
-                                orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString()+"세트",
-                                orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString()+"원",
+                                orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(),
+                                orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
                                 isPickuped,
                                 pickupDate);
                     }
@@ -121,12 +121,12 @@ public class OrderList extends AppCompatActivity {
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(OrderList.this, OrderDetailActivity.class);
                                     intent.putExtra("user_id", user_id);
-                                    intent.putExtra("md_img", mList.get(pos).getStoreProdImgView());
+                                    intent.putExtra("mdimg_thumbnail", "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + mList.get(pos).getStoreProdImgView());
                                     intent.putExtra("store_loc", mList.get(pos).getStoreLoc());
                                     intent.putExtra("store_name", mList.get(pos).getStoreName());
                                     intent.putExtra("md_name", mList.get(pos).getMdName());
-                                    intent.putExtra("md_comp", mList.get(pos).getMdQty());
-                                    intent.putExtra("md_price", mList.get(pos).getMdPrice());
+                                    intent.putExtra("md_qty", mList.get(pos).getMdQty());
+                                    intent.putExtra("md_fin_price", mList.get(pos).getMdPrice());
                                     intent.putExtra("order_id", mList.get(pos).getOrderId());
                                     startActivity(intent);
                                 }

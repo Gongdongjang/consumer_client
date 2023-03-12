@@ -109,9 +109,13 @@ public class OrderList2Adapter extends RecyclerView.Adapter<OrderList2Adapter.Vi
                 public void onClick(View view){
                     Intent intent = new Intent(context, ReviewActivity.class);
                     intent.putExtra("user_id", item.getUserId());
+                    intent.putExtra("order_id", item.getOrderId());
+                    intent.putExtra("store_name", item.getStoreName());
+                    intent.putExtra("store_loc", item.getStoreLoc());
                     intent.putExtra("md_name", item.getMdName());
                     intent.putExtra("md_qty", item.getMdQty());
                     intent.putExtra("md_fin_price", item.getMdPrice());
+                    intent.putExtra("mdimg_thumbnail", item.getStoreProdImgView());
                     context.startActivity(intent);
                 }
             });
