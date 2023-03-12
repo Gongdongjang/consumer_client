@@ -1,13 +1,9 @@
 package com.example.consumer_client.farm;
 
-import static com.example.consumer_client.address.LocationDistance.distance;
-
 import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,18 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
-import com.example.consumer_client.address.EditTownActivity;
 import com.example.consumer_client.cart.CartListActivity;
-import com.example.consumer_client.home.HomeProductItem;
-import com.example.consumer_client.store.StoreActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -205,7 +196,7 @@ public class FarmActivity extends AppCompatActivity {
     }
 
     public void firstInit(){
-        mFarmRecyclerView = findViewById(R.id.totalOrderListView);
+        mFarmRecyclerView = findViewById(R.id.totalFarmListView);
         mList = new ArrayList<>();
     }
 

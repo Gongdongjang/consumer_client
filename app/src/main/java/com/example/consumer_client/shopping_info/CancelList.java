@@ -22,7 +22,6 @@ import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -128,7 +127,7 @@ public class CancelList extends AppCompatActivity {
         });
     }
     public void firstInit(){
-        mOrderListRecyclerView = findViewById(R.id.totalOrderListView);
+        mOrderListRecyclerView = findViewById(R.id.totalReviewListView);
         mList = new ArrayList<>();
     }
 

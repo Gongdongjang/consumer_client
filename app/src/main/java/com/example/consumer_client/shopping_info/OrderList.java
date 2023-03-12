@@ -59,7 +59,6 @@ public class OrderList extends AppCompatActivity {
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
 
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseurl))
                 .addConverterFactory(GsonConverterFactory.create())

@@ -82,6 +82,13 @@ public class Order extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.activity_order_list, container, false);
 
+        // Get the data from the arguments
+        Bundle args = getArguments();
+        if (args != null) {
+            user_id = args.getString("user_id");
+            // Do something with the data
+        }
+
         JsonObject body = new JsonObject();
         body.addProperty("user_id", user_id);
         Call<ResponseBody> call = service.orderDetailsData(body);

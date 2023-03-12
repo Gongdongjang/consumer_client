@@ -1,4 +1,4 @@
-package com.example.consumer_client;
+package com.example.consumer_client.md;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,21 +9,22 @@ import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.example.consumer_client.R;
 
-public class MdPicture1 extends Fragment {
+public class MdPicture4 extends Fragment {
     String imageView;
-    public MdPicture1(String imageView){
+    public MdPicture4(String imageView){
         this.imageView = imageView;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.md_pic1, container, false);
+        View view = inflater.inflate(R.layout.md_pic4, container, false);
 
         setInit(view);
         return view;
     }
     public void setInit(View _view){
-        ImageView img = _view.findViewById(R.id.md_pic1);
+        ImageView img = _view.findViewById(R.id.md_pic4);
         Glide.with(this)
                 .load(imageView)
                 .into(img);
