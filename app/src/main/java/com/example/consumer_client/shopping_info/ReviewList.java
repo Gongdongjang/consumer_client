@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.R;
-import com.example.consumer_client.review.ReviewDetailActivity;
 import com.example.consumer_client.review.ReviewListAdapter;
 import com.example.consumer_client.review.ReviewListInfo;
 import com.example.consumer_client.review.ReviewMyDetailActivity;
@@ -140,7 +139,7 @@ public class ReviewList extends AppCompatActivity {
     }
 
     public void firstInit() {
-        mReviewListRecyclerView = findViewById(R.id.totalReviewListView);
+        mReviewListRecyclerView = findViewById(R.id.md_totalOrderListView);
         mList = new ArrayList<>();
     }
 
