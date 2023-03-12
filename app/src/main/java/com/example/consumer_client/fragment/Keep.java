@@ -12,6 +12,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -179,10 +180,9 @@ public class Keep extends Fragment {
                     mMdListMainAdapter = new FarmDetailAdapter(mList);
                     mMdListRecyclerView.setAdapter(mMdListMainAdapter);
 
-                    //세로로 세팅
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    mMdListRecyclerView.setLayoutManager(linearLayoutManager);
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2, GridLayoutManager.VERTICAL, false);
+                    mMdListRecyclerView.setLayoutManager(gridLayoutManager);
+
 
                     final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
 

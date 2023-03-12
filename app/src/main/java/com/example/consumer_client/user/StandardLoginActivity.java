@@ -1,6 +1,7 @@
 package com.example.consumer_client.user;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +32,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 interface LoginService {
     @POST("login")
@@ -59,14 +63,28 @@ public class StandardLoginActivity extends AppCompatActivity {
 
         loginbutton = findViewById(R.id.loginbutton);
 
-        //기본로그인
-        loginbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                login();
-                tryLogin();
-            }
-        });
+        // 자동로그인 바로 이동
+
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", Activity.MODE_PRIVATE);
+
+        String loginId = sharedPreferences.getString("inputId", null);
+        String loginPwd = sharedPreferences.getString("inputPwd", null);
+
+        if(loginId != null && loginPwd != null) {
+            Log.d("아이디 ", loginId);
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.putExtra("user_id", loginId);
+            startActivity(intent);
+        } else {
+            //기본로그인
+            loginbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    login();
+                    tryLogin();
+                }
+            });
+        }
     }
     //기본 로그인
     void login() {
@@ -100,6 +118,15 @@ public class StandardLoginActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("access_token", access_token).apply();
                             editor.putString("refresh_token", refresh_token).apply();
+
+                            CheckBox AutoLoginBtn = findViewById(R.id.AutoLoginBtn);
+                            if(AutoLoginBtn.isChecked()){
+                                sharedPreferences = getSharedPreferences("sharedPreferences", Activity.MODE_PRIVATE);
+                                SharedPreferences.Editor autoLogin = sharedPreferences.edit();
+                                autoLogin.putString("inputId", id.getText().toString());
+                                autoLogin.putString("inputPwd", password.getText().toString());
+                                autoLogin.commit();
+                            }
 
                             if(Objects.equals(first_login, "0")){ //최초 로그인 일 시 튜토리얼로
                                 Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);

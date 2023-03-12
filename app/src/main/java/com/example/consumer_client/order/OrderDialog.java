@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 
 import com.example.consumer_client.R;
 import com.example.consumer_client.cart.CartDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -72,12 +73,18 @@ public class OrderDialog extends Dialog {
     JsonParser jsonParser;
     CartPostService service;
 
+    BottomSheetDialog bottomSheetDialog;
 
     public OrderDialog(@NonNull Context context, String mdName, String prodPrice,
                        String StkRemain, String pu_start, String pu_end, String store_name,
                        String store_id, String store_loc, String user_id, String md_id) {
         super(context);
-        setContentView(R.layout.activity_payment_popup2);
+
+        bottomSheetDialog = new BottomSheetDialog(context);
+        bottomSheetDialog.setContentView(R.layout.activity_payment_popup2);
+        bottomSheetDialog.show();
+
+//        setContentView(R.layout.activity_payment_popup2);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(context.getString(R.string.baseurl))
@@ -91,10 +98,10 @@ public class OrderDialog extends Dialog {
         body.addProperty("md_id", md_id);
         body.addProperty("store_id", store_id);
 
-        orderDialog = this;
+//        orderDialog = this;
         Log.d("유저아이디", user_id);
 
-        //상품명 + n개 000원 추가했음.
+//        //상품명 + n개 000원 추가했음.
 //        PopupProdName=findViewById(R.id.PopupProdName);
 //        PopupProdName.setText(mdName);
 //        PopupProdNum=findViewById(R.id.PopupProdNum);
@@ -103,10 +110,10 @@ public class OrderDialog extends Dialog {
 //        PopupProdPrice.setText(prodPrice);
 
         //픽업기간 세팅하기
-        PickUpDate=findViewById(R.id.PickUpDate);
-        PickUpTime=findViewById(R.id.PickUpTime);
-        btn_date=findViewById(R.id.btn_date);
-        btn_time=findViewById(R.id.btn_time);
+        PickUpDate=bottomSheetDialog.findViewById(R.id.PickUpDate);
+        PickUpTime=bottomSheetDialog.findViewById(R.id.PickUpTime);
+        btn_date=bottomSheetDialog.findViewById(R.id.btn_date);
+        btn_time=bottomSheetDialog.findViewById(R.id.btn_time);
         Log.d("주문하기_기간:",pu_start); //2022. 8. 28.
 
         String[] startDay = pu_start.split("\\.");  // .으로 자르고 싶을땐 \\. 이라고 해야함
@@ -118,18 +125,18 @@ public class OrderDialog extends Dialog {
             endDay[i]=endDay[i].trim();
         }
 
-        mdPlusBtn=findViewById(R.id.mdPlusBtn);
-        PurchaseNum=findViewById(R.id.PurchaseNum);
-        mdMinusBtn=findViewById(R.id.mdMinusBtn);
+        mdPlusBtn=bottomSheetDialog.findViewById(R.id.mdPlusBtn);
+        PurchaseNum=bottomSheetDialog.findViewById(R.id.PurchaseNum);
+        mdMinusBtn=bottomSheetDialog.findViewById(R.id.mdMinusBtn);
 
         //상품개수
         count=Integer.parseInt(String.valueOf(PurchaseNum.getText()));
         //상품남은 재고
-        JP_Remain_Count=findViewById(R.id.JP_Remain_Count);
+        JP_Remain_Count=bottomSheetDialog.findViewById(R.id.JP_Remain_Count);
         JP_Remain_Count.setText(StkRemain+"개");
 
         //장바구니 지참체크
-        BringBasketCheck=findViewById(R.id.BringBasketCheck);
+        BringBasketCheck=bottomSheetDialog.findViewById(R.id.BringBasketCheck);
         BringBasketCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,8 +151,8 @@ public class OrderDialog extends Dialog {
         });
 
         //총 수량, 총 가격
-        JP_SelectCount=findViewById(R.id.JP_SelectCount);
-        JP_ToTalPrice=findViewById(R.id.JP_ToTalPrice);
+        JP_SelectCount=bottomSheetDialog.findViewById(R.id.JP_SelectCount);
+        JP_ToTalPrice=bottomSheetDialog.findViewById(R.id.JP_ToTalPrice);
         //디폴트
         JP_SelectCount.setText(PurchaseNum.getText().toString()+"개");
         JP_ToTalPrice.setText(Integer.parseInt(PurchaseNum.getText().toString()) * Integer.parseInt(prodPrice) + "원");
@@ -253,7 +260,7 @@ public class OrderDialog extends Dialog {
         });
 
         //주문하기 버튼
-        JP_OrderBtn=findViewById(R.id.JP_OrderBtn);
+        JP_OrderBtn=bottomSheetDialog.findViewById(R.id.JP_OrderBtn);
         JP_OrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -289,7 +296,7 @@ public class OrderDialog extends Dialog {
         });
 
         // 장바구니 버튼
-        JP_CartBtn = findViewById(R.id.JP_CartBtn);
+        JP_CartBtn = bottomSheetDialog.findViewById(R.id.JP_CartBtn);
         JP_CartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -333,7 +340,8 @@ public class OrderDialog extends Dialog {
                             }
                         });
 
-                        orderDialog.dismiss();
+//                        orderDialog.dismiss();
+                        bottomSheetDialog.dismiss();
                         cartDialog = new CartDialog(context, user_id);
                         cartDialog.show();
                     } else {
