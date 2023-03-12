@@ -178,7 +178,7 @@ public class Order extends Fragment {
     }
 
     public void firstInit() {
-        mOrderListRecyclerView = view.findViewById(R.id.totalReviewListView);
+        mOrderListRecyclerView = view.findViewById(R.id.totalOrderListView);
         mList = new ArrayList<>();
     }
 
