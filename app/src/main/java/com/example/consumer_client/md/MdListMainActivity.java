@@ -8,11 +8,8 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,7 +24,6 @@ import com.example.consumer_client.CustomSpinnerAdapter;
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.cart.CartListActivity;
-import com.example.consumer_client.farm.FarmDetailActivity;
 import com.example.consumer_client.farm.FarmDetailAdapter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -281,7 +277,7 @@ public class MdListMainActivity extends AppCompatActivity {
     }
 
     public void firstInit() {
-        mMdListRecyclerView = findViewById(R.id.totalOrderListView);
+        mMdListRecyclerView = findViewById(R.id.totalMdListView);
         mList = new ArrayList<>();
     }
 

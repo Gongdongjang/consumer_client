@@ -69,6 +69,8 @@
 
         <activity android:name=".order.OrderDetailActivity" />
         <activity android:name=".review.ReviewActivity" />
+        <activity android:name=".review.ReviewMyDetailActivity" />
+        <activity android:name=".review.ReviewDetailActivity" />
 
         <activity android:name=".cart.CartListActivity" />
 
