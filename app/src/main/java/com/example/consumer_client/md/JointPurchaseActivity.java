@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 //import com.example.consumer_client.cart.CartDialog;
@@ -27,6 +29,9 @@ import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.farm.FarmDetailActivity;
 import com.example.consumer_client.order.OrderDialog;
 import com.example.consumer_client.R;
+import com.example.consumer_client.review.ReviewListAdapter;
+import com.example.consumer_client.review.ReviewListInfo;
+import com.example.consumer_client.review.ReviewMyDetailActivity;
 import com.example.consumer_client.store.StoreDetailActivity;
 import com.example.consumer_client.user.KakaoApplication;
 import com.google.gson.JsonArray;
@@ -82,12 +87,15 @@ public class JointPurchaseActivity extends AppCompatActivity {
     JsonParser jsonParser;
 
     JsonObject res, body;
-    JsonArray md_detail, keep_date;
-    //    String pay_schedule;
+    JsonArray md_detail, reviewArray;
     String pu_start, pu_end, user_id, store_id, md_end, dDay, standard_address;
     JsonArray keep_data;
     String message, store_loc;
     String[] imgUrl = new String[5];
+
+    private RecyclerView mReviewListRecyclerView;
+    private ReviewListAdapter mReviewListAdapter;
+    private ArrayList<ReviewListInfo> mReviewList;
 
     //Dialog 선언
     OrderDialog orderDialog;
@@ -107,8 +115,6 @@ public class JointPurchaseActivity extends AppCompatActivity {
         ImageView up_mdArrow = findViewById(R.id.up_mdArrow);
 
         //000 농부님의 000상품 단락
-//        ImageView MdImgThumbnail = (ImageView) findViewById(R.id.JP_MD_Img);
-//        TextView FarmerName = (TextView) findViewById(R.id.FarmerName);
         TextView FarmName = (TextView) findViewById(R.id.JP_FarmName_Main);
         TextView MdName = (TextView) findViewById(R.id.ProdName);
         TextView Dday = (TextView) findViewById(R.id.Dday);
@@ -117,7 +123,6 @@ public class JointPurchaseActivity extends AppCompatActivity {
         TextView StkRemain = (TextView) findViewById(R.id.JP_Remain_Count);
         TextView StkGoal = (TextView) findViewById(R.id.JP_Goal_Count);
         TextView StkTotal = (TextView) findViewById(R.id.JP_TotalCount);
-//        TextView PaySchedule = (TextView) findViewById(R.id.JP_PayDate);
         TextView PuStart = (TextView) findViewById(R.id.JP_PU_Start);
         TextView PuEnd = (TextView) findViewById(R.id.JP_PU_End);
 
@@ -128,12 +133,6 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
         //공유하기
         ImageView KakaoShare = (ImageView) findViewById(R.id.KakaoShare);
-
-//        //제품설명 단락 + (가격추가함.)
-//        ImageView MdImgDetail = (ImageView) findViewById(R.id.JP_MD_Datail_Img);
-//        TextView ProdName= (TextView) findViewById(R.id.ProdName);
-//        TextView ProdNum= (TextView) findViewById(R.id.JP_Prod_Num);
-//        TextView ProdPrice= (TextView) findViewById(R.id.JP_Prod_Price);
 
         //농가와 픽업 스토어 소개 단락
         ImageView FarmFileName = (ImageView) findViewById(R.id.JP_FarmIMG);
@@ -169,9 +168,9 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
         //상단바 장바구니
         ImageView toolbar_cart = findViewById(R.id.toolbar_cart);
-        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+        toolbar_cart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent intent = new Intent(JointPurchaseActivity.this, CartListActivity.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
@@ -191,11 +190,11 @@ public class JointPurchaseActivity extends AppCompatActivity {
                     try {
                         res = (JsonObject) jsonParser.parse(response.body().string());
                         md_detail = res.get("md_detail_result").getAsJsonArray();
-//                        pay_schedule = res.get("pay_schedule").getAsString();
                         pu_start = res.get("pu_start").getAsString();
                         pu_end = res.get("pu_end").getAsString();
                         md_end = res.get("md_end").getAsString();
                         dDay = res.get("dDay").getAsString();
+                        reviewArray = res.get("review_data").getAsJsonArray();
 
                         store_id = md_detail.get(0).getAsJsonObject().get("store_id").getAsString();
 
@@ -206,8 +205,8 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         imgUrl[4] = md_detail.get(0).getAsJsonObject().get("mdImg_slide05").isJsonNull() ? "null" : "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + md_detail.get(0).getAsJsonObject().get("mdImg_slide05").getAsString();
 
                         int count = 0;
-                        for(int i = 0; i < 5; i++){
-                            if(!imgUrl[i].equals("null")){
+                        for (int i = 0; i < 5; i++) {
+                            if (!imgUrl[i].equals("null")) {
                                 count++;
                             }
                         }
@@ -222,16 +221,14 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         up_ProdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
 
                         //000 농부님의 000상품 setText
-//                        Glide.with(JointPurchaseActivity.this).load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/"+md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString()).into(MdImgThumbnail);
-//                        MdImgThumbnail.setImageURI(Uri.parse(md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString()));
-//                        FarmerName.setText(md_detail.get(0).getAsJsonObject().get("farm_farmer").getAsString());
                         FarmName.setText(md_detail.get(0).getAsJsonObject().get("farm_name").getAsString());
                         MdName.setText(md_detail.get(0).getAsJsonObject().get("md_name").getAsString());
                         MdPrice.setText(md_detail.get(0).getAsJsonObject().get("pay_price").getAsString());
 
                         String realIf0;
                         if (dDay.equals("0")) realIf0 = "D - day";
-                        else if(Integer.parseInt(dDay) < 0) realIf0 = "D + "+ Math.abs(Integer.parseInt(dDay));
+                        else if (Integer.parseInt(dDay) < 0)
+                            realIf0 = "D + " + Math.abs(Integer.parseInt(dDay));
                         else realIf0 = "D - " + dDay;
 
                         Dday.setText(realIf0);
@@ -239,7 +236,6 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         StkRemain.setText(md_detail.get(0).getAsJsonObject().get("stk_remain").getAsString());
                         StkGoal.setText(md_detail.get(0).getAsJsonObject().get("stk_goal").getAsString());
                         StkTotal.setText(md_detail.get(0).getAsJsonObject().get("stk_total").getAsString());
-//                        PaySchedule.setText(pay_schedule);
                         PuStart.setText(pu_start);
                         PuEnd.setText(pu_end);
 
@@ -303,9 +299,57 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         StoreName.setText(md_detail.get(0).getAsJsonObject().get("store_name").getAsString());
                         StoreInfo.setText(md_detail.get(0).getAsJsonObject().get("store_info").getAsString());
 
-//                        PaySchedule.setText(pay_schedule);
                         PuStart.setText(pu_start);
                         PuEnd.setText(pu_end);
+
+                        //리뷰 리사이클러뷰 띄우기
+                        firstInit();
+
+                        //리뷰 어뎁터 적용
+                        mReviewListAdapter = new ReviewListAdapter(mReviewList);
+                        mReviewListRecyclerView.setAdapter(mReviewListAdapter);
+
+                        //세로로 세팅
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        mReviewListRecyclerView.setLayoutManager(linearLayoutManager);
+
+                        for (int i = 0; i < reviewArray.size(); i++) {
+                            addReviewList(
+                                    user_id,
+                                    reviewArray.get(i).getAsJsonObject().get("order_id").getAsString(),
+                                    "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + reviewArray.get(i).getAsJsonObject().get("rvw_img1").getAsString(),
+                                    "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + reviewArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                    reviewArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                                    reviewArray.get(i).getAsJsonObject().get("md_name").getAsString(),
+                                    reviewArray.get(i).getAsJsonObject().get("rvw_content").getAsString(),
+                                    reviewArray.get(i).getAsJsonObject().get("rvw_rating").getAsString(),
+                                    reviewArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(),
+                                    reviewArray.get(i).getAsJsonObject().get("pay_price").getAsString()
+                            );
+                        }
+                        mReviewListAdapter.setOnItemClickListener(
+                                new ReviewListAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View v, int pos) {
+                                        Intent intent = new Intent(JointPurchaseActivity.this, ReviewMyDetailActivity.class);
+                                        intent.putExtra("user_id", user_id);
+                                        intent.putExtra("order_id", reviewArray.get(pos).getAsJsonObject().get("order_id").getAsString());
+                                        intent.putExtra("mdimg_thumbnail", "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + reviewArray.get(pos).getAsJsonObject().get("mdimg_thumbnail").getAsString());
+                                        intent.putExtra("store_name", reviewArray.get(pos).getAsJsonObject().get("store_name").getAsString());
+                                        intent.putExtra("md_name", reviewArray.get(pos).getAsJsonObject().get("md_name").getAsString());
+                                        intent.putExtra("md_qty", reviewArray.get(pos).getAsJsonObject().get("order_select_qty").getAsString());
+                                        intent.putExtra("md_fin_price", reviewArray.get(pos).getAsJsonObject().get("pay_price").getAsString());
+                                        intent.putExtra("rvw_content", reviewArray.get(pos).getAsJsonObject().get("rvw_content").getAsString());
+                                        intent.putExtra("rvw_rating", reviewArray.get(pos).getAsJsonObject().get("rvw_rating").getAsString());
+                                        intent.putExtra("rvw_img1", reviewArray.get(pos).getAsJsonObject().get("rvw_img1").getAsString());
+                                        intent.putExtra("rvw_img2", reviewArray.get(pos).getAsJsonObject().get("rvw_img2").getAsString());
+                                        intent.putExtra("rvw_img3", reviewArray.get(pos).getAsJsonObject().get("rvw_img3").getAsString());
+                                        startActivity(intent);
+                                    }
+                                }
+                        );
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -418,7 +462,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
     //뷰페이저2 실행 메서드
     private void setInit(int count, String pic1, String pic2, String pic3, String pic4, String pic5) {
         ViewPager2 viewPageSetUp = findViewById(R.id.JP_MD_Img);
-        ItemDetailPagerAdapter itemDetailPagerAdapter = new ItemDetailPagerAdapter(count,this, pic1, pic2, pic3, pic4, pic5);
+        ItemDetailPagerAdapter itemDetailPagerAdapter = new ItemDetailPagerAdapter(count, this, pic1, pic2, pic3, pic4, pic5);
         viewPageSetUp.setAdapter(itemDetailPagerAdapter);
         viewPageSetUp.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         viewPageSetUp.setOffscreenPageLimit(count); //페이지 한계 지정 개수
@@ -458,5 +502,25 @@ public class JointPurchaseActivity extends AppCompatActivity {
         });
     }
 
+    public void firstInit() {
+        mReviewListRecyclerView = findViewById(R.id.jp_reviewList);
+        mReviewList = new ArrayList<>();
+    }
+
+    public void addReviewList(String userId, String orderId, String reviewImg, String mdImgView, String storeName, String mdName,
+                              String reviewContent, String rvw_rating, String mdQty, String mdPrice) {
+        ReviewListInfo reviewList = new ReviewListInfo();
+        reviewList.setUserId(userId);
+        reviewList.setOrderId(orderId);
+        reviewList.setReviewImg1(reviewImg);
+        reviewList.setStoreProdImgView(mdImgView);
+        reviewList.setStoreName(storeName);
+        reviewList.setMdName(mdName);
+        reviewList.setReviewContent(reviewContent);
+        reviewList.setRvw_rating(rvw_rating);
+        reviewList.setMdQty(mdQty);
+        reviewList.setMdPrice(mdPrice);
+        mReviewList.add(reviewList);
+    }
 
 }

@@ -3,6 +3,7 @@ package com.example.consumer_client.review;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +20,14 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class ReviewListAdapter extends RecyclerView.Adapter<ReviewListAdapter.ViewHolder> {
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(View v, int pos);
     }
 
     private ReviewListAdapter.OnItemClickListener mListener = null;
 
-    public void setOnItemClickListener(ReviewListAdapter.OnItemClickListener listener){
-        this.mListener= listener;
+    public void setOnItemClickListener(ReviewListAdapter.OnItemClickListener listener) {
+        this.mListener = listener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -83,31 +84,29 @@ public class ReviewListAdapter extends RecyclerView.Adapter<ReviewListAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ReviewListAdapter.ViewHolder holder, int position) {
         ReviewListInfo item = mList.get(position);
-        Glide.with(holder.itemView).load(item.getReviewImg1()).into(holder.ProdImg);
+        if (Objects.equals(item.getReviewImg1(), "https://ggdjang.s3.ap-northeast-2.amazonaws.com/null"))
+            Glide.with(holder.itemView).load(R.drawable.img_gongdongjang_logo).into(holder.ProdImg);
+        else Glide.with(holder.itemView).load(item.getReviewImg1()).into(holder.ProdImg);
         holder.storeName.setText(item.getStoreName());
         holder.mdName.setText(item.getMdName());
         holder.ReviewContent.setText(item.getReviewContent());
         holder.starScore.setText(item.getRvw_rating());
 
-        if (Objects.equals(item.getRvw_rating(), "1")){
+        if (Objects.equals(item.getRvw_rating(), "1")) {
             Glide.with(holder.itemView).load(R.drawable.ic_product_review_list_on_14px).into(holder.Star_1);
-        }
-        else if (Objects.equals(item.getRvw_rating(), "2")){
+        } else if (Objects.equals(item.getRvw_rating(), "2")) {
             Glide.with(holder.itemView).load(R.drawable.ic_product_review_list_on_14px).into(holder.Star_1);
             Glide.with(holder.itemView).load(R.drawable.ic_product_review_list_on_14px).into(holder.Star_2);
-        }
-        else if (Objects.equals(item.getRvw_rating(), "3")){
+        } else if (Objects.equals(item.getRvw_rating(), "3")) {
             Glide.with(holder.itemView).load(R.drawable.ic_product_review_list_on_14px).into(holder.Star_1);
             Glide.with(holder.itemView).load(R.drawable.ic_product_review_list_on_14px).into(holder.Star_2);
             Glide.with(holder.itemView).load(R.drawable.ic_product_review_list_on_14px).into(holder.Star_3);
-        }
-        else if (Objects.equals(item.getRvw_rating(), "4")){
+        } else if (Objects.equals(item.getRvw_rating(), "4")) {
             Glide.with(holder.itemView).load(R.drawable.ic_product_review_list_on_14px).into(holder.Star_1);
             Glide.with(holder.itemView).load(R.drawable.ic_product_review_list_on_14px).into(holder.Star_2);
             Glide.with(holder.itemView).load(R.drawable.ic_product_review_list_on_14px).into(holder.Star_3);
             Glide.with(holder.itemView).load(R.drawable.ic_product_review_list_on_14px).into(holder.Star_4);
-        }
-        else if (Objects.equals(item.getRvw_rating(), "5")){
+        } else if (Objects.equals(item.getRvw_rating(), "5")) {
             Glide.with(holder.itemView).load(R.drawable.ic_product_review_list_on_14px).into(holder.Star_1);
             Glide.with(holder.itemView).load(R.drawable.ic_product_review_list_on_14px).into(holder.Star_2);
             Glide.with(holder.itemView).load(R.drawable.ic_product_review_list_on_14px).into(holder.Star_3);

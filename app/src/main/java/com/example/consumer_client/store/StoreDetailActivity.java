@@ -364,7 +364,7 @@ public class StoreDetailActivity extends AppCompatActivity {
 
     public void firstInit(){
         mRecyclerView = findViewById(R.id.FarmPurchaseView);
-        reviewRecyclerView = findViewById(R.id.StoreReview);
+        reviewRecyclerView = findViewById(R.id.FarmReview);
         mList = new ArrayList<>();
         mReviewList = new ArrayList<>();
     }
