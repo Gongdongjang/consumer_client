@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.example.consumer_client.R;
@@ -42,7 +43,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-interface OrderDetailMdService{
+interface OrderDetailMdService {
     @POST("orderDetailMd")
     Call<ResponseBody> orderDetailMd(@Body JsonObject body);
 }
@@ -83,7 +84,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent(); //intent 값 받기
         user_id = intent.getStringExtra("user_id");
-        store_loc=intent.getStringExtra("store_loc");
+        store_loc = intent.getStringExtra("store_loc");
         //store_my = intent.getStringExtra("store_my"); >> 이건 어디에 쓰냐..?
         store_name = intent.getStringExtra("store_name");
         md_name = intent.getStringExtra("md_name");
@@ -94,19 +95,19 @@ public class OrderDetailActivity extends AppCompatActivity {
         Button btn_orderDetail = (Button) findViewById(R.id.btn_orderDetail);
 
         //픽업상태 세팅
-        TextView order_status= (TextView) findViewById(R.id.order_status); //+픽업날짜
-        ImageView order_status1= (ImageView) findViewById(R.id.order_status1);
-        ImageView order_status2= (ImageView) findViewById(R.id.order_status2);
-        ImageView order_status3= (ImageView) findViewById(R.id.order_status3);
-        ImageView order_status4= (ImageView) findViewById(R.id.order_status4);
-        ImageView order_status5= (ImageView) findViewById(R.id.order_status5);
-        ImageView order_status6= (ImageView) findViewById(R.id.order_status6);
-        TextView txt_order_status1= (TextView) findViewById(R.id.txt_order_status1);
-        TextView txt_order_status2= (TextView) findViewById(R.id.txt_order_status2);
-        TextView txt_order_status3= (TextView) findViewById(R.id.txt_order_status3);
-        TextView txt_order_status4= (TextView) findViewById(R.id.txt_order_status4);
-        TextView txt_order_status5= (TextView) findViewById(R.id.txt_order_status5);
-        TextView txt_order_status6= (TextView) findViewById(R.id.txt_order_status6);
+        TextView order_status = (TextView) findViewById(R.id.order_status); //+픽업날짜
+        ImageView order_status1 = (ImageView) findViewById(R.id.order_status1);
+        ImageView order_status2 = (ImageView) findViewById(R.id.order_status2);
+        ImageView order_status3 = (ImageView) findViewById(R.id.order_status3);
+        ImageView order_status4 = (ImageView) findViewById(R.id.order_status4);
+        ImageView order_status5 = (ImageView) findViewById(R.id.order_status5);
+        ImageView order_status6 = (ImageView) findViewById(R.id.order_status6);
+        TextView txt_order_status1 = (TextView) findViewById(R.id.txt_order_status1);
+        TextView txt_order_status2 = (TextView) findViewById(R.id.txt_order_status2);
+        TextView txt_order_status3 = (TextView) findViewById(R.id.txt_order_status3);
+        TextView txt_order_status4 = (TextView) findViewById(R.id.txt_order_status4);
+        TextView txt_order_status5 = (TextView) findViewById(R.id.txt_order_status5);
+        TextView txt_order_status6 = (TextView) findViewById(R.id.txt_order_status6);
 
         body = new JsonObject();
         body.addProperty("order_id", order_id);
@@ -119,14 +120,14 @@ public class OrderDetailActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     try {
-                        JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
-                        order_detail= res.get("order_detail").getAsJsonArray();
+                        JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                        order_detail = res.get("order_detail").getAsJsonArray();
                         pu_date = res.get("pu_date").getAsString();
 
-                        md_qty= order_detail.get(0).getAsJsonObject().get("order_select_qty").getAsString();
-                        md_total_price= order_detail.get(0).getAsJsonObject().get("order_price").getAsString();
+                        md_qty = order_detail.get(0).getAsJsonObject().get("order_select_qty").getAsString();
+                        md_total_price = order_detail.get(0).getAsJsonObject().get("order_price").getAsString();
 
-                        isPickedUp=order_detail.get(0).getAsJsonObject().get("order_md_status").getAsString();
+                        isPickedUp = order_detail.get(0).getAsJsonObject().get("order_md_status").getAsString();
 
                         ImageView ClientOrderProdIMG = findViewById(R.id.ClientOrderProdIMG);
                         Glide.with(OrderDetailActivity.this)
@@ -141,7 +142,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                         StoreAddr.setText(store_loc);
 
                         //상품 현재 픽업 상태 세팅
-                        md_status= res.get("md_status").getAsJsonObject().get("stk_confirm").getAsString();
+                        md_status = res.get("md_status").getAsJsonObject().get("stk_confirm").getAsString();
                         switch (md_status) {
                             case "공동구매 중":
                                 order_status.setText("픽업 예정일 : " + pu_date);
@@ -174,7 +175,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                                 break;
                             case "픽업완료":
                                 //실제 소비자의 픽업유무 파악하기
-                                if (Objects.equals(isPickedUp, "1")){
+                                if (Objects.equals(isPickedUp, "1")) {
                                     order_status.setText("픽업 완료");
                                     order_status6.setImageResource(R.drawable.order_status_off);
                                     txt_order_status6.setTextColor(Color.parseColor("#1EAA95"));
@@ -182,11 +183,17 @@ public class OrderDetailActivity extends AppCompatActivity {
                                     btn_orderDetail.setVisibility(View.VISIBLE);
                                     btn_orderDetail.setText("리뷰 작성");
                                 }
-                                else{
+                                else if (Objects.equals(isPickedUp, "2")) {
+                                    order_status.setText("픽업 완료");
+                                    order_status6.setImageResource(R.drawable.order_status_off);
+                                    txt_order_status6.setTextColor(Color.parseColor("#1EAA95"));
+                                }
+                                else {
                                     order_status.setText("픽업 예정일 : " + pu_date);
                                     order_status5.setImageResource(R.drawable.order_status_off);
                                     txt_order_status5.setTextColor(Color.parseColor("#1EAA95"));
                                 }
+
                                 break;
                             default:  //아마 공구 취소..?
                                 order_status.setText(md_status);
@@ -196,8 +203,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
-                else {
+                } else {
                     try {
                         Log.d(TAG, "Fail " + response.errorBody().string());
                     } catch (IOException e) {
@@ -215,7 +221,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         btn_orderDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(btn_orderDetail.getText().toString().equals("리뷰 작성")){
+                if (btn_orderDetail.getText().toString().equals("리뷰 작성")) {
                     Intent intent = new Intent(OrderDetailActivity.this, ReviewActivity.class);
                     intent.putExtra("user_id", user_id);
                     intent.putExtra("order_id", order_id);
@@ -227,24 +233,24 @@ public class OrderDetailActivity extends AppCompatActivity {
                     intent.putExtra("mdimg_thumbnail", mdimg_thumbnail);
                     startActivity(intent);
 
-                } else{
+                } else {
                     //주문취소 팝업
-                    OrderCancelDialog orderCancelDialog= new OrderCancelDialog(mContext,user_id, order_id);
+                    OrderCancelDialog orderCancelDialog = new OrderCancelDialog(mContext, user_id, order_id);
                     orderCancelDialog.show();
                 }
             }
         });
 
         final Geocoder geocoder = new Geocoder(getApplicationContext());
-        List<Address> address= null;
+        List<Address> address = null;
         try {
-            address = geocoder.getFromLocationName(store_loc,10);
+            address = geocoder.getFromLocationName(store_loc, 10);
         } catch (IOException e) {
             e.printStackTrace();
         }
         Address location = address.get(0);
-        double store_lat=location.getLatitude();
-        double store_long=location.getLongitude();
+        double store_lat = location.getLatitude();
+        double store_long = location.getLongitude();
 
         //지도
         MapView mapView = new MapView(this);
@@ -264,7 +270,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         //스토어위치 마커 아이콘 띄우기
         MapPoint f_MarkPoint = MapPoint.mapPointWithGeoCoord(store_lat, store_long);  //마커찍기
 
-        MapPOIItem store_marker=new MapPOIItem();
+        MapPOIItem store_marker = new MapPOIItem();
         store_marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
         store_marker.setCustomImageResourceId(R.drawable.ic_shop);
         store_marker.setItemName(store_name); //클릭했을때 가게이름 나오기
@@ -274,11 +280,16 @@ public class OrderDetailActivity extends AppCompatActivity {
         mapView.addPOIItem(store_marker);
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(this, Order.class);
-        intent.putExtra("user_id", user_id);
-        startActivity(intent);
-        finish(); // optional, depending on your use case
-    }
+    //뒤로 가기
+//    @Override
+//    public void onBackPressed() {
+//        Order frag = new Order();
+//        Bundle args = new Bundle();
+//        args.putString("user_id", user_id);
+//        frag.setArguments(args);
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.fragment_order, frag);
+//        transaction.addToBackStack(null);
+//        transaction.commit();
+//    }
 }

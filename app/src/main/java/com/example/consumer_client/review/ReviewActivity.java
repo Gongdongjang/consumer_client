@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,16 +29,10 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.bumptech.glide.Glide;
-import com.example.consumer_client.BackPressDialog;
 import com.example.consumer_client.R;
-import com.example.consumer_client.ReviewDialog;
-import com.example.consumer_client.fragment.Keep;
-import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.order.OrderDetailActivity;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,7 +51,7 @@ interface ReviewService {
     Call<ResponseBody> review(@Body JsonObject body);
 }
 
-public class ReviewActivity<starScore> extends AppCompatActivity {
+public class ReviewActivity extends AppCompatActivity {
     private static final String TAG = "review activity";
     final int PICTURE_REQUEST_CODE = 100;
     String user_id, order_id, md_name, md_qty, md_fin_price, store_name, mdimg_thumbnail, store_loc;
@@ -69,7 +62,8 @@ public class ReviewActivity<starScore> extends AppCompatActivity {
     Button reviewReg;
     int star_count = 0;
     File file1 = null, file2 = null, file3 = null;
-    ReviewDialog reviewDialog;
+    ReviewCancelDialog reviewCancelDialog;
+    ReviewRegisterDialog reviewRegisterDialog;
 
     ReviewService service;
     JsonParser jsonParser;
@@ -142,7 +136,6 @@ public class ReviewActivity<starScore> extends AppCompatActivity {
                     Star_1.setTag("false");
                 }
                 star_count = 1;
-                Log.d("star_count", String.valueOf(star_count));
             }
         });
 
@@ -164,10 +157,7 @@ public class ReviewActivity<starScore> extends AppCompatActivity {
                     Star_2.setTag("false");
                 }
                 star_count = 2;
-                Log.d("star_count", String.valueOf(star_count));
-
             }
-
         });
 
         Star_3.setOnClickListener(new View.OnClickListener() {
@@ -187,10 +177,7 @@ public class ReviewActivity<starScore> extends AppCompatActivity {
                     Star_3.setTag("false");
                 }
                 star_count = 3;
-                Log.d("star_count", String.valueOf(star_count));
-
             }
-
         });
 
         Star_4.setOnClickListener(new View.OnClickListener() {
@@ -211,10 +198,7 @@ public class ReviewActivity<starScore> extends AppCompatActivity {
                     Star_4.setTag("false");
                 }
                 star_count = 4;
-                Log.d("star_count", String.valueOf(star_count));
-
             }
-
         });
 
         Star_5.setOnClickListener(new View.OnClickListener() {
@@ -239,10 +223,8 @@ public class ReviewActivity<starScore> extends AppCompatActivity {
                     Star_5.setTag("false");
                     star_count = 5;
                 }
-                Log.d("star_count", String.valueOf(star_count));
             }
         });
-
 
         ImageButton addImg = (ImageButton) findViewById(R.id.addImg);
         addImg.setOnClickListener(new View.OnClickListener() {
@@ -255,14 +237,13 @@ public class ReviewActivity<starScore> extends AppCompatActivity {
             }
         });
 
-
         reviewReg = findViewById(R.id.reviewReg);
         reviewReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 rvw_content = findViewById(R.id.rvw_content);
                 String content = rvw_content.getText().toString();
-
+                String rvw_img1, rvw_img2, rvw_img3;
                 JsonObject body = new JsonObject();
                 body.addProperty("user_id", user_id);
                 body.addProperty("order_id", order_id);
@@ -270,57 +251,90 @@ public class ReviewActivity<starScore> extends AppCompatActivity {
                 body.addProperty("rvw_content", content);
 
                 if (file1 != null) {
-                    body.addProperty("rvw_img1", "review/" + file1.getName());
+                    rvw_img1 = "review/" + file1.getName();
+                    body.addProperty("rvw_img1", rvw_img1);
                     uploadWithTransferUtilty(file1.getName(), file1);
-                } else
-                    body.addProperty("rvw_img1", "null");
+                } else {
+                    rvw_img1 = "null";
+                    body.addProperty("rvw_img1", rvw_img1);
+                }
 
                 if (file2 != null) {
-                    body.addProperty("rvw_img2", "review/" + file2.getName());
+                    rvw_img2 = "review/" + file2.getName();
+                    body.addProperty("rvw_img2", rvw_img2);
                     uploadWithTransferUtilty(file2.getName(), file2);
-                } else
-                    body.addProperty("rvw_img2", "null");
+                } else {
+                    rvw_img2 = "null";
+                    body.addProperty("rvw_img2", rvw_img2);
+                }
 
                 if (file3 != null) {
-                    body.addProperty("rvw_img3", "review/" + file3.getName());
+                    rvw_img3 = "review/" + file3.getName();
+                    body.addProperty("rvw_img3", rvw_img3);
                     uploadWithTransferUtilty(file3.getName(), file3);
-                } else
-                    body.addProperty("rvw_img3", "null");
+                } else {
+                    rvw_img3 = "null";
+                    body.addProperty("rvw_img3", rvw_img3);
+                }
 
-                Call<ResponseBody> call = service.review(body);
-                call.enqueue(new Callback<ResponseBody>() {
+                //취소 버튼 클릭
+                Button reviewCancel = findViewById(R.id.reviewCancel);
+                reviewCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        Log.d("review 저장 및 사진 업로드", response.toString());
-
-                        if (response.isSuccessful()) {
-                            try {
-                                JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-                                Toast.makeText(ReviewActivity.this, res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-
-                                //리뷰 버튼 클릭 후, 리뷰 저장되면 상세 주문 페이지로 이동
-                                Intent intent = new Intent(getApplicationContext(), OrderDetailActivity.class);
-                                intent.putExtra("user_id", user_id);
-                                intent.putExtra("md_name", md_name);
-                                intent.putExtra("store_name", store_name);
-                                intent.putExtra("order_id", order_id);
-                                intent.putExtra("store_loc", store_loc);
-                                intent.putExtra("mdimg_thumbnail", mdimg_thumbnail);
-                                startActivity(intent);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
+                    public void onClick(View v) {
+                        onBackPressed();
                     }
+                });
 
+                //등록 버튼 클릭 시, 작성 유의사항 팝업
+                reviewRegisterDialog = new ReviewRegisterDialog(ReviewActivity.this);
+                reviewRegisterDialog.show();
+                reviewRegisterDialog.findViewById(R.id.registerBtn).setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.d("실패", "failure.....");
+                    public void onClick(View v) {
+                        //등록하기 버튼 눌러야 저장
+                        Call<ResponseBody> call = service.review(body);
+                        call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                Log.d("review 저장 및 사진 업로드", response.toString());
+
+                                if (response.isSuccessful()) {
+                                    try {
+                                        JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                                        Toast.makeText(ReviewActivity.this, res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+
+                                        Intent intent = new Intent(getApplicationContext(), ReviewMyDetailActivity.class);
+                                        intent.putExtra("user_id", user_id);
+                                        intent.putExtra("md_name", md_name);
+                                        intent.putExtra("md_qty", md_qty);
+                                        intent.putExtra("md_fin_price", md_fin_price);
+                                        intent.putExtra("store_name", store_name);
+                                        intent.putExtra("order_id", order_id);
+                                        intent.putExtra("store_loc", store_loc);
+                                        intent.putExtra("mdimg_thumbnail", mdimg_thumbnail);
+                                        intent.putExtra("rvw_content", content);
+                                        String rvw_rating = String.valueOf(star_count);
+                                        intent.putExtra("rvw_rating", rvw_rating);
+                                        intent.putExtra("rvw_img1", rvw_img1);
+                                        intent.putExtra("rvw_img2", rvw_img2);
+                                        intent.putExtra("rvw_img3", rvw_img3);
+                                        startActivity(intent);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Log.d("실패", "failure.....");
+                            }
+                        });
                     }
                 });
             }
         });
-
     }
 
     @Override
@@ -406,11 +420,9 @@ public class ReviewActivity<starScore> extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-//        reviewDialog = new ReviewDialog(this); //, user_id, store_loc, store_name, md_name, order_id, mdimg_thumbnail);
-//        reviewDialog.show();
-        reviewDialog = new ReviewDialog(this);
-        reviewDialog.show();
-        reviewDialog.findViewById(R.id.stopBtn).setOnClickListener(new View.OnClickListener() {
+        reviewCancelDialog = new ReviewCancelDialog(this);
+        reviewCancelDialog.show();
+        reviewCancelDialog.findViewById(R.id.stopBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ReviewActivity.this, OrderDetailActivity.class);
@@ -423,6 +435,5 @@ public class ReviewActivity<starScore> extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 }

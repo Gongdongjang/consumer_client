@@ -59,7 +59,6 @@ public class OrderList extends AppCompatActivity {
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
 
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseurl))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -98,7 +97,7 @@ public class OrderList extends AppCompatActivity {
 
                         //픽업 여부 확인 후 pickupDate 설정
                         isPickuped=orderDetailArray.get(i).getAsJsonObject().get("order_md_status").toString();
-                        if (Objects.equals(isPickuped, "1")) {
+                        if (Objects.equals(isPickuped, "1")|| Objects.equals(isPickuped, "2")) {
                             pickupDate="픽업 완료";
                         }
                         else {
@@ -107,7 +106,7 @@ public class OrderList extends AppCompatActivity {
 
                         addOrderList(user_id, orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(),
                                 orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(),
-                                "https://gdjang.s3.ap-northeast-2.amazonaws.com/" + orderDetailArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + orderDetailArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                 orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                 orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                 orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString()+"세트",
@@ -146,7 +145,7 @@ public class OrderList extends AppCompatActivity {
         });
     }
     public void firstInit(){
-        mOrderListRecyclerView = findViewById(R.id.totalOrderListView);
+        mOrderListRecyclerView = findViewById(R.id.totalReviewListView);
         mList = new ArrayList<>();
     }
 

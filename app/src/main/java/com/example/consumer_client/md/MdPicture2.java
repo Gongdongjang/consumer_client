@@ -1,4 +1,4 @@
-package com.example.consumer_client;
+package com.example.consumer_client.md;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.example.consumer_client.R;
 
 public class MdPicture2 extends Fragment {
     String imageView;
