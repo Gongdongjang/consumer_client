@@ -93,8 +93,8 @@ public class ReviewList extends AppCompatActivity {
                         addReviewList(
                                 user_id,
                                 my_review_list.get(i).getAsJsonObject().get("order_id").getAsString(),
-                                "https://gdjang.s3.ap-northeast-2.amazonaws.com/" + my_review_list.get(i).getAsJsonObject().get("rvw_img1").getAsString(),
-                                "https://gdjang.s3.ap-northeast-2.amazonaws.com/" + my_review_list.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + my_review_list.get(i).getAsJsonObject().get("rvw_img1").getAsString(),
+                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + my_review_list.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                 my_review_list.get(i).getAsJsonObject().get("store_name").getAsString(),
                                 my_review_list.get(i).getAsJsonObject().get("md_name").getAsString(),
                                 my_review_list.get(i).getAsJsonObject().get("rvw_content").getAsString(),
@@ -111,13 +111,13 @@ public class ReviewList extends AppCompatActivity {
                                     Intent intent = new Intent(ReviewList.this, ReviewMyDetailActivity.class);
                                     intent.putExtra("user_id", user_id);
                                     intent.putExtra("order_id", my_review_list.get(pos).getAsJsonObject().get("order_id").getAsString());
-                                    intent.putExtra("mdimg_thumbnail", my_review_list.get(pos).getAsJsonObject().get("mdimg_thumbnail").getAsString());
+                                    intent.putExtra("mdimg_thumbnail", "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + my_review_list.get(pos).getAsJsonObject().get("mdimg_thumbnail").getAsString());
                                     intent.putExtra("store_name", my_review_list.get(pos).getAsJsonObject().get("store_name").getAsString());
                                     intent.putExtra("md_name",my_review_list.get(pos).getAsJsonObject().get("md_name").getAsString());
                                     intent.putExtra("md_qty", my_review_list.get(pos).getAsJsonObject().get("order_select_qty").getAsString());
-                                    intent.putExtra("md_price", my_review_list.get(pos).getAsJsonObject().get("pay_price").getAsString());
+                                    intent.putExtra("md_fin_price", my_review_list.get(pos).getAsJsonObject().get("pay_price").getAsString());
                                     intent.putExtra("rvw_content", my_review_list.get(pos).getAsJsonObject().get("rvw_content").getAsString());
-                                    intent.putExtra("rvw_rating", my_review_list.get(pos).getAsJsonObject().get("rvw_rating").getAsInt());
+                                    intent.putExtra("rvw_rating", my_review_list.get(pos).getAsJsonObject().get("rvw_rating").getAsString());
                                     intent.putExtra("rvw_img1", my_review_list.get(pos).getAsJsonObject().get("rvw_img1").getAsString());
                                     intent.putExtra("rvw_img2", my_review_list.get(pos).getAsJsonObject().get("rvw_img2").getAsString());
                                     intent.putExtra("rvw_img3", my_review_list.get(pos).getAsJsonObject().get("rvw_img3").getAsString());

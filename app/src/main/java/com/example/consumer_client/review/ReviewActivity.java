@@ -314,7 +314,8 @@ public class ReviewActivity extends AppCompatActivity {
                                         intent.putExtra("store_loc", store_loc);
                                         intent.putExtra("mdimg_thumbnail", mdimg_thumbnail);
                                         intent.putExtra("rvw_content", content);
-                                        intent.putExtra("star_count", star_count);
+                                        String rvw_rating = String.valueOf(star_count);
+                                        intent.putExtra("rvw_rating", rvw_rating);
                                         intent.putExtra("rvw_img1", rvw_img1);
                                         intent.putExtra("rvw_img2", rvw_img2);
                                         intent.putExtra("rvw_img3", rvw_img3);

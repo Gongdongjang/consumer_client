@@ -2,6 +2,7 @@ package com.example.consumer_client.review;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,8 +19,7 @@ import androidx.annotation.Nullable;
 //}
 
 public class ReviewMyDetailActivity extends AppCompatActivity {
-    String user_id, order_id, md_name, md_qty, md_fin_price, store_name, mdimg_thumbnail, store_loc, rvw_content, rvw_img1, rvw_img2, rvw_img3;
-    int star_count;
+    String user_id, order_id, md_name, md_qty, md_fin_price, store_name, mdimg_thumbnail, store_loc, rvw_content, rvw_img1, rvw_img2, rvw_img3, star_count;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +33,10 @@ public class ReviewMyDetailActivity extends AppCompatActivity {
         md_fin_price = intent.getStringExtra("md_fin_price");
         store_name = intent.getStringExtra("store_name");
         mdimg_thumbnail = intent.getStringExtra("mdimg_thumbnail");
+        Log.d("thumbnail", mdimg_thumbnail);
 //        store_loc = intent.getStringExtra("store_loc");
         rvw_content = intent.getStringExtra("rvw_content");
-        star_count = intent.getIntExtra("rvw_rating", 0);
+        star_count = intent.getStringExtra("rvw_rating");
         rvw_img1 = intent.getStringExtra("rvw_img1");
         rvw_img2 = intent.getStringExtra("rvw_img2");
         rvw_img3 = intent.getStringExtra("rvw_img3");
@@ -78,25 +79,25 @@ public class ReviewMyDetailActivity extends AppCompatActivity {
 
         //리뷰 정보
         //별점
-        if(star_count == 1){
+        if(star_count.equals("1")){
             Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
         }
-        else if(star_count == 2){
+        else if(star_count.equals("2")){
             Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
             Star_2.setImageResource(R.drawable.ic_product_review_list_on_14px);
         }
-        else if(star_count == 3){
+        else if(star_count.equals("3")){
             Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
             Star_2.setImageResource(R.drawable.ic_product_review_list_on_14px);
             Star_3.setImageResource(R.drawable.ic_product_review_list_on_14px);
         }
-        else if(star_count == 4){
+        else if(star_count.equals("4")){
             Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
             Star_2.setImageResource(R.drawable.ic_product_review_list_on_14px);
             Star_3.setImageResource(R.drawable.ic_product_review_list_on_14px);
             Star_4.setImageResource(R.drawable.ic_product_review_list_on_14px);
         }
-        else if(star_count == 5){
+        else if(star_count.equals("5")){
             Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
             Star_2.setImageResource(R.drawable.ic_product_review_list_on_14px);
             Star_3.setImageResource(R.drawable.ic_product_review_list_on_14px);

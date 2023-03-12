@@ -182,11 +182,18 @@ public class OrderDetailActivity extends AppCompatActivity {
                                     //리뷰버튼 활성화
                                     btn_orderDetail.setVisibility(View.VISIBLE);
                                     btn_orderDetail.setText("리뷰 작성");
-                                } else {
+                                }
+                                else if (Objects.equals(isPickedUp, "2")) {
+                                    order_status.setText("픽업 완료");
+                                    order_status6.setImageResource(R.drawable.order_status_off);
+                                    txt_order_status6.setTextColor(Color.parseColor("#1EAA95"));
+                                }
+                                else {
                                     order_status.setText("픽업 예정일 : " + pu_date);
                                     order_status5.setImageResource(R.drawable.order_status_off);
                                     txt_order_status5.setTextColor(Color.parseColor("#1EAA95"));
                                 }
+
                                 break;
                             default:  //아마 공구 취소..?
                                 order_status.setText(md_status);

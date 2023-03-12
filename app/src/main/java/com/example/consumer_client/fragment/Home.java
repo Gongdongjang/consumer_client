@@ -35,7 +35,6 @@ import com.example.consumer_client.CustomSpinnerAdapter;
 import com.example.consumer_client.FragPagerAdapter;
 import com.example.consumer_client.review.ReviewCancelDialog;
 import com.example.consumer_client.MainActivity;
-import com.example.consumer_client.ReviewDialog;
 import com.example.consumer_client.address.EditTownActivity;
 import com.example.consumer_client.address.FindTownActivity;
 import com.example.consumer_client.alarm.Alarm;
