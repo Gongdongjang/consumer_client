@@ -38,7 +38,8 @@
                 android:backgroundTint="#FFFFFF"
                 android:text="취소"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:stateListAnimator="@null"/>
 
             <Button
                 android:id="@+id/BP"
@@ -51,6 +52,7 @@
                 android:backgroundTint="#1EAA95"
                 android:text="앱 종료"
                 android:textColor="@color/white"
+                android:stateListAnimator="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </LinearLayout>

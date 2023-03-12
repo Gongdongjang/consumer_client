@@ -36,6 +36,7 @@
                 android:textColor="#1EAA95"
                 android:backgroundTint="#FFFFFF"
                 android:text="주문취소"
+                android:stateListAnimator="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -49,6 +50,7 @@
                 android:layout_marginBottom="7dp"
                 android:backgroundTint="#1EAA95"
                 android:text="아니요"
+                android:stateListAnimator="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </LinearLayout>

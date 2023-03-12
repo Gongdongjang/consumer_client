@@ -2,7 +2,10 @@ package com.example.consumer_client.mypage;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +27,9 @@ public class UserCenterActivity extends AppCompatActivity {
         setContentView(R.layout.mypage_customer_service);
 
         mContext = this;
+
+        Intent intent = getIntent(); //intent 값 받기
+        user_id = intent.getStringExtra("user_id");
 
         RecyclerView recyclerView = findViewById(R.id.FAQ_RecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -59,7 +65,14 @@ public class UserCenterActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(new ExpandableAdapter(data));
 
-        Intent intent = getIntent(); //intent 값 받기
-        user_id = intent.getStringExtra("user_id");
+        Button OpenKakao_Btn = (Button) findViewById(R.id.OpenKakao_Btn);
+        OpenKakao_Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://open.kakao.com/o/suhyQ78e"));
+                startActivity(intent);
+            }
+        });
     }
 }

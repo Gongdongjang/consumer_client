@@ -6,19 +6,20 @@ import android.content.Intent;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
 
-import com.example.consumer_client.fragment.MyPage;
+import com.example.consumer_client.cart.CartListActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -108,6 +109,28 @@ public class NotificationList  extends AppCompatActivity {
             }
         });
 
+        //상단바 뒤로가기
+        ImageView gotoBack = findViewById(R.id.gotoBack);
+        gotoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(NotificationList.this, MainActivity.class);
+                intent1.putExtra("user_id", user_id);
+                startActivity(intent1);
+            }
+        });
+
+        //상단바 장바구니
+        ImageView gotoCart = findViewById(R.id.gotoCart);
+        gotoCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(NotificationList.this, CartListActivity.class);
+                intent1.putExtra("user_id", user_id);
+                startActivity(intent1);
+            }
+        });
+
     }
 
     private void firstInit() {
@@ -127,11 +150,9 @@ public class NotificationList  extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        MyPage myPage = new MyPage();
-        transaction.replace(R.id.Main_Frame, myPage);
-        transaction.commit();
+        Intent intent = new Intent(NotificationList.this, MainActivity.class);
+        intent.putExtra("user_id", user_id);
+        startActivity(intent);
     }
 
 }

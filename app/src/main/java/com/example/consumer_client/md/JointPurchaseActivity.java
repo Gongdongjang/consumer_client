@@ -386,11 +386,11 @@ public class JointPurchaseActivity extends AppCompatActivity {
             }
         });
 
-        //다이얼로그 밖의 화면은 흐리게 만들어줌
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        layoutParams.dimAmount = 0.8f;
-        getWindow().setAttributes(layoutParams);
+//        //다이얼로그 밖의 화면은 흐리게 만들어줌
+//        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+//        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+//        layoutParams.dimAmount = 0.8f;
+//        getWindow().setAttributes(layoutParams);
 
         //장바구니 클릭
 //        Cart.setOnClickListener(new View.OnClickListener() {
@@ -410,7 +410,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         , (String) StkRemain.getText(), pu_start, pu_end, (String) StoreName.getText(),
                         store_id, store_loc, user_id, md_id);
                 //orderDialog = new OrderDialog(mContext,md_detail.get(0).getAsJsonObject().get("md_name").getAsString(),pu_start,pu_end);
-                orderDialog.show();
+//                orderDialog.show();
             }
         });
     }
