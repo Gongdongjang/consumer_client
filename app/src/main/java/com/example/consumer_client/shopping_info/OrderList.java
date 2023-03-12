@@ -145,7 +145,7 @@ public class OrderList extends AppCompatActivity {
         });
     }
     public void firstInit(){
-        mOrderListRecyclerView = findViewById(R.id.totalOrderListView);
+        mOrderListRecyclerView = findViewById(R.id.md_totalOrderListView);
         mList = new ArrayList<>();
     }
 

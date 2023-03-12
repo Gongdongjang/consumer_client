@@ -127,7 +127,7 @@ public class CancelList extends AppCompatActivity {
         });
     }
     public void firstInit(){
-        mOrderListRecyclerView = findViewById(R.id.totalReviewListView);
+        mOrderListRecyclerView = findViewById(R.id.md_totalOrderListView);
         mList = new ArrayList<>();
     }
 
