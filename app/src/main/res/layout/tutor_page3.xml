@@ -7,38 +7,30 @@
 
     <ImageView
         android:id="@+id/tutor_img3"
-        android:layout_width="242dp"
-        android:layout_height="505dp"
-        android:layout_marginTop="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="112dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tutor_des3"
+        app:layout_constraintTop_toBottomOf="@+id/tutor_title3"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/img_tutor3" />
 
     <TextView
         android:id="@+id/tutor_title3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:text="주문하기 페이지"
-        android:textColor="@color/black"
+        android:layout_marginTop="48dp"
+        android:gravity="center"
+        android:text="주문할 때는 픽업 일정과 스토어 위치, \n장바구니까지 꼭 확인해주세요."
+        android:textColor="@color/main_1"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tutor_des3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="41dp"
-        android:text="제품개수를 선택하고 픽업날짜를 선택할 수 있습니다."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tutor_title3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

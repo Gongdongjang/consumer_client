@@ -7,37 +7,28 @@
 
     <ImageView
         android:id="@+id/tutor_img3"
-        android:layout_width="273dp"
-        android:layout_height="514dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginBottom="112dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tutor_des1"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/tutor_title1"
+        app:layout_constraintVertical_bias="0.675"
         app:srcCompat="@drawable/img_tutor1" />
 
     <TextView
         android:id="@+id/tutor_title1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:text="메인 홈페이지"
-        android:textColor="@color/black"
+        android:layout_marginTop="48dp"
+        android:text="홈에서 우리 동네 공동구매를 살펴봐요."
+        android:textColor="@color/main_1"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tutor_des1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="41dp"
-        android:text="제품리스트와 콘텐츠+ 지도 등을 바로 확인할 수 있습니다."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tutor_title1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
