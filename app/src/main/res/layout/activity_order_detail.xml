@@ -1,11 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:context=".MainActivity"
+    >
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="60dp"
+android:orientation="horizontal"
+android:background="#FFFFFF">
+
+<ImageView
+    android:id="@+id/gotoBack"
+    android:layout_width="20dp"
+    android:layout_height="20dp"
+    android:layout_gravity="center"
+    android:layout_weight="1"
+    android:src="@drawable/ic_top_arrow" />
+
+<TextView
+    android:layout_width="212dp"
+    android:layout_height="32dp"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:text="상세 주문 내역"
+    android:textColor="#000000"
+    android:textSize="16dp"
+    android:textStyle="bold"
+    android:maxLines="1"
+    android:ellipsize="end"
+    />
+
+<ImageView
+    android:id="@+id/gotoCart"
+    android:layout_width="20dp"
+    android:layout_height="20dp"
+    android:layout_gravity="center|right"
+    android:layout_weight="1"
+    android:src="@drawable/ic_cart_shopping" />
+
+</LinearLayout>
+
+<androidx.core.widget.NestedScrollView
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="20dp"
-    tools:context=".MainActivity">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -331,3 +376,4 @@
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
+</LinearLayout>

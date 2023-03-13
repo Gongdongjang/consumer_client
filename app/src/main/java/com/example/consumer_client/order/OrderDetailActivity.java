@@ -16,11 +16,9 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.example.consumer_client.R;
-import com.example.consumer_client.fragment.Order;
 import com.example.consumer_client.review.ReviewActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -292,4 +290,5 @@ public class OrderDetailActivity extends AppCompatActivity {
 //        transaction.addToBackStack(null);
 //        transaction.commit();
 //    }
+
 }

@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -80,19 +79,19 @@ public class PaidActivity extends AppCompatActivity {
         store_loc = intent.getStringExtra("store_loc");
 
         //setText 설정
+        TextView Paid_MdName= (TextView) findViewById(R.id.Paid_MdName);
         TextView StoreName = (TextView) findViewById(R.id.Paid_Store_Name);
         TextView StoreLoc = (TextView) findViewById(R.id.Paid_Store_Addr);
         TextView PurchaseNum = (TextView) findViewById(R.id.Paid_SelectCount);
         TextView TotalPrice = (TextView) findViewById(R.id.Paid_ToTalPrice);
         TextView PuDate = (TextView) findViewById(R.id.Paid_PU_Date);
 
+        Paid_MdName.setText(mdName);
         StoreName.setText(store_name);
         StoreLoc.setText(store_loc);
-        PurchaseNum.setText(purchaseNum+"개");
+        PurchaseNum.setText(purchaseNum+"세트");
         TotalPrice.setText(totalPrice);
-        PuDate.setText(pickupDate+ " " + pickupTime);
-
-        //Toast.makeText(getApplicationContext(), " 결제가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+        PuDate.setText("픽업 일시 "+ pickupDate+ " " + pickupTime);
 
         int idx=totalPrice.indexOf("원"); // ex)5000원 이렇게 되어있으니 '원' 문자 자르기
         int order_price= Integer.parseInt(totalPrice.substring(0,idx));
@@ -149,13 +148,19 @@ public class PaidActivity extends AppCompatActivity {
                 intent.putExtra("user_id", user_id);
                 intent.putExtra("order_id", order_id);
                 intent.putExtra("store_loc", store_loc);
-                //intent.putExtra("store_my", mList.get(pos).getStoreLocationFromMe());
                 intent.putExtra("store_name", store_name);
                 intent.putExtra("md_name", mdName);
-                //intent.putExtra("md_id", md_id);
                 startActivity(intent);
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(PaidActivity.this, MainActivity.class);
+        Toast.makeText(PaidActivity.this, "주문이 완료되어 홈화면으로 이동합니다.", Toast.LENGTH_SHORT).show();
+        intent.putExtra("user_id", user_id);
+        startActivity(intent);
     }
 }
