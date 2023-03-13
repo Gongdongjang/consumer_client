@@ -42,7 +42,7 @@ public class FCMService extends FirebaseMessagingService {
         } else {
             title = remoteMessage.getData().get("title");
             content = remoteMessage.getData().get("content");
-            user_id=remoteMessage.getData().get("user_id");
+            user_id=remoteMessage.getData().get("userId");
         }
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
 
