@@ -106,6 +106,7 @@ public class PaidActivity extends AppCompatActivity {
         body.addProperty("pu_date", pickupDate);
         body.addProperty("pu_time", pickupTime);
         body.addProperty("order_name", order_name); //입금자명
+        body.addProperty("md_name", mdName);
 
         Call<ResponseBody> call = service.postOrderData(body);
         call.enqueue(new Callback<ResponseBody>() {
