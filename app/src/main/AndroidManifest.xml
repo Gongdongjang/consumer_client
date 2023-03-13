@@ -3,66 +3,120 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.consumer_client"
     tools:ignore="CoarseFineLocation">
-    <!-- 인터넷 사용 권한& 장소 권한 -->
+
+    <!-- 인터넷 사용 권한& 장소 권한-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!-- 백그라운드에서 작용-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".user.KakaoApplication"
         android:allowBackup="true"
-        android:icon="@drawable/kakaotalk_20220324_152807451"
+        android:icon="@drawable/ic_logo1"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/kakaotalk_20220324_152807451"
+        android:roundIcon="@drawable/ic_logo1"
         android:supportsRtl="true"
         android:theme="@style/Theme.Consumer_client"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        >
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_app_key"/>
+        <meta-data android:name="android.max_aspect" android:value="2.1" />
+        <activity android:name=".user.IntegratedLoginActivity"/>
+        <activity android:name=".tutorial.TutorialActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+        <activity
+            android:name=".tutorial.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".address.FindTownActivity"/>
+        <activity android:name=".address.PlusAddressActivity"/>
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".md.MdListMainActivity"/>
+        <activity android:name=".user.SignUpActivity"/>
+        <activity android:name=".user.StandardLoginActivity"/>
+        <activity android:name=".user.AccountInfoActivity"/>
+        <activity android:name=".user.StartActivity" />
+        <activity android:name=".farm.FarmActivity" />
+        <activity android:name=".store.StoreActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".farm.FarmDetailActivity" />
+        <activity android:name=".store.StoreDetailActivity" />
+        <activity android:name=".md.JointPurchaseActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="@string/kakaolink_host"
+                    android:scheme="@string/kakao_scheme" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".order.ToPayActivity" />
+        <activity android:name=".order.PaidActivity" />
+
+        <activity android:name=".order.OrderDetailActivity" />
+        <activity android:name=".review.ReviewActivity" />
+
+        <activity android:name=".cart.CartListActivity" />
+
+        <activity
+            android:name=".alarm.Alarm"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
+
+        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <!--Redirect URI: "kakao{NATIVE_APP_KEY}://oauth"-->
+                <data
+                    android:host="oauth"
+                    android:scheme="{카카오앱키}"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".shopping_info.ShoppingInfoActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".shopping_info.OrderList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".shopping_info.ReviewList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".shopping_info.ShoppingInfo2Activity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".shopping_info.CancelList" android:theme="@style/Theme.Design.NoActionBar"/>
+
+        <activity android:name=".my_town.StoreMap" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".address.EditTownActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <activity android:name=".alarm.AlarmList" />
+        <service android:name=".alarm.FCMService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <activity android:name=".mypage.AboutGDJActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".mypage.AccountSettingActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".mypage.UserCenterActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".mypage.AboutCompanyActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".notification.NotificationList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
         <activity
             android:name=".ContentClick"
             android:exported="false" />
         <activity
             android:name=".ContentActivity"
-            android:exported="true">
+            android:exported="true" />
 
-            <!-- 테스트 위해 변경, 최종 머지 전 수정 필요 -->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <meta-data
-            android:name="com.kakao.sdk.AppKey"
-            android:value="@string/kakao_app_key" />
-
-        <activity android:name=".MainActivity" />
-        <activity android:name=".MdListMainActivity" />
-        <activity android:name=".user.RegisterActivity" />
-        <activity android:name=".user.StartActivity" />
-        <activity android:name=".Adapter.hamburger.FarmActivity" />
-        <activity android:name=".Adapter.hamburger.StoreActivity" />
-        <activity android:name=".Adapter.hamburger.FarmDetailActivity" />
-        <activity android:name=".Adapter.hamburger.StoreDetailActivity" />
-        <activity android:name=".Adapter.hamburger.JointPurchaseActivity" />
-        <activity
-            android:name=".user.LoginActivity"
-            android:exported="true"></activity>
-        <activity
-            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth" -->
-                <data
-                    android:host="oauth"
-                    android:scheme="{카카오앱키}" />
-            </intent-filter>
-        </activity>
     </application>
-
 </manifest>
