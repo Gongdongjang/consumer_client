@@ -136,16 +136,16 @@ public class MdListMainActivity extends AppCompatActivity {
         myTownLat = location.getLatitude();
         myTownLong = location.getLongitude();
 
-        spinner = findViewById(R.id.spinner);
+        //spinner = findViewById(R.id.spinner);
         // 스피너 안에 넣을 데이터 임의 생성
-        list.add("0.5km");
-        list.add("1km");
-        list.add("2km");
-        list.add("4km");
+        //list.add("0.5km");
+        //list.add("1km");
+       // list.add("2km");
+       // list.add("4km");
 
         // 스피너에 붙일 어댑터 초기화
-        adapter = new CustomSpinnerAdapter(getApplicationContext(), list);
-        spinner.setAdapter(adapter);
+        //adapter = new CustomSpinnerAdapter(getApplicationContext(), list);
+        //spinner.setAdapter(adapter);
 
         Call<ResponseBody> call = service.getMdMainData();
         call.enqueue(new Callback<ResponseBody>() {
@@ -167,7 +167,7 @@ public class MdListMainActivity extends AppCompatActivity {
                     mMdListRecyclerView.setLayoutManager(gridLayoutManager);
 
                     // 스피너 클릭 리스너
-                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                   /* spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @SuppressLint("DefaultLocale")
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -198,6 +198,8 @@ public class MdListMainActivity extends AppCompatActivity {
                             //
                         }
                     });
+
+                    */
 
                     for (int i = 0; i < jsonArray.size(); i++) {
                         List<Address> address = null;
