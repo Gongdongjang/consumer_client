@@ -16,11 +16,11 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.example.consumer_client.R;
-import com.example.consumer_client.fragment.Order;
+import com.example.consumer_client.cart.CartListActivity;
+import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.review.ReviewActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -108,6 +108,17 @@ public class OrderDetailActivity extends AppCompatActivity {
         TextView txt_order_status4 = (TextView) findViewById(R.id.txt_order_status4);
         TextView txt_order_status5 = (TextView) findViewById(R.id.txt_order_status5);
         TextView txt_order_status6 = (TextView) findViewById(R.id.txt_order_status6);
+
+        //상단바 장바구니
+        ImageView gotoCart = findViewById(R.id.gotoCart);
+        gotoCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OrderDetailActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
 
         body = new JsonObject();
         body.addProperty("order_id", order_id);
@@ -292,4 +303,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 //        transaction.addToBackStack(null);
 //        transaction.commit();
 //    }
+
+
+
 }
