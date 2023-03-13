@@ -113,6 +113,8 @@
         <activity android:name=".mypage.AccountSettingActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".mypage.UserCenterActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".mypage.AboutCompanyActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".mypage.LoginSettingActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".mypage.ChangeActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".notification.NotificationList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
     </application>

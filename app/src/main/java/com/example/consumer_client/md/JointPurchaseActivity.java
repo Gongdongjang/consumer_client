@@ -87,8 +87,8 @@ public class JointPurchaseActivity extends AppCompatActivity {
     JsonParser jsonParser;
 
     JsonObject res, body;
-    JsonArray md_detail, reviewArray;
-    String pu_start, pu_end, user_id, store_id, md_end, dDay, standard_address;
+    JsonArray md_detail, reviewArray, keep_date;
+    String pu_start, pu_end, pickup_start, pickup_end, user_id, store_id, md_end, dDay, standard_address;
     JsonArray keep_data;
     String message, store_loc;
     String[] imgUrl = new String[5];
@@ -192,6 +192,8 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         md_detail = res.get("md_detail_result").getAsJsonArray();
                         pu_start = res.get("pu_start").getAsString();
                         pu_end = res.get("pu_end").getAsString();
+                        pickup_start= md_detail.get(0).getAsJsonObject().get("pu_timeStart").getAsString();
+                        pickup_end= md_detail.get(0).getAsJsonObject().get("pu_timeEnd").getAsString();
                         md_end = res.get("md_end").getAsString();
                         dDay = res.get("dDay").getAsString();
                         reviewArray = res.get("review_data").getAsJsonArray();
@@ -453,7 +455,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 orderDialog = new OrderDialog(mContext, (String) MdName.getText(), (String) MdPrice.getText()
-                        , (String) StkRemain.getText(), pu_start, pu_end, (String) StoreName.getText(),
+                        , (String) StkRemain.getText(), pu_start, pu_end, pickup_start, pickup_end, (String) StoreName.getText(),
                         store_id, store_loc, user_id, md_id);
                 //orderDialog = new OrderDialog(mContext,md_detail.get(0).getAsJsonObject().get("md_name").getAsString(),pu_start,pu_end);
 //                orderDialog.show();

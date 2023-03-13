@@ -23,6 +23,8 @@ import com.example.consumer_client.alarm.Alarm;
 import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.mypage.AboutGDJActivity;
 import com.example.consumer_client.mypage.AccountSettingActivity;
+import com.example.consumer_client.mypage.ChangeActivity;
+import com.example.consumer_client.mypage.LoginSettingActivity;
 import com.example.consumer_client.mypage.UserCenterActivity;
 import com.example.consumer_client.notification.NotificationList;
 import com.example.consumer_client.shopping_info.ShoppingInfoActivity;
@@ -151,11 +153,11 @@ public class MyPage extends Fragment {
         });
 
         //나의 계정 정보
-        LinearLayout myPage_MyAccountSetting = (LinearLayout) view.findViewById(R.id.MyPage_MyAccountSetting);
-        myPage_MyAccountSetting.setOnClickListener(new View.OnClickListener() {
+        LinearLayout MyPage_MyAccountSetting = (LinearLayout) view.findViewById(R.id.MyPage_MyAccountSetting);
+        MyPage_MyAccountSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AccountSettingActivity.class);
+                Intent intent = new Intent(getActivity(), ChangeActivity.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }

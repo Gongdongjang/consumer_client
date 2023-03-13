@@ -28,6 +28,7 @@ import com.example.consumer_client.R;
 import com.example.consumer_client.alarm.Alarm;
 import com.example.consumer_client.network.NetworkStatus;
 
+import com.example.consumer_client.tutorial.TutorialActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -77,7 +78,7 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
     MapPOIItem marker;
     String number;
     String currentAddr;
-    String userid;
+    String userid, first_time;
     //카카오맵 위치
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
@@ -101,7 +102,7 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         Intent intent = getIntent(); //intent 값 받기
         userid=intent.getStringExtra("user_id");
         //처음실행이면 Tutorial에서 first_time 값이 yes이다. 메인들어가서 상단바 클릭했을땐 no.
-        String first_time= intent.getStringExtra("first_time");
+        first_time= intent.getStringExtra("first_time");
 
         Button btn_finish_address = findViewById(R.id.btn_finish_address);
 
@@ -114,9 +115,11 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         body1.addProperty("id", userid);
 
         //Button goto_std_address = findViewById(R.id.goto_std_address);
-        //if(Objects.equals(first_time, "yes")){
-          //  goto_std_address.setVisibility(View.GONE);
-        //} else{
+        if(Objects.equals(first_time, "yes")){
+            //goto_std_address.setVisibility(View.GONE);
+            Log.d("근처동네", "처음회원가입 or 처음로그인");
+
+        } else {
             Call<ResponseBody> call = service.addressInfo(body1);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
@@ -125,6 +128,7 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                         res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
                         addressArray = res.get("address_result").getAsJsonArray();  //json배열
                         int address_count = res.get("address_count").getAsInt();
+                        String first = res.get("first_time").getAsString();
                         Log.d("근처동네", String.valueOf(address_count));
 
                         String address_loc0 = addressArray.get(0).getAsJsonObject().get("loc0").getAsString();
@@ -169,6 +173,7 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                     Log.e("주소정보", t.getMessage());
                 }
             });
+        }
 
         //지도
         mapView = new MapView(this);
@@ -194,7 +199,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         //mapView.setCustomCurrentLocationMarkerTrackingImage(R.drawable.location_pin, new MapPOIItem.ImageOffset(16, 16));
 
         gpsTracker= new GpsTracker(FindTownActivity.this);
-
         double latitude=gpsTracker.getLatitude();
         double longitude= gpsTracker.getLongitude();
 
@@ -327,7 +331,7 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         String str;
         super.onActivityResult(requestCode, resultCode, intent);
-        //Log.i("test", "onActivityResult");
+        Log.i("근처동네", "onActivityResult 여기 오나?");
         if (requestCode == SEARCH_ADDRESS_ACTIVITY) {
             if (resultCode == RESULT_OK) {
                 String data = intent.getExtras().getString("data");
@@ -359,6 +363,8 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                     checkRunTimePermission();
                 }
             }
+        } else {
+
         }
     }
 
@@ -424,6 +430,7 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                 Log.d("@@@", "start");
                 //위치 값을 가져올 수 있음
 
+
             } else {
                 // 거부한 퍼미션이 있다면 앱을 사용할 수 없는 이유를 설명해주고 앱을 종료합니다.2 가지 경우가 있다
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])
@@ -440,9 +447,15 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
     //뒤로가기
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.putExtra("user_id", userid);
-        startActivity(intent);
+        if(Objects.equals(first_time, "no")){
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.putExtra("user_id", userid);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
+            intent.putExtra("user_id", userid);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -511,7 +524,7 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         builder.create().show();
     }
 
-    public boolean checkLocationServicesStatus() {
+    public boolean  checkLocationServicesStatus() {
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)

@@ -75,18 +75,12 @@ interface HomeService {
     @POST("standard_address/register")
     Call<ResponseBody> postStdAddress(@Body JsonObject body);  //post user_id,standard_address
 
-//    @POST("standard_address/getStdAddress")
-//    Call<ResponseBody> getStdAddress(@Body JsonObject body);  //post user_id
-
     @GET("mdView_main")
     Call<ResponseBody> getMdMainData();
 }
 
-public class Home extends Fragment
-        //implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener
-{
+public class Home extends Fragment {
 
-    //ViewFlipper v_fllipper;
     JsonParser jsonParser;
     HomeService service;
 
@@ -98,26 +92,17 @@ public class Home extends Fragment
     private ArrayList<HomeProductItem> mList;
     private HomeProductAdapter mHomeProductAdapter;
 
-    //카카오맵 위치
-    private static final int GPS_ENABLE_REQUEST_CODE = 2001;
-    private static final int PERMISSIONS_REQUEST_CODE = 100;
-    String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION};
-
     Activity mActivity;
     LocationManager lm;
 
     double myTownLat;   //추가
     double myTownLong;  //추가
 
-    boolean isTrackingMode = false;
-
     private TextView productList; //제품리스트 클릭하는 텍스트트
-    private TextView change_address, home_userid;
     private ImageView toolbar_cart, toolbar_notification;
 
-    String user_id, standard_address;
+    String user_id;
     String address;
-    Button popupBtn;
     private ReviewCancelDialog reviewCancelDialog;
 
     private List<String> list = new ArrayList<>();
@@ -270,9 +255,7 @@ public class Home extends Fragment
                                 startActivity(intent);
                             }
                         }
-
                     }
-
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
                         //
@@ -309,38 +292,6 @@ public class Home extends Fragment
                 startActivity(intent);
             }
         });
-
-        //===주소정보
-//        JsonObject body = new JsonObject();
-//        body.addProperty("id", user_id);
-//
-//        Call<ResponseBody> call = service.getStdAddress(body);
-//        call.enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-//                try {
-//                    res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
-//                    JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
-//                    standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
-//                    //change_address.setText(standard_address);
-//                    final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
-//                    List<Address> address = geocoder.getFromLocationName(standard_address, 10);
-//                    Address location = address.get(0);
-//                    myTownLat = location.getLatitude();
-//                    myTownLong = location.getLongitude();
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                Toast.makeText(mActivity, "기준 주소 정보 받기 에러 발생", Toast.LENGTH_SHORT).show();
-//                Log.e("주소정보", t.getMessage());
-//            }
-//        });
-
 
         //제품리스트 누르면 제품리스트(메인) 화면으로
         productList = view.findViewById(R.id.productList);
@@ -482,9 +433,6 @@ public class Home extends Fragment
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-//                    Intent intent = new Intent(mActivity, MainActivity.class);
-//                    intent.putExtra("user_id", user_id);
-//                    startActivity(intent);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -536,21 +484,6 @@ public class Home extends Fragment
         });
     }
 
-    // 이미지 자동 슬라이더 구현 메서드
-//    private void fllipperImages(int image) {
-//        ImageView imageView = new ImageView(mActivity);
-//        imageView.setBackgroundResource(image);
-//
-//        v_fllipper.addView(imageView);      // 이미지 추가
-//        v_fllipper.setFlipInterval(4000);       // 자동 이미지 슬라이드 딜레이시간(1000 당 1초)
-//        v_fllipper.setAutoStart(true);          // 자동 시작 유무 설정
-//
-//        // animation
-//        v_fllipper.setInAnimation(mActivity,android.R.anim.slide_in_left);
-//        v_fllipper.setOutAnimation(mActivity,android.R.anim.slide_out_right);
-//    }
-
-
     public String getAsString() {
         throw new UnsupportedOperationException(getClass().getSimpleName());
     }
@@ -575,92 +508,4 @@ public class Home extends Fragment
 
         mList.add(item);
     }
-
-    // 현재 위치 업데이트 setCurrentLocationEventListener
-//    @Override
-//    public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float accuracyInMeters) {
-//        MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
-//        Log.i(TAG, String.format("MapView onCurrentLocationUpdate (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, accuracyInMeters));
-//        currentMapPoint = MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude);
-//        //이 좌표로 지도 중심 이동
-//        mapView.setMapCenterPoint(currentMapPoint, true);
-//        //전역변수로 현재 좌표 저장
-//        mCurrentLat = mapPointGeo.latitude;
-//        mCurrentLng = mapPointGeo.longitude;
-//        Log.d(TAG, "현재위치 => " + mCurrentLat + "  " + mCurrentLng);
-//        //트래킹 모드가 아닌 단순 현재위치 업데이트일 경우, 한번만 위치 업데이트하고 트래킹을 중단시키기 위한 로직
-//        if (!isTrackingMode) {
-//            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-//        }
-//    }
-//
-//    @Override
-//    public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
-//
-//    }
-//
-//    @Override
-//    public void onCurrentLocationUpdateFailed(MapView mapView) {
-//        Log.i(TAG, "onCurrentLocationUpdateFailed");
-//        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-//    }
-
-//    @Override
-//    public void onCurrentLocationUpdateCancelled(MapView mapView) {
-//        Log.i(TAG, "onCurrentLocationUpdateCancelled");
-//        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-//    }
-//
-//    void checkRunTimePermission() {
-//        int hasFineLocationPermission = ContextCompat.checkSelfPermission(mActivity,Manifest.permission.ACCESS_FINE_LOCATION);
-//        if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED){
-//            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
-//        }else{
-//            if(ActivityCompat.shouldShowRequestPermissionRationale(mActivity,REQUIRED_PERMISSIONS[0])){
-//                Toast.makeText(mActivity,"이 앱을 실행하려면 위치 접근 권한이 필요합니다.",Toast.LENGTH_LONG).show();
-//                ActivityCompat.requestPermissions(mActivity,REQUIRED_PERMISSIONS,PERMISSIONS_REQUEST_CODE);
-//            }else{
-//                ActivityCompat.requestPermissions(mActivity,REQUIRED_PERMISSIONS,PERMISSIONS_REQUEST_CODE);
-//            }
-//        }
-//    }
-
-    // GPS 활성화를 위한 메소드들
-//    private void showDialogForLocationServiceSetting() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-//        builder.setTitle("위치 서비스 비활성화");
-//        builder.setMessage("앱을 사용하기 위해 위치 서비스가 필요합니다.");
-//        builder.setCancelable(true);
-//        builder.setPositiveButton("설정", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Intent callGPSSettingIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-//                startActivityForResult(callGPSSettingIntent, GPS_ENABLE_REQUEST_CODE);
-//            }
-//        }); //여기밑에 setNaviveButton 추가함
-//        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int id) {
-//                dialog.cancel();
-//            }
-//        });
-//        builder.create().show();
-//    }
-
-//    private boolean checkLocationServiceStatus(Activity mActivity) {
-//
-//        LocationManager locationManager = (LocationManager)mActivity.getSystemService(LOCATION_SERVICE);
-//        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-//                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-//    }
-//
-//    @Override
-//    public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
-//
-//    }
-//
-//    @Override
-//    public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) {
-//
-//    }
 }

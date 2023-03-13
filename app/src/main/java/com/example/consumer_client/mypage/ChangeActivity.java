@@ -5,16 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.consumer_client.R;
 import com.example.consumer_client.fragment.MyPage;
 
-public class AccountSettingActivity extends AppCompatActivity {
+public class ChangeActivity extends AppCompatActivity {
     public static Context mContext;
     public String user_id;
     private MyPage myPage;
@@ -22,9 +20,9 @@ public class AccountSettingActivity extends AppCompatActivity {
     LinearLayout linearLayout;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mypage_edit_userinfo);
+        setContentView(R.layout.mypage_change);
 
         mContext = this;
 
@@ -32,23 +30,25 @@ public class AccountSettingActivity extends AppCompatActivity {
         user_id = intent.getStringExtra("user_id");
         Log.d("user_id ",user_id);
 
-        Button cancelBtn = findViewById(R.id.CancelBtn_MP);
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
+        //로그인 정보
+        LinearLayout MyPage_MyLoginSetting = (LinearLayout) findViewById(R.id.MyPage_MyLoginSetting);
+        MyPage_MyLoginSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                accountSettingDialog = new AccountSettingDialog(mContext, user_id);
-                accountSettingDialog.show();
+                Intent intent = new Intent(ChangeActivity.this, LoginSettingActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
             }
         });
 
-        Button changeBtn = findViewById(R.id.ConfirmBtn_MP);
-        changeBtn.setOnClickListener(new View.OnClickListener() {
+        //회원 정보
+        LinearLayout MyPage_MyAccountSetting = (LinearLayout) findViewById(R.id.MyPage_MyAccountSetting);
+        MyPage_MyAccountSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 변경 프로세스
-
-                // 뒤로가기
-                finish();
+                Intent intent = new Intent(ChangeActivity.this, AccountSettingActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
             }
         });
     }

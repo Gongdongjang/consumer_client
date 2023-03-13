@@ -5,13 +5,9 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,14 +17,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.cart.CartDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.Calendar;
 
 import okhttp3.ResponseBody;
@@ -74,9 +71,13 @@ public class OrderDialog extends Dialog {
     CartPostService service;
 
     BottomSheetDialog bottomSheetDialog;
+    private TimePickerDialog.OnTimeSetListener mTimeSetListener;
+//    CustomTimePickerDialog customTimePickerDialog;
+//    private final static int TIME_PICKER_INTERVAL = 10;
+//    private TimePicker mTimePicker;
 
     public OrderDialog(@NonNull Context context, String mdName, String prodPrice,
-                       String StkRemain, String pu_start, String pu_end, String store_name,
+                       String StkRemain, String pu_start, String pu_end, String pickup_start, String pickup_end, String store_name,
                        String store_id, String store_loc, String user_id, String md_id) {
         super(context);
 
@@ -201,8 +202,6 @@ public class OrderDialog extends Dialog {
                 Calendar minDate=Calendar.getInstance();   //픽업 시작날짜
                 Calendar maxDate=Calendar.getInstance();   //픽업 마감날짜
 
-                calendar.set(Integer.parseInt(startDay[0]),Integer.parseInt(startDay[1])-1,Integer.parseInt(startDay[2]));
-
                 int pYear=calendar.get(Calendar.YEAR);
                 int pMonth=calendar.get(Calendar.MONTH);
                 int pDay=calendar.get(Calendar.DAY_OF_MONTH);
@@ -219,13 +218,15 @@ public class OrderDialog extends Dialog {
                         },pYear,pMonth,pDay);
 
                 //픽업 시작날짜와 현재시간 비교한 후 오늘 이전의 날짜는 선택 불가능 하도록 하기
-                long currentTime= calendar.getTimeInMillis();
-                String month, day;
-                //minDate.set(Integer.parseInt(startDay[0],month,day);
-                //픽업 시작날짜부터 선택가능
                 minDate.set(Integer.parseInt(startDay[0]),Integer.parseInt(startDay[1])-1,Integer.parseInt(startDay[2]));
-                datePickerDialog.getDatePicker().setMinDate(minDate.getTime().getTime());
+                calendar.set(pYear,pMonth,pDay);
 
+                if (calendar.getTimeInMillis()< minDate.getTimeInMillis()) {
+                    datePickerDialog.getDatePicker().setMinDate(minDate.getTime().getTime());
+                }else{
+                    //픽업시작일이 오늘날짜 이전일 경우 처음 픽업시작일을 오늘 날짜부터 세팅하기
+                    datePickerDialog.getDatePicker().setMinDate(calendar.getTime().getTime());
+                }
 
                 //픽업 마감날짜까지 선택가능
                 maxDate.set(Integer.parseInt(endDay[0]),Integer.parseInt(endDay[1])-1,Integer.parseInt(endDay[2]));
@@ -239,21 +240,43 @@ public class OrderDialog extends Dialog {
         btn_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Get Current Time
-                Calendar c = Calendar.getInstance();
 
-                int mHour = c.get(Calendar.HOUR_OF_DAY);
-                int mMinute = c.get(Calendar.MINUTE);
+                // Set the minimum and maximum times
+                String pu_Start=pickup_start;
+                String pu_End=pickup_end;
 
-                // Launch Time Picker Dialog
-                timePickerDialog = new TimePickerDialog(v.getContext(),
+                LocalTime minTime = LocalTime.of(Integer.parseInt(pu_Start.substring(0,2)), Integer.parseInt(pu_Start.substring(3,5))); // Set the desired minimum time
+                LocalTime maxTime = LocalTime.of(Integer.parseInt(pu_End.substring(0,2)), Integer.parseInt(pu_End.substring(3,5))); // Set the desired maximum time
+
+                // Create a TimePickerDialog with custom onTimeChanged listener
+                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                        context, android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                PickUpTime.setText(hourOfDay + ":" + minute);
-                                //view.setMi
+                            public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
+                                // Handle the selected time
+                                PickUpTime.setText( selectedHour + ":" + selectedMinute);
                             }
-                        }, mHour, mMinute, false);
+                        },
+                        minTime.getHour(),
+                        minTime.getMinute(),
+                        false) {
+                    @Override
+                    public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                        // Check if the selected time is within the specified range
+                        LocalTime selectedTime = LocalTime.of(hourOfDay, minute);
+                        if (selectedTime.isBefore(minTime)) {
+                            view.setCurrentHour(minTime.getHour());
+                            view.setCurrentMinute(minTime.getMinute());
+                        } else if (selectedTime.isAfter(maxTime)) {
+                            view.setCurrentHour(maxTime.getHour());
+                            view.setCurrentMinute(maxTime.getMinute());
+                        }
+                    }
+                };
+
+                timePickerDialog.setTitle("픽업 가능 시간 선택");
+                timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 timePickerDialog.show();
             }
 
