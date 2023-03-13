@@ -306,6 +306,7 @@ public class ReviewActivity extends AppCompatActivity {
 
                                         Intent intent = new Intent(getApplicationContext(), ReviewMyDetailActivity.class);
                                         intent.putExtra("user_id", user_id);
+                                        intent.putExtra("review_user_id", user_id);
                                         intent.putExtra("md_name", md_name);
                                         intent.putExtra("md_qty", md_qty);
                                         intent.putExtra("md_fin_price", md_fin_price);

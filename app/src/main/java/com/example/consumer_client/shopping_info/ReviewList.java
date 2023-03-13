@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.R;
-import com.example.consumer_client.review.ReviewDetailActivity;
 import com.example.consumer_client.review.ReviewListAdapter;
 import com.example.consumer_client.review.ReviewListInfo;
 import com.example.consumer_client.review.ReviewMyDetailActivity;
@@ -110,6 +109,7 @@ public class ReviewList extends AppCompatActivity {
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(ReviewList.this, ReviewMyDetailActivity.class);
                                     intent.putExtra("user_id", user_id);
+                                    intent.putExtra("review_user_id", user_id);
                                     intent.putExtra("order_id", my_review_list.get(pos).getAsJsonObject().get("order_id").getAsString());
                                     intent.putExtra("mdimg_thumbnail", "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + my_review_list.get(pos).getAsJsonObject().get("mdimg_thumbnail").getAsString());
                                     intent.putExtra("store_name", my_review_list.get(pos).getAsJsonObject().get("store_name").getAsString());

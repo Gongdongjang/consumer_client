@@ -335,7 +335,9 @@ public class JointPurchaseActivity extends AppCompatActivity {
                                     @Override
                                     public void onItemClick(View v, int pos) {
                                         Intent intent = new Intent(JointPurchaseActivity.this, ReviewMyDetailActivity.class);
-                                        intent.putExtra("user_id", user_id);
+                                        intent.putExtra("user_id", user_id); //현재 로그인 되어있는 user_id
+                                        intent.putExtra("review_user_id", reviewArray.get(pos).getAsJsonObject().get("user_id").getAsString()); //리뷰 쓴 user_id
+                                        intent.putExtra("user_name", reviewArray.get(pos).getAsJsonObject().get("user_name").getAsString()); //리뷰 쓴 user_name
                                         intent.putExtra("order_id", reviewArray.get(pos).getAsJsonObject().get("order_id").getAsString());
                                         intent.putExtra("mdimg_thumbnail", "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + reviewArray.get(pos).getAsJsonObject().get("mdimg_thumbnail").getAsString());
                                         intent.putExtra("store_name", reviewArray.get(pos).getAsJsonObject().get("store_name").getAsString());
