@@ -347,7 +347,7 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-                <TextView
+                <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -355,14 +355,17 @@
                     android:text="전체 보기 >"
                     android:textColor="@color/grey"
                     android:textSize="10sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold" />-->
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/jp_reviewList"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp" />
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:nestedScrollingEnabled="false" />
 
                 <TextView
                     android:layout_width="wrap_content"
