@@ -143,15 +143,15 @@ public class ContentActivity extends AppCompatActivity {
                         JsonArray data = res.getAsJsonArray("data");
                         for (int i = 0; i < 3; i++) {
                             JsonObject jsonObject = (JsonObject) data.get(i);
-                            String thumbnailUrl = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_thumbnail").toString().replaceAll("\"", "");
+                            String thumbnailUrl = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_thumbnail").getAsString();
                             bannerThumbnails.add(thumbnailUrl);
-                            bannerIds.add(jsonObject.get("content_id").toString());
-                            bannerTitles.add(jsonObject.get("content_title").toString());
-                            bannerContexts.add(jsonObject.get("content_context").toString());
-                            bannerPhotos.add("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_photo").toString().replaceAll("\"", ""));
-                            bannerMainPhotos.add("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_main").toString().replaceAll("\"", ""));
-                            bannerLinks.add(jsonObject.get("content_link").toString());
-                            bannerDates.add(jsonObject.get("upload_date").toString());
+                            bannerIds.add(jsonObject.get("content_id").getAsString());
+                            bannerTitles.add(jsonObject.get("content_title").getAsString());
+                            bannerContexts.add(jsonObject.get("content_context").getAsString());
+                            bannerPhotos.add("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_photo").getAsString());
+                            bannerMainPhotos.add("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_main").getAsString());
+                            bannerLinks.add(jsonObject.get("content_link").getAsString());
+                            bannerDates.add(jsonObject.get("upload_date").getAsString());
                         }
                         System.out.println("banner " + bannerThumbnails);
                         bannerListAdapter.notifyDataSetChanged();
