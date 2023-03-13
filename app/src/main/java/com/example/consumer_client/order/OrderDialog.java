@@ -202,8 +202,6 @@ public class OrderDialog extends Dialog {
                 Calendar minDate=Calendar.getInstance();   //픽업 시작날짜
                 Calendar maxDate=Calendar.getInstance();   //픽업 마감날짜
 
-                calendar.set(Integer.parseInt(startDay[0]),Integer.parseInt(startDay[1])-1,Integer.parseInt(startDay[2]));
-
                 int pYear=calendar.get(Calendar.YEAR);
                 int pMonth=calendar.get(Calendar.MONTH);
                 int pDay=calendar.get(Calendar.DAY_OF_MONTH);
@@ -220,13 +218,15 @@ public class OrderDialog extends Dialog {
                         },pYear,pMonth,pDay);
 
                 //픽업 시작날짜와 현재시간 비교한 후 오늘 이전의 날짜는 선택 불가능 하도록 하기
-                long currentTime= calendar.getTimeInMillis();
-                String month, day;
-                //minDate.set(Integer.parseInt(startDay[0],month,day);
-                //픽업 시작날짜부터 선택가능
                 minDate.set(Integer.parseInt(startDay[0]),Integer.parseInt(startDay[1])-1,Integer.parseInt(startDay[2]));
-                datePickerDialog.getDatePicker().setMinDate(minDate.getTime().getTime());
+                calendar.set(pYear,pMonth,pDay);
 
+                if (calendar.getTimeInMillis()< minDate.getTimeInMillis()) {
+                    datePickerDialog.getDatePicker().setMinDate(minDate.getTime().getTime());
+                }else{
+                    //픽업시작일이 오늘날짜 이전일 경우 처음 픽업시작일을 오늘 날짜부터 세팅하기
+                    datePickerDialog.getDatePicker().setMinDate(calendar.getTime().getTime());
+                }
 
                 //픽업 마감날짜까지 선택가능
                 maxDate.set(Integer.parseInt(endDay[0]),Integer.parseInt(endDay[1])-1,Integer.parseInt(endDay[2]));
