@@ -14,17 +14,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.fragment.MyPage;
 
-public class AccountSettingActivity extends AppCompatActivity {
+public class LoginSettingActivity extends AppCompatActivity {
     public static Context mContext;
     public String user_id;
     private MyPage myPage;
-    AccountSettingDialog accountSettingDialog;
+    LoginSettingDialog loginSettingDialog;
     LinearLayout linearLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mypage_edit_userinfo);
+        setContentView(R.layout.mypage_edit_logininfo);
 
         mContext = this;
 
@@ -36,8 +36,8 @@ public class AccountSettingActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                accountSettingDialog = new AccountSettingDialog(mContext, user_id);
-                accountSettingDialog.show();
+                loginSettingDialog = new LoginSettingDialog(mContext, user_id);
+                loginSettingDialog.show();
             }
         });
 

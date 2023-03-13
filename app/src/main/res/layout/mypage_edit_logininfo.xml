@@ -14,24 +14,24 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="30dp"
-                android:text="회원 정보"
-                android:textColor="@color/black"
-                android:textSize="22dp"
-                android:textStyle="bold" />
-
-            <TextView
+        <TextView
             android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="프로필명"
-                android:textColor="@color/black"
-                android:textSize="15dp"
-                android:textStyle="bold" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
+            android:text="로그인정보"
+            android:textColor="@color/black"
+            android:textSize="22dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="아이디"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -39,18 +39,18 @@
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
             <EditText
-                android:id="@+id/EditProfileName_MP"
+                android:id="@+id/EditID_MP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="프로필"
+                android:hint="아이디를 입력해주세요"
                 android:layout_weight="1"
                 android:inputType="textPersonName"
                 android:textSize="15dp"
                 android:backgroundTint="#1EAA95"
                 android:text="" />
             <Button
-                android:id="@+id/ProfileNameDuplicateCheckBtn"
+                android:id="@+id/IdDuplicateCheckBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:textColor="@color/white"
@@ -66,40 +66,44 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:text="연락처"
+            android:text="비밀번호"
             android:textColor="@color/black"
             android:textSize="15dp"
             android:textStyle="bold" />
 
-        <FrameLayout
+        <EditText
+            android:id="@+id/EditPassword_MP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="새 비밀번호 입력"
+            android:textSize="15dp"
+            android:text=""
+            android:backgroundTint="#1EAA95"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <EditText
-                android:id="@+id/EditPhone_MP"
-                android:layout_width="match_parent"
+                android:id="@+id/EditPasswordConfirm_MP"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="010-1234-5678"
                 android:layout_weight="1"
-                android:inputType="textPersonName"
+                android:layout_marginBottom="10dp"
+                android:hint="새 비밀번호 입력"
                 android:textSize="15dp"
-                android:backgroundTint="#1EAA95"
-                android:text="" />
-            <Button
-                android:id="@+id/PhoneCheckBtn"
-                android:layout_width="85dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:backgroundTint="#1EAA95"
-                android:layout_gravity="right"
-                android:text="인증하기"
-                android:textSize="5pt" />
+                android:text=""
+                android:backgroundTint="#1EAA95"/>
 
-        </FrameLayout>
+            <ImageView
+                android:id="@+id/EditPasswordConfirmState_MP"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_check_off"/>
 
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
