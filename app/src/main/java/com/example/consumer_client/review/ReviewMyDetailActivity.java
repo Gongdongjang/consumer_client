@@ -3,9 +3,12 @@ package com.example.consumer_client.review;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +22,7 @@ import androidx.annotation.Nullable;
 //}
 
 public class ReviewMyDetailActivity extends AppCompatActivity {
-    String user_id, order_id, md_name, md_qty, md_fin_price, store_name, mdimg_thumbnail, store_loc, rvw_content, rvw_img1, rvw_img2, rvw_img3, star_count;
+    String user_id, user_name, review_user_id, order_id, md_name, md_qty, md_fin_price, store_name, mdimg_thumbnail, store_loc, rvw_content, rvw_img1, rvw_img2, rvw_img3, star_count;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,14 +30,14 @@ public class ReviewMyDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         user_id = intent.getStringExtra("user_id");
+        user_name = intent.getStringExtra("user_name");
+        review_user_id = intent.getStringExtra("review_user_id");
         order_id = intent.getStringExtra("order_id");
         md_name = intent.getStringExtra("md_name");
         md_qty = intent.getStringExtra("md_qty");
         md_fin_price = intent.getStringExtra("md_fin_price");
         store_name = intent.getStringExtra("store_name");
         mdimg_thumbnail = intent.getStringExtra("mdimg_thumbnail");
-        Log.d("thumbnail", mdimg_thumbnail);
-//        store_loc = intent.getStringExtra("store_loc");
         rvw_content = intent.getStringExtra("rvw_content");
         star_count = intent.getStringExtra("rvw_rating");
         rvw_img1 = intent.getStringExtra("rvw_img1");
@@ -43,15 +46,22 @@ public class ReviewMyDetailActivity extends AppCompatActivity {
 
         //상단바 장바구니
         ImageView gotoCart = findViewById(R.id.gotoCart);
-        gotoCart.setOnClickListener(new View.OnClickListener(){
+        gotoCart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent intent = new Intent(ReviewMyDetailActivity.this, CartListActivity.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
         });
 
+        TextView reviewUser = findViewById(R.id.reviewUser); //나면 나, 다른 사람이면 user_name으로
+        if (user_id.equals(review_user_id)) {
+            reviewUser.setText("나");
+        } else {
+            user_name = user_name.substring(0,1);
+            reviewUser.setText(user_name+"**");
+        }
         ImageView ReviewCheckProdImg = findViewById(R.id.ReviewCheckProdImg);
         TextView JP_StoreName = (TextView) findViewById(R.id.JP_StoreName);
         TextView ReviewCheckProdName = (TextView) findViewById(R.id.ReviewCheckProdName);
@@ -79,25 +89,21 @@ public class ReviewMyDetailActivity extends AppCompatActivity {
 
         //리뷰 정보
         //별점
-        if(star_count.equals("1")){
+        if (star_count.equals("1")) {
             Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
-        }
-        else if(star_count.equals("2")){
+        } else if (star_count.equals("2")) {
             Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
             Star_2.setImageResource(R.drawable.ic_product_review_list_on_14px);
-        }
-        else if(star_count.equals("3")){
+        } else if (star_count.equals("3")) {
             Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
             Star_2.setImageResource(R.drawable.ic_product_review_list_on_14px);
             Star_3.setImageResource(R.drawable.ic_product_review_list_on_14px);
-        }
-        else if(star_count.equals("4")){
+        } else if (star_count.equals("4")) {
             Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
             Star_2.setImageResource(R.drawable.ic_product_review_list_on_14px);
             Star_3.setImageResource(R.drawable.ic_product_review_list_on_14px);
             Star_4.setImageResource(R.drawable.ic_product_review_list_on_14px);
-        }
-        else if(star_count.equals("5")){
+        } else if (star_count.equals("5")) {
             Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
             Star_2.setImageResource(R.drawable.ic_product_review_list_on_14px);
             Star_3.setImageResource(R.drawable.ic_product_review_list_on_14px);
@@ -110,19 +116,19 @@ public class ReviewMyDetailActivity extends AppCompatActivity {
         reviewImg3.setVisibility(View.GONE);
 
         //리뷰 이미지
-        if(!rvw_img1.equals("null")){
+        if (!rvw_img1.equals("null")) {
             reviewImg1.setVisibility(View.VISIBLE);
             Glide.with(ReviewMyDetailActivity.this)
                     .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + rvw_img1)
                     .into(reviewImg1);
         }
-        if(!rvw_img2.equals("null")){
+        if (!rvw_img2.equals("null")) {
             reviewImg2.setVisibility(View.VISIBLE);
             Glide.with(ReviewMyDetailActivity.this)
                     .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + rvw_img2)
                     .into(reviewImg2);
         }
-        if(!rvw_img3.equals("null")){
+        if (!rvw_img3.equals("null")) {
             reviewImg3.setVisibility(View.VISIBLE);
             Glide.with(ReviewMyDetailActivity.this)
                     .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + rvw_img3)
@@ -133,14 +139,19 @@ public class ReviewMyDetailActivity extends AppCompatActivity {
         ReviewCheckContent.setText(rvw_content);
 
         //홈으로 가기 버튼
-         Button goHome = findViewById(R.id.goHome);
-         goHome.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 Intent intent = new Intent(ReviewMyDetailActivity.this, MainActivity.class);
-                 intent.putExtra("user_id", user_id);
-                 startActivity(intent);
-             }
-         });
+        Button goHome = findViewById(R.id.goHome);
+        Button ReviewCheckEditBtn = findViewById(R.id.ReviewCheckEditBtn);
+        if (!user_id.equals(review_user_id)) {
+            ReviewCheckEditBtn.setVisibility(View.GONE);
+            goHome.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        }
+        goHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ReviewMyDetailActivity.this, MainActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
     }
 }
