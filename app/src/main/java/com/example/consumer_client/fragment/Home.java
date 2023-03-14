@@ -1,18 +1,12 @@
 package com.example.consumer_client.fragment;
 
-import static android.content.Context.LOCATION_SERVICE;
-import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
-
 import static com.example.consumer_client.address.LocationDistance.distance;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
@@ -20,34 +14,30 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.CompositePageTransformer;
-import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.os.Handler;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 
+import com.example.consumer_client.CustomSpinnerAdapter;
 import com.example.consumer_client.FragPagerAdapter;
+import com.example.consumer_client.review.ReviewCancelDialog;
 import com.example.consumer_client.MainActivity;
-import com.example.consumer_client.ReviewDialog;
+import com.example.consumer_client.address.EditTownActivity;
 import com.example.consumer_client.address.FindTownActivity;
+import com.example.consumer_client.alarm.Alarm;
 import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.md.MdListMainActivity;
@@ -55,21 +45,18 @@ import com.example.consumer_client.R;
 import com.example.consumer_client.home.HomeProductAdapter;
 import com.example.consumer_client.home.HomeProductItem;
 import com.example.consumer_client.my_town.StoreMap;
-import com.example.consumer_client.store.StoreTotalInfo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -82,54 +69,49 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 interface HomeService {
-    @POST("standard_address/getStdAddress")
-    Call<ResponseBody> getStdAddress(@Body JsonObject body);  //post user_id
+    @POST("get_address")
+    Call<ResponseBody> addressInfo(@Body JsonObject body);  //post user_id
+
+    @POST("standard_address/register")
+    Call<ResponseBody> postStdAddress(@Body JsonObject body);  //post user_id,standard_address
 
     @GET("mdView_main")
     Call<ResponseBody> getMdMainData();
 }
 
-public class Home extends Fragment
-        //implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener
-{
+public class Home extends Fragment {
 
-    //ViewFlipper v_fllipper;
     JsonParser jsonParser;
     HomeService service;
 
     JsonObject res;
-    JsonArray jsonArray, pu_start, dDay;
+    JsonArray jsonArray, pu_start, dDay, addressArray;
 
     private View view;
     private RecyclerView mRecyclerView;
     private ArrayList<HomeProductItem> mList;
     private HomeProductAdapter mHomeProductAdapter;
 
-    //카카오맵 위치
-    private static final int GPS_ENABLE_REQUEST_CODE = 2001;
-    private static final int PERMISSIONS_REQUEST_CODE = 100;
-    String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION};
-
     Activity mActivity;
-    MapView mapView;
-    ViewGroup mapViewContainer;
     LocationManager lm;
-    MapPoint currentMapPoint;
-    private double mCurrentLng; //Long = X, Lat = Yㅌ
-    private double mCurrentLat;
 
     double myTownLat;   //추가
     double myTownLong;  //추가
 
-    boolean isTrackingMode = false;
-
     private TextView productList; //제품리스트 클릭하는 텍스트트
-    private TextView change_address, home_userid;
-    private ImageView toolbar_cart;
+    private ImageView toolbar_cart, toolbar_notification;
 
-    String user_id, standard_address;
-    Button popupBtn;
-    private ReviewDialog reviewDialog;
+    String user_id;
+    String address;
+    private ReviewCancelDialog reviewCancelDialog;
+
+    private List<String> list = new ArrayList<>();
+    private Spinner spinner;
+    private CustomSpinnerAdapter adapter;
+    private String selectedItem;
+    int address_count;
+    //스피터 반복호출 막기
+    private boolean  isFirstSelected = true; // 전역변수로 선언
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -160,13 +142,142 @@ public class Home extends Fragment
         firstInit();
 
         //상단바 주소변경 누르면 주소변경/선택 페이지로
-        change_address = view.findViewById(R.id.change_address);
-        change_address.setOnClickListener(new View.OnClickListener(){
+        JsonObject body = new JsonObject();
+        body.addProperty("id", user_id);
+
+        Call<ResponseBody> call = service.addressInfo(body);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onClick(View v){
-                Intent intent = new Intent(mActivity, FindTownActivity.class);
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                try {
+                    res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
+                    addressArray = res.get("address_result").getAsJsonArray();  //json배열
+                    Log.d("근처동네", String.valueOf(addressArray));
+                    address_count = res.get("address_count").getAsInt();
+                    address= addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
+                    final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
+                    List<Address> address = geocoder.getFromLocationName(addressArray.get(0).getAsJsonObject().get("standard_address").getAsString(), 10);
+                    Address location = address.get(0);
+                    myTownLat = location.getLatitude();
+                    myTownLong = location.getLongitude();
+
+                    Log.d("근처동네", String.valueOf(address_count));
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                spinner = view.findViewById(R.id.change_address);
+                Log.d("근처동네", String.valueOf(addressArray));
+
+                //사용자가 등록한 주소 불러오기
+                if (address_count==0){
+                    list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
+                    list.add("내 동네 설정하기");
+                }
+                else if (address_count == 1) {
+                    if(Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc0").getAsString())){
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
+                    }else{
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
+                    }
+                    list.add("내 동네 설정하기");
+                } else if (address_count == 2) {
+                    if(Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc0").getAsString())){
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc2").getAsString());
+                    }else if (Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc1").getAsString())){
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc2").getAsString());
+                    }else{
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc2").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
+                    }
+                    list.add("내 동네 설정하기");
+                } else if (address_count == 3) {
+                    if(Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc0").getAsString())){
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc2").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc3").getAsString());
+                    }else if (Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc1").getAsString())){
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc2").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc3").getAsString());
+                    }else if (Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc2").getAsString())){
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc2").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc3").getAsString());
+                    }else{
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc3").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
+                        list.add(addressArray.get(0).getAsJsonObject().get("loc2").getAsString());
+                    }
+                    list.add("내 동네 설정하기");
+                }
+
+                // 스피너에 붙일 어댑터 초기화
+                adapter = new CustomSpinnerAdapter(getContext(), list);
+                spinner.setAdapter(adapter);
+
+                // 스피너 클릭 리스너
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @SuppressLint("DefaultLocale")
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        // 어댑터에서 정의한 메서드를 통해 스피너에서 선택한 아이템의 이름을 받아온다
+
+                        if (isFirstSelected) {
+                            isFirstSelected = false;
+                        } else {
+                            // 로직
+                            selectedItem = adapter.getItem();
+                            //Toast.makeText(mActivity, "선택한 주소 : " + selectedItem, Toast.LENGTH_SHORT).show();
+
+                            if(Objects.equals(selectedItem, "내 동네 설정하기")){
+                                Intent intent = new Intent(mActivity, FindTownActivity.class);
+                                intent.putExtra("user_id", user_id);
+                                startActivity(intent);
+                            } else {
+                                Log.d("근처동네 246", "여기오니//?");
+                                postStdAddress2(user_id, selectedItem);
+                                isFirstSelected=true;
+                                Intent intent = new Intent(mActivity, MainActivity.class);
+                                intent.putExtra("user_id", user_id);
+                                startActivity(intent);
+                            }
+                        }
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        //
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(mActivity, "주소정보 받아오기 오류 발생", Toast.LENGTH_SHORT).show();
+                Log.e("주소정보", t.getMessage());
+            }
+        });
+
+        //상단바 알림
+        toolbar_notification= view.findViewById(R.id.toolbar_notification);
+        toolbar_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, Alarm.class);
                 intent.putExtra("user_id", user_id);
-                intent.putExtra("first_time", "no");
                 startActivity(intent);
             }
         });
@@ -182,38 +293,6 @@ public class Home extends Fragment
             }
         });
 
-        //===주소정보
-        JsonObject body = new JsonObject();
-        body.addProperty("id", user_id);
-
-        Call<ResponseBody> call = service.getStdAddress(body);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                try {
-                    res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
-                    JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
-                    standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
-                    change_address.setText(standard_address);
-                    final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
-                    List<Address> address = geocoder.getFromLocationName(standard_address, 10);
-                    Address location = address.get(0);
-                    myTownLat = location.getLatitude();
-                    myTownLong = location.getLongitude();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(mActivity, "기준 주소 정보 받기 에러 발생", Toast.LENGTH_SHORT).show();
-                Log.e("주소정보", t.getMessage());
-            }
-        });
-
-
         //제품리스트 누르면 제품리스트(메인) 화면으로
         productList = view.findViewById(R.id.productList);
         productList.setOnClickListener(new View.OnClickListener() {
@@ -221,7 +300,7 @@ public class Home extends Fragment
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, MdListMainActivity.class);
                 intent.putExtra("user_id", user_id);
-                intent.putExtra("standard_address", standard_address);
+                intent.putExtra("standard_address", address);
                 startActivity(intent);
             }
         });
@@ -233,7 +312,7 @@ public class Home extends Fragment
             public void onClick(View view) {
                 Intent intent = new Intent(mActivity, StoreMap.class);
                 intent.putExtra("user_id", user_id);
-                intent.putExtra("standard_address", standard_address);
+                intent.putExtra("standard_address", address);
                 startActivity(intent);
             }
         });
@@ -312,7 +391,7 @@ public class Home extends Fragment
                                     Intent intent = new Intent(mActivity, JointPurchaseActivity.class);
                                     intent.putExtra("md_id", mList.get(pos).getHomeMdId()); //md_id 넘기기
                                     intent.putExtra("user_id", user_id);
-                                    intent.putExtra("standard_address", standard_address);
+                                    intent.putExtra("standard_address", address);
                                     startActivity(intent);
                                 }
                             }
@@ -339,6 +418,30 @@ public class Home extends Fragment
         setInit(); //뷰페이저2 실행 메서드
         //전체 fragment home return
         return view;
+    }
+
+    //기준주소 등록하기
+    void postStdAddress2(String user_id, String address){
+        Log.d("근처동네 452", "여기오니//?");
+        JsonObject body = new JsonObject();
+        body.addProperty("id", user_id);
+        body.addProperty("standard_address", address);  //기준 주소
+
+        Call<ResponseBody> call = service.postStdAddress(body);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
     //뷰페이저2 실행 메서드
@@ -381,21 +484,6 @@ public class Home extends Fragment
         });
     }
 
-    // 이미지 자동 슬라이더 구현 메서드
-//    private void fllipperImages(int image) {
-//        ImageView imageView = new ImageView(mActivity);
-//        imageView.setBackgroundResource(image);
-//
-//        v_fllipper.addView(imageView);      // 이미지 추가
-//        v_fllipper.setFlipInterval(4000);       // 자동 이미지 슬라이드 딜레이시간(1000 당 1초)
-//        v_fllipper.setAutoStart(true);          // 자동 시작 유무 설정
-//
-//        // animation
-//        v_fllipper.setInAnimation(mActivity,android.R.anim.slide_in_left);
-//        v_fllipper.setOutAnimation(mActivity,android.R.anim.slide_out_right);
-//    }
-
-
     public String getAsString() {
         throw new UnsupportedOperationException(getClass().getSimpleName());
     }
@@ -420,92 +508,4 @@ public class Home extends Fragment
 
         mList.add(item);
     }
-
-    // 현재 위치 업데이트 setCurrentLocationEventListener
-//    @Override
-//    public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float accuracyInMeters) {
-//        MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
-//        Log.i(TAG, String.format("MapView onCurrentLocationUpdate (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, accuracyInMeters));
-//        currentMapPoint = MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude);
-//        //이 좌표로 지도 중심 이동
-//        mapView.setMapCenterPoint(currentMapPoint, true);
-//        //전역변수로 현재 좌표 저장
-//        mCurrentLat = mapPointGeo.latitude;
-//        mCurrentLng = mapPointGeo.longitude;
-//        Log.d(TAG, "현재위치 => " + mCurrentLat + "  " + mCurrentLng);
-//        //트래킹 모드가 아닌 단순 현재위치 업데이트일 경우, 한번만 위치 업데이트하고 트래킹을 중단시키기 위한 로직
-//        if (!isTrackingMode) {
-//            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-//        }
-//    }
-//
-//    @Override
-//    public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
-//
-//    }
-//
-//    @Override
-//    public void onCurrentLocationUpdateFailed(MapView mapView) {
-//        Log.i(TAG, "onCurrentLocationUpdateFailed");
-//        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-//    }
-
-//    @Override
-//    public void onCurrentLocationUpdateCancelled(MapView mapView) {
-//        Log.i(TAG, "onCurrentLocationUpdateCancelled");
-//        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-//    }
-//
-//    void checkRunTimePermission() {
-//        int hasFineLocationPermission = ContextCompat.checkSelfPermission(mActivity,Manifest.permission.ACCESS_FINE_LOCATION);
-//        if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED){
-//            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
-//        }else{
-//            if(ActivityCompat.shouldShowRequestPermissionRationale(mActivity,REQUIRED_PERMISSIONS[0])){
-//                Toast.makeText(mActivity,"이 앱을 실행하려면 위치 접근 권한이 필요합니다.",Toast.LENGTH_LONG).show();
-//                ActivityCompat.requestPermissions(mActivity,REQUIRED_PERMISSIONS,PERMISSIONS_REQUEST_CODE);
-//            }else{
-//                ActivityCompat.requestPermissions(mActivity,REQUIRED_PERMISSIONS,PERMISSIONS_REQUEST_CODE);
-//            }
-//        }
-//    }
-
-    // GPS 활성화를 위한 메소드들
-//    private void showDialogForLocationServiceSetting() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-//        builder.setTitle("위치 서비스 비활성화");
-//        builder.setMessage("앱을 사용하기 위해 위치 서비스가 필요합니다.");
-//        builder.setCancelable(true);
-//        builder.setPositiveButton("설정", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Intent callGPSSettingIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-//                startActivityForResult(callGPSSettingIntent, GPS_ENABLE_REQUEST_CODE);
-//            }
-//        }); //여기밑에 setNaviveButton 추가함
-//        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int id) {
-//                dialog.cancel();
-//            }
-//        });
-//        builder.create().show();
-//    }
-
-//    private boolean checkLocationServiceStatus(Activity mActivity) {
-//
-//        LocationManager locationManager = (LocationManager)mActivity.getSystemService(LOCATION_SERVICE);
-//        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-//                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-//    }
-//
-//    @Override
-//    public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
-//
-//    }
-//
-//    @Override
-//    public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) {
-//
-//    }
 }

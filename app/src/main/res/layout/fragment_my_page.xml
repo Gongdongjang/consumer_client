@@ -489,6 +489,7 @@
                     android:textColor="@color/black"
                     android:layout_marginBottom="5dp"/>
                 <TextView
+                    android:id="@+id/btn_logout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="로그아웃"
@@ -497,6 +498,41 @@
                     android:layout_marginBottom="1dp"/>
 
             </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#EAEAEA"/>
+
+        <LinearLayout
+            android:id="@+id/MyPage_OpenSource"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="오픈소스 라이선스"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="50px"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"

@@ -12,17 +12,14 @@ import android.view.Window;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import com.example.consumer_client.R;
-import com.example.consumer_client.cart.CartListActivity;
-import com.example.consumer_client.fragment.MyPage;
+
+import org.jetbrains.annotations.NotNull;
 
 public class AccountSettingDialog extends Dialog {
     AccountSettingDialog accountSettingDialog;
 
-    public AccountSettingDialog(@NonNull Context context, String user_id) {
+    public AccountSettingDialog(@NotNull Context context, String user_id) {
         super(context);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.mypage_dialog_userinfo);
@@ -38,15 +35,12 @@ public class AccountSettingDialog extends Dialog {
             }
         });
 
-        MyPage myPage = new MyPage();
         Button mpd_exit = findViewById(R.id.MPD_Exit);
         mpd_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("user_id", user_id);
-                myPage.setArguments(bundle);
-                
+                accountSettingDialog.dismiss();
+                ((AccountSettingActivity)context).finish();
             }
         });
     }

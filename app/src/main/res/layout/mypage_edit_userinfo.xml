@@ -18,83 +18,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:text="로그인정보"
-                android:textColor="@color/black"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="아이디"
-                android:textColor="@color/black"
-                android:textSize="15dp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/EditID_MP"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:hint="아이디를 입력해주세요"
-                android:inputType="textPersonName"
-                android:textSize="15dp"
-                android:backgroundTint="#1EAA95"
-                android:text="" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="비밀번호"
-                android:textColor="@color/black"
-                android:textSize="15dp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/EditPassword_MP"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:hint="새 비밀번호 입력"
-                android:textSize="15dp"
-                android:text=""
-                android:backgroundTint="#1EAA95"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/EditPasswordConfirm_MP"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginBottom="10dp"
-                    android:hint="새 비밀번호 입력"
-                    android:textSize="15dp"
-                    android:text=""
-                    android:backgroundTint="#1EAA95"/>
-
-                <ImageView
-                    android:id="@+id/EditPasswordConfirmState_MP"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/ic_check_off"/>
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="30dp"
                 android:text="회원 정보"
                 android:textColor="@color/black"
-                android:textSize="18dp"
+                android:textSize="22dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -109,6 +36,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal">
             <EditText
                 android:id="@+id/EditProfileName_MP"
@@ -134,27 +62,6 @@
                 android:textSize="5pt" />
 
         </FrameLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:text="이름"
-            android:textColor="@color/black"
-            android:textSize="15dp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/EditName_MP"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="이름을 입력해주세요"
-            android:inputType="textPersonName"
-            android:textSize="15dp"
-            android:backgroundTint="#1EAA95"
-            android:text="" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -192,26 +99,6 @@
                 android:textSize="5pt" />
 
         </FrameLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:text="성별"
-            android:textColor="@color/black"
-            android:textSize="15dp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/EditGender_MP"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="여"
-            android:inputType="textPersonName"
-            android:textSize="15dp"
-            android:backgroundTint="#1EAA95"
-            android:text="" />
 
         <LinearLayout
             android:layout_width="match_parent"

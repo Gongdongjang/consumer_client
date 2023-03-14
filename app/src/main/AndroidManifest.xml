@@ -11,13 +11,15 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <!-- 백그라운드에서 작용-->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!--저장소 읽기 권한-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".user.KakaoApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_logo1"
+        android:icon="@drawable/appicon"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_logo1"
+        android:roundIcon="@drawable/appicon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Consumer_client"
         android:usesCleartextTraffic="true"
@@ -67,6 +69,8 @@
 
         <activity android:name=".order.OrderDetailActivity" />
         <activity android:name=".review.ReviewActivity" />
+        <activity android:name=".review.ReviewMyDetailActivity" />
+        <activity android:name=".review.ReviewDetailActivity" />
 
         <activity android:name=".cart.CartListActivity" />
 
@@ -109,6 +113,8 @@
         <activity android:name=".mypage.AccountSettingActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".mypage.UserCenterActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".mypage.AboutCompanyActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".mypage.LoginSettingActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".mypage.ChangeActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".notification.NotificationList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity

@@ -59,7 +59,6 @@ public class OrderList extends AppCompatActivity {
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
 
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseurl))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -98,7 +97,7 @@ public class OrderList extends AppCompatActivity {
 
                         //픽업 여부 확인 후 pickupDate 설정
                         isPickuped=orderDetailArray.get(i).getAsJsonObject().get("order_md_status").toString();
-                        if (Objects.equals(isPickuped, "1")) {
+                        if (Objects.equals(isPickuped, "1")|| Objects.equals(isPickuped, "2")) {
                             pickupDate="픽업 완료";
                         }
                         else {
@@ -107,11 +106,11 @@ public class OrderList extends AppCompatActivity {
 
                         addOrderList(user_id, orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(),
                                 orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(),
-                                "https://gdjang.s3.ap-northeast-2.amazonaws.com/" + orderDetailArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + orderDetailArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                 orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                 orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(),
-                                orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString()+"세트",
-                                orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString()+"원",
+                                orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(),
+                                orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
                                 isPickuped,
                                 pickupDate);
                     }
@@ -122,12 +121,12 @@ public class OrderList extends AppCompatActivity {
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(OrderList.this, OrderDetailActivity.class);
                                     intent.putExtra("user_id", user_id);
-                                    intent.putExtra("md_img", mList.get(pos).getStoreProdImgView());
+                                    intent.putExtra("mdimg_thumbnail", "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + mList.get(pos).getStoreProdImgView());
                                     intent.putExtra("store_loc", mList.get(pos).getStoreLoc());
                                     intent.putExtra("store_name", mList.get(pos).getStoreName());
                                     intent.putExtra("md_name", mList.get(pos).getMdName());
-                                    intent.putExtra("md_comp", mList.get(pos).getMdQty());
-                                    intent.putExtra("md_price", mList.get(pos).getMdPrice());
+                                    intent.putExtra("md_qty", mList.get(pos).getMdQty());
+                                    intent.putExtra("md_fin_price", mList.get(pos).getMdPrice());
                                     intent.putExtra("order_id", mList.get(pos).getOrderId());
                                     startActivity(intent);
                                 }
@@ -146,7 +145,7 @@ public class OrderList extends AppCompatActivity {
         });
     }
     public void firstInit(){
-        mOrderListRecyclerView = findViewById(R.id.totalOrderListView);
+        mOrderListRecyclerView = findViewById(R.id.totalReviewListView);
         mList = new ArrayList<>();
     }
 

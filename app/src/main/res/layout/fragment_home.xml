@@ -8,8 +8,8 @@
     android:orientation="vertical">
 
     <include
-        layout="@layout/main_toolbar"
-        android:id="@+id/toolbar"/>
+        android:id="@+id/toolbar"
+        layout="@layout/main_toolbar" />
 
     <View
         android:layout_width="match_parent"

@@ -1,11 +1,15 @@
 package com.example.consumer_client;
 
-import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.example.consumer_client.md.MdPicture1;
+import com.example.consumer_client.md.MdPicture2;
+import com.example.consumer_client.md.MdPicture3;
+import com.example.consumer_client.md.MdPicture4;
+import com.example.consumer_client.md.MdPicture5;
 
 public class ItemDetailPagerAdapter extends FragmentStateAdapter {
     private int mSetItemCount;

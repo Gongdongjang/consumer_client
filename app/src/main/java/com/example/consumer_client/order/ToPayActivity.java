@@ -69,7 +69,8 @@ public class ToPayActivity extends AppCompatActivity {
         OrderPrice.setText(JP_ToTalPrice);
         StoreName.setText(store_name);
         StoreAddr.setText(store_loc);
-        PuDate.setText(pickupDate);
+        String p= "픽업 예정일   "+ pickupDate + " ("+pickupTime+")";
+        PuDate.setText(p);
         MdTotalPrice.setText(JP_ToTalPrice);
 
 
@@ -169,4 +170,5 @@ public class ToPayActivity extends AppCompatActivity {
             }
         });
     }
+
 }

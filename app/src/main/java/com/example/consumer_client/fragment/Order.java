@@ -66,7 +66,7 @@ public class Order extends Fragment {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
         Intent intent = mActivity.getIntent(); //intent 값 받기
-        user_id=intent.getStringExtra("user_id");
+        user_id = intent.getStringExtra("user_id");
     }
 
     @Override
@@ -80,7 +80,14 @@ public class Order extends Fragment {
         mContext = getContext();
 
         // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.activity_order_list, container, false);
+        view = inflater.inflate(R.layout.activity_order_list, container, false);
+
+        // Get the data from the arguments
+        Bundle args = getArguments();
+        if (args != null) {
+            user_id = args.getString("user_id");
+            // Do something with the data
+        }
 
         JsonObject body = new JsonObject();
         body.addProperty("user_id", user_id);
@@ -90,9 +97,9 @@ public class Order extends Fragment {
 
         //상단바 장바구니
         ImageView gotoCart = (ImageView) view.findViewById(R.id.gotoCart);
-        gotoCart.setOnClickListener(new View.OnClickListener(){
+        gotoCart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent intent = new Intent(mActivity, CartListActivity.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
@@ -117,29 +124,29 @@ public class Order extends Fragment {
                     linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                     mOrderListRecyclerView.setLayoutManager(linearLayoutManager);
 
-                    for(int i=0;i<orderDetailArray.size();i++) {
+                    for (int i = 0; i < orderDetailArray.size(); i++) {
 
                         //픽업 여부 확인 후 pickupDate 설정
-                        isPickuped=orderDetailArray.get(i).getAsJsonObject().get("order_md_status").toString();
-                        if (Objects.equals(isPickuped, "1")) {
-                            pickupDate="픽업 완료";
-                        }
-                        else {
-                            pickupDate="픽업 예정일 "+ pu_date.get(i).getAsString();
+                        isPickuped = orderDetailArray.get(i).getAsJsonObject().get("order_md_status").toString();
+                        //픽업을 완료했거나(1) 리뷰까지 작성을 끝냈을 때(2)
+                        if (Objects.equals(isPickuped, "1") || Objects.equals(isPickuped, "2")) {
+                            pickupDate = "픽업 완료";
+                        } else {
+                            pickupDate = "픽업 예정일 " + pu_date.get(i).getAsString();
                         }
                         addOrderList(user_id, orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(),
                                 orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(),
-                                 "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + orderDetailArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + orderDetailArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                 orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                 //String.format("%.2f", distanceKilo),
                                 orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(),
-                                orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString()+"세트",
-                                orderDetailArray.get(i).getAsJsonObject().get("order_price").getAsString()+"원",
+                                orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(),
+                                orderDetailArray.get(i).getAsJsonObject().get("order_price").getAsString(),
                                 isPickuped, //mdStatus
                                 pickupDate);
                     }
 
-                    mOrderListAdapter.setOnItemClickListener (
+                    mOrderListAdapter.setOnItemClickListener(
                             new OrderListAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View v, int pos) {
@@ -149,6 +156,7 @@ public class Order extends Fragment {
                                     intent.putExtra("store_name", mList.get(pos).getStoreName());
                                     intent.putExtra("md_name", mList.get(pos).getMdName());
                                     intent.putExtra("order_id", mList.get(pos).getOrderId());
+                                    intent.putExtra("mdimg_thumbnail", mList.get(pos).getStoreProdImgView());
                                     startActivity(intent);
                                 }
                             }
@@ -158,6 +166,7 @@ public class Order extends Fragment {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(mActivity, "전체스토어 에러 발생", Toast.LENGTH_SHORT).show();
@@ -168,12 +177,12 @@ public class Order extends Fragment {
         return view;
     }
 
-    public void firstInit(){
+    public void firstInit() {
         mOrderListRecyclerView = view.findViewById(R.id.totalOrderListView);
         mList = new ArrayList<>();
     }
 
-    public void addOrderList(String userId, String orderId, String storeLoc, String mdImgView, String storeName, String mdName, String mdQty, String mdPrice, String mdStatus, String puDate){
+    public void addOrderList(String userId, String orderId, String storeLoc, String mdImgView, String storeName, String mdName, String mdQty, String mdPrice, String mdStatus, String puDate) {
         OrderListInfo order = new OrderListInfo();
         order.setUserId(userId);
         order.setOrderId(orderId);

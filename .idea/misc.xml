@@ -92,22 +92,82 @@
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/activity_start.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/farm_total_list.xml" value="0.4" />
         <entry key="..\:/Users/yangn/AndroidStudioProjects/consumer_client/app/src/main/res/layout/tmp.xml" value="0.536" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/drawable/button_round.xml" value="0.167" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/drawable/button_round2.xml" value="0.167" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.26" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/drawable/ic_baseline_notifications_24.xml" value="0.1985" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/drawable/info_box.xml" value="0.303" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/drawable/location_item_rectangle.xml" value="0.254" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/drawable/location_up.xml" value="0.254" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/drawable/md_item_rectangle.xml" value="0.167" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/drawable/review_star.xml" value="0.3385" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/drawable/top_radius.xml" value="0.282" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/about_gdjang.xml" value="0.24818840579710144" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/about_gdjang_company.xml" value="0.21804189824711415" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/acticity_login.xml" value="0.1" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_account_info.xml" value="0.1" />
         <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_agree.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_alarmlist.xml" value="0.21846943138093203" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_edit_town.xml" value="0.21804189824711415" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_farm_detail.xml" value="0.22" />
         <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_farm_total_list.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_login.xml" value="0.21472019464720193" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_final_order_popup.xml" value="0.2921875" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_get_cart.xml" value="0.25729166666666664" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_get_start.xml" value="0.1" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_integrated_login.xml" value="0.13333333333333333" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_joint_purchase.xml" value="0.18709150326797386" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_login.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_main.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_register.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_md_total_list.xml" value="0.21804189824711415" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_notice.xml" value="0.21804189824711415" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_order_detail.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_order_list.xml" value="0.1734375" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_payment_popup.xml" value="0.25729166666666664" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_register.xml" value="0.13333333333333333" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_review_cancel_popup.xml" value="0.22" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_review_check.xml" value="0.1" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_review_detail.xml" value="0.16636446056210336" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_review_write.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_start.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_store_detail.xml" value="0.1" />
         <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_store_item.xml" value="0.371875" />
         <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_store_total_list.xml" value="0.16822916666666668" />
-        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/farm_total_list.xml" value="0.6666666666666666" />
-        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/activity_tutorial.xml" value="0.21804189824711415" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/banner_1.xml" value="0.16930312099187686" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/banner_2.xml" value="0.25651988029072254" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/cart_get_list.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/client_order_list.xml" value="0.25729166666666664" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/dialog_backpress.xml" value="0.18041704442429737" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/dialog_progress.xml" value="0.18041704442429737" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/dialog_review_cancel.xml" value="0.1686310063463282" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/dialog_review_register.xml" value="0.16636446056210336" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/farm_toolbar.xml" value="0.19945602901178605" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/farm_total_list.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/fragment_keep.xml" value="0.371875" />
         <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/fragment_my_page.xml" value="0.371875" />
-        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/fragment_order.xml" value="0.371875" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/fragment_order.xml" value="0.14666666666666667" />
         <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/fragment_total_list.xml" value="0.371875" />
-        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/item_home_product.xml" value="0.17314814814814813" />
-        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/store_total_list.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/item_home_product.xml" value="0.4119718309859155" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/joint_purchase_prod_list.xml" value="0.6" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/keep_list.xml" value="0.371875" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/loc_item_rectangle.xml" value="0.22103463018383926" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/main_toolbar.xml" value="0.15647712697734073" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/md_list.xml" value="0.16500453309156846" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/md_pic1.xml" value="0.25651988029072254" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/md_pic2.xml" value="0.1" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/md_pic3.xml" value="0.25651988029072254" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/md_pic4.xml" value="0.25651988029072254" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/md_pic5.xml" value="0.25651988029072254" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/md_toolbar.xml" value="0.19945602901178605" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/mypage_review.xml" value="0.231722958529286" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/order_list.xml" value="0.6" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/payment_navigation.xml" value="0.25729166666666664" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/review_list.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/shopping_list.xml" value="0.16500453309156846" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/store_available_purchase_list.xml" value="0.22" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/store_total_list.xml" value="0.6" />
+        <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/layout/toolbar.xml" value="0.22" />
         <entry key="..\:/Users/young-mookhwang(leek/Desktop/consumer_client/app/src/main/res/menu/home_navi_menu.xml" value="0.371875" />
         <entry key="app/src/main/res/drawable/ic_baseline_keep_24.xml" value="0.2305" />
         <entry key="app/src/main/res/drawable/ic_baseline_order_24.xml" value="0.281" />

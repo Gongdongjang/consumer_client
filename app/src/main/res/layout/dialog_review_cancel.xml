@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="368dp"
     android:layout_height="200dp"
     android:layout_gravity="center"
-    android:background="#DFDFDF"
+    android:background="@drawable/button_round"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="작성 중인 내용이 삭제됩니다.\n리뷰 작성을 그만하시겠습니까?"
+        android:background="#FFFFFF"
         android:textColor="@color/black"
         android:layout_gravity="center"
         android:gravity="center"
@@ -24,24 +25,28 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:layout_marginBottom="10dp"
+        android:background="#FFFFFF"
         android:orientation="horizontal">
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancelBtn"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="15dp"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_round"
             android:text="취소"
-            android:textColor="@color/black"/>
-        <Button
-            android:id="@+id/registerBtn"
+            android:textColor="#1EAA95"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/stopBtn"
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="등록"
-            android:textColor="@color/black"/>
+            android:background="@drawable/button_round2"
+            android:text="그만하기"
+            android:textColor="#FFFFFF"/>
     </LinearLayout>
 
 </LinearLayout>

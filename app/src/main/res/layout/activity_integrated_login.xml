@@ -106,15 +106,6 @@
                     android:backgroundTint="#FFFFFF"
                     android:scaleType="fitStart"
                     app:srcCompat="@drawable/kakaotalk_icon" />
-
-                <ImageButton
-                    android:id="@+id/naverBtn"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:backgroundTint="#FFFFFF"
-                    android:scaleType="centerInside"
-                    app:srcCompat="@drawable/btn_naver" />
-
                 <ImageButton
                     android:id="@+id/googleBtn"
                     android:layout_width="100dp"

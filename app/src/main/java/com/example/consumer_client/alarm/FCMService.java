@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
+import com.example.consumer_client.notification.NotificationList;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -23,6 +23,7 @@ public class FCMService extends FirebaseMessagingService {
     private static final CharSequence CHANNEL_NAME = "1";
     String title;
     String content;
+    String user_id;
 
     @Override
     public void onNewToken(@NonNull String token) {
@@ -35,17 +36,13 @@ public class FCMService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
 
         super.onMessageReceived(remoteMessage);
-        //Log.i("############# msg body: ", (remoteMessage.getNotification().getBody()));
-        //Log.i("############# msg title: ", (remoteMessage.getNotification().getTitle()));
-        //Log.i("############# msg data: ", (remoteMessage.getNotification().get()));
         if (remoteMessage.getData().isEmpty()) {
-            //showNotificationMessage(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());  // Notification으로 받을 때
             title = remoteMessage.getNotification().getTitle();
             content = remoteMessage.getNotification().getBody();
         } else {
-            //showDataMessage(remoteMessage.getData().get("title"), remoteMessage.getData().get("content"));  // Data로 받을 때
             title = remoteMessage.getData().get("title");
             content = remoteMessage.getData().get("content");
+            user_id=remoteMessage.getData().get("userId");
         }
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
 
@@ -64,18 +61,15 @@ public class FCMService extends FirebaseMessagingService {
         String body = remoteMessage.getNotification().getBody();
 
         //푸시를 클릭했을때 이동//
-        Intent intent = new Intent(this, AlarmList.class);
+        Intent intent = new Intent(this, NotificationList.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //intent.putExtra("title",title);
-        //intent.putExtra("body",body);
-        //intent.putExtra("user_id", user_id);
-        //PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        intent.putExtra("user_id", user_id);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
         builder.setContentTitle(title)
                 .setContentText(body)
-                .setSmallIcon(R.drawable.img_gongdongjang_logo);
-                //.setContentIntent(pendingIntent);
-                //.setSmallIcon(R.drawable.ic_launcher_background);
+                .setSmallIcon(R.drawable.img_gongdongjang_logo)
+                .setContentIntent(pendingIntent);
 
         Notification notification = builder.build();
         notificationManager.notify(1, notification);

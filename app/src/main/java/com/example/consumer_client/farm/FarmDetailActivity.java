@@ -2,6 +2,7 @@ package com.example.consumer_client.farm;
 
 import static com.example.consumer_client.address.LocationDistance.distance;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
@@ -28,6 +29,10 @@ import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.md.MdDetailInfo;
 import com.example.consumer_client.md.MdListMainActivity;
+import com.example.consumer_client.review.ReviewListAdapter;
+import com.example.consumer_client.review.ReviewListInfo;
+import com.example.consumer_client.review.ReviewMyDetailActivity;
+import com.example.consumer_client.shopping_info.ReviewList;
 import com.example.consumer_client.store.StoreActivity;
 import com.example.consumer_client.store.StoreDetailActivity;
 import com.google.gson.JsonArray;
@@ -42,6 +47,8 @@ import com.kakao.message.template.LinkObject;
 import com.kakao.network.ErrorResult;
 import com.kakao.network.callback.ResponseCallback;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,6 +57,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -60,7 +68,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-interface FarmDetailService{
+interface FarmDetailService {
     @POST("farmDetail")
     Call<ResponseBody> farmDetail(@Body JsonObject body);
 }
@@ -71,12 +79,18 @@ public class FarmDetailActivity extends AppCompatActivity {
     FarmDetailService service;
     JsonParser jsonParser;
     JsonObject res;
-    JsonArray farmArray, mdArray, pu_start, dDay;
+    JsonArray farmArray, mdArray, pu_start, dDay, reviewArray;
     String farm_id, farm_name, farmer_name, farm_info, farm_loc, farm_main_item, farm_phone, md_price;
+    int avg = 0;
 
     private RecyclerView mRecyclerView;
     private ArrayList<MdDetailInfo> mList;
     private FarmDetailAdapter mFarmDetailAdapter;
+
+    private RecyclerView mReviewListRecyclerView;
+    private ReviewListAdapter mReviewListAdapter;
+    private ArrayList<ReviewListInfo> mReviewList;
+//    Activity mActivity;
 
     Context mContext;
 
@@ -114,11 +128,11 @@ public class FarmDetailActivity extends AppCompatActivity {
         ImageView KakaoShare = (ImageView) findViewById(R.id.KakaoShare);
 
         Intent intent;
-        intent=getIntent();
+        intent = getIntent();
 
-        user_id=intent.getStringExtra("user_id");
+        user_id = intent.getStringExtra("user_id");
         farm_id = intent.getStringExtra("farm_id");
-        standard_address=intent.getStringExtra("standard_address");
+        standard_address = intent.getStringExtra("standard_address");
 
         //뒤로가기
         ImageView toolbar_goBack = findViewById(R.id.up_mdArrow);
@@ -135,9 +149,9 @@ public class FarmDetailActivity extends AppCompatActivity {
 
         //상단바 장바구니
         ImageView toolbar_cart = findViewById(R.id.toolbar_cart);
-        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+        toolbar_cart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent intent = new Intent(FarmDetailActivity.this, CartListActivity.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
@@ -152,7 +166,7 @@ public class FarmDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         Address location = myAddr.get(0);
-        myTownLat= location.getLatitude();
+        myTownLat = location.getLatitude();
         myTownLong = location.getLongitude();
 
         JsonObject body = new JsonObject();
@@ -165,7 +179,7 @@ public class FarmDetailActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     try {
-                        res =  (JsonObject) jsonParser.parse(response.body().string());
+                        res = (JsonObject) jsonParser.parse(response.body().string());
 
                         //farm 정보
                         farmArray = res.get("farm_data").getAsJsonArray();
@@ -182,6 +196,9 @@ public class FarmDetailActivity extends AppCompatActivity {
                         //pu_start
                         pu_start = res.get("pu_start").getAsJsonArray();
                         dDay = res.get("dDay").getAsJsonArray();
+
+                        //review 정보
+                        reviewArray = res.get("review_data").getAsJsonArray();
 
 //                        FarmMainImg.setImageDrawable("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(0).getAsJsonObject().get("farm_mainImg"));
                         Glide.with(FarmDetailActivity.this)
@@ -205,7 +222,7 @@ public class FarmDetailActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 try {
                                     FeedTemplate params = FeedTemplate
-                                            .newBuilder(ContentObject.newBuilder(mdArray.get(0).getAsJsonObject().get("farm_farmer").getAsString() +" 농부님의 " + farm_name + "에서 구매하기!",
+                                            .newBuilder(ContentObject.newBuilder(mdArray.get(0).getAsJsonObject().get("farm_farmer").getAsString() + " 농부님의 " + farm_name + "에서 구매하기!",
                                                     "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(0).getAsJsonObject().get("farm_mainImg").getAsString(),
                                                     LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
                                                             .setMobileWebUrl("https://developers.kakao.com").build())
@@ -227,21 +244,23 @@ public class FarmDetailActivity extends AppCompatActivity {
 
                                     KakaoLinkService.getInstance().sendDefault(mContext, params, new ResponseCallback<KakaoLinkResponse>() {
                                         @Override
-                                        public void onFailure(ErrorResult errorResult) {}
+                                        public void onFailure(ErrorResult errorResult) {
+                                        }
 
                                         @Override
                                         public void onSuccess(KakaoLinkResponse result) {
                                         }
                                     });
                                 } catch (Exception e) {
-                                    e.printStackTrace();}
+                                    e.printStackTrace();
+                                }
                             }
                         });
 
                         //세부 페이지1 (진행 중인 공동구매) 리사이클러뷰 띄우게하기
                         firstInit();
 
-                        //어뎁터 적용
+                        //제품 상세 어뎁터 적용
                         mFarmDetailAdapter = new FarmDetailAdapter(mList);
                         mRecyclerView.setAdapter(mFarmDetailAdapter);
 
@@ -253,7 +272,7 @@ public class FarmDetailActivity extends AppCompatActivity {
                         GridLayoutManager gridLayoutManager = new GridLayoutManager(FarmDetailActivity.this, 2, GridLayoutManager.VERTICAL, false);
                         mRecyclerView.setLayoutManager(gridLayoutManager);
 
-                        for(int i=0;i<mdArray.size();i++){
+                        for (int i = 0; i < mdArray.size(); i++) {
 
                             List<Address> address = null;
                             try {
@@ -269,17 +288,18 @@ public class FarmDetailActivity extends AppCompatActivity {
 
                             String realIf0;
                             if (dDay.get(i).getAsString().equals("0")) realIf0 = "D - day";
-                            else if(dDay.get(i).getAsInt() < 0) realIf0 = "D + "+ Math.abs(dDay.get(i).getAsInt());
+                            else if (dDay.get(i).getAsInt() < 0)
+                                realIf0 = "D + " + Math.abs(dDay.get(i).getAsInt());
                             else realIf0 = "D - " + dDay.get(i).getAsString();
 
                             addFarmJointPurchase(
                                     "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + mdArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
-                                    mdArray.get(i).getAsJsonObject().get("md_id").getAsString(), 
-                                    mdArray.get(i).getAsJsonObject().get("md_name").getAsString(), 
-                                    mdArray.get(i).getAsJsonObject().get("store_name").getAsString(), 
-                                    String.format("%.2f", distanceKilo)+"km",
-                                    mdArray.get(i).getAsJsonObject().get("pay_price").getAsString(), 
-                                    realIf0,  
+                                    mdArray.get(i).getAsJsonObject().get("md_id").getAsString(),
+                                    mdArray.get(i).getAsJsonObject().get("md_name").getAsString(),
+                                    mdArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                                    String.format("%.2f", distanceKilo) + "km",
+                                    mdArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
+                                    realIf0,
                                     pu_start.get(i).getAsString());
                         }
 
@@ -297,23 +317,107 @@ public class FarmDetailActivity extends AppCompatActivity {
                         });
 
                         mFarmDetailAdapter.setOnItemClickListener(
-                            new FarmDetailAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View v, int pos) {
-                                    Intent intent = new Intent(FarmDetailActivity.this, JointPurchaseActivity.class);
-                                    intent.putExtra("user_id", user_id);
-                                    intent.putExtra("md_id", mList.get(pos).getMdId());
+                                new FarmDetailAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View v, int pos) {
+                                        Intent intent = new Intent(FarmDetailActivity.this, JointPurchaseActivity.class);
+                                        intent.putExtra("user_id", user_id);
+                                        intent.putExtra("md_id", mList.get(pos).getMdId());
 
-                                    startActivity(intent);
+                                        startActivity(intent);
+                                    }
                                 }
-                            }
-                    );
+                        );
+
+                        //리뷰 어뎁터 적용
+                        mReviewListAdapter = new ReviewListAdapter(mReviewList);
+                        mReviewListRecyclerView.setAdapter(mReviewListAdapter);
+
+                        //세로로 세팅
+                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        mReviewListRecyclerView.setLayoutManager(linearLayoutManager);
+
+                        for (int i = 0; i < reviewArray.size(); i++) {
+
+                            addReviewList(
+                                    user_id,
+                                    reviewArray.get(i).getAsJsonObject().get("order_id").getAsString(),
+                                    "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + reviewArray.get(i).getAsJsonObject().get("rvw_img1").getAsString(),
+                                    "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + reviewArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                    reviewArray.get(i).getAsJsonObject().get("store_name").getAsString(),
+                                    reviewArray.get(i).getAsJsonObject().get("md_name").getAsString(),
+                                    reviewArray.get(i).getAsJsonObject().get("rvw_content").getAsString(),
+                                    reviewArray.get(i).getAsJsonObject().get("rvw_rating").getAsString(),
+                                    reviewArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(),
+                                    reviewArray.get(i).getAsJsonObject().get("pay_price").getAsString()
+                            );
+                            avg = avg + Integer.parseInt(reviewArray.get(i).getAsJsonObject().get("rvw_rating").getAsString());
+                        }
+
+                        ImageView Star_1 = (ImageView) findViewById(R.id.Star_1);
+                        ImageView Star_2 = (ImageView) findViewById(R.id.Star_2);
+                        ImageView Star_3 = (ImageView) findViewById(R.id.Star_3);
+                        ImageView Star_4 = (ImageView) findViewById(R.id.Star_4);
+                        ImageView Star_5 = (ImageView) findViewById(R.id.Star_5);
+
+                        TextView rating = findViewById(R.id.rating);
+
+                        if (avg == 0) rating.setText("0");
+                        else if (avg / reviewArray.size() == 1) {
+                            Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
+                            rating.setText(String.valueOf((double) avg / reviewArray.size()));
+                        } else if (avg / reviewArray.size() == 2) {
+                            Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
+                            Star_2.setImageResource(R.drawable.ic_product_review_list_on_14px);
+                            rating.setText(String.valueOf((double) avg / reviewArray.size()));
+                        } else if (avg / reviewArray.size() == 3) {
+                            Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
+                            Star_2.setImageResource(R.drawable.ic_product_review_list_on_14px);
+                            Star_3.setImageResource(R.drawable.ic_product_review_list_on_14px);
+                            rating.setText(String.valueOf((double) avg / reviewArray.size()));
+                        } else if (avg / reviewArray.size() == 4) {
+                            Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
+                            Star_2.setImageResource(R.drawable.ic_product_review_list_on_14px);
+                            Star_3.setImageResource(R.drawable.ic_product_review_list_on_14px);
+                            Star_4.setImageResource(R.drawable.ic_product_review_list_on_14px);
+                            rating.setText(String.valueOf((double) avg / reviewArray.size()));
+                        } else if (avg / reviewArray.size() == 5) {
+                            Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
+                            Star_2.setImageResource(R.drawable.ic_product_review_list_on_14px);
+                            Star_3.setImageResource(R.drawable.ic_product_review_list_on_14px);
+                            Star_4.setImageResource(R.drawable.ic_product_review_list_on_14px);
+                            Star_5.setImageResource(R.drawable.ic_product_review_list_on_14px);
+                            rating.setText(String.valueOf((double) avg / reviewArray.size()));
+                        }
+
+                        mReviewListAdapter.setOnItemClickListener(
+                                new ReviewListAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View v, int pos) {
+                                        Intent intent = new Intent(FarmDetailActivity.this, ReviewMyDetailActivity.class);
+                                        intent.putExtra("user_id", user_id);
+                                        intent.putExtra("review_user_id", reviewArray.get(pos).getAsJsonObject().get("user_id").getAsString()); //리뷰 쓴 user_id
+                                        intent.putExtra("user_name", reviewArray.get(pos).getAsJsonObject().get("user_name").getAsString()); //리뷰 쓴 user_name
+                                        intent.putExtra("order_id", reviewArray.get(pos).getAsJsonObject().get("order_id").getAsString());
+                                        intent.putExtra("mdimg_thumbnail", "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + reviewArray.get(pos).getAsJsonObject().get("mdimg_thumbnail").getAsString());
+                                        intent.putExtra("store_name", reviewArray.get(pos).getAsJsonObject().get("store_name").getAsString());
+                                        intent.putExtra("md_name", reviewArray.get(pos).getAsJsonObject().get("md_name").getAsString());
+                                        intent.putExtra("md_qty", reviewArray.get(pos).getAsJsonObject().get("order_select_qty").getAsString());
+                                        intent.putExtra("md_fin_price", reviewArray.get(pos).getAsJsonObject().get("pay_price").getAsString());
+                                        intent.putExtra("rvw_content", reviewArray.get(pos).getAsJsonObject().get("rvw_content").getAsString());
+                                        intent.putExtra("rvw_rating", reviewArray.get(pos).getAsJsonObject().get("rvw_rating").getAsString());
+                                        intent.putExtra("rvw_img1", reviewArray.get(pos).getAsJsonObject().get("rvw_img1").getAsString());
+                                        intent.putExtra("rvw_img2", reviewArray.get(pos).getAsJsonObject().get("rvw_img2").getAsString());
+                                        intent.putExtra("rvw_img3", reviewArray.get(pos).getAsJsonObject().get("rvw_img3").getAsString());
+                                        startActivity(intent);
+                                    }
+                                }
+                        );
 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
-                else {
+                } else {
                     try {
                         Log.d(TAG, "Fail " + response.errorBody().string());
                     } catch (IOException e) {
@@ -329,12 +433,15 @@ public class FarmDetailActivity extends AppCompatActivity {
         });
     }
 
-    public void firstInit(){
+    public void firstInit() {
         mRecyclerView = findViewById(R.id.FarmPurchaseView);
         mList = new ArrayList<>();
+
+        mReviewListRecyclerView = findViewById(R.id.FarmReview);
+        mReviewList = new ArrayList<>();
     }
 
-    public void addFarmJointPurchase(String prodImgName, String mdId, String prodName, String storeName, String distance, String mdPrice, String dDay, String puTime){
+    public void addFarmJointPurchase(String prodImgName, String mdId, String prodName, String storeName, String distance, String mdPrice, String dDay, String puTime) {
         MdDetailInfo mdDetail = new MdDetailInfo();
 
         mdDetail.setProdImg(prodImgName);
@@ -347,5 +454,21 @@ public class FarmDetailActivity extends AppCompatActivity {
         mdDetail.setPuTime(puTime);
 
         mList.add(mdDetail);
+    }
+
+    public void addReviewList(String userId, String orderId, String reviewImg, String mdImgView, String storeName, String mdName,
+                              String reviewContent, String rvw_rating, String mdQty, String mdPrice) {
+        ReviewListInfo reviewList = new ReviewListInfo();
+        reviewList.setUserId(userId);
+        reviewList.setOrderId(orderId);
+        reviewList.setReviewImg1(reviewImg);
+        reviewList.setStoreProdImgView(mdImgView);
+        reviewList.setStoreName(storeName);
+        reviewList.setMdName(mdName);
+        reviewList.setReviewContent(reviewContent);
+        reviewList.setRvw_rating(rvw_rating);
+        reviewList.setMdQty(mdQty);
+        reviewList.setMdPrice(mdPrice);
+        mReviewList.add(reviewList);
     }
 }

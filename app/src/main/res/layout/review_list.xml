@@ -23,7 +23,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginLeft="5dp"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,25 +47,25 @@
                             android:id="@+id/Star_1"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
-                            android:src="@drawable/ic_product_review_list_on_14px" />
+                            android:src="@drawable/ic_product_review_list_off_14px" />
 
                         <ImageView
                             android:id="@+id/Star_2"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
-                            android:src="@drawable/ic_product_review_list_on_14px" />
+                            android:src="@drawable/ic_product_review_list_off_14px" />
 
                         <ImageView
                             android:id="@+id/Star_3"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
-                            android:src="@drawable/ic_product_review_list_on_14px" />
+                            android:src="@drawable/ic_product_review_list_off_14px" />
 
                         <ImageView
                             android:id="@+id/Star_4"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
-                            android:src="@drawable/ic_product_review_list_on_14px" />
+                            android:src="@drawable/ic_product_review_list_off_14px" />
 
                         <ImageView
                             android:id="@+id/Star_5"

@@ -102,7 +102,14 @@
                                     android:id="@+id/MdQty"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:text= "3세트"
+                                    android:text= "3"
+                                    android:layout_marginTop="2dp"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/black" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:text= "세트"
                                     android:layout_marginTop="2dp"
                                     android:textSize="12sp"
                                     android:textColor="@color/black" />
@@ -111,8 +118,14 @@
                                     android:id="@+id/MdPrice"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:text= "119,900원"
+                                    android:text= "119,900"
                                     android:layout_marginLeft="8dp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:text= "원"
                                     android:textStyle="bold"
                                     android:textColor="@color/black" />
 

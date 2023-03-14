@@ -3,16 +3,14 @@ package com.example.consumer_client.md;
 import static com.example.consumer_client.address.LocationDistance.distance;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,14 +19,16 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.CustomSpinnerAdapter;
 import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.cart.CartListActivity;
-import com.example.consumer_client.farm.FarmDetailActivity;
 import com.example.consumer_client.farm.FarmDetailAdapter;
+import com.example.consumer_client.review.ReviewListAdapter;
+import com.example.consumer_client.review.ReviewListInfo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -116,9 +116,9 @@ public class MdListMainActivity extends AppCompatActivity {
 
         //상단바 장바구니
         ImageView gotoCart = findViewById(R.id.gotoCart);
-        gotoCart.setOnClickListener(new View.OnClickListener(){
+        gotoCart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent intent = new Intent(MdListMainActivity.this, CartListActivity.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
@@ -133,19 +133,19 @@ public class MdListMainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         Address location = myAddr.get(0);
-        myTownLat= location.getLatitude();
+        myTownLat = location.getLatitude();
         myTownLong = location.getLongitude();
 
-        spinner = findViewById(R.id.spinner);
+        //spinner = findViewById(R.id.spinner);
         // 스피너 안에 넣을 데이터 임의 생성
-        list.add("0.5km");
-        list.add("1km");
-        list.add("2km");
-        list.add("4km");
+        //list.add("0.5km");
+        //list.add("1km");
+       // list.add("2km");
+       // list.add("4km");
 
         // 스피너에 붙일 어댑터 초기화
-        adapter = new CustomSpinnerAdapter(getApplicationContext(), list);
-        spinner.setAdapter(adapter);
+        //adapter = new CustomSpinnerAdapter(getApplicationContext(), list);
+        //spinner.setAdapter(adapter);
 
         Call<ResponseBody> call = service.getMdMainData();
         call.enqueue(new Callback<ResponseBody>() {
@@ -159,19 +159,15 @@ public class MdListMainActivity extends AppCompatActivity {
                     pu_start = res.get("pu_start").getAsJsonArray();
                     dDay = res.get("dDay").getAsJsonArray();
 
-                    //어뎁터 적용
+                    //제품 상세 어뎁터 적용
                     mMdListMainAdapter = new FarmDetailAdapter(mList);
                     mMdListRecyclerView.setAdapter(mMdListMainAdapter);
 
                     GridLayoutManager gridLayoutManager = new GridLayoutManager(MdListMainActivity.this, 2, GridLayoutManager.VERTICAL, false);
                     mMdListRecyclerView.setLayoutManager(gridLayoutManager);
 
-                    Date now = new Date();
-                    SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-                    int now_int = Integer.parseInt(format.format(now));
-
                     // 스피너 클릭 리스너
-                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                   /* spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @SuppressLint("DefaultLocale")
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -184,15 +180,15 @@ public class MdListMainActivity extends AppCompatActivity {
                             String otherItem = (String) spinner.getItemAtPosition(position);
                             //Log.e(TAG, "getItemAtPosition() - 선택한 아이템 : " + otherItem);
 
-                            if(Objects.equals(selectedItem, "0.5km")){
+                            if (Objects.equals(selectedItem, "0.5km")) {
                                 //distance_what="ki"
-                                distance_std=0.05;
-                            }else if (Objects.equals(selectedItem, "1km")){
-                                distance_std=0.1;
-                            }else if (Objects.equals(selectedItem, "2km")){
-                                distance_std=0.2;
+                                distance_std = 0.05;
+                            } else if (Objects.equals(selectedItem, "1km")) {
+                                distance_std = 0.1;
+                            } else if (Objects.equals(selectedItem, "2km")) {
+                                distance_std = 0.2;
                             } else {
-                                distance_std=0.4;
+                                distance_std = 0.4;
                             }
 
                         }
@@ -202,6 +198,8 @@ public class MdListMainActivity extends AppCompatActivity {
                             //
                         }
                     });
+
+                    */
 
                     for (int i = 0; i < jsonArray.size(); i++) {
                         List<Address> address = null;
@@ -222,20 +220,22 @@ public class MdListMainActivity extends AppCompatActivity {
 
                         String realIf0;
                         if (dDay.get(i).getAsString().equals("0")) realIf0 = "D - day";
-                        else if(dDay.get(i).getAsInt() < 0) realIf0 = "D + "+ Math.abs(dDay.get(i).getAsInt());
+                        else if (dDay.get(i).getAsInt() < 0)
+                            realIf0 = "D + " + Math.abs(dDay.get(i).getAsInt());
                         else realIf0 = "D - " + dDay.get(i).getAsString();
 
                         addMdList("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("md_id").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
-                                String.format("%.2f", distanceKilo)+"km",
+                                String.format("%.2f", distanceKilo) + "km",
                                 jsonArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
                                 realIf0,
                                 pu_start.get(i).getAsString()
                         );
-                    }
 
+
+                    }
 
 
                     //거리 가까운순으로 정렬
@@ -281,7 +281,7 @@ public class MdListMainActivity extends AppCompatActivity {
     }
 
     public void firstInit() {
-        mMdListRecyclerView = findViewById(R.id.totalOrderListView);
+        mMdListRecyclerView = findViewById(R.id.totalMdListView);
         mList = new ArrayList<>();
     }
 

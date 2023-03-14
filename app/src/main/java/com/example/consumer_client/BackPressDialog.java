@@ -35,7 +35,8 @@ public class BackPressDialog extends Dialog {
             @Override
             public void onClick(View view) {
                 ((MainActivity)context).moveTaskToBack(true);
-                ((MainActivity)context).finish();
+                ((MainActivity)context).finishAndRemoveTask();
+                android.os.Process.killProcess(android.os.Process.myPid());
             }
         });
     }
