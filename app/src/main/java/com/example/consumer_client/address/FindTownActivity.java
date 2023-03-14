@@ -56,6 +56,8 @@ interface FindTownService {
     Call<ResponseBody> addressInfo(@Body JsonObject body);  //post user_id
     @POST("register_address")
     Call<ResponseBody> addressRegister(@Body JsonObject body);
+    @POST("edit_address")
+    Call<ResponseBody> addressEdit(@Body JsonObject body);
 }
 
 public class FindTownActivity extends AppCompatActivity implements MapView.CurrentLocationEventListener, MapView.POIItemEventListener, MapView.MapViewEventListener{
@@ -285,7 +287,8 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
 //                   if(addresslist.size()>0)){
                 }
                 else{
-                    registAddress(userid, addresslist, first_time); //서버에 주소 저장
+                    //주소 수정
+                    editAddress(userid, txt_address1.getText().toString(),txt_address2.getText().toString(),txt_address3.getText().toString()); //서버에 주소 저장
                     //메인 페이지로 이동
                     Intent intent = new Intent(FindTownActivity.this, MainActivity.class);
                     intent.putExtra("user_id",userid);
@@ -358,8 +361,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         body.addProperty("first_time",first_time);
         body.addProperty("currentAddr",currentAddr);
 
-        Log.d("164행",body.toString());
-
         Call<ResponseBody> call = service.addressRegister(body);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -378,6 +379,36 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(FindTownActivity.this, "주소등록 에러 발생", Toast.LENGTH_SHORT).show();
+                Log.e("주소등록", t.getMessage());
+            }
+        });
+    }
+
+    private void editAddress(String userid, String loc1, String loc2, String loc3) {
+
+        JsonObject body = new JsonObject();
+        body.addProperty("userid", userid);
+        body.addProperty("currentAddr",currentAddr);
+        body.addProperty("loc1",loc1);
+        body.addProperty("loc2",loc2);
+        body.addProperty("loc3",loc3);
+
+        Call<ResponseBody> call = service.addressEdit(body);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(FindTownActivity.this, "주소수정 에러 발생", Toast.LENGTH_SHORT).show();
                 Log.e("주소등록", t.getMessage());
             }
         });
