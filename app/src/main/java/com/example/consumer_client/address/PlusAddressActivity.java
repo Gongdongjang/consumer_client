@@ -101,6 +101,8 @@ public class PlusAddressActivity extends AppCompatActivity {
                             JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
                             if (Objects.equals(res.get("message").getAsString(), "기준주소지로 설정되어 주소 삭제 불가합니다.")){
                                 Toast.makeText(getApplicationContext(), res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                            }else if (Objects.equals(res.get("message").getAsString(), "처음 주소 등록시에는 주소 삭제 불가합니다.")){
+                                Toast.makeText(getApplicationContext(), res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                             }else{
                                 Toast.makeText(getApplicationContext(), "주소가 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(PlusAddressActivity.this, FindTownActivity.class);
