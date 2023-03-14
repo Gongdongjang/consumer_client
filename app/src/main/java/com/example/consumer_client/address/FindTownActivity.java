@@ -72,10 +72,8 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
     //주소1,2,3 위도경도 list
     List<String> addresslist=new ArrayList<>();
 
-    MapPoint currentMapPoint;
     MapView mapView;
     ViewGroup mapViewContainer;
-    MapPOIItem marker;
     String number;
     String currentAddr;
     String userid, first_time;
@@ -114,11 +112,8 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         JsonObject body1 = new JsonObject();
         body1.addProperty("id", userid);
 
-        //Button goto_std_address = findViewById(R.id.goto_std_address);
         if(Objects.equals(first_time, "yes")){
-            //goto_std_address.setVisibility(View.GONE);
             Log.d("근처동네", "처음회원가입 or 처음로그인");
-
         } else {
             Call<ResponseBody> call = service.addressInfo(body1);
             call.enqueue(new Callback<ResponseBody>() {
@@ -136,23 +131,15 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
 
                         //사용자가 등록한 주소 불러오기
                         if (address_count == 0) {
-                            //String address_loc0 = addressArray.get(0).getAsJsonObject().get("loc0").getAsString();
-                            //txt_address0.setText(address_loc0);
-//                            txt_address1.setVisibility(View.GONE);
-//                            txt_address2.setVisibility(View.GONE);
-//                            txt_address3.setVisibility(View.GONE);
                         }
                         if (address_count == 1) {
                             String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
                             txt_address1.setText(address_loc1);
-                            //xt_address2.setVisibility(View.GONE);
-                            //txt_address3.setVisibility(View.GONE);
                         } else if (address_count == 2) {
                             String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
                             String address_loc2 = addressArray.get(0).getAsJsonObject().get("loc2").getAsString();
                             txt_address1.setText(address_loc1);
                             txt_address2.setText(address_loc2);
-                            //txt_address3.setVisibility(View.GONE);
                         } else if (address_count == 3) {
                             String address_loc1 = addressArray.get(0).getAsJsonObject().get("loc1").getAsString();
                             String address_loc2 = addressArray.get(0).getAsJsonObject().get("loc2").getAsString();
@@ -184,9 +171,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         mapViewContainer.addView(mapView);
         mapView.setMapViewEventListener(this);
 
-//        marker = new MapPOIItem();
-//        marker.setDraggable(true);
-
         if (!checkLocationServicesStatus()) {
             showDialogForLocationServiceSetting();
         }else {
@@ -204,8 +188,8 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
 
         //만약에 위치정보 허용안했으면 오류나는것 같은...처리해줘야함
         currentAddr=getCurrentAddress(latitude,longitude);
-        Log.d("현재위치0: ", currentAddr);
-        txt_address0.setText(currentAddr.substring(5)); //현재위치 입력하기
+        currentAddr=currentAddr.substring(5);   //대한민국 없애기
+        txt_address0.setText(currentAddr); //현재위치 입력하기
 
         //현재위치 세팅
         ImageView currentLoc=findViewById(R.id.currentLoc);
@@ -219,8 +203,8 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                 double longitude= gpsTracker.getLongitude();
 
                 currentAddr=getCurrentAddress(latitude,longitude);
-                Log.d("현재위치0: ", currentAddr);
-                txt_address0.setText(currentAddr.substring(5)); //현재위치 입력하기
+                currentAddr=currentAddr.substring(5);   //대한민국 없애기
+                txt_address0.setText(currentAddr); //현재위치 입력하기
 
             }
         });
@@ -338,8 +322,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
 
                 number = intent.getStringExtra("number");
                 if (data != null) {
-                    //Log.i("test", "data:" + data);
-                    //Log.i("test", "number:" + number);
                     if (Objects.equals(number, "1")) {
                         txt_address1.setText(data);
                         str = txt_address1.getText().toString();
