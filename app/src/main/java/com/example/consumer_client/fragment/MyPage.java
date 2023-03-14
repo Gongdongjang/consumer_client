@@ -22,13 +22,11 @@ import com.example.consumer_client.R;
 import com.example.consumer_client.alarm.Alarm;
 import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.mypage.AboutGDJActivity;
-import com.example.consumer_client.mypage.AccountSettingActivity;
 import com.example.consumer_client.mypage.ChangeActivity;
-import com.example.consumer_client.mypage.LoginSettingActivity;
 import com.example.consumer_client.mypage.UserCenterActivity;
-import com.example.consumer_client.notification.NotificationList;
 import com.example.consumer_client.shopping_info.ShoppingInfoActivity;
 import com.example.consumer_client.user.IntegratedLoginActivity;
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -181,6 +179,16 @@ public class MyPage extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AboutGDJActivity.class);
                 intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+
+        //오픈소스 라이선스
+        LinearLayout myPage_OpenSource = (LinearLayout) view.findViewById(R.id.MyPage_OpenSource);
+        myPage_OpenSource.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), OssLicensesMenuActivity.class);
                 startActivity(intent);
             }
         });
