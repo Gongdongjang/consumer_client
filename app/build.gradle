@@ -65,6 +65,8 @@ dependencies {
     //구글 로그인
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
     implementation 'com.google.code.gson:gson:2.9.0'
+
+    // picasso
     implementation 'com.squareup.picasso:picasso:2.8'
     //결제 슬라이딩
     implementation 'com.sothree.slidinguppanel:library:3.4.0'

@@ -111,5 +111,12 @@
         <activity android:name=".mypage.AboutCompanyActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".notification.NotificationList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
+        <activity
+            android:name=".ContentClick"
+            android:exported="false" />
+        <activity
+            android:name=".ContentActivity"
+            android:exported="true" />
+
     </application>
 </manifest>
