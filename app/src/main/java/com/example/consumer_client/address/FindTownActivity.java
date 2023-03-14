@@ -429,12 +429,12 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
     //뒤로가기
     @Override
     public void onBackPressed() {
-        if(Objects.equals(first_time, "no")){
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        if(Objects.equals(first_time, "yes")){
+            Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
             intent.putExtra("user_id", userid);
             startActivity(intent);
         }else{
-            Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.putExtra("user_id", userid);
             startActivity(intent);
         }
