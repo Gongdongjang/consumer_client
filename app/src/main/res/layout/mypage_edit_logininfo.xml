@@ -43,23 +43,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="아이디를 입력해주세요"
+                android:hint="현재 아이디를 입력해주세요"
                 android:layout_weight="1"
                 android:inputType="textPersonName"
                 android:textSize="15dp"
                 android:backgroundTint="#1EAA95"
                 android:text="" />
-            <Button
-                android:id="@+id/IdDuplicateCheckBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:textColor="@color/white"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="#1EAA95"
-                android:layout_gravity="right"
-                android:textStyle="bold"
-                android:text="중복 확인"
-                android:textSize="5pt" />
 
         </FrameLayout>
         <TextView
@@ -77,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:hint="새 비밀번호 입력"
+            android:inputType="textPassword"
             android:textSize="15dp"
             android:text=""
             android:backgroundTint="#1EAA95"/>
@@ -91,17 +81,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:inputType="textPassword"
                 android:layout_marginBottom="10dp"
-                android:hint="새 비밀번호 입력"
+                android:hint="새 비밀번호 확인"
                 android:textSize="15dp"
                 android:text=""
                 android:backgroundTint="#1EAA95"/>
-
-            <ImageView
-                android:id="@+id/EditPasswordConfirmState_MP"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/ic_check_off"/>
 
         </LinearLayout>
         <LinearLayout
