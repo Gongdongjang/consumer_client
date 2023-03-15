@@ -41,8 +41,8 @@ public class LoginSettingActivity extends AppCompatActivity {
     private MyPage myPage;
     LoginSettingDialog loginSettingDialog;
     LinearLayout linearLayout;
-    EditText ED_pw;
-    String password;
+    String password, real_id;
+    EditText id, pw, pwConfirm;
 
     ChangeLoginService service;
     JsonParser jsonParser;
@@ -76,38 +76,47 @@ public class LoginSettingActivity extends AppCompatActivity {
             }
         });
 
-        ED_pw = findViewById(R.id.EditPasswordConfirm_MP);
-        password = ED_pw.getText().toString();
+        id = (EditText) findViewById(R.id.EditID_MP);
+        pw = findViewById(R.id.EditPassword_MP);
+        pwConfirm = findViewById(R.id.EditPasswordConfirm_MP);
+
+        password = pwConfirm.getText().toString();
 
         Button changeBtn = findViewById(R.id.ConfirmBtn_MP);
         changeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 변경 프로세스
-                if (ED_pw.getText().toString() != null){
-                    Call<ResponseBody> call = service.change_pw(user_id, ED_pw.getText().toString());
-                    call.enqueue(new Callback<ResponseBody>() {
-                                     @Override
-                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (id.getText().toString() != user_id){
+                    Toast.makeText(LoginSettingActivity.this, "아이디가 틀렸습니다.", Toast.LENGTH_SHORT).show();
+                }
 
-                                         try {
-                                             JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-                                         } catch (IOException e) {
-                                             e.printStackTrace();
+                else {
+                    // 변경 프로세스
+                    if (pwConfirm.getText().toString() != null){
+                        Call<ResponseBody> call = service.change_pw(user_id, pwConfirm.getText().toString());
+                        call.enqueue(new Callback<ResponseBody>() {
+                                         @Override
+                                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                                             try {
+                                                 JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                                             } catch (IOException e) {
+                                                 e.printStackTrace();
+                                             }
+                                         }
+
+                                         @Override
+                                         public void onFailure(Call<ResponseBody> call, Throwable t) {
+
                                          }
                                      }
-
-                                     @Override
-                                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                                     }
-                                 }
-                    );
-                    // 뒤로가기
-                    finish();
-                }
-                else{
-                    Toast.makeText(LoginSettingActivity.this, "아이디, 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                        );
+                        // 뒤로가기
+                        finish();
+                    }
+                    else{
+                        Toast.makeText(LoginSettingActivity.this, "아이디, 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
