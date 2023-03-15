@@ -134,7 +134,6 @@ public class AccountInfoActivity extends AppCompatActivity {
                     JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
                     if (res.get("phone_valid").getAsString().equals("true")) {
                         goNext();
-
                     } else {
                         Toast toast = Toast.makeText(getApplicationContext(), "인증 번호 및 전화번호를 확인해주세요.", Toast.LENGTH_LONG);
                         toast.show();
