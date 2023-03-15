@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">공동장</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="naver_client_id">xVJhds2xYKWrKylbIZup</string>
+    <string name="naver_client_secret">00Hbc89f3f</string>
+    <string name="naver_client_name">공동장</string>
+    <string name="next">다음</string>
+    <string name="skip">건너뛰기</string>
+    <string name="start">시작</string>
+    <string name="baseurl">http://192.168.35.189:3000/</string>
+    <string name="applicationID">63414aa4cf9f6d001e9269d5</string>
+    <string name="accessKey">AKIAZVYJPYEY2YNVB2JK</string>
+    <string name="secretKey">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</string>
+</resources>

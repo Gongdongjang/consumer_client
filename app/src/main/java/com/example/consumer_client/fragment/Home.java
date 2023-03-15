@@ -31,6 +31,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.consumer_client.ContentActivity;
 import com.example.consumer_client.CustomSpinnerAdapter;
 import com.example.consumer_client.FragPagerAdapter;
 import com.example.consumer_client.review.ReviewCancelDialog;
@@ -51,6 +52,8 @@ import com.google.gson.JsonParser;
 
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -301,6 +304,17 @@ public class Home extends Fragment {
                 Intent intent = new Intent(mActivity, MdListMainActivity.class);
                 intent.putExtra("user_id", user_id);
                 intent.putExtra("standard_address", address);
+                startActivity(intent);
+            }
+        });
+
+        //콘텐츠 리스트 누르면 리스트 화면으로
+        TextView contentsList = view.findViewById(R.id.contentsList);
+        contentsList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, ContentActivity.class);
+                intent.putExtra("user_id" , user_id);
                 startActivity(intent);
             }
         });
