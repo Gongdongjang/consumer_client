@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="프로필명"
+                android:text="프로필명 변경하기 "
                 android:textColor="@color/black"
                 android:textSize="15dp"
                 android:textStyle="bold" />
@@ -50,11 +50,19 @@
                 android:backgroundTint="#1EAA95"
                 android:text="" />
         </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/text_1"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="10dp"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:text="연락처"
+            android:text="연락처 변경하기"
             android:textColor="@color/black"
             android:textSize="15dp"
             android:textStyle="bold" />
@@ -86,6 +94,27 @@
                 android:text="인증하기"
                 android:textSize="5pt" />
 
+        </FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="인증 번호"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/inputNum2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#1EAA95"
+                android:inputType="number"/>
         </FrameLayout>
 
         <LinearLayout
