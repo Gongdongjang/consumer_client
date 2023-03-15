@@ -1,11 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">공동장</string>
-    <string name="kakao_app_key">18a61367c21f1e5f5707fe87b4a07f76</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="baseurl">http://192.168.0.36:3000/</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!-- 이름을 정의하여 조건에 따라 페이지의 이름을 띄운다.  -->
+    <string name="naver_client_id">xVJhds2xYKWrKylbIZup</string>
+    <string name="naver_client_secret">00Hbc89f3f</string>
+    <string name="naver_client_name">공동장</string>
     <string name="next">다음</string>
     <string name="skip">건너뛰기</string>
     <string name="start">시작</string>
+    <string name="baseurl">http://192.168.35.189:3000/</string>
+    <string name="applicationID">63414aa4cf9f6d001e9269d5</string>
+    <string name="accessKey">AKIAZVYJPYEY2YNVB2JK</string>
+    <string name="secretKey">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</string>
 </resources>
