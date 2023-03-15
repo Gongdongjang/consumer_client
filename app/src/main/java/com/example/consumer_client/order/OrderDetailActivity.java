@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -289,6 +290,16 @@ public class OrderDetailActivity extends AppCompatActivity {
         store_marker.setMapPoint(f_MarkPoint);   //좌표입력받아 현위치로 출력
 
         mapView.addPOIItem(store_marker);
+
+        Button CustomerCenter = findViewById(R.id.CustomerCenter);
+        CustomerCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://open.kakao.com/o/suhyQ78e"));
+                startActivity(intent);
+            }
+        });
     }
 
     //뒤로 가기
