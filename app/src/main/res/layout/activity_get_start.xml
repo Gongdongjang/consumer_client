@@ -8,13 +8,14 @@
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="550dp"
         android:alpha="0.5"
-        app:srcCompat="@drawable/fin_register" />
+        app:srcCompat="@drawable/complete_signup" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="30dp"
         android:text="회원가입 완료!"
         android:textAlignment="center"
@@ -62,10 +63,9 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="70dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/button_round2"
-        android:enabled="false"
         android:text="공동장 시작하기"
         android:textColor="@color/white"
         android:textSize="16sp"
