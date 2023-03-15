@@ -175,7 +175,6 @@ public class ReviewMyDetailActivity extends AppCompatActivity {
         if (!user_id.equals(review_user_id)) {
             ReviewCheckEditBtn.setVisibility(View.GONE);
             ReviewCheckDeleteBtn.setVisibility(View.GONE);
-//            goHome.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         }
 
         //홈으로 가기 버튼 클릭

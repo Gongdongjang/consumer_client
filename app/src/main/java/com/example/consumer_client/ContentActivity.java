@@ -25,6 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 
 interface ContentService {
@@ -37,16 +38,9 @@ interface ContentService {
 
 public class ContentActivity extends AppCompatActivity {
     String TAG = ContentActivity.class.getSimpleName();
-
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:5000/api/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-    ContentService contentService = retrofit.create(ContentService.class);
-    JsonParser jsonParser = new JsonParser();
-
     ListView content_list;
     ContentListAdapter contentListAdapter;
+    JsonParser jsonParser = new JsonParser();
 
     ViewPager2 bannerList;
     BannerListAdapter bannerListAdapter;
@@ -73,6 +67,12 @@ public class ContentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.baseurl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ContentService contentService = retrofit.create(ContentService.class);
+
         content_list = findViewById(R.id.content_listview);
         contentListAdapter = new ContentListAdapter(this, content_thumbnail, content_id, content_title, content_date, content_context, contentMainPhotos, content_photo, content_link);
         content_list.setAdapter(contentListAdapter);
@@ -83,13 +83,8 @@ public class ContentActivity extends AppCompatActivity {
                 bannerContexts, bannerLinks, bannerDates);
         bannerList.setAdapter(bannerListAdapter);
 
-        get_content_list();
-        getBannerList();
-    }
-
-    void get_content_list() {
-        Call<ResponseBody> call = contentService.get_content();
-        call.enqueue(new Callback<ResponseBody>() {
+        Call<ResponseBody> callCon = contentService.get_content();
+        callCon.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
@@ -111,7 +106,7 @@ public class ContentActivity extends AppCompatActivity {
                             content_context.add(jsonRes.get("content_context").getAsString());
                             content_date.add(jsonRes.get("content_date").getAsString());
                             content_link.add(jsonRes.get("content_link").getAsString());
-                           }
+                        }
                         contentListAdapter.notifyDataSetChanged();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -130,11 +125,9 @@ public class ContentActivity extends AppCompatActivity {
 
             }
         });
-    }
 
-    void getBannerList() {
-        Call<ResponseBody> call = contentService.getBanner();
-        call.enqueue(new Callback<ResponseBody>() {
+        Call<ResponseBody> callBan = contentService.getBanner();
+        callBan.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
@@ -158,8 +151,7 @@ public class ContentActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
-                else {
+                } else {
                     try {
                         Log.d(TAG, "Fail " + response.errorBody().string());
                     } catch (IOException e) {
@@ -174,4 +166,12 @@ public class ContentActivity extends AppCompatActivity {
             }
         });
     }
+
+//    void get_content_list() {
+//
+//    }
+//
+//    void getBannerList() {
+//
+//    }
 }
