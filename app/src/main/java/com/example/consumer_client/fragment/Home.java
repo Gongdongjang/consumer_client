@@ -7,13 +7,19 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,6 +55,8 @@ import com.example.consumer_client.my_town.StoreMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.normal.TedPermission;
 
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
@@ -115,6 +123,7 @@ public class Home extends Fragment {
     int address_count;
     //스피터 반복호출 막기
     private boolean  isFirstSelected = true; // 전역변수로 선언
+    private static final String[] PERMISSION_ARRAY = null ;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -143,6 +152,48 @@ public class Home extends Fragment {
 
         //product recyclerview 초기화
         firstInit();
+
+        //Log.d("알림권한: ", String.valueOf(getNotificationPermisseionEnable(mActivity)));
+
+        //알림 허용 창
+        ActivityResultLauncher<String> requestPermissionLauncher =
+                registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                    if (isGranted) {
+                        Toast.makeText(mActivity, "알림이 허용되었습니다.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //Toast.makeText(mActivity, "알림이 거부되었습니다. [설정]에서 권한 변경 가능합니다." , Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+            } else {
+                // 안드로이드 12 이하는 알림에 런타임 퍼미션 없으니, 설정가서 켜보라고 권해볼 수 있겠다.
+
+            }
+        }
+
+//        PermissionListener permissionlistener = new PermissionListener() {
+//            @Override
+//            public void onPermissionGranted() {
+//                Toast.makeText(mActivity, "Permission Granted", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onPermissionDenied(List<String> deniedPermissions) {
+//                Toast.makeText(mActivity, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+//            }
+//
+//        };
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            TedPermission.create()
+//                    .setPermissionListener(permissionlistener)
+//                    .setDeniedMessage("공동장의 알림을 받고 싶다면 \n\n [설정]>[권한]에서 알림을 허용해주세요.")
+//                    .setPermissions(Manifest.permission.READ_CONTACTS, Manifest.permission.ACCESS_FINE_LOCATION)
+//                    .check();
+//        }
 
         //상단바 주소변경 누르면 주소변경/선택 페이지로
         JsonObject body = new JsonObject();
@@ -433,6 +484,50 @@ public class Home extends Fragment {
         //전체 fragment home return
         return view;
     }
+
+//    public static boolean getNotificationPermisseionEnable(Context mContext){
+//
+//        /**
+//         * -------------------------------------------
+//         * [필요 퍼미션 설정]
+//         *
+//         * <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+//         * <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+//         * -------------------------------------------
+//         * [PERMISSION_ARRAY 선언 데이터]
+//         *
+//         * Manifest.permission.POST_NOTIFICATIONS
+//         * -------------------------------------------
+//         * */
+//
+//        // [Context 지정]
+//        Context context = mContext;
+//
+//        // [초기 리턴 변수 선언]
+//        boolean resultData = true;
+//
+//        // [로직 처리 수행 실시]
+//        try {
+//
+//            if (ContextCompat.checkSelfPermission(mContext, PERMISSION_ARRAY[16]) == PackageManager.PERMISSION_GRANTED){
+//                // [리턴 결과 삽입 실시]
+//                resultData = true;
+//                Log.d("알림권한", "허용O");
+//            }
+//            else {
+//
+//                // [리턴 결과 삽입 실시]
+//                resultData = false;
+//                Log.d("알림권한", "허용X");
+//            }
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//
+//        // [결과 리턴 실시]
+//        return resultData;
+//    }
 
     //기준주소 등록하기
     void postStdAddress2(String user_id, String address){

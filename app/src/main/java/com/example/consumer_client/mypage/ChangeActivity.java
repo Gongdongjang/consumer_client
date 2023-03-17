@@ -1,17 +1,29 @@
 package com.example.consumer_client.mypage;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Switch;
+import android.widget.Toast;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.consumer_client.R;
 import com.example.consumer_client.fragment.MyPage;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.normal.TedPermission;
+
+import java.util.List;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -32,6 +44,7 @@ interface SNS_Service{
 }
 
 public class ChangeActivity extends AppCompatActivity {
+    private static final String[] PERMISSION_ARRAY = null;
     SNS_Service service;
     JsonParser jsonParser;
     public static Context mContext;
@@ -105,5 +118,154 @@ public class ChangeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //알림 권한 설정
+        Switch switch_notification=(Switch) findViewById(R.id.switch_notification);
+        switch_notification.setVisibility(View.INVISIBLE);
+
+        LinearLayout MyPage_Notification=(LinearLayout) findViewById(R.id.MyPage_Notification_Setting);
+        MyPage_Notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                PermissionListener permissionlistener = new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted() {
+                        Toast.makeText(mContext, "Permission Granted", Toast.LENGTH_SHORT).show();
+                        //if(getNotificationPermisseionEnable(mContext)) {
+                        //  Log.d("알림팝업:", String.valueOf(getNotificationPermisseionEnable(mContext)));
+                        //switch_notification.setChecked(true);
+                        //}
+                        //else {
+                        //  Log.d("알림팝업:", String.valueOf(getNotificationPermisseionEnable(mContext)));
+                        // switch_notification.setChecked(false);
+                        // }
+                    }
+
+                    @Override
+                    public void onPermissionDenied(List<String> deniedPermissions) {
+                        Toast.makeText(mContext, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+                        // if(getNotificationPermisseionEnable(mContext)) {
+                        //   Log.d("알림팝업:", String.valueOf(getNotificationPermisseionEnable(mContext)));
+                        //  switch_notification.setChecked(true);
+                        // }
+                        // else {
+                        //   Log.d("알림팝업:", String.valueOf(getNotificationPermisseionEnable(mContext)));
+                        //switch_notification.setChecked(false);
+                        //}
+                    }
+                };
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    TedPermission.create()
+                            .setPermissionListener(permissionlistener)
+                            .setDeniedMessage("공동장의 알림을 받고 싶다면 \n\n [설정]>[권한]에서 알림을 허용해주세요.")
+                            .setPermissions(Manifest.permission.READ_CONTACTS, Manifest.permission.ACCESS_FINE_LOCATION)
+                            .check();
+                }
+
+            }
+
+        });
+
+
+//        if(getNotificationPermisseionEnable(mContext)) {
+//            Log.d("알림팝업:", String.valueOf(getNotificationPermisseionEnable(mContext)));
+//            switch_notification.setChecked(true);
+//        }
+//        else {
+//            Log.d("알림팝업:", String.valueOf(getNotificationPermisseionEnable(mContext)));
+//            switch_notification.setChecked(false);
+//        }
+
+//        switch_notification.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                PermissionListener permissionlistener = new PermissionListener() {
+//                    @Override
+//                    public void onPermissionGranted() {
+//                        Toast.makeText(mContext, "Permission Granted", Toast.LENGTH_SHORT).show();
+//                        //if(getNotificationPermisseionEnable(mContext)) {
+//                          //  Log.d("알림팝업:", String.valueOf(getNotificationPermisseionEnable(mContext)));
+//                            //switch_notification.setChecked(true);
+//                        //}
+//                        //else {
+//                          //  Log.d("알림팝업:", String.valueOf(getNotificationPermisseionEnable(mContext)));
+//                           // switch_notification.setChecked(false);
+//                       // }
+//                    }
+//
+//                    @Override
+//                    public void onPermissionDenied(List<String> deniedPermissions) {
+//                        Toast.makeText(mContext, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+//                       // if(getNotificationPermisseionEnable(mContext)) {
+//                         //   Log.d("알림팝업:", String.valueOf(getNotificationPermisseionEnable(mContext)));
+//                          //  switch_notification.setChecked(true);
+//                       // }
+//                       // else {
+//                         //   Log.d("알림팝업:", String.valueOf(getNotificationPermisseionEnable(mContext)));
+//                            //switch_notification.setChecked(false);
+//                        //}
+//                    }
+//                };
+//
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//                    TedPermission.create()
+//                            .setPermissionListener(permissionlistener)
+//                            .setDeniedMessage("공동장의 알림을 받고 싶다면 \n\n [설정]>[권한]에서 알림을 허용해주세요.")
+//                            .setPermissions(Manifest.permission.READ_CONTACTS, Manifest.permission.ACCESS_FINE_LOCATION)
+//                            .check();
+//                }
+//
+//                if(getNotificationPermisseionEnable(mContext)) {
+//                    Log.d("알림팝업129:", String.valueOf(getNotificationPermisseionEnable(mContext)));
+//                    switch_notification.setChecked(true);
+//                }
+//                else {
+//                    Log.d("알림팝업133:", String.valueOf(getNotificationPermisseionEnable(mContext)));
+//                    switch_notification.setChecked(false);
+//                }
+//
+//            }
+//
+//        });
+
+//        LinearLayout MyPage_Notification_Setting = (LinearLayout) findViewById(R.id.MyPage_Notification_Setting);
+//        MyPage_MyAccountSetting.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(ChangeActivity.this, AccountSettingActivity.class);
+//                intent.putExtra("user_id", user_id);
+//                startActivity(intent);
+//            }
+//        });
+    }
+
+    public static boolean getNotificationPermisseionEnable(Context mContext){
+
+        // [초기 리턴 변수 선언]
+        boolean resultData = true;
+
+        // [로직 처리 수행 실시]
+        try {
+            if (ContextCompat.checkSelfPermission(mContext, PERMISSION_ARRAY[16]) == PackageManager.PERMISSION_GRANTED){
+                Log.d("알림권한", "허용O");
+                // [리턴 결과 삽입 실시]
+                resultData = true;
+
+            }
+            else {
+                Log.d("알림권한", "허용X");
+                // [리턴 결과 삽입 실시]
+                resultData = false;
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        // [결과 리턴 실시]
+        return resultData;
     }
 }
