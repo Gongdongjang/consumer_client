@@ -120,6 +120,7 @@
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
                             android:text="+"
+                            android:stateListAnimator="@null"
                             android:textColor="@color/black"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -144,6 +145,7 @@
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
                             android:text="-"
+                            android:stateListAnimator="@null"
                             android:textColor="@color/black"
                             android:textSize="15sp"
                             android:textStyle="bold"

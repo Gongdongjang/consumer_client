@@ -383,10 +383,10 @@ public class JointPurchaseActivity extends AppCompatActivity {
                     Log.d("116행", res.toString());
                     message = res.get("message").getAsString();
                     if (message.equals("exist")) {
-                        Keep.setImageResource(R.drawable.ic_baseline_favorite_24);
+                        Keep.setImageResource(R.drawable.ic_mypage_wish);
                         Keep.setTag("liked");
                     } else if (message.equals("notexist")) {
-                        Keep.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                        Keep.setImageResource(R.drawable.ic_order_wish);
                         Keep.setTag("like");
                     }
                 } catch (IOException e) {
@@ -414,11 +414,11 @@ public class JointPurchaseActivity extends AppCompatActivity {
                             message = res.get("message").getAsString();
                             if (Keep.getTag().equals("like")) {
                                 Toast.makeText(JointPurchaseActivity.this, "찜한 상품에 등록되었습니다.", Toast.LENGTH_SHORT).show();
-                                Keep.setImageResource(R.drawable.ic_baseline_favorite_24);
+                                Keep.setImageResource(R.drawable.ic_mypage_wish);
                                 Keep.setTag("liked");
                             } else {
                                 Toast.makeText(JointPurchaseActivity.this, "찜한 상품에서 취소되었습니다.", Toast.LENGTH_SHORT).show();
-                                Keep.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                                Keep.setImageResource(R.drawable.ic_order_wish);
                                 Keep.setTag("like");
                             }
                         } catch (IOException e) {

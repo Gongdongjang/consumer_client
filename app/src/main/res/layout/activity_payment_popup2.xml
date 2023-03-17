@@ -17,6 +17,7 @@
         android:backgroundTint="#1EAA95"
         android:text="주문하기"
         android:textColor="@color/white"
+        android:stateListAnimator="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

@@ -106,6 +106,7 @@
                 android:textColor="#1EAA95"
                 android:backgroundTint="#FFFFFF"
                 android:text="취소하기"
+                android:stateListAnimator="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -119,6 +120,7 @@
                 android:layout_marginBottom="7dp"
                 android:backgroundTint="#1EAA95"
                 android:text="변경하기"
+                android:stateListAnimator="@null"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />

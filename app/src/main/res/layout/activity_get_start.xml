@@ -64,6 +64,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="100dp"
         android:layout_marginRight="20dp"
+        android:stateListAnimator="@null"
         android:background="@drawable/button_round2"
         android:enabled="false"
         android:text="공동장 시작하기"

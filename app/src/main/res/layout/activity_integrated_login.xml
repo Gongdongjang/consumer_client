@@ -88,6 +88,7 @@
                 android:background="@drawable/button_round"
                 android:text="3초 만에 간편 로그인하기"
                 android:textAlignment="center"
+                android:stateListAnimator="@null"
                 android:textColor="@color/purple_700"
                 android:textSize="11dp" />
 
@@ -101,10 +102,12 @@
 
                 <ImageButton
                     android:id="@+id/kakaobutton"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:backgroundTint="#FFFFFF"
+                    android:layout_marginTop="3dp"
                     android:scaleType="fitStart"
+                    android:stateListAnimator="@null"
                     app:srcCompat="@drawable/kakaotalk_icon" />
                 <ImageButton
                     android:id="@+id/googleBtn"
@@ -112,6 +115,7 @@
                     android:layout_height="100dp"
                     android:background="#FFFFFF"
                     android:scaleType="centerInside"
+                    android:stateListAnimator="@null"
                     app:srcCompat="@drawable/btn_google_light_normal_xhdpi" />
             </LinearLayout>
 
@@ -122,6 +126,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/button_round2"
                 android:text="아이디로 로그인"
+                android:stateListAnimator="@null"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -133,6 +138,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/button_round"
                 android:text="회원가입"
+                android:stateListAnimator="@null"
                 android:textColor="#1EAA95"
                 android:textSize="16sp"
                 android:textStyle="bold" />

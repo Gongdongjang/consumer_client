@@ -41,6 +41,7 @@
             android:padding="15dp"
             android:textColor="@color/white"
             android:backgroundTint="#1EAA95"
+            android:stateListAnimator="@null"
             android:layout_marginBottom="60dp"
             android:text="회사소개 바로가기"/>
 </LinearLayout>

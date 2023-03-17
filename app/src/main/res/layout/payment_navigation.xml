@@ -39,6 +39,7 @@
                 android:background="#F6F6F6"
                 android:backgroundTint="#FFFFFF"
                 android:text="주문하기"
+                android:stateListAnimator="@null"
                 android:textColor="#000000"
                 android:textStyle="bold"
                 app:iconTint="#FFFFFF"
