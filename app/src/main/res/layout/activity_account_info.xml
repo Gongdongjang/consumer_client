@@ -95,6 +95,7 @@
                 android:layout_marginLeft="280dp"
                 android:layout_marginTop="5dp"
                 android:backgroundTint="#1EAA95"
+                android:stateListAnimator="@null"
                 android:text="인증하기"
                 android:textStyle="bold" />
         </FrameLayout>
@@ -131,6 +132,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/button_round2"
+        android:stateListAnimator="@null"
         android:text="다음 단계로"
         android:textColor="@color/white"
         android:textSize="16sp"

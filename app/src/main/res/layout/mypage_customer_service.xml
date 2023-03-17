@@ -47,6 +47,7 @@
                 android:padding="10dp"
                 android:text="고객센터 연결\n(취소 / 교환 / 반품)"
                 android:textColor="@color/white"
+                android:stateListAnimator="@null"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

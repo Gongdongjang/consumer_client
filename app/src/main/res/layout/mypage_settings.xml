@@ -24,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:stateListAnimator="@null"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:text="비밀번호 재확인"/>

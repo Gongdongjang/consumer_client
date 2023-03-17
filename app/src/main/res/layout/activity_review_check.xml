@@ -263,6 +263,7 @@
                     android:background="@drawable/button_round"
                     android:backgroundTint="#F1F1F1"
                     android:enabled="false"
+                    android:stateListAnimator="@null"
                     android:text="수정하기"
                     android:textColor="#A3A3A3"
                     android:textStyle="bold" />

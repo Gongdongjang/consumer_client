@@ -271,6 +271,7 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
+            android:stateListAnimator="@null"
             android:backgroundTint="#F0F0F0"
             android:text="무통장 입금"
             android:textSize="14sp"
@@ -291,6 +292,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="6dp"
             android:backgroundTint="#F0F0F0"
+            android:stateListAnimator="@null"
             android:text="신한    000-0000-000000      김민서"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -494,6 +496,7 @@
             android:layout_marginTop="20dp"
             android:textColor="#BEBEBE"
             android:textStyle="bold"
+            android:stateListAnimator="@null"
             android:backgroundTint="#F1F1F1"
             android:text="결제하기" />
         <Button
@@ -503,6 +506,7 @@
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
             android:textColor="@color/white"
+            android:stateListAnimator="@null"
             android:textStyle="bold"
             android:backgroundTint="#1EAA95"
             android:text="결제하기" />

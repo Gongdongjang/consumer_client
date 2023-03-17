@@ -261,6 +261,7 @@
             android:layout_marginTop="50dp"
             android:layout_marginBottom="50dp"
             android:layout_marginLeft="20dp"
+            android:stateListAnimator="@null"
             android:layout_marginRight="20dp"
             android:background="@drawable/button_round2"
             android:text="홈으로 가기"
