@@ -99,6 +99,7 @@
                 android:text="인증하기"
                 android:textStyle="bold" />
         </FrameLayout>
+                android:stateListAnimator="@null"
 
         <TextView
             android:layout_width="wrap_content"
