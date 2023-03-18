@@ -14,11 +14,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.md.JointPurchaseActivity;
@@ -109,6 +111,17 @@ public class OrderDetailActivity extends AppCompatActivity {
         TextView txt_order_status4 = (TextView) findViewById(R.id.txt_order_status4);
         TextView txt_order_status5 = (TextView) findViewById(R.id.txt_order_status5);
         TextView txt_order_status6 = (TextView) findViewById(R.id.txt_order_status6);
+
+        //상단바 뒤로가기
+        ImageView gotoBack = findViewById(R.id.gotoBack);
+        gotoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OrderDetailActivity.this, MainActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
 
         //상단바 장바구니
         ImageView gotoCart = findViewById(R.id.gotoCart);
@@ -302,19 +315,13 @@ public class OrderDetailActivity extends AppCompatActivity {
         });
     }
 
-    //뒤로 가기
-//    @Override
-//    public void onBackPressed() {
-//        Order frag = new Order();
-//        Bundle args = new Bundle();
-//        args.putString("user_id", user_id);
-//        frag.setArguments(args);
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.fragment_order, frag);
-//        transaction.addToBackStack(null);
-//        transaction.commit();
-//    }
 
-
+    //뒤로가기
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(OrderDetailActivity.this, MainActivity.class);
+        intent.putExtra("user_id", user_id);
+        startActivity(intent);
+    }
 
 }

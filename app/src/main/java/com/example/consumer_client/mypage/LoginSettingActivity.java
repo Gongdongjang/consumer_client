@@ -10,13 +10,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.fragment.MyPage;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -81,6 +84,27 @@ public class LoginSettingActivity extends AppCompatActivity {
         pwConfirm = findViewById(R.id.EditPasswordConfirm_MP);
 
         Button changeBtn = findViewById(R.id.ConfirmBtn_MP);
+
+        //상단바 뒤로가기
+        ImageView gotoBack = findViewById(R.id.gotoBack);
+        gotoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginSettingActivity.this, MainActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+        //상단바 장바구니
+        ImageView gotoCart = findViewById(R.id.gotoCart);
+        gotoCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginSettingActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
 
 
         // 비밀번호 확인
