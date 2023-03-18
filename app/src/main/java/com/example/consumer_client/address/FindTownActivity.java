@@ -278,6 +278,7 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                     registAddress(userid, addresslist, first_time); //서버에 주소 저장
                     //알림 페이지로 이동
                     Intent intent = new Intent(FindTownActivity.this, Alarm.class);
+                    onDestroy();
                     intent.putExtra("user_id",userid);
                     startActivity(intent);
 //                   if(addresslist.size()>0)){
@@ -287,12 +288,19 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                     editAddress(userid, txt_address1.getText().toString(),txt_address2.getText().toString(),txt_address3.getText().toString()); //서버에 주소 저장
                     //메인 페이지로 이동
                     Intent intent = new Intent(FindTownActivity.this, MainActivity.class);
+                    onDestroy();
                     intent.putExtra("user_id",userid);
                     startActivity(intent);
                 }
             }
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapViewContainer.removeAllViews();
     }
 
     private String getCurrentAddress(double latitude, double longitude) {
@@ -411,12 +419,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mapViewContainer.removeAllViews();
-    }
-
-    @Override
     public void onRequestPermissionsResult(int permsRequestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grandResults) {
@@ -458,10 +460,12 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
     public void onBackPressed() {
         if(Objects.equals(first_time, "yes")){
             Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
+            onDestroy();
             intent.putExtra("user_id", userid);
             startActivity(intent);
         }else{
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            onDestroy();
             intent.putExtra("user_id", userid);
             startActivity(intent);
         }
