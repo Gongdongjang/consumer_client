@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
-public class ContentClick extends AppCompatActivity {
+public class ContentDetailActivity extends AppCompatActivity {
 
     TextView content_title, content_context, contentDate;
     ImageView content_photo, contentMainPhoto;

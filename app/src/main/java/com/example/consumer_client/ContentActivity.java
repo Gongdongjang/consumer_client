@@ -166,12 +166,4 @@ public class ContentActivity extends AppCompatActivity {
             }
         });
     }
-
-//    void get_content_list() {
-//
-//    }
-//
-//    void getBannerList() {
-//
-//    }
 }

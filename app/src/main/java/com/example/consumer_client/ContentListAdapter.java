@@ -9,11 +9,25 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.consumer_client.review.ReviewListAdapter;
+import com.example.consumer_client.review.ReviewListInfo;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class ContentListAdapter extends BaseAdapter {
+    private ArrayList<ContentItem> mList = null;
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, int pos);
+    }
+
+    private ContentListAdapter.OnItemClickListener mListener = null;
+
+    public void setOnItemClickListener(ContentListAdapter.OnItemClickListener listener) {
+        this.mListener = listener;
+    }
+
     String TAG = ContentListAdapter.class.getSimpleName();
 
     Context context;
@@ -70,7 +84,7 @@ public class ContentListAdapter extends BaseAdapter {
         content_thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context.getApplicationContext(), ContentClick.class);
+                Intent intent = new Intent(context.getApplicationContext(), ContentDetailActivity.class);
 
                 intent.putExtra("content_id", content_id.get(i));
                 intent.putExtra("content_title", content_title.get(i));

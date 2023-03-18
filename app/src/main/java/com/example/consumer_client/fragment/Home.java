@@ -27,11 +27,15 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.consumer_client.ContentActivity;
+import com.example.consumer_client.ContentDetailActivity;
+import com.example.consumer_client.ContentItem;
+import com.example.consumer_client.ContentListAdapter;
 import com.example.consumer_client.CustomSpinnerAdapter;
 import com.example.consumer_client.FragPagerAdapter;
 import com.example.consumer_client.review.ReviewCancelDialog;
@@ -80,6 +84,9 @@ interface HomeService {
 
     @GET("mdView_main")
     Call<ResponseBody> getMdMainData();
+
+    @GET("content")
+    Call<ResponseBody> getContent();
 }
 
 public class Home extends Fragment {
@@ -91,9 +98,12 @@ public class Home extends Fragment {
     JsonArray jsonArray, pu_start, dDay, addressArray;
 
     private View view;
-    private RecyclerView mRecyclerView;
+    ListView content_list;
+    private RecyclerView mRecyclerView, mContentRecyclerView;
     private ArrayList<HomeProductItem> mList;
+//    private ArrayList<ContentItem> mContentList;
     private HomeProductAdapter mHomeProductAdapter;
+    private ContentListAdapter mContentListAdapter;
 
     Activity mActivity;
     LocationManager lm;
@@ -104,8 +114,17 @@ public class Home extends Fragment {
     private TextView productList; //제품리스트 클릭하는 텍스트트
     private ImageView toolbar_cart, toolbar_notification;
 
-    String user_id;
-    String address;
+    String user_id, address;
+
+    ArrayList<String> content_thumbnail = new ArrayList<>();
+    ArrayList<Integer> content_id = new ArrayList<>();
+    ArrayList<String> content_title = new ArrayList<>();
+    ArrayList<String> content_date = new ArrayList<>();
+    ArrayList<String> contentMainPhotos = new ArrayList<>();
+    ArrayList<String> content_context = new ArrayList<>();
+    ArrayList<String> content_photo = new ArrayList<>();
+    ArrayList<String> content_link = new ArrayList<>();
+
     private ReviewCancelDialog reviewCancelDialog;
 
     private List<String> list = new ArrayList<>();
@@ -114,7 +133,7 @@ public class Home extends Fragment {
     private String selectedItem;
     int address_count;
     //스피터 반복호출 막기
-    private boolean  isFirstSelected = true; // 전역변수로 선언
+    private boolean isFirstSelected = true; // 전역변수로 선언
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -123,7 +142,7 @@ public class Home extends Fragment {
         Intent intent = mActivity.getIntent(); //intent 값 받기
         user_id = intent.getStringExtra("user_id");
 
-        if(getArguments() != null){
+        if (getArguments() != null) {
             user_id = getArguments().getString("user_id"); //값을 받아옴
         }
     }
@@ -157,7 +176,7 @@ public class Home extends Fragment {
                     addressArray = res.get("address_result").getAsJsonArray();  //json배열
                     Log.d("근처동네", String.valueOf(addressArray));
                     address_count = res.get("address_count").getAsInt();
-                    address= addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
+                    address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
                     final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
                     List<Address> address = geocoder.getFromLocationName(addressArray.get(0).getAsJsonObject().get("standard_address").getAsString(), 10);
                     Address location = address.get(0);
@@ -174,51 +193,50 @@ public class Home extends Fragment {
                 Log.d("근처동네", String.valueOf(addressArray));
 
                 //사용자가 등록한 주소 불러오기
-                if (address_count==0){
+                if (address_count == 0) {
                     list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
                     list.add("내 동네 설정하기");
-                }
-                else if (address_count == 1) {
-                    if(Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc0").getAsString())){
+                } else if (address_count == 1) {
+                    if (Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc0").getAsString())) {
                         list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
-                    }else{
+                    } else {
                         list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
                     }
                     list.add("내 동네 설정하기");
                 } else if (address_count == 2) {
-                    if(Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc0").getAsString())){
+                    if (Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc0").getAsString())) {
                         list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc2").getAsString());
-                    }else if (Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc1").getAsString())){
+                    } else if (Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc1").getAsString())) {
                         list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc2").getAsString());
-                    }else{
+                    } else {
                         list.add(addressArray.get(0).getAsJsonObject().get("loc2").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
                     }
                     list.add("내 동네 설정하기");
                 } else if (address_count == 3) {
-                    if(Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc0").getAsString())){
+                    if (Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc0").getAsString())) {
                         list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc2").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc3").getAsString());
-                    }else if (Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc1").getAsString())){
+                    } else if (Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc1").getAsString())) {
                         list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc2").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc3").getAsString());
-                    }else if (Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc2").getAsString())){
+                    } else if (Objects.equals(address, addressArray.get(0).getAsJsonObject().get("loc2").getAsString())) {
                         list.add(addressArray.get(0).getAsJsonObject().get("loc2").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc3").getAsString());
-                    }else{
+                    } else {
                         list.add(addressArray.get(0).getAsJsonObject().get("loc3").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
                         list.add(addressArray.get(0).getAsJsonObject().get("loc1").getAsString());
@@ -245,20 +263,21 @@ public class Home extends Fragment {
                             selectedItem = adapter.getItem();
                             //Toast.makeText(mActivity, "선택한 주소 : " + selectedItem, Toast.LENGTH_SHORT).show();
 
-                            if(Objects.equals(selectedItem, "내 동네 설정하기")){
+                            if (Objects.equals(selectedItem, "내 동네 설정하기")) {
                                 Intent intent = new Intent(mActivity, FindTownActivity.class);
                                 intent.putExtra("user_id", user_id);
                                 startActivity(intent);
                             } else {
                                 Log.d("근처동네 246", "여기오니//?");
                                 postStdAddress2(user_id, selectedItem);
-                                isFirstSelected=true;
+                                isFirstSelected = true;
                                 Intent intent = new Intent(mActivity, MainActivity.class);
                                 intent.putExtra("user_id", user_id);
                                 startActivity(intent);
                             }
                         }
                     }
+
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
                         //
@@ -275,7 +294,7 @@ public class Home extends Fragment {
         });
 
         //상단바 알림
-        toolbar_notification= view.findViewById(R.id.toolbar_notification);
+        toolbar_notification = view.findViewById(R.id.toolbar_notification);
         toolbar_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -287,9 +306,9 @@ public class Home extends Fragment {
 
         //상단바 장바구니
         toolbar_cart = view.findViewById(R.id.toolbar_cart);
-        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+        toolbar_cart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent intent = new Intent(mActivity, CartListActivity.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
@@ -314,7 +333,7 @@ public class Home extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, ContentActivity.class);
-                intent.putExtra("user_id" , user_id);
+                intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
         });
@@ -368,7 +387,8 @@ public class Home extends Fragment {
 
                             String realIf0;
                             if (dDay.get(i).getAsString().equals("0")) realIf0 = "D - day";
-                            else if(dDay.get(i).getAsInt() < 0) realIf0 = "D + "+ Math.abs(dDay.get(i).getAsInt());
+                            else if (dDay.get(i).getAsInt() < 0)
+                                realIf0 = "D + " + Math.abs(dDay.get(i).getAsInt());
                             else realIf0 = "D - " + dDay.get(i).getAsString();
 
                             addItem(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString(),
@@ -426,17 +446,75 @@ public class Home extends Fragment {
             }
         });
 
-        lm = (LocationManager) mActivity.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        content_list = view.findViewById(R.id.content_listview);
+        mContentListAdapter = new ContentListAdapter(mActivity, content_thumbnail, content_id, content_title, content_date, content_context, contentMainPhotos, content_photo, content_link);
+        content_list.setAdapter(mContentListAdapter);
 
+        //콘텐츠 정보
+        Call<ResponseBody> contentcall = service.getContent();
+        contentcall.enqueue(new Callback<ResponseBody>() {
+            @SuppressLint("DefaultLocale")
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    JsonArray res = (JsonArray) jsonParser.parse(response.body().string());
+                    for (int i = 0; i < res.size(); i++) {
+                        JsonObject jsonRes = (JsonObject) res.get(i);
+                        String thumbnail_url = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_thumbnail").toString().replaceAll("\"", "");
+                        content_thumbnail.add(thumbnail_url);
+
+                        String photo_url = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_photo").toString().replaceAll("\"", "");
+                        content_photo.add(photo_url);
+
+                        String mainPhotoUrl = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_main").toString().replaceAll("\"", "");
+                        contentMainPhotos.add(mainPhotoUrl);
+
+                        content_id.add(jsonRes.get("content_id").getAsInt());
+                        content_title.add(jsonRes.get("content_title").getAsString());
+                        content_context.add(jsonRes.get("content_context").getAsString());
+                        content_date.add(jsonRes.get("content_date").getAsString());
+                        content_link.add(jsonRes.get("content_link").getAsString());
+                    }
+                    mContentListAdapter.notifyDataSetChanged();
+
+                    //메인제품리스트 리사이클러뷰 누르면 나오는
+                    mContentListAdapter.setOnItemClickListener(
+                            new ContentListAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View v, int pos) {
+                                    Intent intent = new Intent(mActivity, ContentDetailActivity.class);
+                                    intent.putExtra("user_id", user_id);
+                                    intent.putExtra("standard_address", address);
+                                    startActivity(intent);
+                                }
+                            }
+                    );
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    try {
+                        throw e;
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(mActivity, "메인 제품리스트 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        lm = (LocationManager) mActivity.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
         setInit(); //뷰페이저2 실행 메서드
         //전체 fragment home return
         return view;
     }
 
+
     //기준주소 등록하기
-    void postStdAddress2(String user_id, String address){
-        Log.d("근처동네 452", "여기오니//?");
+    void postStdAddress2(String user_id, String address) {
         JsonObject body = new JsonObject();
         body.addProperty("id", user_id);
         body.addProperty("standard_address", address);  //기준 주소
@@ -451,6 +529,7 @@ public class Home extends Fragment {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
 
@@ -502,10 +581,12 @@ public class Home extends Fragment {
         throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    //홈화면 제품리스트
+    //홈화면 제품리스트 및 콘텐츠리스트
     public void firstInit() {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.homeStore);
+        mContentRecyclerView = (RecyclerView) view.findViewById(R.id.HomeContents);
         mList = new ArrayList<>();
+//        mContentList = new ArrayList<>();
     }
 
     public void addItem(String md_id, String imgName, String mainText, String subText, String distanceKilo, String mdPrice, String dDay, String puTime) {
@@ -521,5 +602,20 @@ public class Home extends Fragment {
         item.setHomePuTime(puTime);
 
         mList.add(item);
+    }
+
+    public void addContent(String thumbnailUrl, String photo_url, String mainPhotoUrl, int content_id, String content_title, String content_context, String content_date, String content_link) {
+        ContentItem item = new ContentItem();
+
+        item.setContent_thumbnail(thumbnailUrl);
+        item.setContent_photo(photo_url);
+        item.setContentMainPhotos(mainPhotoUrl);
+        item.setContent_id(content_id);
+        item.setContent_title(content_title);
+        item.setContent_context(content_context);
+        item.setContent_date(content_date);
+        item.setContent_link(content_link);
+
+        mContentList.add(item);
     }
 }
