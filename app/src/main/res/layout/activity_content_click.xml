@@ -63,6 +63,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2023-02-04"
+                android:textSize="11sp"
+                android:textColor="#A3A3A3"
+                android:layout_marginTop="5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="16dp"
                 app:layout_constraintTop_toBottomOf="@id/content_context" />
