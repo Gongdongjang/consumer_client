@@ -138,28 +138,12 @@ public class ChangeActivity extends AppCompatActivity {
                 PermissionListener permissionlistener = new PermissionListener() {
                     @Override
                     public void onPermissionGranted() {
-                        Toast.makeText(mContext, "Permission Granted", Toast.LENGTH_SHORT).show();
-                        //if(getNotificationPermisseionEnable(mContext)) {
-                        //  Log.d("알림팝업:", String.valueOf(getNotificationPermisseionEnable(mContext)));
-                        //switch_notification.setChecked(true);
-                        //}
-                        //else {
-                        //  Log.d("알림팝업:", String.valueOf(getNotificationPermisseionEnable(mContext)));
-                        // switch_notification.setChecked(false);
-                        // }
+                        //Toast.makeText(mContext, "Permission Granted", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onPermissionDenied(List<String> deniedPermissions) {
-                        Toast.makeText(mContext, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
-                        // if(getNotificationPermisseionEnable(mContext)) {
-                        //   Log.d("알림팝업:", String.valueOf(getNotificationPermisseionEnable(mContext)));
-                        //  switch_notification.setChecked(true);
-                        // }
-                        // else {
-                        //   Log.d("알림팝업:", String.valueOf(getNotificationPermisseionEnable(mContext)));
-                        //switch_notification.setChecked(false);
-                        //}
+                        //Toast.makeText(mContext, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
                     }
                 };
 

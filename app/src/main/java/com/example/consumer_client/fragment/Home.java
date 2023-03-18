@@ -174,27 +174,6 @@ public class Home extends Fragment {
             }
         }
 
-//        PermissionListener permissionlistener = new PermissionListener() {
-//            @Override
-//            public void onPermissionGranted() {
-//                Toast.makeText(mActivity, "Permission Granted", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onPermissionDenied(List<String> deniedPermissions) {
-//                Toast.makeText(mActivity, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
-//            }
-//
-//        };
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//            TedPermission.create()
-//                    .setPermissionListener(permissionlistener)
-//                    .setDeniedMessage("공동장의 알림을 받고 싶다면 \n\n [설정]>[권한]에서 알림을 허용해주세요.")
-//                    .setPermissions(Manifest.permission.READ_CONTACTS, Manifest.permission.ACCESS_FINE_LOCATION)
-//                    .check();
-//        }
-
         //상단바 주소변경 누르면 주소변경/선택 페이지로
         JsonObject body = new JsonObject();
         body.addProperty("id", user_id);
