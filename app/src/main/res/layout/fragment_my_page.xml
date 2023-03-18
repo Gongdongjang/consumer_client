@@ -375,7 +375,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="문의하기"
- 기                  android:textSize="40px"
+                    android:textSize="40px"
                     android:textColor="@color/black"
                     android:layout_marginBottom="5dp"/>
                 <TextView
