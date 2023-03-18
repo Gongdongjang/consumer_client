@@ -17,18 +17,22 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_width="match_parent"
             android:layout_height="180dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/kakaotalk_20220324_152807451" />
 
         <TextView
             android:id="@+id/content_banner_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="78dp"
             android:layout_gravity="bottom"
-            android:padding="10dp"
-            android:textSize="20sp"
+            android:background="@drawable/content_banner_gradient"
+            android:paddingStart="20dp"
+            android:paddingTop="5dp"
+            android:text="콘텐츠 제목"
+            android:textColor="@color/white"
             android:textStyle="bold"
-            android:textColor="@color/black"
-            android:text="콘텐츠 제목" />
+            android:textSize="20sp"
+            />
 
     </FrameLayout>
 
