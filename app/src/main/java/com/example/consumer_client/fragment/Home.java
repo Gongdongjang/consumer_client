@@ -464,50 +464,6 @@ public class Home extends Fragment {
         return view;
     }
 
-//    public static boolean getNotificationPermisseionEnable(Context mContext){
-//
-//        /**
-//         * -------------------------------------------
-//         * [필요 퍼미션 설정]
-//         *
-//         * <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-//         * <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
-//         * -------------------------------------------
-//         * [PERMISSION_ARRAY 선언 데이터]
-//         *
-//         * Manifest.permission.POST_NOTIFICATIONS
-//         * -------------------------------------------
-//         * */
-//
-//        // [Context 지정]
-//        Context context = mContext;
-//
-//        // [초기 리턴 변수 선언]
-//        boolean resultData = true;
-//
-//        // [로직 처리 수행 실시]
-//        try {
-//
-//            if (ContextCompat.checkSelfPermission(mContext, PERMISSION_ARRAY[16]) == PackageManager.PERMISSION_GRANTED){
-//                // [리턴 결과 삽입 실시]
-//                resultData = true;
-//                Log.d("알림권한", "허용O");
-//            }
-//            else {
-//
-//                // [리턴 결과 삽입 실시]
-//                resultData = false;
-//                Log.d("알림권한", "허용X");
-//            }
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-//
-//        // [결과 리턴 실시]
-//        return resultData;
-//    }
-
     //기준주소 등록하기
     void postStdAddress2(String user_id, String address){
         Log.d("근처동네 452", "여기오니//?");
