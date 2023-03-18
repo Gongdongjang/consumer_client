@@ -3,14 +3,16 @@ package com.example.consumer_client.mypage;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Switch;
-import android.widget.Toast;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -72,6 +74,8 @@ public class ChangeActivity extends AppCompatActivity {
 
         //로그인 정보
         LinearLayout MyPage_MyLoginSetting = (LinearLayout) findViewById(R.id.MyPage_MyLoginSetting);
+        TextView MyPage_MyLoginSetting_Text = findViewById(R.id.MyPage_MyLoginSetting_Text);
+        ImageView MyPage_MyLoginSetting_Image = findViewById(R.id.MyPage_MyLoginSetting_Image);
         // 소셜 확인 서버 통신
 
         Call<ResponseBody> call = service.check_id(user_id);
@@ -82,7 +86,10 @@ public class ChangeActivity extends AppCompatActivity {
                                  JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
                                  String message = res.get("message").getAsString();
                                  if (message.equals("sns")){
-                                     MyPage_MyLoginSetting.setVisibility(View.INVISIBLE);
+//                                     MyPage_MyLoginSetting.setVisibility(View.INVISIBLE);
+                                     MyPage_MyLoginSetting.setBackgroundColor(Color.parseColor("#F6F6F6"));
+                                     MyPage_MyLoginSetting_Text.setVisibility(View.INVISIBLE);
+                                     MyPage_MyLoginSetting_Image.setVisibility(View.INVISIBLE);
                                  } else if (message.equals("not_sns")){
                                      MyPage_MyLoginSetting.setOnClickListener(new View.OnClickListener() {
                                          @Override
