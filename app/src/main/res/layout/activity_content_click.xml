@@ -55,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/kakaotalk_20220324_152807451"
                 android:layout_marginTop="8dp"
+                android:adjustViewBounds="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/content_context"/>
 
