@@ -141,8 +141,8 @@ public class SignUpActivity extends AppCompatActivity {
                         try {
                             JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
                             Toast.makeText(SignUpActivity.this, res.get("message").getAsString(), Toast.LENGTH_LONG).show();
-                            //회원가입 버튼 클릭시, 로그인 페이지로 이동
-                            Intent intent = new Intent(getApplicationContext(), IntegratedLoginActivity.class);
+                            //회원가입 버튼 클릭시, 회원가입 완료 페이지로 이동
+                            Intent intent = new Intent(getApplicationContext(), StartActivity.class);
                             startActivity(intent);
                         } catch (IOException e) {
                             e.printStackTrace();

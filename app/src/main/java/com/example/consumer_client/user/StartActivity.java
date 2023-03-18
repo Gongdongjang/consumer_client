@@ -19,7 +19,7 @@ public class StartActivity extends AppCompatActivity {
 
         startGdjang=findViewById(R.id.startGdjangBtn);
         startGdjang.setOnClickListener(v -> {
-            Intent intent=new Intent(this, MainActivity.class); //자동로그인 되어 메인화면으로 이동
+            Intent intent=new Intent(this, IntegratedLoginActivity.class); //자동로그인 되어 메인화면으로 이동
             startActivity(intent);
         });
 
