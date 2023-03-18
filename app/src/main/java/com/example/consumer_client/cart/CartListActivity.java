@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,7 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
+import com.example.consumer_client.order.OrderDetailActivity;
 import com.example.consumer_client.order.ToPayActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -97,6 +100,16 @@ public class CartListActivity extends AppCompatActivity {
         pu_time = intent.getStringExtra("pickupTime");
         select_qty = intent.getStringExtra("select_qty");
 
+        //상단바 뒤로가기
+        ImageView gotoBack = findViewById(R.id.gotoBack);
+        gotoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CartListActivity.this, MainActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
 
         firstInit();
 

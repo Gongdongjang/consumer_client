@@ -28,11 +28,15 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 interface SignUpService {
     @POST("signup")
     Call<ResponseBody> signUp(@Body JsonObject body);
+    @GET("is_id_dup")
+    Call<ResponseBody> is_id_dup(@Query("id") String id);
 }
 
 public class SignUpActivity extends AppCompatActivity {
@@ -44,8 +48,9 @@ public class SignUpActivity extends AppCompatActivity {
 
     private TextView id_verify_txt, pwd_verify_txt;
     private EditText id, password, pwConfirm;
-    private Button id_verify_btn, signUpBtn;
+    private Button id_verify_btn, signUpBtn, ID_Dup_Check;
     private String name, phone_number;
+    private Boolean is_id_dup = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +68,53 @@ public class SignUpActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         pwConfirm = findViewById(R.id.pwConfirm);
         signUpBtn = findViewById(R.id.startGdjangBtn);
+        ID_Dup_Check = findViewById(R.id.ID_Dup_Check);
+
+        ID_Dup_Check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("##########클릭", "");
+
+                Call<ResponseBody> call = service.is_id_dup(id.getText().toString());
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()){
+                            try {
+                                Log.d("############서버 연결 드렁옴", "");
+
+                                JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                                String message = res.get("message").getAsString();
+                                Log.d("############message", message);
+                                if (message.equals("id_dup")){
+                                    is_id_dup = true;
+                                    Log.d("############id_dup", "");
+
+                                }
+                                else {
+                                    is_id_dup = false;
+                                    Log.d("############id_dup_not", "");
+                                }
+
+                                Log.d("############is_id_dup", is_id_dup.toString());
+                                if(is_id_dup){
+                                    Toast.makeText(SignUpActivity.this, "ID가 중복입니다.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(SignUpActivity.this, "사용 가능한 ID입니다.", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
 
         TextWatcher watcher1 = new TextWatcher() {
             @Override
@@ -99,13 +151,27 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                //텍스트가 변경될 때마다 발생할 이벤트
-                if (password.getText().toString().equals(pwConfirm.getText().toString())) {
-                    pwConfirm.setTextColor(Color.parseColor("#1EAA95"));
-                    signUpBtn.setEnabled(true);
-                } else {
-                    pwConfirm.setTextColor(Color.parseColor("#F75D39"));
-                    signUpBtn.setEnabled(false);
+                //id가 중복이 아니면
+                if (!is_id_dup){
+                    //텍스트가 변경될 때마다 발생할 이벤트
+                    if (password.getText().toString().equals(pwConfirm.getText().toString())) {
+                        pwConfirm.setTextColor(Color.parseColor("#1EAA95"));
+                        signUpBtn.setEnabled(true);
+                    } else {
+                        pwConfirm.setTextColor(Color.parseColor("#F75D39"));
+                        signUpBtn.setEnabled(false);
+                    }
+                }
+                else {
+                    Toast.makeText(SignUpActivity.this, "ID 중복을 확인해주세요.", Toast.LENGTH_LONG).show();
+                    //텍스트가 변경될 때마다 발생할 이벤트
+                    if (password.getText().toString().equals(pwConfirm.getText().toString())) {
+                        pwConfirm.setTextColor(Color.parseColor("#1EAA95"));
+                        signUpBtn.setEnabled(true);
+                    } else {
+                        pwConfirm.setTextColor(Color.parseColor("#F75D39"));
+                        signUpBtn.setEnabled(false);
+                    }
                 }
             }
         };
