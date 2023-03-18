@@ -45,10 +45,6 @@
 
     </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -325,64 +321,6 @@
             android:background="#F6F6F6"/>
 
             <LinearLayout
-                android:id="@+id/MyPage_UserCenter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:orientation="horizontal"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="고객센터"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="50px"/>
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:orientation="vertical"
-                android:layout_marginBottom="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="문의하기"
-                    android:textSize="40px"
-                    android:textColor="@color/black"
-                    android:layout_marginBottom="5dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="FAQ"
-                    android:textSize="40px"
-                    android:textColor="@color/black"
-                    android:layout_marginBottom="15dp"/>
-
-            </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="#F6F6F6"/>
-            <LinearLayout
                 android:id="@+id/MyPage_AboutGDJ"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -434,6 +372,13 @@
                     android:textColor="@color/black"
                     android:layout_marginBottom="5dp"/>
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="문의하기"
+ 기                  android:textSize="40px"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="5dp"/>
+                <TextView
                     android:id="@+id/btn_logout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -447,7 +392,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:background="#EAEAEA"/>
+            android:background="#F6F6F6"/>
 
         <LinearLayout
             android:id="@+id/MyPage_OpenSource"
@@ -479,10 +424,9 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="#EAEAEA"/>
-    </LinearLayout>
-</ScrollView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#F6F6F6"/>
+        </LinearLayout>
 </LinearLayout>

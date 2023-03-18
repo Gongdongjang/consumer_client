@@ -161,17 +161,6 @@ public class MyPage extends Fragment {
             }
         });
 
-        //고객 센터
-        LinearLayout myPage_UserCenter = (LinearLayout) view.findViewById(R.id.MyPage_UserCenter);
-        myPage_UserCenter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), UserCenterActivity.class);
-                intent.putExtra("user_id", user_id);
-                startActivity(intent);
-            }
-        });
-
         //about 공동장
         LinearLayout myPage_AboutGDJ = (LinearLayout) view.findViewById(R.id.MyPage_AboutGDJ);
         myPage_AboutGDJ.setOnClickListener(new View.OnClickListener() {
