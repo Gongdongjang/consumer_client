@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/border"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="6dp">
 
     <!-- 액티비티에서 사용자에게 보여지는 스피너 안의 텍스트뷰.
     선택된 상태로 취급받음 -->
@@ -13,6 +14,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="#000000"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:ellipsize="end"
+        android:maxLines="1"/>
 
 </LinearLayout>
