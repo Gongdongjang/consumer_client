@@ -23,7 +23,6 @@ import com.example.consumer_client.alarm.Alarm;
 import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.mypage.AboutGDJActivity;
 import com.example.consumer_client.mypage.ChangeActivity;
-import com.example.consumer_client.mypage.UserCenterActivity;
 import com.example.consumer_client.shopping_info.ShoppingInfoActivity;
 import com.example.consumer_client.user.IntegratedLoginActivity;
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
