@@ -179,10 +179,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
             checkRunTimePermission();
         }
         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-        //marker.setCustomImageAnchorPointOffset(new MapPOIItem.ImageOffset());
-        // (MapPOIItem.MarkerType.RedPin);
-        //mapView.setCustomCurrentLocationMarkerTrackingImage(R.drawable.location_pin, marker.getCustomImageAnchorPointOffset());
-        //mapView.setCustomCurrentLocationMarkerTrackingImage(R.drawable.location_pin, new MapPOIItem.ImageOffset(16, 16));
 
         gpsTracker= new GpsTracker(FindTownActivity.this);
         double latitude=gpsTracker.getLatitude();
@@ -282,6 +278,7 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                     registAddress(userid, addresslist, first_time); //서버에 주소 저장
                     //알림 페이지로 이동
                     Intent intent = new Intent(FindTownActivity.this, Alarm.class);
+                    onDestroy();
                     intent.putExtra("user_id",userid);
                     startActivity(intent);
 //                   if(addresslist.size()>0)){
@@ -291,12 +288,19 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                     editAddress(userid, txt_address1.getText().toString(),txt_address2.getText().toString(),txt_address3.getText().toString()); //서버에 주소 저장
                     //메인 페이지로 이동
                     Intent intent = new Intent(FindTownActivity.this, MainActivity.class);
+                    onDestroy();
                     intent.putExtra("user_id",userid);
                     startActivity(intent);
                 }
             }
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapViewContainer.removeAllViews();
     }
 
     private String getCurrentAddress(double latitude, double longitude) {
@@ -415,12 +419,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mapViewContainer.removeAllViews();
-    }
-
-    @Override
     public void onRequestPermissionsResult(int permsRequestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grandResults) {
@@ -462,10 +460,12 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
     public void onBackPressed() {
         if(Objects.equals(first_time, "yes")){
             Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
+            onDestroy();
             intent.putExtra("user_id", userid);
             startActivity(intent);
         }else{
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            onDestroy();
             intent.putExtra("user_id", userid);
             startActivity(intent);
         }
@@ -474,25 +474,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
     @Override
     public void onCurrentLocationUpdate (MapView mapView, MapPoint mapPoint, float accuracyInMeters){
         MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
-        //Log.i("#####현재위치","여기오긴하냐?????");
-        //Log.d("근처동네-현재위치", String.format("내위치 (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, accuracyInMeters));
-
-        //currentMapPoint = MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude);
-        //이 좌표로 지도 중심 이동
-
-        //marker.setMarkerType(MapPOIItem.MarkerType.RedPin);
-        //marker.setMapPoint(currentMapPoint);
-
-        //mapView.setMapCenterPoint(currentMapPoint, true);
-
-        //전역변수로 현재 좌표 저장
-//        mCurrentLat = mapPointGeo.latitude;
-//        mCurrentLng = mapPointGeo.longitude;
-//        Log.d(TAG, "현재위치 => " + mCurrentLat + "  " + mCurrentLng);
-//        //트래킹 모드가 아닌 단순 현재위치 업데이트일 경우, 한번만 위치 업데이트하고 트래킹을 중단시키기 위한 로직
-//        if (!isTrackingMode) {
-//            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-//        }
     }
 
     @Override
@@ -581,17 +562,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         public void onDraggablePOIItemMoved (MapView mapView, MapPOIItem mapPOIItem, MapPoint
         mapPoint){
             MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
-//            mSearchName = "드래그한 장소";
-//            mSearchLng = mapPointGeo.longitude;
-//            mSearchLat = mapPointGeo.latitude;
-//            mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(mSearchLat, mSearchLng), true);
-//            searchMarker.setItemName(mSearchName);
-//            MapPoint mapPoint2 = MapPoint.mapPointWithGeoCoord(mSearchLat, mSearchLng);
-//            searchMarker.setMapPoint(mapPoint2);
-//            searchMarker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
-//            searchMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-//            searchMarker.setDraggable(true);
-//            mMapView.addPOIItem(searchMarker);
         }
 
         @Override
