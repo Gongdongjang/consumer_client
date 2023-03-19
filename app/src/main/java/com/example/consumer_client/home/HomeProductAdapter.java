@@ -51,6 +51,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
 
             md_id=(TextView) itemView.findViewById(R.id.homeMdId);
             imgView_item = (ImageView) itemView.findViewById(R.id.homeProdImg_item);
+            imgView_item.setClipToOutline(true);
             txt_main = (TextView) itemView.findViewById(R.id.homeProdName_item);
             txt_sub = (TextView) itemView.findViewById(R.id.homeProdEx_item);
             txt_distance=(TextView) itemView.findViewById(R.id.storeLocationFromMe);

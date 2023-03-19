@@ -48,6 +48,7 @@ public class FarmDetailAdapter extends RecyclerView.Adapter<FarmDetailAdapter.Vi
                 }
             });
             prodImg = (ImageView) itemView.findViewById(R.id.homeProdImg_item); //제품 사진
+            prodImg.setClipToOutline(true);
             prodName = (TextView) itemView.findViewById(R.id.homeProdEx_item); //제품명
             storeName = (TextView) itemView.findViewById(R.id.homeProdName_item); //스토어명
             distance = (TextView) itemView.findViewById(R.id.storeLocationFromMe);

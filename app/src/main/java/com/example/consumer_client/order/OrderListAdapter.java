@@ -55,6 +55,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
 
             user_id = (TextView) itemView.findViewById(R.id.UserId);
             storeProdImgView = (ImageView) itemView.findViewById(R.id.ProdImg);
+            storeProdImgView.setClipToOutline(true);
             storeName = (TextView) itemView.findViewById(R.id.StoreName);
             storeLocationFromMe = (TextView) itemView.findViewById(R.id.StoreLocationFromMe);
             mdName = (TextView) itemView.findViewById(R.id.MdName);
