@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="#FFFFFF"
         android:orientation="vertical">
@@ -60,6 +60,9 @@
             android:text="아이디"
             android:textColor="@color/black"
             android:textStyle="bold" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/userId"
@@ -67,6 +70,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:backgroundTint="#1EAA95" />
+
+        <Button
+            android:id="@+id/ID_Dup_Check"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="280dp"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="#1EAA95"
+            android:stateListAnimator="@null"
+            android:text="중복확인"
+            android:textStyle="bold" />
+        </FrameLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -106,7 +121,7 @@
         android:id="@+id/startGdjangBtn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="290dp"
+        android:layout_marginTop="150dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/button_round2"

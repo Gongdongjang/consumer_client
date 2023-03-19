@@ -67,6 +67,7 @@
             android:layout_margin="16dp"
             android:backgroundTint="@color/white"
             android:text="주소 삭제하기"
+            android:stateListAnimator="@null"
             android:textColor="#1EAA95"
             android:textStyle="bold" />
 

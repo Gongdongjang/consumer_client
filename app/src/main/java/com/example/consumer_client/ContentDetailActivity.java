@@ -27,7 +27,7 @@ public class ContentDetailActivity extends AppCompatActivity {
         content_context = findViewById(R.id.content_context);
         contentMainPhoto = findViewById(R.id.content_main_photo);
         content_photo = findViewById(R.id.content_photo);
-        content_link = findViewById(R.id.content_link_btn);
+//        content_link = findViewById(R.id.content_link_btn);
         contentDate = findViewById(R.id.content_date);
 
         Intent intent = getIntent();

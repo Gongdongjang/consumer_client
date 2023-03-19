@@ -62,13 +62,7 @@
                 android:textSize="10sp" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/homeProdKeep"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="110dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/ic_baseline_favorite_border_24" />
+/
     </LinearLayout>
 
     <LinearLayout

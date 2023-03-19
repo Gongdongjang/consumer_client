@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.farm.FarmDetailAdapter;
 import com.example.consumer_client.md.MdDetailInfo;
@@ -120,6 +121,17 @@ public class Keep extends Fragment {
         //===주소정보
         JsonObject body = new JsonObject();
         body.addProperty("id", user_id);
+
+        //상단바 뒤로가기
+        ImageView gotoBack = view.findViewById(R.id.gotoBack);
+        gotoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, MainActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
 
         Call<ResponseBody> call = service.getStdAddress(body);
         call.enqueue(new Callback<ResponseBody>() {

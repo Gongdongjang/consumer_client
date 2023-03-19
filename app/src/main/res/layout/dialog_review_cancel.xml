@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button_round"
             android:text="취소"
+            android:stateListAnimator="@null"
             android:textColor="#1EAA95"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -46,6 +47,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button_round2"
             android:text="그만하기"
+            android:stateListAnimator="@null"
             android:textColor="#FFFFFF"/>
     </LinearLayout>
 

@@ -19,17 +19,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:scaleType="center"/>
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/content_list_title"
             android:layout_width="match_parent"
-            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:gravity="center"
             android:background="@drawable/button_round"
             android:padding="10dp"
             android:textColor="@color/black"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:text="콘텐츠 제목" />
 

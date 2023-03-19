@@ -1,13 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="#FFFFFF">
+
+        <ImageView
+            android:id="@+id/gotoBack"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/ic_top_arrow" />
+
+        <TextView
+            android:layout_width="212dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="회원 정보 변경"
+            android:textColor="#151515"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"
+            />
+
+        <ImageView
+            android:id="@+id/gotoCart"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center|right"
+            android:layout_weight="1"
+            android:src="@drawable/ic_cart_shopping" />
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F6F6F6"/>
+
+<androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
-    android:layout_marginTop="20dp"
-    tools:context=".MainActivity">
+    android:layout_marginTop="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +74,7 @@
             android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="프로필명"
+                android:text="프로필명 변경하기 "
                 android:textColor="@color/black"
                 android:textSize="15dp"
                 android:textStyle="bold" />
@@ -49,24 +95,20 @@
                 android:textSize="15dp"
                 android:backgroundTint="#1EAA95"
                 android:text="" />
-            <Button
-                android:id="@+id/ProfileNameDuplicateCheckBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:textColor="@color/white"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="#1EAA95"
-                android:layout_gravity="right"
-                android:textStyle="bold"
-                android:text="중복 확인"
-                android:textSize="5pt" />
-
         </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/text_1"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="10dp"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:text="연락처"
+            android:text="연락처 변경하기"
             android:textColor="@color/black"
             android:textSize="15dp"
             android:textStyle="bold" />
@@ -96,8 +138,30 @@
                 android:backgroundTint="#1EAA95"
                 android:layout_gravity="right"
                 android:text="인증하기"
+                android:stateListAnimator="@null"
                 android:textSize="5pt" />
 
+        </FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="인증 번호"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/inputNum2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#1EAA95"
+                android:inputType="number"/>
         </FrameLayout>
 
         <LinearLayout
@@ -117,6 +181,7 @@
                 android:textColor="#1EAA95"
                 android:backgroundTint="#FFFFFF"
                 android:text="취소하기"
+                android:stateListAnimator="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -130,9 +195,11 @@
                 android:layout_marginBottom="7dp"
                 android:backgroundTint="#1EAA95"
                 android:text="변경하기"
+                android:stateListAnimator="@null"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
+</LinearLayout>

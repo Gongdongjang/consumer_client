@@ -303,6 +303,7 @@ android:background="#FFFFFF">
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/white"
+            android:stateListAnimator="@null"
             android:text="리뷰 작성/ 주문 취소"
             android:textColor="#1EAA95"
             android:textStyle="bold"
@@ -371,6 +372,7 @@ android:background="#FFFFFF">
             android:layout_marginTop="20dp"
             android:backgroundTint="#1EAA95"
             android:text="고객센터 연결\n(취소/교환/반품)"
+            android:stateListAnimator="@null"
             android:textColor="@color/white"
             android:textStyle="bold" />
 

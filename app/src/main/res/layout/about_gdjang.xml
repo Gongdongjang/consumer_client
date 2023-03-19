@@ -23,24 +23,78 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="회사소개"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@color/black"/>
+
+    <Button
+        android:id="@+id/Company_Btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:padding="15dp"
+        android:textColor="@color/white"
+        android:backgroundTint="#1EAA95"
+        android:stateListAnimator="@null"
+        android:layout_marginBottom="10dp"
+        android:text="회사소개 바로가기"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="회사소개"
+            android:text="문의하기"
             android:textStyle="bold"
             android:textSize="18sp"
             android:textColor="@color/black"/>
 
         <Button
-            android:id="@+id/Company_Btn"
+            android:id="@+id/OpenKakao_Btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:padding="15dp"
-            android:textColor="@color/white"
             android:backgroundTint="#1EAA95"
-            android:layout_marginBottom="60dp"
-            android:text="회사소개 바로가기"/>
+            android:padding="10dp"
+            android:text="고객센터 연결\n(취소 / 교환 / 반품)"
+            android:textColor="@color/white"
+            android:stateListAnimator="@null"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"></LinearLayout>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="right"
+                android:background="@drawable/ic_cs"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="고객센터 문의 카카오톡(5시-6시)"
+                android:textColor="@color/text_2"
+                android:gravity="left"
+                android:layout_weight="1"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

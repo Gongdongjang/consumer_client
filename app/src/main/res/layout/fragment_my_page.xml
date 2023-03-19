@@ -45,10 +45,6 @@
 
     </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,62 +91,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/MyPage_UserInfo"
-                        android:orientation="horizontal"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1.5"
-                        android:padding="10dp"
-                        android:background="@drawable/button_round_color">
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/ic_mypage_profile">
-                        </ImageView>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="회원정보"
-                            android:textColor="@color/black"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/MyPage_RecentProd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:padding="10dp"
-                        android:background="@drawable/button_round_color">
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/ic_mypage_list">
-                        </ImageView>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:layout_weight="1"
-                            android:text="최근 본 상품"
-                            android:textColor="@color/black"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -367,7 +308,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="설정"
+                    android:text="알림 설정"
                     android:textColor="@color/black"
                     android:textSize="40px"
                     android:layout_marginBottom="15dp"/>
@@ -379,64 +320,6 @@
             android:layout_height="10dp"
             android:background="#F6F6F6"/>
 
-            <LinearLayout
-                android:id="@+id/MyPage_UserCenter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:orientation="horizontal"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="고객센터"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="50px"/>
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:orientation="vertical"
-                android:layout_marginBottom="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="문의하기"
-                    android:textSize="40px"
-                    android:textColor="@color/black"
-                    android:layout_marginBottom="5dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="FAQ"
-                    android:textSize="40px"
-                    android:textColor="@color/black"
-                    android:layout_marginBottom="15dp"/>
-
-            </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="#F6F6F6"/>
             <LinearLayout
                 android:id="@+id/MyPage_AboutGDJ"
                 android:layout_width="match_parent"
@@ -489,6 +372,13 @@
                     android:textColor="@color/black"
                     android:layout_marginBottom="5dp"/>
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="문의하기"
+                    android:textSize="40px"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="5dp"/>
+                <TextView
                     android:id="@+id/btn_logout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -502,7 +392,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:background="#EAEAEA"/>
+            android:background="#F6F6F6"/>
 
         <LinearLayout
             android:id="@+id/MyPage_OpenSource"
@@ -534,10 +424,9 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="#EAEAEA"/>
-    </LinearLayout>
-</ScrollView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#F6F6F6"/>
+        </LinearLayout>
 </LinearLayout>

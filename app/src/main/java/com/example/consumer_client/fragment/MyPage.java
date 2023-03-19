@@ -23,7 +23,6 @@ import com.example.consumer_client.alarm.Alarm;
 import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.mypage.AboutGDJActivity;
 import com.example.consumer_client.mypage.ChangeActivity;
-import com.example.consumer_client.mypage.UserCenterActivity;
 import com.example.consumer_client.shopping_info.ShoppingInfoActivity;
 import com.example.consumer_client.user.IntegratedLoginActivity;
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
@@ -156,17 +155,6 @@ public class MyPage extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ChangeActivity.class);
-                intent.putExtra("user_id", user_id);
-                startActivity(intent);
-            }
-        });
-
-        //고객 센터
-        LinearLayout myPage_UserCenter = (LinearLayout) view.findViewById(R.id.MyPage_UserCenter);
-        myPage_UserCenter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), UserCenterActivity.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }

@@ -16,9 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.consumer_client.R;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.example.consumer_client.agree.Agree3;
+import com.example.consumer_client.agree.Agree4;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
@@ -58,11 +57,6 @@ public class ToPayActivity extends AppCompatActivity {
         store_loc=intent.getStringExtra("store_loc");
         pickupDate = intent.getStringExtra("pickupDate");
         pickupTime = intent.getStringExtra("pickupTime");
-
-        //n 세트만큼 가격 결정.
-        //상품남은 재고 >= 세트선택 * prodNum 계산하기 위해
-        //int idx=JP_ToTalPrice.indexOf("원"); // ex)5000원 이렇게 되어있으니 '원' 문자 자르기
-        //int totalPrice= Integer.parseInt(JP_ToTalPrice.substring(0,idx));
 
         ProdName.setText(mdName);
         OrderCount.setText(purchaseNum);
@@ -115,28 +109,36 @@ public class ToPayActivity extends AppCompatActivity {
 
         //
         //결제버튼
-        RadioButton PayAgree1=(RadioButton) findViewById(R.id.Pay_Agree1);
-        RadioButton PayAgree2=(RadioButton) findViewById(R.id.Pay_Agree2);
         RadioButton PayAgree3=(RadioButton) findViewById(R.id.Pay_Agree3);
         RadioButton PayAgree4=(RadioButton) findViewById(R.id.Pay_Agree4);
+        TextView PayAgree3_Content=(TextView) findViewById(R.id.Pay_Agree3_Content);
+        TextView PayAgree4_Content=(TextView) findViewById(R.id.Pay_Agree4_Content);
         Button Pay_Off_Btn= (Button) findViewById(R.id.Pay_Off_Btn); //결제하기 버튼 비활성화
         Button Pay_On_Btn= (Button) findViewById(R.id.Pay_On_Btn); //결제하기 버튼
-        //RadioButton PayCard=(RadioButton) findViewById(R.id.Pay_Card);
-
-//        if (PayAgree1.isChecked() && PayAgree2.isChecked() && PayAgree3.isChecked() && PayAgree4.isChecked()){
-//            Pay_Off_Btn.setVisibility(View.GONE);
-//            Pay_On_Btn.setVisibility(View.VISIBLE);
-//        }
 
         EditText orderName= (EditText) findViewById(R.id.userName);
+
+        PayAgree3_Content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Agree3.class);
+                startActivity(intent);
+            }
+        });
+        PayAgree4_Content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Agree4.class);
+                startActivity(intent);
+            }
+        });
 
         Pay_Off_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (PayAgree1.isChecked() && PayAgree2.isChecked() && PayAgree3.isChecked() && PayAgree4.isChecked()){
+                if ( PayAgree3.isChecked() && PayAgree4.isChecked()){
                     Pay_Off_Btn.setVisibility(View.GONE);
                     Pay_On_Btn.setVisibility(View.VISIBLE);
-
 
                 }else{
                     Toast.makeText(ToPayActivity.this, "개인정보 및 구매유의사항을 확인하시오.", Toast.LENGTH_SHORT).show();

@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -16,6 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.consumer_client.R;
+import com.example.consumer_client.agree.Agree1;
+import com.example.consumer_client.agree.Agree2;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -75,17 +78,42 @@ public class AccountInfoActivity extends AppCompatActivity {
             }
         });
 
+        //약관
+        CheckBox checkBox1= findViewById(R.id.checkBox1);
+        CheckBox checkBox2= findViewById(R.id.checkBox2);
+        TextView agree1= findViewById(R.id.agree1);
+        TextView agree2= findViewById(R.id.agree2);
+
+        agree1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Agree1.class);
+                startActivity(intent);
+            }
+        });
+        agree2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Agree2.class);
+                startActivity(intent);
+            }
+        });
+
         nextStep.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                code_verify_input = findViewById(R.id.inputNum);
-                phoneVerify(code_verify_input.getText().toString(), mobile_no.getText().toString());
+                if (!checkBox1.isChecked() || !checkBox2.isChecked()){
+                    Toast.makeText(getApplicationContext(), "약관 동의 체크해주세요.", Toast.LENGTH_SHORT).show();
+                }else{
+                    code_verify_input = findViewById(R.id.inputNum);
+                    phoneVerify(code_verify_input.getText().toString(), mobile_no.getText().toString());
 //                if (code_ver.equals("true")) {
 //                } else {
 //                    Toast toast = Toast.makeText(getApplicationContext(), "인증 번호 및 전화번호를 확인해주세요.", Toast.LENGTH_LONG);
 //                    toast.show();
 //                }
+                }
             }
         });
     }
@@ -178,7 +206,8 @@ public class AccountInfoActivity extends AppCompatActivity {
 
         if (cancel) {
             focusView.requestFocus();
-        } else {
+        } else
+        {
             Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
             intent.putExtra("name", uname);
             intent.putExtra("phone_number", umobile_no);
