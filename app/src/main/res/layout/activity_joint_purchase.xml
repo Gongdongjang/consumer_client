@@ -34,28 +34,33 @@
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/JP_MD_Img"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp" />
+                        android:layout_height="300dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType = "fitXY"/>
 
                     <ImageView
                         android:id="@+id/KakaoShare"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="right|bottom"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="30dp"
+                        android:layout_marginRight="10dp"
                         app:srcCompat="@drawable/ic_product_share" />
                 </FrameLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:layout_marginTop="-18dp"
                     android:orientation="vertical"
-                    android:background="@drawable/top_radius">
+                    android:background="@drawable/border_md">
 
                     <TextView
                         android:id="@+id/JP_FarmName_Main"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="50dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:text="환희 농가"
@@ -67,7 +72,7 @@
                         android:id="@+id/ProdName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="50dp"
+                        android:layout_marginLeft="20dp"
                         android:text="갈아먹기 좋은 싱싱당근"
                         android:textColor="@color/black"
                         android:textSize="25dp"
@@ -122,6 +127,11 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="#F6F6F6"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -398,12 +408,13 @@
                     android:layout_height="210dp"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
+                    android:backgroundTint="#F0F0F0"
                     android:background="@drawable/button_round"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="36dp"
                         android:layout_height="21dp"
-                        android:background="@drawable/md_item_rectangle"
+                        android:background="@drawable/border_round_diagonal"
                         android:backgroundTint="#6765D6"
                         android:text="농가"
                         android:textAlignment="center"
@@ -450,13 +461,14 @@
                 <LinearLayout
                     android:layout_width="167dp"
                     android:layout_height="210dp"
+                    android:backgroundTint="#F0F0F0"
                     android:background="@drawable/button_round"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="36dp"
                         android:layout_height="21dp"
-                        android:background="@drawable/md_item_rectangle"
+                        android:background="@drawable/border_round_diagonal"
                         android:backgroundTint="#F75D39"
                         android:text="스토어"
                         android:textAlignment="center"
