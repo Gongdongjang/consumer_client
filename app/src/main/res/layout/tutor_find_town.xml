@@ -31,6 +31,7 @@
         android:layout_height="32dp"
         android:layout_gravity="center"
         android:gravity="center"
+        android:layout_marginTop="10dp"
         android:text="근처 동네 찾기"
         android:textColor="#151515"
         android:textSize="18sp"
@@ -111,37 +112,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/txt_address0"
                 android:layout_width="130dp"
                 android:layout_height="48dp"
-                android:layout_margin="10dp"
-                android:layout_marginTop="48dp"
-                android:backgroundTint="@color/white"
                 android:text="현재위치"
-                android:stateListAnimator="@null"
-                android:textColor="#1EAA95"
-                android:textStyle="bold"
                 android:maxLines="1"
-                android:ellipsize="end"/>
+                android:layout_margin="10dp"
+                android:background="@drawable/button_round"
+                android:stateListAnimator="@null"
+                android:textColor="#1EAA95" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/txt_address1"
                 android:layout_width="130dp"
                 android:layout_height="48dp"
-                android:layout_margin="10dp"
-                android:layout_marginTop="64dp"
-                android:backgroundTint="@color/white"
-                android:textColor="#1EAA95"
-                android:stateListAnimator="@null"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="266dp"
-                android:maxLines="1"
                 android:text="+"
-                android:ellipsize="end"/>
+                android:maxLines="1"
+                android:layout_margin="10dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/button_round"
+                android:stateListAnimator="@null"
+                android:textColor="#1EAA95" />
         </LinearLayout>
 
         <LinearLayout
@@ -151,31 +146,26 @@
             android:layout_gravity="center"
             android:layout_marginTop="5dp">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/txt_address2"
                 android:layout_width="130dp"
                 android:layout_height="48dp"
-                android:backgroundTint="@color/white"
                 android:text="+"
-                android:stateListAnimator="@null"
-                android:textColor="#1EAA95"
                 android:maxLines="1"
-                android:ellipsize="end"
-                />
+                android:background="@drawable/button_round"
+                android:stateListAnimator="@null"
+                android:textColor="#1EAA95" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/txt_address3"
                 android:layout_width="130dp"
                 android:layout_height="48dp"
-                android:backgroundTint="@color/white"
                 android:text="+"
-                android:layout_marginLeft="20dp"
-                android:stateListAnimator="@null"
-                android:textColor="#1EAA95"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="266dp"
                 android:maxLines="1"
-                android:ellipsize="end"/>
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/button_round"
+                android:stateListAnimator="@null"
+                android:textColor="#1EAA95" />
         </LinearLayout>
 
 <!--        <Button-->
