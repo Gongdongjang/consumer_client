@@ -109,10 +109,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginLeft="10dp"
-                            android:src="@drawable/location_pin" />
+                            android:src="@drawable/detail_location" />
 
                         <TextView
                             android:id="@+id/FarmLocation"
@@ -130,10 +130,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginLeft="10dp"
-                            android:src="@drawable/ic_farm_main_item" />
+                            android:src="@drawable/detail_time" />
 
                         <TextView
                             android:id="@+id/FarmMainItem"
@@ -150,10 +150,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginLeft="10dp"
-                            android:src="@drawable/phone_call" />
+                            android:src="@drawable/detail_phone" />
 
                         <TextView
                             android:id="@+id/FarmPhone"

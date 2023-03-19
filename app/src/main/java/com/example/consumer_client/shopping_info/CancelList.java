@@ -91,8 +91,8 @@ public class CancelList extends AppCompatActivity {
                                     "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + orderDetailArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                     orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                     orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(),
-                                    orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString()+"세트",
-                                    orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString()+"원",
+                                    orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString(),
+                                    orderDetailArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
                                     isPickuped,
                                     pickupDate);
                     }

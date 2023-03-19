@@ -83,10 +83,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginLeft="10dp"
-                            android:src="@drawable/location_pin" />
+                            android:src="@drawable/detail_location" />
 
                         <TextView
                             android:id="@+id/StoreLocation"
@@ -103,10 +103,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginLeft="10dp"
-                            android:src="@drawable/clock" />
+                            android:src="@drawable/detail_time" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -162,10 +162,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginLeft="10dp"
-                            android:src="@drawable/phone_call" />
+                            android:src="@drawable/detail_phone" />
 
                         <TextView
                             android:id="@+id/StoreCall"
