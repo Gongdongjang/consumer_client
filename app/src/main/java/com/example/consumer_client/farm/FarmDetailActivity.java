@@ -80,7 +80,7 @@ public class FarmDetailActivity extends AppCompatActivity {
     JsonParser jsonParser;
     JsonObject res;
     JsonArray farmArray, mdArray, pu_start, dDay, reviewArray;
-    String farm_id, farm_name, farmer_name, farm_info, farm_loc, farm_main_item, farm_phone, md_price;
+    String farm_id, farm_name, farmer_name, farm_info, farm_loc, farm_main_item, farm_phone;
     int avg = 0;
 
     private RecyclerView mRecyclerView;
@@ -90,7 +90,6 @@ public class FarmDetailActivity extends AppCompatActivity {
     private RecyclerView mReviewListRecyclerView;
     private ReviewListAdapter mReviewListAdapter;
     private ArrayList<ReviewListInfo> mReviewList;
-//    Activity mActivity;
 
     Context mContext;
 
@@ -200,7 +199,6 @@ public class FarmDetailActivity extends AppCompatActivity {
                         //review 정보
                         reviewArray = res.get("review_data").getAsJsonArray();
 
-//                        FarmMainImg.setImageDrawable("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(0).getAsJsonObject().get("farm_mainImg"));
                         Glide.with(FarmDetailActivity.this)
                                 .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(0).getAsJsonObject().get("farm_mainImg").getAsString())
                                 .into(FarmMainImg);
@@ -216,6 +214,7 @@ public class FarmDetailActivity extends AppCompatActivity {
                         FarmMainItem.setText(farm_main_item);
                         FarmPhone.setText(farm_phone);
                         FarmPurchaseCount.setText(String.valueOf(mdArray.size()));
+
                         //공유하기
                         KakaoShare.setOnClickListener(new View.OnClickListener() {
                             @Override
