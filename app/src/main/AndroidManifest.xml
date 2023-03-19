@@ -125,5 +125,11 @@
             android:name=".ContentActivity"
             android:exported="true" />
 
+        <activity android:name=".agree.Agree1" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".agree.Agree2" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".agree.Agree3" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".agree.Agree4" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+
     </application>
 </manifest>

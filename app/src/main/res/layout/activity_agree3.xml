@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="구매 유의 사항 확인"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="30dp"
+                android:text="제 2장 전자상거래 서비스
+
+\n\n제1절 공동구매 서비스
+
+\n\n제5조 ( 사전구매 )
+\n1.	서비스 이용자는 사전구매를 신청하며, 사전구매 마감 시 구매율이 30% 에 미치치 않는 경우 사전구매 진행 조건 미충족으로 사전구매가 취소될 수 있습니다.
+\n 1)	사전구매 불발 시, 위 사항에 대해서는 알림을 통해 공지됩니다.
+\n 2)	사전 구매 불발 시, 사전에 결제된 금액에 한해 모두 환불 처리될 예정입니다.
+\n2.	결제방법의 선택
+\n 1)	공동장의 서비스는 정상적으로 운영되는 서비스가 아닌, 서비스의 베타버전 운영을 시험하기 위한 일회성 파일럿입니다.
+\n 2)	무통장 결제 시, 공동장의 서비스는 일회성 파일럿이기에 현금 영수증 발행이 불가합니다.
+\n 3)	현금 영수증 발행 불가 조항에 동의하지 않으실 경우 서비스 이용이 제한됩니다.
+\n 4)	정보를 오기재, 미기재 등 이용자의 과실로 인하여 발생하는 문제는 이용자의 책임으로 합니다.
+
+
+\n\n제6조 (지급방법)
+
+\n사이트에서 구매한 상품은 사전구매 시 이용자가 선택한 현장 픽업 날짜에 이용자가 직접 ‘현장 픽업’을 통해 상품을 수령합니다.
+
+\n 1)	결제는 ‘무통장 입금’을 통해 진행됩니다.
+\n 2)	현장픽업에 응하지 않은 이용자가 상품을 수령하지 못하는 경우, 책임은 이용자 본인에게 있습니다.
+\n 3)	현장 픽업 시, 상품 불량에 관해서는 공동장이 책임을 지며 사전구매 금액에 대해 환불이 진행됩니다.
+\n 4)	상품 불량은 사전에 고지한 상품의 범위에서 현저히 벗어난 경우, 상품의 심한 훼손, 부패 등이 진행된 경우가 해당됩니다.
+\n 5)	상품 수령 시, 이용자는 다회용기 등 사전에 공지한 픽업 용기를 지참하지 않았을 경우 소매업체에서 제공하는 용기를 유료로 구매할 수 있습니다.
+
+
+\n\n제7조 (구매신청 변경 및 취소)
+\n1.	이용자는 사전구매의 진행이 확정되기 전 까지만 구매 취소 및 변경이 가능합니다.
+\n2.	사전구매가 확정된 이후에는 사전구매 내역에 대한 취소 및 환불이 불가합니다.
+\n3.	사전 구매 확정 후 사전구매 금액에 대한 환불은 불가하며 책임은 이용자에게 있습니다.
+\n4.	사전 구매 확정 후 이용자는 이틀간 진행되는 사전구매일자의 변경만 허용됩니다.
+"
+
+                android:textSize="15sp"
+                android:textColor="@color/text_3" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

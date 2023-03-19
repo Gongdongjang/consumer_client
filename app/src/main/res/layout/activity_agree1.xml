@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="개인정보 수집에 동의"
+        android:textSize="20sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="30dp"
+        android:text="공동장 서비스 내 이용자 식별, 회원관리 및 서비스 제공을 위해 회원번호와 함께 공동장에서 개인정보를 보관합니다. 사전구매 후 현장 픽업 시 소매업체 관리자에게 픽업에 필요한 가입자님의 개인정보 일부분을 제공합니다. 정보는 서비스 탈퇴 시 지체없이 파기됩니다. 아래 동의를 거부 할 권리가 있으며, 동의를 거부할 경우 서비스 이용이 제한됩니다.
+\n\n[제공받는 자]
+\n공동장, 현장 픽업 소매업체
+\n\n[필수 제공 항목]
+\n이름, 전화번호, 구매 내역
+\n\n[제공 목적]
+\n공동장 서비스 내 이용자 식별. 회원관리 및 서비스 제공
+\n\n[보유기간]
+\n서비스 탈퇴 시 지체없이 파기
+"
+        android:textSize="15sp"
+        android:textColor="@color/text_3"/>
+
+</LinearLayout>
