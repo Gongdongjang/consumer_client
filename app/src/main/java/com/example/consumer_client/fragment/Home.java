@@ -15,7 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,23 +28,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.consumer_client.ContentActivity;
-import com.example.consumer_client.ContentDetailActivity;
-import com.example.consumer_client.ContentItem;
-import com.example.consumer_client.ContentListAdapter;
+import com.example.consumer_client.content.ContentActivity;
+import com.example.consumer_client.content.ContentDetailActivity;
+import com.example.consumer_client.content.ContentItem;
+import com.example.consumer_client.content.ContentListAdapter;
 import com.example.consumer_client.CustomSpinnerAdapter;
 import com.example.consumer_client.FragPagerAdapter;
-import com.example.consumer_client.review.ReviewCancelDialog;
 import com.example.consumer_client.MainActivity;
-import com.example.consumer_client.address.EditTownActivity;
 import com.example.consumer_client.address.FindTownActivity;
 import com.example.consumer_client.alarm.Alarm;
 import com.example.consumer_client.cart.CartListActivity;
@@ -60,11 +55,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
-
-import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapView;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.example.consumer_client;
+package com.example.consumer_client.content;
 
 import static com.example.consumer_client.address.LocationDistance.distance;
 
@@ -14,12 +14,12 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.consumer_client.MainActivity;
+import com.example.consumer_client.R;
 import com.example.consumer_client.cart.CartListActivity;
-import com.example.consumer_client.farm.FarmDetailActivity;
 import com.example.consumer_client.farm.FarmDetailAdapter;
 import com.example.consumer_client.md.JointPurchaseActivity;
 import com.example.consumer_client.md.MdDetailInfo;

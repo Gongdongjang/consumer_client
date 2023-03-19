@@ -1,36 +1,25 @@
-package com.example.consumer_client;
+package com.example.consumer_client.content;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 
+import com.example.consumer_client.MainActivity;
+import com.example.consumer_client.R;
 import com.example.consumer_client.cart.CartListActivity;
-import com.example.consumer_client.farm.FarmDetailAdapter;
-import com.example.consumer_client.md.MdDetailInfo;
-import com.example.consumer_client.md.MdListMainActivity;
-import com.example.consumer_client.review.ReviewListAdapter;
-import com.example.consumer_client.review.ReviewListInfo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -38,9 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 
 interface ContentService {
     @GET("content")

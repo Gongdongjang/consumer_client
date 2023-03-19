@@ -20,6 +20,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.consumer_client.content.ButtonClickListener;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;

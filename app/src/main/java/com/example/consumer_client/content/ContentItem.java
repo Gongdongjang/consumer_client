@@ -1,4 +1,4 @@
-package com.example.consumer_client;
+package com.example.consumer_client.content;
 
 public class ContentItem {
     private String content_thumbnail;
