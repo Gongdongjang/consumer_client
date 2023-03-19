@@ -4,6 +4,7 @@ package com.example.consumer_client.user;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -62,6 +63,17 @@ public class StandardLoginActivity extends AppCompatActivity {
         jsonParser = new JsonParser();
 
         loginbutton = findViewById(R.id.loginbutton);
+
+        //이이디 비밀번호 찾기
+        TextView find = (TextView) findViewById(R.id.find);
+        find.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://open.kakao.com/o/suhyQ78e"));
+                startActivity(intent);
+            }
+        });
 
         // 자동로그인 바로 이동
 
