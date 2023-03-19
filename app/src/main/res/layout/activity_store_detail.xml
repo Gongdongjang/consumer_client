@@ -27,15 +27,18 @@
                 <ImageView
                     android:id="@+id/StoreMainImg"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="250dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType = "fitXY"
                     app:srcCompat="@drawable/ic_logo1" />
 
                 <ImageView
                     android:id="@+id/KakaoShare"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="right|bottom"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="20dp"
                     app:srcCompat="@drawable/ic_product_share" />
 
             </FrameLayout>
@@ -43,6 +46,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="-12dp"
                 android:background="@drawable/top_radius"
                 android:orientation="vertical">
 
