@@ -231,40 +231,49 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         txt_address2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int status = NetworkStatus.getConnectivityStatus(getApplicationContext());
-                if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
+                if(txt_address1.getText().toString().equals("+")){
+                    Toast.makeText(getApplicationContext(), "앞에서부터 주소를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                }else{
+                    int status = NetworkStatus.getConnectivityStatus(getApplicationContext());
+                    if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
 
-                    Log.i("주소설정페이지", "주소입력창 클릭");
-                    Intent intent = new Intent(getApplicationContext(), PlusAddressActivity.class);
-                    intent.putExtra("user_id",userid);
-                    intent.putExtra("number","2");
-                    // 화면전환 애니메이션 없애기
-                    overridePendingTransition(0, 0);
-                    // 주소결과
-                    startActivityForResult(intent, SEARCH_ADDRESS_ACTIVITY);
+                        Log.i("주소설정페이지", "주소입력창 클릭");
+                        Intent intent = new Intent(getApplicationContext(), PlusAddressActivity.class);
+                        intent.putExtra("user_id",userid);
+                        intent.putExtra("number","2");
+                        // 화면전환 애니메이션 없애기
+                        overridePendingTransition(0, 0);
+                        // 주소결과
+                        startActivityForResult(intent, SEARCH_ADDRESS_ACTIVITY);
 
-                } else {
-                    Toast.makeText(getApplicationContext(), "인터넷 연결을 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "인터넷 연결을 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
             }
         });
         txt_address3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int status = NetworkStatus.getConnectivityStatus(getApplicationContext());
-                if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
+                if(txt_address1.getText().toString().equals("+") || txt_address2.getText().toString().equals("+")){
+                    Toast.makeText(getApplicationContext(), "앞에서부터 주소를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                }else{
+                    int status = NetworkStatus.getConnectivityStatus(getApplicationContext());
+                    if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
 
-                    Log.i("주소설정페이지", "주소입력창 클릭");
-                    Intent intent = new Intent(getApplicationContext(), PlusAddressActivity.class);
-                    intent.putExtra("user_id",userid);
-                    intent.putExtra("number","3");
-                    // 화면전환 애니메이션 없애기
-                    overridePendingTransition(0, 0);
-                    // 주소결과
-                    startActivityForResult(intent, SEARCH_ADDRESS_ACTIVITY);
+                        Log.i("주소설정페이지", "주소입력창 클릭");
+                        Intent intent = new Intent(getApplicationContext(), PlusAddressActivity.class);
+                        intent.putExtra("user_id",userid);
+                        intent.putExtra("number","3");
+                        // 화면전환 애니메이션 없애기
+                        overridePendingTransition(0, 0);
+                        // 주소결과
+                        startActivityForResult(intent, SEARCH_ADDRESS_ACTIVITY);
 
-                } else {
-                    Toast.makeText(getApplicationContext(), "인터넷 연결을 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "인터넷 연결을 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -309,7 +318,7 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         List<Address> addresses;
 
         try{
-        addresses= geocoder.getFromLocation(latitude,longitude,10);
+        addresses= geocoder.getFromLocation(latitude,longitude,8);
         }catch (IOException ioException){
             return "";
         }
