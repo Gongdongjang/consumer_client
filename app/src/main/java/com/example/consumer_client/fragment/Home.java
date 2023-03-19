@@ -98,10 +98,9 @@ public class Home extends Fragment {
     JsonArray jsonArray, pu_start, dDay, addressArray;
 
     private View view;
-    ListView content_list;
     private RecyclerView mRecyclerView, mContentRecyclerView;
     private ArrayList<HomeProductItem> mList;
-//    private ArrayList<ContentItem> mContentList;
+    private ArrayList<ContentItem> mContentList;
     private HomeProductAdapter mHomeProductAdapter;
     private ContentListAdapter mContentListAdapter;
 
@@ -115,17 +114,6 @@ public class Home extends Fragment {
     private ImageView toolbar_cart, toolbar_notification;
 
     String user_id, address;
-
-    ArrayList<String> content_thumbnail = new ArrayList<>();
-    ArrayList<Integer> content_id = new ArrayList<>();
-    ArrayList<String> content_title = new ArrayList<>();
-    ArrayList<String> content_date = new ArrayList<>();
-    ArrayList<String> contentMainPhotos = new ArrayList<>();
-    ArrayList<String> content_context = new ArrayList<>();
-    ArrayList<String> content_photo = new ArrayList<>();
-    ArrayList<String> content_link = new ArrayList<>();
-
-    private ReviewCancelDialog reviewCancelDialog;
 
     private List<String> list = new ArrayList<>();
     private Spinner spinner;
@@ -174,7 +162,6 @@ public class Home extends Fragment {
                 try {
                     res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
                     addressArray = res.get("address_result").getAsJsonArray();  //json배열
-                    Log.d("근처동네", String.valueOf(addressArray));
                     address_count = res.get("address_count").getAsInt();
                     address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
                     final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
@@ -183,14 +170,11 @@ public class Home extends Fragment {
                     myTownLat = location.getLatitude();
                     myTownLong = location.getLongitude();
 
-                    Log.d("근처동네", String.valueOf(address_count));
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
                 spinner = view.findViewById(R.id.change_address);
-                Log.d("근처동네", String.valueOf(addressArray));
 
                 //사용자가 등록한 주소 불러오기
                 if (address_count == 0) {
@@ -446,45 +430,51 @@ public class Home extends Fragment {
             }
         });
 
-        content_list = view.findViewById(R.id.content_listview);
-        mContentListAdapter = new ContentListAdapter(mActivity, content_thumbnail, content_id, content_title, content_date, content_context, contentMainPhotos, content_photo, content_link);
-        content_list.setAdapter(mContentListAdapter);
-
         //콘텐츠 정보
         Call<ResponseBody> contentcall = service.getContent();
         contentcall.enqueue(new Callback<ResponseBody>() {
-            @SuppressLint("DefaultLocale")
+
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     JsonArray res = (JsonArray) jsonParser.parse(response.body().string());
-                    for (int i = 0; i < res.size(); i++) {
+                    for (int i = 0; i < 2; i++) {
                         JsonObject jsonRes = (JsonObject) res.get(i);
-                        String thumbnail_url = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_thumbnail").toString().replaceAll("\"", "");
-                        content_thumbnail.add(thumbnail_url);
-
-                        String photo_url = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_photo").toString().replaceAll("\"", "");
-                        content_photo.add(photo_url);
-
-                        String mainPhotoUrl = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_main").toString().replaceAll("\"", "");
-                        contentMainPhotos.add(mainPhotoUrl);
-
-                        content_id.add(jsonRes.get("content_id").getAsInt());
-                        content_title.add(jsonRes.get("content_title").getAsString());
-                        content_context.add(jsonRes.get("content_context").getAsString());
-                        content_date.add(jsonRes.get("content_date").getAsString());
-                        content_link.add(jsonRes.get("content_link").getAsString());
+                        addContent(
+                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_thumbnail").getAsString(),
+                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_photo").getAsString(),
+                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_main").getAsString(),
+                                jsonRes.get("content_id").getAsInt(),
+                                jsonRes.get("content_title").getAsString(),
+                                jsonRes.get("content_context").getAsString(),
+                                jsonRes.get("content_date").getAsString(),
+                                jsonRes.get("content_link").getAsString()
+                        );
+                        Log.d("log", jsonRes.get("content_id").getAsString());
                     }
-                    mContentListAdapter.notifyDataSetChanged();
 
-                    //메인제품리스트 리사이클러뷰 누르면 나오는
+                    //어댑터 세팅
+                    mContentListAdapter = new ContentListAdapter(mContentList);
+                    mContentRecyclerView.setAdapter(mContentListAdapter);
+
+                    //세로로 세팅
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    mContentRecyclerView.setLayoutManager(linearLayoutManager);
+
+                    //메인콘텐츠리스트 리사이클러뷰 누르면 나오는
                     mContentListAdapter.setOnItemClickListener(
                             new ContentListAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(mActivity, ContentDetailActivity.class);
-                                    intent.putExtra("user_id", user_id);
-                                    intent.putExtra("standard_address", address);
+                                    intent.putExtra("content_id", mContentList.get(pos).getContent_id());
+                                    intent.putExtra("content_title", mContentList.get(pos).getContent_title());
+                                    intent.putExtra("content_photo", mContentList.get(pos).getContent_photo());
+                                    intent.putExtra("contentMainPhoto", mContentList.get(pos).getContentMainPhotos());
+                                    intent.putExtra("content_context", mContentList.get(pos).getContent_context());
+                                    intent.putExtra("contentDate", mContentList.get(pos).getContent_date());
+                                    intent.putExtra("content_link", mContentList.get(pos).getContent_link());
                                     startActivity(intent);
                                 }
                             }
@@ -586,7 +576,7 @@ public class Home extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.homeStore);
         mContentRecyclerView = (RecyclerView) view.findViewById(R.id.HomeContents);
         mList = new ArrayList<>();
-//        mContentList = new ArrayList<>();
+        mContentList = new ArrayList<>();
     }
 
     public void addItem(String md_id, String imgName, String mainText, String subText, String distanceKilo, String mdPrice, String dDay, String puTime) {
