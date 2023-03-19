@@ -88,7 +88,7 @@ public class CancelList extends AppCompatActivity {
                     for(int i=0;i<orderDetailArray.size();i++) {
                             addOrderList(user_id, orderDetailArray.get(i).getAsJsonObject().get("order_id").getAsString(),
                                     orderDetailArray.get(i).getAsJsonObject().get("store_loc").getAsString(),
-                                    "https://gdjang.s3.ap-northeast-2.amazonaws.com/" + orderDetailArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                                    "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + orderDetailArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                     orderDetailArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                     orderDetailArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                     orderDetailArray.get(i).getAsJsonObject().get("order_select_qty").getAsString()+"세트",

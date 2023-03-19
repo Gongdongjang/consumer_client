@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,9 +16,11 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.consumer_client.R;
 import com.example.consumer_client.agree.Agree3;
 import com.example.consumer_client.agree.Agree4;
+import com.example.consumer_client.md.JointPurchaseActivity;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
@@ -29,7 +32,7 @@ import java.util.List;
 public class ToPayActivity extends AppCompatActivity {
 
     String user_id;
-    String md_id, mdName, purchaseNum, JP_ToTalPrice;
+    String md_id, mdName, purchaseNum, JP_ToTalPrice, mdimg_thumbnail;
     String store_id, store_name, store_loc;
     String pickupDate,pickupTime;
 
@@ -45,6 +48,7 @@ public class ToPayActivity extends AppCompatActivity {
         TextView StoreName = (TextView) findViewById(R.id.Pay_Store_Name);
         TextView StoreAddr = (TextView) findViewById(R.id.Pay_Store_Addr);
         TextView PuDate = (TextView) findViewById(R.id.Pay_PU_Date);
+        ImageView ClientOrderProdIMG = findViewById(R.id.ClientOrderProdIMG);
 
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
@@ -57,6 +61,7 @@ public class ToPayActivity extends AppCompatActivity {
         store_loc=intent.getStringExtra("store_loc");
         pickupDate = intent.getStringExtra("pickupDate");
         pickupTime = intent.getStringExtra("pickupTime");
+        mdimg_thumbnail = intent.getStringExtra("mdimg_thumbnail");
 
         ProdName.setText(mdName);
         OrderCount.setText(purchaseNum);
@@ -66,7 +71,9 @@ public class ToPayActivity extends AppCompatActivity {
         String p= "픽업 예정일   "+ pickupDate + " ("+pickupTime+")";
         PuDate.setText(p);
         MdTotalPrice.setText(JP_ToTalPrice);
-
+        Glide.with(ToPayActivity.this)
+                .load(mdimg_thumbnail)
+                .into(ClientOrderProdIMG);
 
         final Geocoder geocoder = new Geocoder(getApplicationContext());
         List<Address> address= null;
@@ -107,7 +114,6 @@ public class ToPayActivity extends AppCompatActivity {
         // 지도화면 위에 추가되는 아이콘을 추가하기 위한 호출(말풍선 모양)
         mapView.addPOIItem(store_marker);
 
-        //
         //결제버튼
         RadioButton PayAgree3=(RadioButton) findViewById(R.id.Pay_Agree3);
         RadioButton PayAgree4=(RadioButton) findViewById(R.id.Pay_Agree4);

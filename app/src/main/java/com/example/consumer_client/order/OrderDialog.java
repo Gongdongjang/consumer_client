@@ -78,7 +78,7 @@ public class OrderDialog extends Dialog {
 
     public OrderDialog(@NonNull Context context, String mdName, String prodPrice,
                        String StkRemain, String pu_start, String pu_end, String pickup_start, String pickup_end, String store_name,
-                       String store_id, String store_loc, String user_id, String md_id) {
+                       String store_id, String store_loc, String user_id, String md_id, String mdimg_thumbnail) {
         super(context);
 
         bottomSheetDialog = new BottomSheetDialog(context);
@@ -309,6 +309,7 @@ public class OrderDialog extends Dialog {
                         i.putExtra("store_loc",store_loc);
                         i.putExtra("pickupDate",PickUpDate.getText());
                         i.putExtra("pickupTime",PickUpTime.getText());
+                        i.putExtra("mdimg_thumbnail", mdimg_thumbnail);
                         v.getContext().startActivity(i);
                     }
                     else{

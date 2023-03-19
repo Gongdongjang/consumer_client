@@ -88,7 +88,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
     JsonObject res, body;
     JsonArray md_detail, reviewArray, keep_date;
-    String pu_start, pu_end, pickup_start, pickup_end, user_id, store_id, md_end, dDay, standard_address;
+    String pu_start, pu_end, pickup_start, pickup_end, user_id, store_id, md_end, dDay, standard_address, mdimg_thumbnail;
     JsonArray keep_data;
     String message, store_loc;
     String[] imgUrl = new String[5];
@@ -252,6 +252,8 @@ public class JointPurchaseActivity extends AppCompatActivity {
                         Glide.with(JointPurchaseActivity.this)
                                 .load("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + md_detail.get(0).getAsJsonObject().get("store_thumbnail").getAsString())
                                 .into(StoreFileName);
+
+                        mdimg_thumbnail = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + md_detail.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString();
 
                         //공유하기
                         KakaoShare.setOnClickListener(new View.OnClickListener() {
@@ -456,9 +458,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
             public void onClick(View v) {
                 orderDialog = new OrderDialog(mContext, (String) MdName.getText(), (String) MdPrice.getText()
                         , (String) StkRemain.getText(), pu_start, pu_end, pickup_start, pickup_end, (String) StoreName.getText(),
-                        store_id, store_loc, user_id, md_id);
-                //orderDialog = new OrderDialog(mContext,md_detail.get(0).getAsJsonObject().get("md_name").getAsString(),pu_start,pu_end);
-//                orderDialog.show();
+                        store_id, store_loc, user_id, md_id, mdimg_thumbnail);
             }
         });
     }
