@@ -159,8 +159,6 @@ public class Home extends Fragment {
         //product recyclerview 초기화
         firstInit();
 
-        //Log.d("알림권한: ", String.valueOf(getNotificationPermisseionEnable(mActivity)));
-
         //알림 허용 창
         ActivityResultLauncher<String> requestPermissionLauncher =
                 registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
@@ -350,7 +348,8 @@ public class Home extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, ContentActivity.class);
-                intent.putExtra("user_id" , user_id);
+                intent.putExtra("user_id", user_id);
+                intent.putExtra("standard_address", address);
                 startActivity(intent);
             }
         });
@@ -490,12 +489,10 @@ public class Home extends Fragment {
                                 jsonRes.get("content_title").getAsString(),
                                 jsonRes.get("content_context").getAsString(),
                                 jsonRes.get("content_date").getAsString(),
-                                jsonRes.get("content_link").getAsString()
+                                jsonRes.get("content_md_id1").isJsonNull() ? "null" : jsonRes.get("content_md_id1").getAsString(),
+                                jsonRes.get("content_md_id2").isJsonNull() ? "null" : jsonRes.get("content_md_id2").getAsString()
                         );
-                        Log.d("log", "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_thumbnail").getAsString());
                     }
-
-                    Log.d("어뎁터 수", String.valueOf(mContentListAdapter.getItemCount()));
 
                     //메인콘텐츠리스트 리사이클러뷰 누르면 나오는
                     mContentListAdapter.setOnItemClickListener(
@@ -503,13 +500,16 @@ public class Home extends Fragment {
                                 @Override
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(mActivity, ContentDetailActivity.class);
+                                    intent.putExtra("user_id", user_id);
+                                    intent.putExtra("standard_address", address);
                                     intent.putExtra("content_id", mContentList.get(pos).getContent_id());
                                     intent.putExtra("content_title", mContentList.get(pos).getContent_title());
                                     intent.putExtra("content_photo", mContentList.get(pos).getContent_photo());
                                     intent.putExtra("contentMainPhoto", mContentList.get(pos).getContentMainPhotos());
                                     intent.putExtra("content_context", mContentList.get(pos).getContent_context());
                                     intent.putExtra("contentDate", mContentList.get(pos).getContent_date());
-                                    intent.putExtra("content_link", mContentList.get(pos).getContent_link());
+                                    intent.putExtra("content_md_id1", mContentList.get(pos).getContent_md_id1());
+                                    intent.putExtra("content_md_id2", mContentList.get(pos).getContent_md_id2());
                                     startActivity(intent);
                                 }
                             }
@@ -629,7 +629,7 @@ public class Home extends Fragment {
         mList.add(item);
     }
 
-    public void addContent(String thumbnailUrl, String photo_url, String mainPhotoUrl, int content_id, String content_title, String content_context, String content_date, String content_link) {
+    public void addContent(String thumbnailUrl, String photo_url, String mainPhotoUrl, int content_id, String content_title, String content_context, String content_date, String content_md_id1, String content_md_id2) {
         ContentItem item = new ContentItem();
 
         item.setContent_thumbnail(thumbnailUrl);
@@ -639,7 +639,8 @@ public class Home extends Fragment {
         item.setContent_title(content_title);
         item.setContent_context(content_context);
         item.setContent_date(content_date);
-        item.setContent_link(content_link);
+        item.setContent_md_id1(content_md_id1);
+        item.setContent_md_id2(content_md_id2);
 
         mContentList.add(item);
     }

@@ -82,7 +82,16 @@
                 android:textStyle="bold"
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/content_date" />
+                app:layout_constraintTop_toBottomOf="@+id/content_date"
+                android:layout_marginBottom="10dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/jp_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="20dp" />
         </LinearLayout>
 
     </ScrollView>

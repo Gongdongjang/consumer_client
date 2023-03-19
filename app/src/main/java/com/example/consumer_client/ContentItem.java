@@ -8,7 +8,8 @@ public class ContentItem {
     private String content_title;
     private String content_context;
     private String content_date;
-    private String content_link;
+    private String content_md_id1;
+    private String content_md_id2;
 
     public String getContent_thumbnail() {
         return content_thumbnail;
@@ -66,11 +67,19 @@ public class ContentItem {
         this.content_date = content_date;
     }
 
-    public String getContent_link() {
-        return content_link;
+    public String getContent_md_id1() {
+        return content_md_id1;
     }
 
-    public void setContent_link(String content_link) {
-        this.content_link = content_link;
+    public void setContent_md_id1(String content_md_id1) {
+        this.content_md_id1 = content_md_id1;
+    }
+
+    public String getContent_md_id2() {
+        return content_md_id2;
+    }
+
+    public void setContent_md_id2(String content_md_id2) {
+        this.content_md_id2 = content_md_id2;
     }
 }

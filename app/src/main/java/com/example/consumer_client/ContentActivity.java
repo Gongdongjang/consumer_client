@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.example.consumer_client.farm.FarmDetailAdapter;
+import com.example.consumer_client.md.MdDetailInfo;
 import com.example.consumer_client.review.ReviewListAdapter;
 import com.example.consumer_client.review.ReviewListInfo;
 import com.google.gson.JsonArray;
@@ -34,6 +36,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 
 interface ContentService {
     @GET("content")
@@ -45,11 +48,14 @@ interface ContentService {
 
 public class ContentActivity extends AppCompatActivity {
     String TAG = ContentActivity.class.getSimpleName();
-    ContentListAdapter contentListAdapter;
     JsonParser jsonParser = new JsonParser();
-    private ArrayList<ContentItem> mList = new ArrayList<>();
+
+    //콘텐츠 어뎁터 선언
     private RecyclerView mContentRecyclerView;
-    String user_id;
+    ContentListAdapter contentListAdapter;
+    private ArrayList<ContentItem> mList = new ArrayList<>();
+
+    String user_id, standard_address;
     ViewPager2 bannerList;
     BannerListAdapter bannerListAdapter;
     ArrayList<String> bannerThumbnails = new ArrayList<>();
@@ -80,12 +86,16 @@ public class ContentActivity extends AppCompatActivity {
         bannerList = findViewById(R.id.content_banner_view);
         bannerListAdapter = new BannerListAdapter(this, bannerThumbnails,
                 bannerIds, bannerTitles, bannerMainPhotos, bannerPhotos,
-                bannerContexts, bannerLinks, bannerDates);
+                bannerContexts, bannerDates);
         bannerList.setAdapter(bannerListAdapter);
 
-        JsonObject body = new JsonObject();
-        body.addProperty("user_id", user_id);
+        Intent intent;
+        intent = getIntent();
 
+        user_id = intent.getStringExtra("user_id");
+        standard_address = intent.getStringExtra("standard_address");
+
+        //콘텐츠 띄우기
         Call<ResponseBody> callCon = contentService.get_content();
         callCon.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -113,12 +123,10 @@ public class ContentActivity extends AppCompatActivity {
                                     jsonRes.get("content_title").getAsString(),
                                     jsonRes.get("content_context").getAsString(),
                                     jsonRes.get("content_date").getAsString(),
-                                    jsonRes.get("content_link").getAsString()
+                                    jsonRes.get("content_md_id1").isJsonNull() ? "null" : jsonRes.get("content_md_id1").getAsString(),
+                                    jsonRes.get("content_md_id2").isJsonNull() ? "null" : jsonRes.get("content_md_id2").getAsString()
                             );
-                            Log.d("왜 안되는 거야..", jsonRes.get("content_link").getAsString());
                         }
-
-                        Log.d("어뎁터 수", String.valueOf(contentListAdapter.getItemCount()));
 
                         //콘텐츠리스트 리사이클러뷰 누르면 나오는
                         contentListAdapter.setOnItemClickListener(
@@ -126,13 +134,16 @@ public class ContentActivity extends AppCompatActivity {
                                     @Override
                                     public void onItemClick(View v, int pos) {
                                         Intent intent = new Intent(ContentActivity.this, ContentDetailActivity.class);
+                                        intent.putExtra("user_id", user_id);
+                                        intent.putExtra("standard_address", standard_address);
                                         intent.putExtra("content_id", mList.get(pos).getContent_id());
                                         intent.putExtra("content_title", mList.get(pos).getContent_title());
                                         intent.putExtra("content_photo", mList.get(pos).getContent_photo());
                                         intent.putExtra("contentMainPhoto", mList.get(pos).getContentMainPhotos());
                                         intent.putExtra("content_context", mList.get(pos).getContent_context());
                                         intent.putExtra("contentDate", mList.get(pos).getContent_date());
-                                        intent.putExtra("content_link", mList.get(pos).getContent_link());
+                                        intent.putExtra("content_md_id1", mList.get(pos).getContent_md_id1());
+                                        intent.putExtra("content_md_id2", mList.get(pos).getContent_md_id2());
                                         startActivity(intent);
                                     }
                                 }
@@ -156,6 +167,7 @@ public class ContentActivity extends AppCompatActivity {
             }
         });
 
+        //배너 띄우기
         Call<ResponseBody> callBan = contentService.getBanner();
         callBan.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -173,7 +185,7 @@ public class ContentActivity extends AppCompatActivity {
                             bannerContexts.add(jsonObject.get("content_context").getAsString());
                             bannerPhotos.add("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_photo").getAsString());
                             bannerMainPhotos.add("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_main").getAsString());
-                            bannerLinks.add(jsonObject.get("content_link").getAsString());
+//                            bannerLinks.add(jsonObject.get("content_link").getAsString());
                             bannerDates.add(jsonObject.get("upload_date").getAsString());
                         }
                         System.out.println("banner " + bannerThumbnails);
@@ -196,7 +208,8 @@ public class ContentActivity extends AppCompatActivity {
             }
         });
     }
-    public void addContent(String thumbnailUrl, String photo_url, String mainPhotoUrl, int content_id, String content_title, String content_context, String content_date, String content_link) {
+    //콘텐츠 어뎁터 연결
+    public void addContent(String thumbnailUrl, String photo_url, String mainPhotoUrl, int content_id, String content_title, String content_context, String content_date, String content_md_id1, String content_md_id2) {
         ContentItem item = new ContentItem();
 
         item.setContent_thumbnail(thumbnailUrl);
@@ -206,8 +219,10 @@ public class ContentActivity extends AppCompatActivity {
         item.setContent_title(content_title);
         item.setContent_context(content_context);
         item.setContent_date(content_date);
-        item.setContent_link(content_link);
+        item.setContent_md_id1(content_md_id1);
+        item.setContent_md_id2(content_md_id2);
 
         mList.add(item);
     }
+
 }
