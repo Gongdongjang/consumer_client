@@ -9,6 +9,6 @@
         android:outlineProvider="none"
         />
     <corners
-        android:radius="16dp" />
+        android:radius="8dp" />
 
 </shape>

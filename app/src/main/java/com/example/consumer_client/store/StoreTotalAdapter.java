@@ -50,6 +50,7 @@ public class StoreTotalAdapter extends RecyclerView.Adapter<StoreTotalAdapter.Vi
             });
             storeid=(TextView) itemView.findViewById(R.id.StoreID);
             storeProdImgView = (ImageView) itemView.findViewById(R.id.StoreProdImg);
+            storeProdImgView.setClipToOutline(true);
             storeLocationFromMe = (TextView) itemView.findViewById(R.id.StoreLocationFromMe);
             storeName = (TextView) itemView.findViewById(R.id.StoreName);
             storeInfo = (TextView) itemView.findViewById(R.id.StoreInfo);
