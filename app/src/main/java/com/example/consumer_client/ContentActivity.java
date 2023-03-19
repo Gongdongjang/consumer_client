@@ -7,14 +7,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.farm.FarmDetailAdapter;
 import com.example.consumer_client.md.MdDetailInfo;
+import com.example.consumer_client.md.MdListMainActivity;
 import com.example.consumer_client.review.ReviewListAdapter;
 import com.example.consumer_client.review.ReviewListInfo;
 import com.google.gson.JsonArray;
@@ -94,6 +98,28 @@ public class ContentActivity extends AppCompatActivity {
 
         user_id = intent.getStringExtra("user_id");
         standard_address = intent.getStringExtra("standard_address");
+
+        //뒤로가기
+        ImageView gotoBack = findViewById(R.id.gotoBack);
+        gotoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(ContentActivity.this, MainActivity.class);
+                intent1.putExtra("user_id", user_id);
+                startActivity(intent1);
+            }
+        });
+
+        //상단바 장바구니
+        ImageView gotoCart = findViewById(R.id.gotoCart);
+        gotoCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ContentActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
 
         //콘텐츠 띄우기
         Call<ResponseBody> callCon = contentService.get_content();

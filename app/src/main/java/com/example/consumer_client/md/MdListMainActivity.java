@@ -66,15 +66,12 @@ public class MdListMainActivity extends AppCompatActivity {
 
     JsonObject res;
     JsonArray jsonArray;
-    //    JsonArray pay_schedule;
     JsonArray pu_start;
     JsonArray dDay;
 
     String user_id, standard_address;
     double myTownLat;
     double myTownLong;
-
-    ArrayList<String> md_id_list = new ArrayList<String>();
 
     private List<String> list = new ArrayList<>();
     private Spinner spinner;
