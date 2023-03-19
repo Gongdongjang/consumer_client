@@ -2,12 +2,19 @@ package com.example.consumer_client;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.example.consumer_client.review.ReviewListAdapter;
+import com.example.consumer_client.review.ReviewListInfo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -38,10 +45,11 @@ interface ContentService {
 
 public class ContentActivity extends AppCompatActivity {
     String TAG = ContentActivity.class.getSimpleName();
-    ListView content_list;
     ContentListAdapter contentListAdapter;
     JsonParser jsonParser = new JsonParser();
-
+    private ArrayList<ContentItem> mList = new ArrayList<>();
+    private RecyclerView mContentRecyclerView;
+    String user_id;
     ViewPager2 bannerList;
     BannerListAdapter bannerListAdapter;
     ArrayList<String> bannerThumbnails = new ArrayList<>();
@@ -53,14 +61,7 @@ public class ContentActivity extends AppCompatActivity {
     ArrayList<String> bannerDates = new ArrayList<>();
     ArrayList<String> bannerLinks = new ArrayList<>();
 
-    ArrayList<String> content_thumbnail = new ArrayList<>();
-    ArrayList<Integer> content_id = new ArrayList<>();
-    ArrayList<String> content_title = new ArrayList<>();
-    ArrayList<String> content_date = new ArrayList<>();
-    ArrayList<String> contentMainPhotos = new ArrayList<>();
-    ArrayList<String> content_context = new ArrayList<>();
-    ArrayList<String> content_photo = new ArrayList<>();
-    ArrayList<String> content_link = new ArrayList<>();
+    LinearLayoutManager linearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,15 +74,17 @@ public class ContentActivity extends AppCompatActivity {
                 .build();
         ContentService contentService = retrofit.create(ContentService.class);
 
-        content_list = findViewById(R.id.content_listview);
-        contentListAdapter = new ContentListAdapter(this, content_thumbnail, content_id, content_title, content_date, content_context, contentMainPhotos, content_photo, content_link);
-        content_list.setAdapter(contentListAdapter);
+        mContentRecyclerView = findViewById(R.id.content_listview);
+        mList = new ArrayList<>();
 
         bannerList = findViewById(R.id.content_banner_view);
         bannerListAdapter = new BannerListAdapter(this, bannerThumbnails,
                 bannerIds, bannerTitles, bannerMainPhotos, bannerPhotos,
                 bannerContexts, bannerLinks, bannerDates);
         bannerList.setAdapter(bannerListAdapter);
+
+        JsonObject body = new JsonObject();
+        body.addProperty("user_id", user_id);
 
         Call<ResponseBody> callCon = contentService.get_content();
         callCon.enqueue(new Callback<ResponseBody>() {
@@ -90,24 +93,51 @@ public class ContentActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     try {
                         JsonArray res = (JsonArray) jsonParser.parse(response.body().string());
+
+                        //어뎁터 적용
+                        contentListAdapter = new ContentListAdapter(mList);
+                        mContentRecyclerView.setAdapter(contentListAdapter);
+
+                        //세로로 세팅
+                        linearLayoutManager = new LinearLayoutManager(ContentActivity.this);
+                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        mContentRecyclerView.setLayoutManager(linearLayoutManager);
+
                         for (int i = 0; i < res.size(); i++) {
                             JsonObject jsonRes = (JsonObject) res.get(i);
-                            String thumbnail_url = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_thumbnail").toString().replaceAll("\"", "");
-                            content_thumbnail.add(thumbnail_url);
-
-                            String photo_url = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_photo").toString().replaceAll("\"", "");
-                            content_photo.add(photo_url);
-
-                            String mainPhotoUrl = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_main").toString().replaceAll("\"", "");
-                            contentMainPhotos.add(mainPhotoUrl);
-
-                            content_id.add(jsonRes.get("content_id").getAsInt());
-                            content_title.add(jsonRes.get("content_title").getAsString());
-                            content_context.add(jsonRes.get("content_context").getAsString());
-                            content_date.add(jsonRes.get("content_date").getAsString());
-                            content_link.add(jsonRes.get("content_link").getAsString());
+                            addContent(
+                                    "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_thumbnail").toString().replaceAll("\"", ""),
+                                    "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_photo").toString().replaceAll("\"", ""),
+                                    "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_main").toString().replaceAll("\"", ""),
+                                    jsonRes.get("content_id").getAsInt(),
+                                    jsonRes.get("content_title").getAsString(),
+                                    jsonRes.get("content_context").getAsString(),
+                                    jsonRes.get("content_date").getAsString(),
+                                    jsonRes.get("content_link").getAsString()
+                            );
+                            Log.d("왜 안되는 거야..", jsonRes.get("content_link").getAsString());
                         }
-                        contentListAdapter.notifyDataSetChanged();
+
+                        Log.d("어뎁터 수", String.valueOf(contentListAdapter.getItemCount()));
+
+                        //콘텐츠리스트 리사이클러뷰 누르면 나오는
+                        contentListAdapter.setOnItemClickListener(
+                                new ContentListAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View v, int pos) {
+                                        Intent intent = new Intent(ContentActivity.this, ContentDetailActivity.class);
+                                        intent.putExtra("content_id", mList.get(pos).getContent_id());
+                                        intent.putExtra("content_title", mList.get(pos).getContent_title());
+                                        intent.putExtra("content_photo", mList.get(pos).getContent_photo());
+                                        intent.putExtra("contentMainPhoto", mList.get(pos).getContentMainPhotos());
+                                        intent.putExtra("content_context", mList.get(pos).getContent_context());
+                                        intent.putExtra("contentDate", mList.get(pos).getContent_date());
+                                        intent.putExtra("content_link", mList.get(pos).getContent_link());
+                                        startActivity(intent);
+                                    }
+                                }
+                        );
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -166,12 +196,18 @@ public class ContentActivity extends AppCompatActivity {
             }
         });
     }
+    public void addContent(String thumbnailUrl, String photo_url, String mainPhotoUrl, int content_id, String content_title, String content_context, String content_date, String content_link) {
+        ContentItem item = new ContentItem();
 
-//    void get_content_list() {
-//
-//    }
-//
-//    void getBannerList() {
-//
-//    }
+        item.setContent_thumbnail(thumbnailUrl);
+        item.setContent_photo(photo_url);
+        item.setContentMainPhotos(mainPhotoUrl);
+        item.setContent_id(content_id);
+        item.setContent_title(content_title);
+        item.setContent_context(content_context);
+        item.setContent_date(content_date);
+        item.setContent_link(content_link);
+
+        mList.add(item);
+    }
 }

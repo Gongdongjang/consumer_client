@@ -38,6 +38,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.consumer_client.ContentActivity;
+import com.example.consumer_client.ContentDetailActivity;
+import com.example.consumer_client.ContentItem;
+import com.example.consumer_client.ContentListAdapter;
 import com.example.consumer_client.CustomSpinnerAdapter;
 import com.example.consumer_client.FragPagerAdapter;
 import com.example.consumer_client.review.ReviewCancelDialog;
@@ -88,6 +91,9 @@ interface HomeService {
 
     @GET("mdView_main")
     Call<ResponseBody> getMdMainData();
+
+    @GET("content")
+    Call<ResponseBody> getContent();
 }
 
 public class Home extends Fragment {
@@ -99,9 +105,11 @@ public class Home extends Fragment {
     JsonArray jsonArray, pu_start, dDay, addressArray;
 
     private View view;
-    private RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView, mContentRecyclerView;
     private ArrayList<HomeProductItem> mList;
+    private ArrayList<ContentItem> mContentList;
     private HomeProductAdapter mHomeProductAdapter;
+    private ContentListAdapter mContentListAdapter;
 
     Activity mActivity;
     LocationManager lm;
@@ -112,9 +120,7 @@ public class Home extends Fragment {
     private TextView productList; //제품리스트 클릭하는 텍스트트
     private ImageView toolbar_cart, toolbar_notification;
 
-    String user_id;
-    String address;
-    private ReviewCancelDialog reviewCancelDialog;
+    String user_id, address;
 
     private List<String> list = new ArrayList<>();
     private Spinner spinner;
@@ -456,6 +462,74 @@ public class Home extends Fragment {
             }
         });
 
+        //콘텐츠 정보
+        Call<ResponseBody> contentcall = service.getContent();
+        contentcall.enqueue(new Callback<ResponseBody>() {
+
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    JsonArray res = (JsonArray) jsonParser.parse(response.body().string());
+
+                    //어댑터 세팅
+                    mContentListAdapter = new ContentListAdapter(mContentList);
+                    mContentRecyclerView.setAdapter(mContentListAdapter);
+
+                    //세로로 세팅
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    mContentRecyclerView.setLayoutManager(linearLayoutManager);
+
+                    for (int i = 0; i < 2; i++) {
+                        JsonObject jsonRes = (JsonObject) res.get(i);
+                        addContent(
+                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_thumbnail").getAsString(),
+                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_photo").getAsString(),
+                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_main").getAsString(),
+                                jsonRes.get("content_id").getAsInt(),
+                                jsonRes.get("content_title").getAsString(),
+                                jsonRes.get("content_context").getAsString(),
+                                jsonRes.get("content_date").getAsString(),
+                                jsonRes.get("content_link").getAsString()
+                        );
+                        Log.d("log", "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_thumbnail").getAsString());
+                    }
+
+                    Log.d("어뎁터 수", String.valueOf(mContentListAdapter.getItemCount()));
+
+                    //메인콘텐츠리스트 리사이클러뷰 누르면 나오는
+                    mContentListAdapter.setOnItemClickListener(
+                            new ContentListAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View v, int pos) {
+                                    Intent intent = new Intent(mActivity, ContentDetailActivity.class);
+                                    intent.putExtra("content_id", mContentList.get(pos).getContent_id());
+                                    intent.putExtra("content_title", mContentList.get(pos).getContent_title());
+                                    intent.putExtra("content_photo", mContentList.get(pos).getContent_photo());
+                                    intent.putExtra("contentMainPhoto", mContentList.get(pos).getContentMainPhotos());
+                                    intent.putExtra("content_context", mContentList.get(pos).getContent_context());
+                                    intent.putExtra("contentDate", mContentList.get(pos).getContent_date());
+                                    intent.putExtra("content_link", mContentList.get(pos).getContent_link());
+                                    startActivity(intent);
+                                }
+                            }
+                    );
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    try {
+                        throw e;
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(mActivity, "메인 제품리스트 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         lm = (LocationManager) mActivity.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
 
@@ -535,7 +609,9 @@ public class Home extends Fragment {
     //홈화면 제품리스트
     public void firstInit() {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.homeStore);
+        mContentRecyclerView = (RecyclerView) view.findViewById(R.id.HomeContents);
         mList = new ArrayList<>();
+        mContentList = new ArrayList<>();
     }
 
     public void addItem(String md_id, String imgName, String mainText, String subText, String distanceKilo, String mdPrice, String dDay, String puTime) {
@@ -551,5 +627,20 @@ public class Home extends Fragment {
         item.setHomePuTime(puTime);
 
         mList.add(item);
+    }
+
+    public void addContent(String thumbnailUrl, String photo_url, String mainPhotoUrl, int content_id, String content_title, String content_context, String content_date, String content_link) {
+        ContentItem item = new ContentItem();
+
+        item.setContent_thumbnail(thumbnailUrl);
+        item.setContent_photo(photo_url);
+        item.setContentMainPhotos(mainPhotoUrl);
+        item.setContent_id(content_id);
+        item.setContent_title(content_title);
+        item.setContent_context(content_context);
+        item.setContent_date(content_date);
+        item.setContent_link(content_link);
+
+        mContentList.add(item);
     }
 }
