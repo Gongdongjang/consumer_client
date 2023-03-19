@@ -119,7 +119,7 @@
         <activity android:name=".notification.NotificationList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity
-            android:name=".ContentClick"
+            android:name=".ContentDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ContentActivity"

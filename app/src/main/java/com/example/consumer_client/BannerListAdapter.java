@@ -75,7 +75,7 @@ public class BannerListAdapter extends RecyclerView.Adapter<BannerListAdapter.Vi
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition() % NUM_PAGES;
-                    Intent intent = new Intent(context.getApplicationContext(), ContentClick.class);
+                    Intent intent = new Intent(context.getApplicationContext(), ContentDetailActivity.class);
 
                     intent.putExtra("content_id", bannerIds.get(position));
                     intent.putExtra("content_title", bannerTitles.get(position));
