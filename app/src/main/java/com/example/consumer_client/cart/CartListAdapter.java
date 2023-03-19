@@ -96,6 +96,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
 //            eachMdPrice = (TextView) itemView.findViewById(R.id.CL_EachMdPrice);
             eachStoreTotalPrice = (TextView) itemView.findViewById(R.id.CL_EachStoreTotalPrice);
             mdImg = (ImageView) itemView.findViewById(R.id.CL_MD_IMG);
+            mdImg.setClipToOutline(true);
             storeName = (TextView) itemView.findViewById(R.id.CL_StoreName);
             mdName = (TextView) itemView.findViewById(R.id.CL_MdName);
             mdSet = (TextView) itemView.findViewById(R.id.CL_MdSet);

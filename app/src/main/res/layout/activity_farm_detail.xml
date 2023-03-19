@@ -46,7 +46,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="-12dp"
+                android:layout_marginTop="-18dp"
                 android:background="@drawable/top_radius"
                 android:orientation="vertical">
 

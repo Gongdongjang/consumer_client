@@ -346,6 +346,7 @@ public class Home extends Fragment {
 
         //우리동네 공동구매 지도로 보기 로 이동.
         ImageView gotoMap = view.findViewById(R.id.gotoMap);
+        gotoMap.setClipToOutline(true);
         gotoMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
