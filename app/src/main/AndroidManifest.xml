@@ -119,10 +119,10 @@
         <activity android:name=".notification.NotificationList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity
-            android:name=".ContentDetailActivity"
+            android:name=".content.ContentDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ContentActivity"
+            android:name=".content.ContentActivity"
             android:exported="true" />
 
         <activity android:name=".agree.Agree1" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>

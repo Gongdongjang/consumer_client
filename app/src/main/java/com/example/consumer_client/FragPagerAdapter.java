@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.consumer_client.content.Bannar1;
+import com.example.consumer_client.content.Bannar2;
+
 public class FragPagerAdapter extends FragmentStateAdapter {
     private final int mSetItemCount = 2;
     public FragPagerAdapter(@NonNull FragmentActivity fragmentActivity){

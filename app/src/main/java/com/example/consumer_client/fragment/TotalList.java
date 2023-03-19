@@ -17,9 +17,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.consumer_client.content.ContentActivity;
 import com.example.consumer_client.farm.FarmActivity;
 import com.example.consumer_client.md.MdListMainActivity;
 import com.example.consumer_client.my_town.StoreMap;
+import com.example.consumer_client.mypage.AboutCompanyActivity;
 import com.example.consumer_client.store.StoreActivity;
 import com.example.consumer_client.R;
 import com.google.gson.JsonArray;
@@ -162,6 +164,31 @@ public class TotalList extends Fragment {
             }
         });
 
+        //콘텐츠 (오늘의 농가 어쩌구)
+        TextView Content_Today_Farm = view.findViewById(R.id.Content_Today_Farm);
+        Content_Today_Farm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ContentActivity.class);
+                intent.putExtra("user_id", user_id);
+                intent.putExtra("standard_address", standard_address);
+                startActivity(intent);
+            }
+        });
+
+        //콘텐츠 (회사 소개)
+        TextView Content_Company_info = view.findViewById(R.id.Content_Company_info);
+        Content_Company_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AboutCompanyActivity.class);
+                intent.putExtra("user_id", user_id);
+                intent.putExtra("standard_address", standard_address);
+                startActivity(intent);
+            }
+        });
+
+        //마이페이지
         MyPage myPage = new MyPage();
         LinearLayout mypage = (LinearLayout) view.findViewById(R.id.H_MyPage);
         mypage.setOnClickListener(new View.OnClickListener() {
