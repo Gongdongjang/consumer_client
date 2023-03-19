@@ -37,7 +37,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 
-interface FarmService{
+interface FarmService {
     @GET("/farmView")
     Call<ResponseBody> getFarmData();
 
@@ -64,7 +64,7 @@ public class FarmActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farm_total_list);
-        
+
         //상단바 지정
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -84,12 +84,9 @@ public class FarmActivity extends AppCompatActivity {
 
         firstInit();
 
-        service = retrofit.create(FarmService.class);
-        jsonParser = new JsonParser();
-
         Intent intent = getIntent(); //intent 값 받기
-        user_id=intent.getStringExtra("user_id");
-        standard_address=intent.getStringExtra("standard_address");
+        user_id = intent.getStringExtra("user_id");
+        standard_address = intent.getStringExtra("standard_address");
         TextView change_address = (TextView) findViewById(R.id.change_address);
         change_address.setText(standard_address);
 
@@ -106,9 +103,9 @@ public class FarmActivity extends AppCompatActivity {
 
         //상단바 장바구니
         ImageView toolbar_cart = findViewById(R.id.toolbar_cart);
-        toolbar_cart.setOnClickListener(new View.OnClickListener(){
+        toolbar_cart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent intent = new Intent(FarmActivity.this, CartListActivity.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
@@ -134,8 +131,8 @@ public class FarmActivity extends AppCompatActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try{
-                    res =  (JsonObject) jsonParser.parse(response.body().string());
+                try {
+                    res = (JsonObject) jsonParser.parse(response.body().string());
 
                     farmArray = res.get("result").getAsJsonArray();
                     mdArray = res.get("md_result").getAsJsonArray();
@@ -151,25 +148,25 @@ public class FarmActivity extends AppCompatActivity {
 
                     final Geocoder geocoder = new Geocoder(getApplicationContext());
 
-                    for(int i=0;i<farmArray.size();i++){
+                    for (int i = 0; i < farmArray.size(); i++) {
                         int count = 0;
-                        for( int j = 0; j < mdArray.size(); j++){
-                            if(mdArray.get(j).getAsJsonObject().get("farm_id").getAsInt() == farmArray.get(i).getAsJsonObject().get("farm_id").getAsInt()){
+                        for (int j = 0; j < mdArray.size(); j++) {
+                            if (mdArray.get(j).getAsJsonObject().get("farm_id").getAsInt() == farmArray.get(i).getAsJsonObject().get("farm_id").getAsInt()) {
                                 count++;
                             }
                         }
-  //                      List<Address> address = geocoder.getFromLocationName(farmArray.get(i).getAsJsonObject().get("farm_loc").getAsString(),10);
-    //                    Address location = address.get(0);
-      //                  double store_lat=location.getLatitude();
-        //                double store_long=location.getLongitude();
+                        //                      List<Address> address = geocoder.getFromLocationName(farmArray.get(i).getAsJsonObject().get("farm_loc").getAsString(),10);
+                        //                    Address location = address.get(0);
+                        //                  double store_lat=location.getLatitude();
+                        //                double store_long=location.getLongitude();
 
                         //자신이 설정한 위치와 스토어 거리 distance 구하기
-          //              double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
-                     addFarm("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(i).getAsJsonObject().get("farm_mainImg").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
-
-                        //2023.02.21. 이미지 때문인지 오류나서 주석처리함...
-                        //addFarm(
-                          //      "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(i).getAsJsonObject().get("farm_thumbnail").getAsString(),farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(), farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count);
+                        //              double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
+                        addFarm("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + farmArray.get(i).getAsJsonObject().get("farm_mainImg").getAsString(),
+                                farmArray.get(i).getAsJsonObject().get("farm_name").getAsString(),
+                                farmArray.get(i).getAsJsonObject().get("farm_mainItem").getAsString(),
+                                farmArray.get(i).getAsJsonObject().get("farm_info").getAsString(), count
+                        );
                     }
 
                     mFarmTotalAdapter.setOnItemClickListener(
@@ -179,15 +176,15 @@ public class FarmActivity extends AppCompatActivity {
                                     Intent intent = new Intent(FarmActivity.this, FarmDetailActivity.class);
                                     intent.putExtra("user_id", user_id);
                                     intent.putExtra("standard_address", standard_address);
-                                    intent.putExtra("farm_id",farmArray.get(pos).getAsJsonObject().get("farm_id").getAsString());
+                                    intent.putExtra("farm_id", farmArray.get(pos).getAsJsonObject().get("farm_id").getAsString());
                                     startActivity(intent);
                                 }
                             });
-                }
-                catch(IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(FarmActivity.this, "농가 띄우기 에러 발생", Toast.LENGTH_SHORT).show();
@@ -195,12 +192,12 @@ public class FarmActivity extends AppCompatActivity {
         });
     }
 
-    public void firstInit(){
+    public void firstInit() {
         mFarmRecyclerView = findViewById(R.id.totalFarmListView);
         mList = new ArrayList<>();
     }
 
-    public void addFarm(String farmProdImg, String farmName, String farmMainItem, String farmFeature,int farmSituation){
+    public void addFarm(String farmProdImg, String farmName, String farmMainItem, String farmFeature, int farmSituation) {
         FarmTotalInfo farm = new FarmTotalInfo();
 
         farm.setFarmProdImgView(farmProdImg);

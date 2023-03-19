@@ -438,6 +438,16 @@ public class Home extends Fragment {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     JsonArray res = (JsonArray) jsonParser.parse(response.body().string());
+
+                    //어댑터 세팅
+                    mContentListAdapter = new ContentListAdapter(mContentList);
+                    mContentRecyclerView.setAdapter(mContentListAdapter);
+
+                    //세로로 세팅
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    mContentRecyclerView.setLayoutManager(linearLayoutManager);
+
                     for (int i = 0; i < 2; i++) {
                         JsonObject jsonRes = (JsonObject) res.get(i);
                         addContent(
@@ -450,17 +460,10 @@ public class Home extends Fragment {
                                 jsonRes.get("content_date").getAsString(),
                                 jsonRes.get("content_link").getAsString()
                         );
-                        Log.d("log", jsonRes.get("content_id").getAsString());
+                        Log.d("log", "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonRes.get("content_thumbnail").getAsString());
                     }
 
-                    //어댑터 세팅
-                    mContentListAdapter = new ContentListAdapter(mContentList);
-                    mContentRecyclerView.setAdapter(mContentListAdapter);
-
-                    //세로로 세팅
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
-                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    mContentRecyclerView.setLayoutManager(linearLayoutManager);
+                    Log.d("어뎁터 수", String.valueOf(mContentListAdapter.getItemCount()));
 
                     //메인콘텐츠리스트 리사이클러뷰 누르면 나오는
                     mContentListAdapter.setOnItemClickListener(

@@ -61,6 +61,8 @@ public class ContentActivity extends AppCompatActivity {
     ArrayList<String> bannerDates = new ArrayList<>();
     ArrayList<String> bannerLinks = new ArrayList<>();
 
+    LinearLayoutManager linearLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +94,15 @@ public class ContentActivity extends AppCompatActivity {
                     try {
                         JsonArray res = (JsonArray) jsonParser.parse(response.body().string());
 
+                        //어뎁터 적용
+                        contentListAdapter = new ContentListAdapter(mList);
+                        mContentRecyclerView.setAdapter(contentListAdapter);
+
+                        //세로로 세팅
+                        linearLayoutManager = new LinearLayoutManager(ContentActivity.this);
+                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        mContentRecyclerView.setLayoutManager(linearLayoutManager);
+
                         for (int i = 0; i < res.size(); i++) {
                             JsonObject jsonRes = (JsonObject) res.get(i);
                             addContent(
@@ -104,24 +115,24 @@ public class ContentActivity extends AppCompatActivity {
                                     jsonRes.get("content_date").getAsString(),
                                     jsonRes.get("content_link").getAsString()
                             );
+                            Log.d("왜 안되는 거야..", jsonRes.get("content_link").getAsString());
                         }
 
-                        //어뎁터 적용
-                        contentListAdapter = new ContentListAdapter(mList);
-                        mContentRecyclerView.setAdapter(contentListAdapter);
+                        Log.d("어뎁터 수", String.valueOf(contentListAdapter.getItemCount()));
 
-                        //세로로 세팅
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ContentActivity.this);
-                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        mContentRecyclerView.setLayoutManager(linearLayoutManager);
-
-                        //메인콘텐츠리스트 리사이클러뷰 누르면 나오는
+                        //콘텐츠리스트 리사이클러뷰 누르면 나오는
                         contentListAdapter.setOnItemClickListener(
                                 new ContentListAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(View v, int pos) {
                                         Intent intent = new Intent(ContentActivity.this, ContentDetailActivity.class);
-                                        intent.putExtra("user_id", user_id);
+                                        intent.putExtra("content_id", mList.get(pos).getContent_id());
+                                        intent.putExtra("content_title", mList.get(pos).getContent_title());
+                                        intent.putExtra("content_photo", mList.get(pos).getContent_photo());
+                                        intent.putExtra("contentMainPhoto", mList.get(pos).getContentMainPhotos());
+                                        intent.putExtra("content_context", mList.get(pos).getContent_context());
+                                        intent.putExtra("contentDate", mList.get(pos).getContent_date());
+                                        intent.putExtra("content_link", mList.get(pos).getContent_link());
                                         startActivity(intent);
                                     }
                                 }
@@ -197,6 +208,6 @@ public class ContentActivity extends AppCompatActivity {
         item.setContent_date(content_date);
         item.setContent_link(content_link);
 
-//        mContentList.add(item);
+        mList.add(item);
     }
 }

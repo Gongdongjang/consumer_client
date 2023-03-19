@@ -110,22 +110,6 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
 
         Picasso.get().load(item.getContent_thumbnail()).into(holder.content_thumbnail);
         holder.content_list_title.setText(item.getContent_title());
-
-        holder.content_thumbnail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context.getApplicationContext(), ContentDetailActivity.class);
-                intent.putExtra("content_id", item.getContent_id());
-                intent.putExtra("content_title", item.getContent_title());
-                intent.putExtra("content_photo", item.getContent_photo());
-                intent.putExtra("contentMainPhoto", item.getContentMainPhotos());
-                intent.putExtra("content_context", item.getContent_context());
-                intent.putExtra("contentDate", item.getContent_date());
-                intent.putExtra("content_link", item.getContent_link());
-
-                context.startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -135,6 +119,9 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
 
     @Override
     public int getItemCount() {
+        if (mList != null) {
+            return mList.size();
+        }
         return 0;
     }
 }
