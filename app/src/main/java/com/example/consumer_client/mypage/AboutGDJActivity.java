@@ -7,13 +7,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
+import com.example.consumer_client.cart.CartListActivity;
+import com.example.consumer_client.md.MdListMainActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -59,6 +63,28 @@ public class AboutGDJActivity extends AppCompatActivity {
         service = retrofit.create(NoticeService.class);
         jsonParser = new JsonParser();
 
+        //뒤로가기
+        ImageView gotoBack = findViewById(R.id.gotoBack);
+        gotoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(AboutGDJActivity.this, MainActivity.class);
+                intent1.putExtra("user_id", user_id);
+                startActivity(intent1);
+            }
+        });
+
+        //상단바 장바구니
+        ImageView gotoCart = findViewById(R.id.gotoCart);
+        gotoCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AboutGDJActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
+
         RecyclerView recyclerView = findViewById(R.id.Notice_RecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         List<ExpandableAdapter.Item> data = new ArrayList<>();
@@ -99,7 +125,6 @@ public class AboutGDJActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
         Button OpenKakao_Btn = (Button) findViewById(R.id.OpenKakao_Btn);
         OpenKakao_Btn.setOnClickListener(new View.OnClickListener() {
