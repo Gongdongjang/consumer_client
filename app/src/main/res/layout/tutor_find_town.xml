@@ -93,7 +93,7 @@
                 android:layout_height="48dp"
                 android:text="현재위치"
                 android:maxLines="1"
-                android:layout_margin="10dp"
+                android:layout_margin="7dp"
                 android:background="@drawable/button_round"
                 android:stateListAnimator="@null"
                 android:textColor="#1EAA95" />
@@ -105,7 +105,7 @@
                 android:text="+"
                 android:maxLines="1"
                 android:layout_margin="10dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="25dp"
                 android:background="@drawable/button_round"
                 android:stateListAnimator="@null"
                 android:textColor="#1EAA95" />

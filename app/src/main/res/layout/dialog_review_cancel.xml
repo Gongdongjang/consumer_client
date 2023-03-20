@@ -49,6 +49,7 @@
             android:text="그만하기"
             android:stateListAnimator="@null"
             android:textColor="#FFFFFF"/>
+
     </LinearLayout>
 
 </LinearLayout>
