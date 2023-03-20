@@ -13,6 +13,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.example.consumer_client.R;
 import com.example.consumer_client.notification.NotificationList;
+import com.example.consumer_client.user.IntegratedLoginActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -61,9 +62,9 @@ public class FCMService extends FirebaseMessagingService {
         String body = remoteMessage.getNotification().getBody();
 
         //푸시를 클릭했을때 이동//
-        Intent intent = new Intent(this, NotificationList.class);
+        Intent intent = new Intent(this, IntegratedLoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("user_id", user_id);
+        //intent.putExtra("user_id", user_id);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
         builder.setContentTitle(title)

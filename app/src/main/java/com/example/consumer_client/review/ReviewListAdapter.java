@@ -51,6 +51,7 @@ public class ReviewListAdapter extends RecyclerView.Adapter<ReviewListAdapter.Vi
             });
 
             ProdImg = (ImageView) itemView.findViewById(R.id.ProdImg);
+            ProdImg.setClipToOutline(true);
             Star_1 = (ImageView) itemView.findViewById(R.id.Star_1);
             Star_2 = (ImageView) itemView.findViewById(R.id.Star_2);
             Star_3 = (ImageView) itemView.findViewById(R.id.Star_3);

@@ -27,15 +27,18 @@
                 <ImageView
                     android:id="@+id/FarmMainImg"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="250dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType = "fitXY"
                     app:srcCompat="@drawable/ic_logo1" />
 
                 <ImageView
                     android:id="@+id/KakaoShare"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="right|bottom"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="20dp"
                     app:srcCompat="@drawable/ic_product_share" />
 
             </FrameLayout>
@@ -43,6 +46,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="-18dp"
                 android:background="@drawable/top_radius"
                 android:orientation="vertical">
 
@@ -105,10 +109,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginLeft="10dp"
-                            android:src="@drawable/location_pin" />
+                            android:src="@drawable/detail_location" />
 
                         <TextView
                             android:id="@+id/FarmLocation"
@@ -126,10 +130,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginLeft="10dp"
-                            android:src="@drawable/ic_farm_main_item" />
+                            android:src="@drawable/detail_time" />
 
                         <TextView
                             android:id="@+id/FarmMainItem"
@@ -146,10 +150,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginLeft="10dp"
-                            android:src="@drawable/phone_call" />
+                            android:src="@drawable/detail_phone" />
 
                         <TextView
                             android:id="@+id/FarmPhone"
@@ -165,10 +169,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@android:color/darker_gray" />
+            android:layout_height="10dp"
+            android:background="#F6F6F6"/>
 
         <LinearLayout
             android:layout_width="match_parent"

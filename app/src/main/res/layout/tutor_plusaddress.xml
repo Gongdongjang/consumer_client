@@ -60,17 +60,17 @@
 
          </WebView>
 
-        <Button
-            android:id="@+id/delete_address"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_margin="16dp"
-            android:backgroundTint="@color/white"
-            android:text="주소 삭제하기"
-            android:stateListAnimator="@null"
-            android:textColor="#1EAA95"
-            android:textStyle="bold" />
-
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/delete_address"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/button_round"
+        android:text="주소 삭제하기"
+        android:stateListAnimator="@null"
+        android:textColor="#1EAA95"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
 
     </LinearLayout>

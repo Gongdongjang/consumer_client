@@ -293,7 +293,7 @@
             android:layout_marginTop="6dp"
             android:backgroundTint="#F0F0F0"
             android:stateListAnimator="@null"
-            android:text="신한    000-0000-000000      김민서"
+            android:text="우리  1002-363-127161  김민서 "
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -391,48 +391,6 @@
             android:layout_width="match_parent"
             android:layout_height="2px"
             android:background="@android:color/darker_gray" />
-
-        <LinearLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RadioButton
-                android:id="@+id/Pay_Agree1"
-                android:text="개인정보 수집에 동의"
-                android:textSize="11dp"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_weight="1"/>
-            <TextView
-                android:id="@+id/Pay_Agree1_Content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="내용보기"
-                android:textSize="12sp"
-                android:textColor="#F75D39" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RadioButton
-                android:id="@+id/Pay_Agree2"
-                android:text="개인정보 제 3자 제공 동의"
-                android:textSize="11dp"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_weight="1"/>
-            <TextView
-                android:id="@+id/Pay_Agree2_Content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="내용보기"
-                android:textSize="12sp"
-                android:textColor="#F75D39"  />
-        </LinearLayout>
 
         <LinearLayout
             android:layout_marginTop="10dp"

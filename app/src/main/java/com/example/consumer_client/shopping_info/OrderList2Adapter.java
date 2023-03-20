@@ -60,6 +60,7 @@ public class OrderList2Adapter extends RecyclerView.Adapter<OrderList2Adapter.Vi
             });
 //            storeid = (TextView) itemView.findViewById(R.id.StoreID);
             storeProdImgView = (ImageView) itemView.findViewById(R.id.ProdImg);
+            storeProdImgView.setClipToOutline(true);
             storeName = (TextView) itemView.findViewById(R.id.StoreName);
             mdName = (TextView) itemView.findViewById(R.id.MdName);
             mdQty = (TextView) itemView.findViewById(R.id.MdQty);

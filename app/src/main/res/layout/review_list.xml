@@ -23,6 +23,9 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginLeft="5dp"
+                android:adjustViewBounds="true"
+                android:scaleType = "fitXY"
+                android:background="@drawable/border"
                 android:layout_gravity="center"/>
 
             <LinearLayout

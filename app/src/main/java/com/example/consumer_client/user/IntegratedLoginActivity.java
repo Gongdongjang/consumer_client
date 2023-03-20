@@ -1,11 +1,13 @@
 package com.example.consumer_client.user;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -105,6 +107,17 @@ public class IntegratedLoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(IntegratedLoginActivity.this, AccountInfoActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //이이디 비밀번호 찾기
+        TextView find = (TextView) findViewById(R.id.find);
+        find.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://open.kakao.com/o/suhyQ78e"));
                 startActivity(intent);
             }
         });

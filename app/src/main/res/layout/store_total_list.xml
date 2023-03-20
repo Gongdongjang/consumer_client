@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/chatmessage_item_linear"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/button_round"
-    android:padding="5dp">
+    android:layout_width="match_parent"
+    android:layout_height="115dp"
+    android:layout_marginTop="12dp"
+    android:background="@drawable/button_round_gray">
 
     <LinearLayout
-        android:layout_width="370dp"
-        android:layout_height="115dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:orientation="horizontal">
 
@@ -19,20 +19,22 @@
             android:visibility="gone" />
 
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="115dp"
+            android:layout_height="115dp"
             android:gravity="center">
 
             <ImageView
                 android:id="@+id/StoreProdImg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
                 android:layout_gravity="center"
                 android:scaleType="fitXY"
+                android:background="@drawable/border_round_imageview"
                 android:src="@drawable/store_list" />
 
             <LinearLayout
-                android:layout_width="60dp"
+                android:layout_width="51dp"
                 android:layout_height="15dp"
                 android:background="@drawable/location_item_rectangle"
                 android:backgroundTint="#FFFFFF"
@@ -46,7 +48,7 @@
                     android:layout_marginLeft="5dp"
                     android:text="123.8"
                     android:textColor="#000000"
-                    android:textSize="8dp" />
+                    android:textSize="10dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -54,12 +56,11 @@
                     android:layout_gravity="center"
                     android:text="km"
                     android:textColor="#000000"
-                    android:textSize="8dp" />
+                    android:textSize="10dp" />
 
 
             </LinearLayout>
         </FrameLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,7 +78,7 @@
 
                 <TextView
                     android:id="@+id/StoreName"
-                    android:layout_width="160dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="스토어명"
@@ -86,13 +87,17 @@
                     android:textSize="12dp"
                     android:textStyle="bold" />
 
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="10dp"
                     android:src="@drawable/ic_arrow_s" />
-
 
             </LinearLayout>
 

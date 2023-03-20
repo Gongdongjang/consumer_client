@@ -1,4 +1,4 @@
-package com.example.consumer_client;
+package com.example.consumer_client.content;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.consumer_client.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -25,14 +26,13 @@ public class BannerListAdapter extends RecyclerView.Adapter<BannerListAdapter.Vi
     private ArrayList<String> bannerMainPhotos;
     private ArrayList<String> bannerPhotos;
     private ArrayList<String> bannerContexts;
-    private ArrayList<String> bannerLinks;
+//    private ArrayList<String> bannerLinks;
     private ArrayList<String> bannerDates;
 
     public BannerListAdapter(Context context,
                              ArrayList<String> bannerThumbnails, ArrayList<String> bannerIds,
                              ArrayList<String> bannerTitles, ArrayList<String> bannerMainPhotos,
-                             ArrayList<String> bannerPhotos, ArrayList<String> bannerContexts,
-                             ArrayList<String> bannerLinks, ArrayList<String> bannerDates) {
+                             ArrayList<String> bannerPhotos, ArrayList<String> bannerContexts, ArrayList<String> bannerDates) {
         this.context = context;
         this.bannerThumbnails = bannerThumbnails;
         this.bannerIds = bannerIds;
@@ -40,7 +40,7 @@ public class BannerListAdapter extends RecyclerView.Adapter<BannerListAdapter.Vi
         this.bannerMainPhotos = bannerMainPhotos;
         this.bannerPhotos = bannerPhotos;
         this.bannerContexts = bannerContexts;
-        this.bannerLinks = bannerLinks;
+//        this.bannerLinks = bannerLinks;
         this.bannerDates = bannerDates;
     }
 
@@ -75,14 +75,14 @@ public class BannerListAdapter extends RecyclerView.Adapter<BannerListAdapter.Vi
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition() % NUM_PAGES;
-                    Intent intent = new Intent(context.getApplicationContext(), ContentClick.class);
+                    Intent intent = new Intent(context.getApplicationContext(), ContentDetailActivity.class);
 
                     intent.putExtra("content_id", bannerIds.get(position));
                     intent.putExtra("content_title", bannerTitles.get(position));
                     intent.putExtra("contentMainPhoto", bannerMainPhotos.get(position));
                     intent.putExtra("content_photo", bannerPhotos.get(position));
                     intent.putExtra("content_context", bannerContexts.get(position));
-                    intent.putExtra("content_link", bannerLinks.get(position));
+//                    intent.putExtra("content_link", bannerLinks.get(position));
                     intent.putExtra("contentDate", bannerDates.get(position));
 
                     context.startActivity(intent);

@@ -34,11 +34,13 @@
 
         <ImageView
             android:id="@+id/gotoMap"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_height="60dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginRight="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/border"
+            android:scaleType = "fitXY"
             android:src="@drawable/img_home_goto_map" />
 
         <RelativeLayout
@@ -68,13 +70,18 @@
                 android:gravity="center_vertical"
                 />
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
             <TextView
                 android:id="@+id/productList"
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="175dp"
+                android:layout_marginRight="20dp"
                 android:gravity="right|center_vertical"
                 android:text="더보기 > "
                 android:textColor="#B4B4B4"
@@ -111,12 +118,17 @@
                 android:gravity="center_vertical"
                 />
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
             <TextView
                 android:id="@+id/contentsList"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="222dp"
+                android:layout_marginRight="20dp"
                 android:gravity="right|center_vertical"
                 android:text="더보기 > "
                 android:textColor="#B4B4B4"

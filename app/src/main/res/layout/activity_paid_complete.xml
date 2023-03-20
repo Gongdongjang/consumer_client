@@ -136,7 +136,7 @@
 
         <TextView
             android:id="@+id/Paid_MdName"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="제품명"
@@ -144,7 +144,7 @@
             android:textColor="#848484" />
         <TextView
             android:id="@+id/Paid_SelectCount"
-            android:layout_marginLeft="48dp"
+            android:layout_marginLeft="25dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="n개"
@@ -161,7 +161,7 @@
 
         <TextView
             android:id="@+id/Paid_PU_Date"
-            android:layout_marginLeft="48dp"
+            android:layout_marginLeft="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="픽업 일시 2021.09.10 10:00"
@@ -230,25 +230,26 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/Paid_goHome"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="20dp"
-        android:textColor="#1EAA95"
-        android:textStyle="bold"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/button_round"
+        android:text="홈으로 가기"
         android:stateListAnimator="@null"
-        android:text="홈으로 가기" />
+        android:textColor="#1EAA95"
+        android:textStyle="bold" />
+
 
     <Button
         android:id="@+id/Paid_goOrderDetail"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="66dp"
         android:layout_marginTop="13dp"
         android:textColor="@color/white"
         android:textStyle="bold"

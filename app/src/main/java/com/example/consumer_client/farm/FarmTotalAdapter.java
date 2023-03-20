@@ -47,6 +47,7 @@ public class FarmTotalAdapter extends RecyclerView.Adapter<FarmTotalAdapter.View
                 }
             });
             farmProdImgView = (ImageView) itemView.findViewById(R.id.FarmProdImg_item);
+            farmProdImgView.setClipToOutline(true);
             farmMainItem = (TextView) itemView.findViewById(R.id.FarmMainItem);
             farmName = (TextView) itemView.findViewById(R.id.FarmName);
             farmSituation = (TextView) itemView.findViewById(R.id.FarmCount);

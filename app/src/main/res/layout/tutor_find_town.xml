@@ -13,19 +13,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_gravity="bottom">
+    android:layout_marginTop="10dp">
 
-<!--    <TextView-->
-<!--        android:id="@+id/textView2"-->
-<!--        android:layout_width="234dp"-->
-<!--        android:layout_height="24dp"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_alignParentTop="true"-->
-<!--        android:layout_marginStart="102dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:layout_marginEnd="111dp"-->
-<!--        android:text="지도를 움직여 위치를 설정하세요."-->
-<!--        android:textColor="@color/black" />-->
     <TextView
         android:layout_width="212dp"
         android:layout_height="32dp"
@@ -45,22 +34,6 @@
         android:layout_height="450dp"
         android:layout_marginTop="10dp">
 
-<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--            android:id="@+id/tracking_mode"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_alignParentStart="true"-->
-<!--            android:layout_alignParentEnd="true"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:layout_gravity="bottom|end"-->
-<!--            android:layout_marginStart="342dp"-->
-<!--            android:layout_marginEnd="13dp"-->
-<!--            android:layout_marginRight="15sp"-->
-<!--            android:layout_marginBottom="14dp"-->
-<!--            android:src="@drawable/ic_baseline_gps_fixed_24"-->
-<!--            app:backgroundTint="#ffffff"-->
-<!--            app:elevation="6dp"-->
-<!--            app:pressedTranslationZ="12dp" />-->
     </RelativeLayout>
 
     <LinearLayout
@@ -111,37 +84,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/txt_address0"
                 android:layout_width="130dp"
                 android:layout_height="48dp"
-                android:layout_margin="10dp"
-                android:layout_marginTop="48dp"
-                android:backgroundTint="@color/white"
                 android:text="현재위치"
-                android:stateListAnimator="@null"
-                android:textColor="#1EAA95"
-                android:textStyle="bold"
                 android:maxLines="1"
-                android:ellipsize="end"/>
+                android:layout_margin="10dp"
+                android:background="@drawable/button_round"
+                android:stateListAnimator="@null"
+                android:textColor="#1EAA95" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/txt_address1"
                 android:layout_width="130dp"
                 android:layout_height="48dp"
-                android:layout_margin="10dp"
-                android:layout_marginTop="64dp"
-                android:backgroundTint="@color/white"
-                android:textColor="#1EAA95"
-                android:stateListAnimator="@null"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="266dp"
-                android:maxLines="1"
                 android:text="+"
-                android:ellipsize="end"/>
+                android:maxLines="1"
+                android:layout_margin="10dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/button_round"
+                android:stateListAnimator="@null"
+                android:textColor="#1EAA95" />
         </LinearLayout>
 
         <LinearLayout
@@ -151,31 +118,26 @@
             android:layout_gravity="center"
             android:layout_marginTop="5dp">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/txt_address2"
                 android:layout_width="130dp"
                 android:layout_height="48dp"
-                android:backgroundTint="@color/white"
                 android:text="+"
-                android:stateListAnimator="@null"
-                android:textColor="#1EAA95"
                 android:maxLines="1"
-                android:ellipsize="end"
-                />
+                android:background="@drawable/button_round"
+                android:stateListAnimator="@null"
+                android:textColor="#1EAA95" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/txt_address3"
                 android:layout_width="130dp"
                 android:layout_height="48dp"
-                android:backgroundTint="@color/white"
                 android:text="+"
-                android:layout_marginLeft="20dp"
-                android:stateListAnimator="@null"
-                android:textColor="#1EAA95"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="266dp"
                 android:maxLines="1"
-                android:ellipsize="end"/>
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/button_round"
+                android:stateListAnimator="@null"
+                android:textColor="#1EAA95" />
         </LinearLayout>
 
 <!--        <Button-->
