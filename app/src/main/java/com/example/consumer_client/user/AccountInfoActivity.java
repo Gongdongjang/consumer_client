@@ -157,13 +157,14 @@ public class AccountInfoActivity extends AppCompatActivity {
                 try {
                     JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
                     if (res.get("phone_valid").getAsString().equals("true")) {
+                        phone_verify_btn.setEnabled(false);
+                        phone_verify_btn.setBackgroundColor(0xFFF1F1F1);
+                        phone_verify_btn.setTextColor(0xFFBEBEBE);
                         goNext();
                     } else {
                         Toast toast = Toast.makeText(getApplicationContext(), "인증 번호 및 전화번호를 확인해주세요.", Toast.LENGTH_LONG);
                         toast.show();
                     }
-                    Log.d("code_ver", code_ver);
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
