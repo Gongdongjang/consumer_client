@@ -84,9 +84,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:backgroundTint="#1EAA95"
+                android:backgroundTint="@color/text_1"
                 android:inputType="number"
-                android:hint="010-0909-0909" />
+                android:hint="01012345678" />
 
             <Button
                 android:id="@+id/mobileAuth"
@@ -118,7 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:backgroundTint="#1EAA95"
+                android:backgroundTint="@color/text_1"
                 android:inputType="number"/>
 
         </FrameLayout>
