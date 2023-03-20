@@ -36,25 +36,25 @@
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
                         android:adjustViewBounds="true"
-                        android:scaleType = "fitXY"/>
+                        android:scaleType="fitXY" />
 
                     <ImageView
                         android:id="@+id/KakaoShare"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="right|bottom"
-                        android:layout_marginBottom="30dp"
                         android:layout_marginRight="10dp"
+                        android:layout_marginBottom="30dp"
                         app:srcCompat="@drawable/ic_product_share" />
                 </FrameLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
                     android:layout_marginTop="-18dp"
-                    android:orientation="vertical"
-                    android:background="@drawable/border_md">
+                    android:background="@drawable/border_md"
+                    android:backgroundTint="@color/white"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/JP_FarmName_Main"
@@ -79,9 +79,9 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:layout_marginTop="10dp"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
                         android:layout_weight="1" />
 
                 </LinearLayout>
@@ -91,9 +91,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="3dp"
-                android:layout_marginTop="10dp"
                 android:text="1세트"
                 android:textColor="#FF0000"
                 android:textSize="17dp"
@@ -110,7 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="15dp"
                     android:text="3,200"
                     android:textColor="#000000"
                     android:textSize="27dp"
@@ -120,21 +120,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="15dp"
                     android:text=" 원"
                     android:textColor="#000000"
                     android:textSize="27dp"
                     android:textStyle="bold" />
             </LinearLayout>
 
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="#F6F6F6"/>
+                android:background="#F6F6F6" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
 
                 <TextView
                     android:id="@+id/Dday"
@@ -142,8 +143,8 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="30dp"
                     android:background="@drawable/button_round2"
-                    android:text="D - 5"
                     android:gravity="center"
+                    android:text="D - 5"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -151,23 +152,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="구매 날짜"
-                    android:textColor="#848484"
-                    />
+                    android:textColor="#848484" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="~"
-                    android:textColor="#848484"
-                    />
+                    android:textColor="#848484" />
 
                 <TextView
                     android:id="@+id/purchaseDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#848484"
-                    android:text="2023.03.12" />
+                    android:text="2023.03.12"
+                    android:textColor="#848484" />
             </LinearLayout>
 
             <LinearLayout
@@ -188,9 +187,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_marginBottom="10dp"
                         android:text="최소 수량"
-                        android:layout_gravity="center"
                         android:textColor="#1EAA95"
                         android:textSize="15dp"
                         android:textStyle="bold" />
@@ -336,11 +335,11 @@
                 </LinearLayout>
             </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/JP_MD_Datail_Img"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"/>
+            <ImageView
+                android:id="@+id/JP_MD_Datail_Img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -371,8 +370,8 @@
                     android:id="@+id/jp_reviewList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_marginLeft="35dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="10dp"
                     android:nestedScrollingEnabled="false" />
@@ -408,9 +407,10 @@
                     android:layout_height="210dp"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
-                    android:backgroundTint="#F0F0F0"
                     android:background="@drawable/button_round"
+                    android:backgroundTint="#F0F0F0"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="36dp"
                         android:layout_height="21dp"
@@ -461,8 +461,8 @@
                 <LinearLayout
                     android:layout_width="167dp"
                     android:layout_height="210dp"
-                    android:backgroundTint="#F0F0F0"
                     android:background="@drawable/button_round"
+                    android:backgroundTint="#F0F0F0"
                     android:orientation="vertical">
 
                     <TextView
@@ -520,8 +520,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="5dp">
 
         <ImageView
             android:id="@+id/JP_KeepBtn"
@@ -539,8 +539,8 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="2dp"
             android:background="@drawable/button_round2"
-            android:stateListAnimator="@null"
             android:backgroundTint="#1EAA95"
+            android:stateListAnimator="@null"
             android:text="주문하기"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
