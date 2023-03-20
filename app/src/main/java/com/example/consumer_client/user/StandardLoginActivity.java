@@ -89,6 +89,7 @@ public class StandardLoginActivity extends AppCompatActivity {
             intent.putExtra("user_id", loginId);
             startActivity(intent);
         } else {
+            //비밀번호 입력할 때
             EditText editText = findViewById(R.id.inputPw);
             editText.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -100,11 +101,13 @@ public class StandardLoginActivity extends AppCompatActivity {
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     //입력 중 호출
                     if (charSequence.length() > 0) {
+                        //하나라도 작성했다면
                         loginbutton.setClickable(true);
                         loginbutton.setBackgroundResource(R.drawable.button_round2);
                         loginbutton.setTextColor(0xFFFFFFFF);
                     }
                     else{
+                        //한글자도 작성되지 않았다면
                         loginbutton.setBackgroundResource(R.drawable.button_enable_false);
                         loginbutton.setTextColor(0xFFBEBEBE);
                     }
@@ -114,6 +117,7 @@ public class StandardLoginActivity extends AppCompatActivity {
                 public void afterTextChanged(Editable editable) {
                     //입력 후 호출
                     if (editable.length() > 0) {
+                        //하나라도 작성했다면
                         loginbutton.setClickable(true);
                         loginbutton.setBackgroundResource(R.drawable.button_round2);
                         loginbutton.setTextColor(0xFFFFFFFF);
