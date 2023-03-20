@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,75 +7,75 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:orientation="horizontal"
-    android:background="#FFFFFF">
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#FFFFFF"
+        android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/gotoBack"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:src="@drawable/ic_top_arrow" />
+        <ImageView
+            android:id="@+id/gotoBack"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/ic_top_arrow" />
 
-    <TextView
-        android:layout_width="212dp"
-        android:layout_height="32dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="찜 리스트"
-        android:textColor="#151515"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:maxLines="1"
-        android:ellipsize="end"
-        />
+        <TextView
+            android:layout_width="212dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="찜 리스트"
+            android:textColor="#151515"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/gotoCart"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:layout_gravity="center|right"
-        android:layout_weight="1"
-        android:src="@drawable/ic_cart_shopping" />
+        <ImageView
+            android:id="@+id/gotoCart"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center|right"
+            android:layout_weight="1"
+            android:src="@drawable/ic_cart_shopping" />
 
     </LinearLayout>
+
     <View
-    android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:background="#F6F6F6"/>
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F6F6F6" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/noKeep"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:text="TextView"
-            android:textAlignment="center"
-            android:textSize="15dp" />
+            android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:id="@+id/keep_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/noKeep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textSize="15dp" />
 
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/keep_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp" />
 
-</androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

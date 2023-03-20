@@ -3,9 +3,14 @@ package com.example.consumer_client.shopping_info;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TabHost;
 
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
+import com.example.consumer_client.cart.CartListActivity;
+import com.example.consumer_client.mypage.AboutGDJActivity;
 
 public class ShoppingInfoActivity extends TabActivity {
     String user_id;
@@ -18,11 +23,32 @@ public class ShoppingInfoActivity extends TabActivity {
         Intent intent = getIntent(); //intent 값 받기
         user_id=intent.getStringExtra("user_id");
 
-
         TabHost tabHost = getTabHost(); //탭 호스트 객체 생성
 
         // 탭스팩 선언하고, 탭의 내부 명칭, 탭에 출력될 글 작성
         TabHost.TabSpec spec;
+
+        //뒤로가기
+        ImageView gotoBack = findViewById(R.id.gotoBack);
+        gotoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(ShoppingInfoActivity.this, MainActivity.class);
+                intent1.putExtra("user_id", user_id);
+                startActivity(intent1);
+            }
+        });
+
+        //상단바 장바구니
+        ImageView gotoCart = findViewById(R.id.gotoCart);
+        gotoCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShoppingInfoActivity.this, CartListActivity.class);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
+        });
 
         //탭에서 액티비티를 사용할 수 있도록 인텐트 생성
         intent = new Intent().setClass(this,OrderList.class);
