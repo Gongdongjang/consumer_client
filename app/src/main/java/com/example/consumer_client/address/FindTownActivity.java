@@ -180,29 +180,17 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         }
         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
 
-        gpsTracker= new GpsTracker(FindTownActivity.this);
-        double latitude=gpsTracker.getLatitude();
-        double longitude= gpsTracker.getLongitude();
-
-        //만약에 위치정보 허용안했으면 오류나는것 같은...처리해줘야함
-        currentAddr=getCurrentAddress(latitude,longitude);
-        currentAddr=currentAddr.substring(5);   //대한민국 없애기
-        txt_address0.setText(currentAddr); //현재위치 입력하기
-
         //현재위치 세팅
         ImageView currentLoc=findViewById(R.id.currentLoc);
         currentLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!checkLocationServicesStatus()) {
+                    showDialogForLocationServiceSetting();
+                }else {
+                    checkRunTimePermission();
+                }
                 mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-                gpsTracker= new GpsTracker(FindTownActivity.this);
-
-                double latitude=gpsTracker.getLatitude();
-                double longitude= gpsTracker.getLongitude();
-
-                currentAddr=getCurrentAddress(latitude,longitude);
-                currentAddr=currentAddr.substring(5);   //대한민국 없애기
-                txt_address0.setText(currentAddr); //현재위치 입력하기
 
             }
         });
@@ -312,21 +300,6 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         mapViewContainer.removeAllViews();
     }
 
-    private String getCurrentAddress(double latitude, double longitude) {
-        Geocoder geocoder = new Geocoder(getApplicationContext());
-
-        List<Address> addresses;
-
-        try{
-        addresses= geocoder.getFromLocation(latitude,longitude,8);
-        }catch (IOException ioException){
-            return "";
-        }
-        Address address= addresses.get(0);
-        Log.d("getCurrentAddress: ", String.valueOf(address));
-        return address.getAddressLine(0).toString()+"\n";
-    }
-
     //선택한 도로명주소명 받아오기
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         String str;
@@ -358,12 +331,39 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
             if (checkLocationServicesStatus()) {
                 if (checkLocationServicesStatus()) {
                     Log.d("@@@", "onActivityResult : GPS 활성화 되있음");
+                    //만약에 위치정보 허용안했으면 오류나는것 같은...처리해줘야함
+                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+                    gpsTracker= new GpsTracker(FindTownActivity.this);
+                    double latitude=gpsTracker.getLatitude();
+                    double longitude= gpsTracker.getLongitude();
+                    Log.d("@@@lat", String.valueOf(latitude));
+                    Log.d("@@@long", String.valueOf(longitude));
+                    currentAddr=getCurrentAddress(latitude,longitude);
+                    currentAddr=currentAddr.substring(5);   //대한민국 없애기
+                    txt_address0.setText(currentAddr); //현재위치 입력하기
                     checkRunTimePermission();
                 }
             }
         } else {
-
+            Log.d("@@@", "onActivityResult : else문 오니?");
         }
+    }
+
+    private String getCurrentAddress(double latitude, double longitude) {
+        Geocoder geocoder = new Geocoder(getApplicationContext());
+
+        List<Address> addresses;
+        try{
+            addresses= geocoder.getFromLocation(latitude,longitude,5);
+        }catch (IOException ioException){
+            return "";
+        }
+        if(addresses==null || addresses.size() ==0){
+            return "";
+        }
+        Address address= addresses.get(0);
+        Log.d("getCurrentAddress: ", String.valueOf(address));
+        return address.getAddressLine(0).toString()+"\n";
     }
 
     private void registAddress(String userid, List data, String first_time) {
@@ -372,7 +372,9 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         body.addProperty("id", userid);
         body.addProperty("address",data.toString());
         body.addProperty("first_time",first_time);
-        body.addProperty("currentAddr",currentAddr);
+        //body.addProperty("currentAddr",currentAddr);
+        body.addProperty("currentAddr",txt_address0.getText().toString());
+
 
         Call<ResponseBody> call = service.addressRegister(body);
         call.enqueue(new Callback<ResponseBody>() {
@@ -449,7 +451,13 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
             if (check_result) {
                 Log.d("@@@", "start");
                 //위치 값을 가져올 수 있음
-
+                mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+                gpsTracker= new GpsTracker(FindTownActivity.this);
+                double latitude=gpsTracker.getLatitude();
+                double longitude= gpsTracker.getLongitude();
+                currentAddr=getCurrentAddress(latitude,longitude);
+                currentAddr=currentAddr.substring(5);   //대한민국 없애기
+                txt_address0.setText(currentAddr); //현재위치 입력하기
 
             } else {
                 // 거부한 퍼미션이 있다면 앱을 사용할 수 없는 이유를 설명해주고 앱을 종료합니다.2 가지 경우가 있다
@@ -540,6 +548,12 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
         if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED && hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED){
             //mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
             mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+            gpsTracker= new GpsTracker(FindTownActivity.this);
+            double latitude=gpsTracker.getLatitude();
+            double longitude= gpsTracker.getLongitude();
+            currentAddr=getCurrentAddress(latitude,longitude);
+            currentAddr=currentAddr.substring(5);   //대한민국 없애기
+            txt_address0.setText(currentAddr); //현재위치 입력하기
         }else{
             if(ActivityCompat.shouldShowRequestPermissionRationale(this,REQUIRED_PERMISSIONS[0])){
                 Toast.makeText(this,"이 앱을 실행하려면 위치 접근 권한이 필요합니다.",Toast.LENGTH_LONG).show();
