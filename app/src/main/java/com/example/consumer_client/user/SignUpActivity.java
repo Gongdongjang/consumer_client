@@ -209,6 +209,8 @@ public class SignUpActivity extends AppCompatActivity {
                             Toast.makeText(SignUpActivity.this, res.get("message").getAsString(), Toast.LENGTH_LONG).show();
                             //회원가입 버튼 클릭시, 회원가입 완료 페이지로 이동
                             Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                            intent.putExtra("sns_login","no");
+                            intent.putExtra("name",name);
                             startActivity(intent);
                         } catch (IOException e) {
                             e.printStackTrace();

@@ -165,8 +165,10 @@ public class IntegratedLoginActivity extends AppCompatActivity {
 
                                                 String first_login = res.get("first_login").getAsString();
 
-                                                if(Objects.equals(first_login, "0")){ //최초 로그인 일 시 튜토리얼로
-                                                    Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
+                                                if(Objects.equals(first_login, "0")){ //최초 로그인 일 시 시작+튜토리얼화면
+                                                    Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                                                    intent.putExtra("sns_login","yes");
+                                                    intent.putExtra("name",username);
                                                     intent.putExtra("user_id",res.get("id").getAsString());
                                                     startActivity(intent);
                                                 } else{
@@ -293,8 +295,10 @@ public class IntegratedLoginActivity extends AppCompatActivity {
 
                             String first_login = res.get("first_login").getAsString();
 
-                            if(Objects.equals(first_login, "0")){ //최초 로그인 일 시 튜토리얼로
-                                Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
+                            if(Objects.equals(first_login, "0")){ //최초 로그인 일 시 시작+튜토리얼화면
+                                Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                                intent.putExtra("sns_login","yes");
+                                intent.putExtra("name",familyName + givenName);
                                 intent.putExtra("user_id",res.get("id").getAsString());
                                 startActivity(intent);
                             } else{
