@@ -28,17 +28,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="500dp"
-                    android:background="@drawable/integ_login"
-                    android:alpha="0.3"
-                    android:gravity="center_horizontal" />
-
-                <ImageView
-                    android:layout_width="140dp"
-                    android:layout_height="70dp"
-                    android:layout_marginLeft="15dp"
-                    android:alpha="0.9"
-                    android:layout_marginTop="160dp"
-                    android:background="@drawable/ic_logo1"
+                    android:background="@drawable/img_login_clear"
                     android:gravity="center_horizontal" />
 
             </FrameLayout>
@@ -48,7 +38,7 @@
                 android:layout_width="150dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/button_round"
                 android:text="3초 만에 간편 로그인하기"

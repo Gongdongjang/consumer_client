@@ -4,9 +4,12 @@ package com.example.consumer_client.user;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -45,10 +48,9 @@ interface LoginService {
 public class StandardLoginActivity extends AppCompatActivity {
     LoginService service;
     JsonParser jsonParser;
-    private TextView find; //회원가입 창으로 가는 텍스트
     private EditText id, password;
     private Button loginbutton;
-    private static final String TAG="사용자";
+    private static final String TAG = "사용자";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,19 +78,52 @@ public class StandardLoginActivity extends AppCompatActivity {
         });
 
         // 자동로그인 바로 이동
-
         SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", Activity.MODE_PRIVATE);
 
         String loginId = sharedPreferences.getString("inputId", null);
         String loginPwd = sharedPreferences.getString("inputPwd", null);
 
-        if(loginId != null && loginPwd != null) {
+        if (loginId != null && loginPwd != null) {
             Log.d("아이디 ", loginId);
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.putExtra("user_id", loginId);
             startActivity(intent);
         } else {
-            //기본로그인
+            //비밀번호 입력할 때
+            EditText editText = findViewById(R.id.inputPw);
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    //입력 전 호출
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    //입력 중 호출
+                    if (charSequence.length() > 0) {
+                        //하나라도 작성했다면
+                        loginbutton.setClickable(true);
+                        loginbutton.setBackgroundResource(R.drawable.button_round2);
+                        loginbutton.setTextColor(0xFFFFFFFF);
+                    }
+                    else{
+                        //한글자도 작성되지 않았다면
+                        loginbutton.setBackgroundResource(R.drawable.button_enable_false);
+                        loginbutton.setTextColor(0xFFBEBEBE);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    //입력 후 호출
+                    if (editable.length() > 0) {
+                        //하나라도 작성했다면
+                        loginbutton.setClickable(true);
+                        loginbutton.setBackgroundResource(R.drawable.button_round2);
+                        loginbutton.setTextColor(0xFFFFFFFF);
+                    }
+                }
+            });
             loginbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -98,6 +133,7 @@ public class StandardLoginActivity extends AppCompatActivity {
             });
         }
     }
+
     //기본 로그인
     void login() {
         id = (EditText) findViewById(R.id.inputId);
@@ -110,14 +146,13 @@ public class StandardLoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("81", response.toString());
                 if (response.isSuccessful()) {
                     try {
-                        JsonObject res =  (JsonObject) jsonParser.parse(response.body().string());
+                        JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
                         String access_token = res.get("access_token").getAsString();
                         if (access_token.equals("id_false")) {
                             Toast toast = Toast.makeText(getApplicationContext(), "아이디를 확인해주세요.", Toast.LENGTH_LONG);
-                            Log.d(TAG, "아이티틀림");
+                            Log.d(TAG, "아이디틀림");
                             toast.show();
                         } else if (access_token.equals("pwd_false")) {
                             Toast toast = Toast.makeText(getApplicationContext(), "비밀번호를 확인해주세요.", Toast.LENGTH_LONG);
@@ -132,7 +167,7 @@ public class StandardLoginActivity extends AppCompatActivity {
                             editor.putString("refresh_token", refresh_token).apply();
 
                             CheckBox AutoLoginBtn = findViewById(R.id.AutoLoginBtn);
-                            if(AutoLoginBtn.isChecked()){
+                            if (AutoLoginBtn.isChecked()) {
                                 sharedPreferences = getSharedPreferences("sharedPreferences", Activity.MODE_PRIVATE);
                                 SharedPreferences.Editor autoLogin = sharedPreferences.edit();
                                 autoLogin.putString("inputId", id.getText().toString());
@@ -140,13 +175,13 @@ public class StandardLoginActivity extends AppCompatActivity {
                                 autoLogin.commit();
                             }
 
-                            if(Objects.equals(first_login, "0")){ //최초 로그인 일 시 튜토리얼로
+                            if (Objects.equals(first_login, "0")) { //최초 로그인 일 시 튜토리얼로
                                 Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
-                                intent.putExtra("user_id",res.get("id").getAsString());
+                                intent.putExtra("user_id", res.get("id").getAsString());
                                 startActivity(intent);
-                            } else{
+                            } else {
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                intent.putExtra("user_id",res.get("id").getAsString());
+                                intent.putExtra("user_id", res.get("id").getAsString());
                                 startActivity(intent);
                             }
 
@@ -155,8 +190,7 @@ public class StandardLoginActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
-                else {
+                } else {
                     try {
                         Log.d(TAG, "Fail " + response.errorBody().string());
                     } catch (IOException e) {

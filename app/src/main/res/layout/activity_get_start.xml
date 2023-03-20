@@ -8,7 +8,7 @@
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
-        android:layout_height="550dp"
+        android:layout_height="510dp"
         android:alpha="0.5"
         app:srcCompat="@drawable/complete_signup" />
 
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="15dp"
         android:text="회원가입 완료!"
         android:textAlignment="center"
         android:textSize="20sp"
@@ -63,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:stateListAnimator="@null"
         android:background="@drawable/button_round2"

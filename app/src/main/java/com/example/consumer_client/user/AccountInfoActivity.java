@@ -1,6 +1,8 @@
 package com.example.consumer_client.user;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.consumer_client.R;
 import com.example.consumer_client.agree.Agree1;
@@ -47,11 +50,10 @@ public class AccountInfoActivity extends AppCompatActivity {
 
     RegisterService service;
     JsonParser jsonParser;
-
-    private TextView code_verify_txt;
+    Context mContext;
     private EditText code_verify_input, name, mobile_no;
-    private Button nextStep, phone_verify_btn, code_verify_btn;
-    String code_confirm, code_ver;
+    private Button nextStep, phone_verify_btn;
+    String code_ver;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,23 +68,72 @@ public class AccountInfoActivity extends AppCompatActivity {
         service = retrofit.create(RegisterService.class);
         jsonParser = new JsonParser();
 
+        mContext = this;
+
         name = (EditText) findViewById(R.id.inputName);
         phone_verify_btn = findViewById(R.id.mobileAuth);
         nextStep = findViewById(R.id.nextStep);
         mobile_no = (EditText) findViewById(R.id.inputCall);
+        code_verify_input = findViewById(R.id.inputNum);
+
+        // 연락처 EditText 색 바꾸기
+        TextWatcher watcher1 = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //EditText 변경 전 발생할 이벤트=
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //텍스트의 길이가 변경되었을 경우 발생할 이벤트
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //텍스트가 변경 후 발생할 이벤트
+                mobile_no.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.main_1));
+            }
+        };
+        mobile_no.addTextChangedListener(watcher1);
+
+        // 인증번호 EditText 색 바꾸기
+        TextWatcher watcher2 = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //EditText 변경 전 발생할 이벤트=
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //텍스트의 길이가 변경되었을 경우 발생할 이벤트
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //텍스트가 변경 후 발생할 이벤트
+                code_verify_input.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.main_1));
+            }
+        };
+        code_verify_input.addTextChangedListener(watcher2);
 
         phone_verify_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 phoneCheck(mobile_no.getText().toString());
+                //핸드폰 번호 입력 후 인증 버튼 눌러야 다음단계로 버튼 활성화
+                nextStep.setEnabled(true);
+                nextStep.setBackgroundResource(R.drawable.button_round2);
+                nextStep.setTextColor(0xFFFFFFFF);
             }
         });
 
         //약관
-        CheckBox checkBox1= findViewById(R.id.checkBox1);
-        CheckBox checkBox2= findViewById(R.id.checkBox2);
-        TextView agree1= findViewById(R.id.agree1);
-        TextView agree2= findViewById(R.id.agree2);
+        CheckBox checkBox1 = findViewById(R.id.checkBox1);
+        CheckBox checkBox2 = findViewById(R.id.checkBox2);
+        TextView agree1 = findViewById(R.id.agree1);
+        TextView agree2 = findViewById(R.id.agree2);
 
         agree1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,19 +151,12 @@ public class AccountInfoActivity extends AppCompatActivity {
         });
 
         nextStep.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
-                if (!checkBox1.isChecked() || !checkBox2.isChecked()){
+                if (!checkBox1.isChecked() || !checkBox2.isChecked()) {
                     Toast.makeText(getApplicationContext(), "약관 동의 체크해주세요.", Toast.LENGTH_SHORT).show();
-                }else{
-                    code_verify_input = findViewById(R.id.inputNum);
+                } else {
                     phoneVerify(code_verify_input.getText().toString(), mobile_no.getText().toString());
-//                if (code_ver.equals("true")) {
-//                } else {
-//                    Toast toast = Toast.makeText(getApplicationContext(), "인증 번호 및 전화번호를 확인해주세요.", Toast.LENGTH_LONG);
-//                    toast.show();
-//                }
                 }
             }
         });
@@ -125,7 +169,6 @@ public class AccountInfoActivity extends AppCompatActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("response", response.toString());
                 if (response.isSuccessful()) {
                     try {
                         JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
@@ -161,13 +204,14 @@ public class AccountInfoActivity extends AppCompatActivity {
                 try {
                     JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
                     if (res.get("phone_valid").getAsString().equals("true")) {
+                        phone_verify_btn.setEnabled(false);
+                        phone_verify_btn.setBackgroundColor(0xFFF1F1F1);
+                        phone_verify_btn.setTextColor(0xFFBEBEBE);
                         goNext();
                     } else {
                         Toast toast = Toast.makeText(getApplicationContext(), "인증 번호 및 전화번호를 확인해주세요.", Toast.LENGTH_LONG);
                         toast.show();
                     }
-                    Log.d("code_ver", code_ver);
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -206,8 +250,7 @@ public class AccountInfoActivity extends AppCompatActivity {
 
         if (cancel) {
             focusView.requestFocus();
-        } else
-        {
+        } else {
             Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
             intent.putExtra("name", uname);
             intent.putExtra("phone_number", umobile_no);

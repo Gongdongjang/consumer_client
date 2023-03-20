@@ -26,7 +26,6 @@ public class BannerListAdapter extends RecyclerView.Adapter<BannerListAdapter.Vi
     private ArrayList<String> bannerMainPhotos;
     private ArrayList<String> bannerPhotos;
     private ArrayList<String> bannerContexts;
-//    private ArrayList<String> bannerLinks;
     private ArrayList<String> bannerDates;
 
     public BannerListAdapter(Context context,
@@ -40,7 +39,6 @@ public class BannerListAdapter extends RecyclerView.Adapter<BannerListAdapter.Vi
         this.bannerMainPhotos = bannerMainPhotos;
         this.bannerPhotos = bannerPhotos;
         this.bannerContexts = bannerContexts;
-//        this.bannerLinks = bannerLinks;
         this.bannerDates = bannerDates;
     }
 
@@ -82,8 +80,6 @@ public class BannerListAdapter extends RecyclerView.Adapter<BannerListAdapter.Vi
                     intent.putExtra("contentMainPhoto", bannerMainPhotos.get(position));
                     intent.putExtra("content_photo", bannerPhotos.get(position));
                     intent.putExtra("content_context", bannerContexts.get(position));
-//                    intent.putExtra("content_link", bannerLinks.get(position));
-                    intent.putExtra("contentDate", bannerDates.get(position));
 
                     context.startActivity(intent);
                 }

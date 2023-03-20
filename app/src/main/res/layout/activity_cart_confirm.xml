@@ -24,7 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <Button
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/Cart_GoCart"
                 android:layout_gravity="left"
                 android:layout_weight="1"
@@ -33,26 +34,25 @@
                 android:layout_marginRight="7dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginBottom="7dp"
-                android:textColor="#1EAA95"
-                android:backgroundTint="#FFFFFF"
                 android:text="장바구니로 이동"
+                android:background="@drawable/button_round"
                 android:stateListAnimator="@null"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:textColor="#1EAA95" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/Cart_GoShopping"
-                android:layout_gravity="right"
+                android:layout_gravity="left"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
-                android:layout_height="60dp"
+                android:layout_height="58dp"
                 android:layout_marginRight="15dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginBottom="7dp"
-                android:backgroundTint="#1EAA95"
-                android:stateListAnimator="@null"
                 android:text="쇼핑 계속하기"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:background="@drawable/button_round2"
+                android:stateListAnimator="@null"
+                android:textColor="@color/white" />
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -84,9 +84,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:backgroundTint="#1EAA95"
+                android:backgroundTint="@color/text_1"
                 android:inputType="number"
-                android:hint="010-0909-0909" />
+                android:hint="01012345678" />
 
             <Button
                 android:id="@+id/mobileAuth"
@@ -118,7 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:backgroundTint="#1EAA95"
+                android:backgroundTint="@color/text_1"
                 android:inputType="number"/>
 
         </FrameLayout>
@@ -187,10 +187,11 @@
         android:layout_marginTop="70dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/button_round2"
+        android:background="@drawable/button_enable_false"        android:enabled="false"
         android:stateListAnimator="@null"
         android:text="다음 단계로"
-        android:textColor="@color/white"
+        android:saveEnabled="false"
+        android:textColor="#BEBEBE"
         android:textSize="16sp"
         android:textStyle="bold" />
 
