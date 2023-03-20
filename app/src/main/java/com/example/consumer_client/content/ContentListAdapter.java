@@ -54,33 +54,6 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
         }
     }
 
-    Context context;
-    LayoutInflater layoutInflater;
-    ArrayList<String> content_thumbnail;
-    ArrayList<Integer> content_id;
-    ArrayList<String> content_title;
-    ArrayList<String> content_date;
-    ArrayList<String> content_photo;
-    ArrayList<String> contentMainPhoto;
-    ArrayList<String> content_context;
-    ArrayList<String> content_link;
-
-    public ContentListAdapter(Context context, ArrayList<String> content_thumbnail,
-                              ArrayList<Integer> content_id, ArrayList<String> content_title,
-                              ArrayList<String> content_date, ArrayList<String> content_context, ArrayList<String> contentMainPhoto,
-                              ArrayList<String> content_photo, ArrayList<String> content_link) {
-        this.context = context;
-        this.layoutInflater = LayoutInflater.from(context);
-        this.content_thumbnail = content_thumbnail;
-        this.content_id = content_id;
-        this.content_title = content_title;
-        this.content_date = content_date;
-        this.content_context = content_context;
-        this.contentMainPhoto = contentMainPhoto;
-        this.content_photo = content_photo;
-        this.content_link = content_link;
-    }
-
     private ArrayList<ContentItem> mList = null;
 
     public ContentListAdapter(ArrayList<ContentItem> mList) {
@@ -103,6 +76,7 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
         ContentItem item = mList.get(position);
 
         Picasso.get().load(item.getContent_thumbnail()).into(holder.content_thumbnail);
+        holder.content_thumbnail.setClipToOutline(true);
         holder.content_list_title.setText(item.getContent_title());
     }
 

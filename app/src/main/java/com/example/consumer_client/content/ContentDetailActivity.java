@@ -57,7 +57,7 @@ public class ContentDetailActivity extends AppCompatActivity {
     JsonObject res;
     JsonArray mdArray, dDay;
 
-    TextView content_title, content_context, contentDate;
+    TextView content_title, content_context;
     ImageView content_photo, contentMainPhoto;
 
     double myTownLat, myTownLong;
@@ -87,12 +87,10 @@ public class ContentDetailActivity extends AppCompatActivity {
         content_context = findViewById(R.id.content_context);
         contentMainPhoto = findViewById(R.id.content_main_photo);
         content_photo = findViewById(R.id.content_photo);
-        contentDate = findViewById(R.id.content_date);
 
         Intent intent = getIntent();
         content_title.setText(intent.getStringExtra("content_title"));
         content_context.setText(intent.getStringExtra("content_context"));
-        contentDate.setText(Objects.requireNonNull(intent.getStringExtra("contentDate")).split("T")[0]);
         Picasso.get().load(intent.getStringExtra("content_photo")).into(content_photo);
         Picasso.get().load(intent.getStringExtra("contentMainPhoto")).into(contentMainPhoto);
 

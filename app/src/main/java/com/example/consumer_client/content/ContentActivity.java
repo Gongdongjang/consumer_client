@@ -56,7 +56,6 @@ public class ContentActivity extends AppCompatActivity {
     ArrayList<String> bannerPhotos = new ArrayList<>();
     ArrayList<String> bannerContexts = new ArrayList<>();
     ArrayList<String> bannerDates = new ArrayList<>();
-    ArrayList<String> bannerLinks = new ArrayList<>();
 
     LinearLayoutManager linearLayoutManager;
 
@@ -135,7 +134,6 @@ public class ContentActivity extends AppCompatActivity {
                                     jsonRes.get("content_id").getAsInt(),
                                     jsonRes.get("content_title").getAsString(),
                                     jsonRes.get("content_context").getAsString(),
-                                    jsonRes.get("content_date").getAsString(),
                                     jsonRes.get("content_md_id1").isJsonNull() ? "null" : jsonRes.get("content_md_id1").getAsString(),
                                     jsonRes.get("content_md_id2").isJsonNull() ? "null" : jsonRes.get("content_md_id2").getAsString()
                             );
@@ -154,7 +152,6 @@ public class ContentActivity extends AppCompatActivity {
                                         intent.putExtra("content_photo", mList.get(pos).getContent_photo());
                                         intent.putExtra("contentMainPhoto", mList.get(pos).getContentMainPhotos());
                                         intent.putExtra("content_context", mList.get(pos).getContent_context());
-                                        intent.putExtra("contentDate", mList.get(pos).getContent_date());
                                         intent.putExtra("content_md_id1", mList.get(pos).getContent_md_id1());
                                         intent.putExtra("content_md_id2", mList.get(pos).getContent_md_id2());
                                         startActivity(intent);
@@ -198,7 +195,6 @@ public class ContentActivity extends AppCompatActivity {
                             bannerContexts.add(jsonObject.get("content_context").getAsString());
                             bannerPhotos.add("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_photo").getAsString());
                             bannerMainPhotos.add("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_main").getAsString());
-//                            bannerLinks.add(jsonObject.get("content_link").getAsString());
                             bannerDates.add(jsonObject.get("upload_date").getAsString());
                         }
                         System.out.println("banner " + bannerThumbnails);
@@ -222,7 +218,7 @@ public class ContentActivity extends AppCompatActivity {
         });
     }
     //콘텐츠 어뎁터 연결
-    public void addContent(String thumbnailUrl, String photo_url, String mainPhotoUrl, int content_id, String content_title, String content_context, String content_date, String content_md_id1, String content_md_id2) {
+    public void addContent(String thumbnailUrl, String photo_url, String mainPhotoUrl, int content_id, String content_title, String content_context, String content_md_id1, String content_md_id2) {
         ContentItem item = new ContentItem();
 
         item.setContent_thumbnail(thumbnailUrl);
@@ -231,7 +227,6 @@ public class ContentActivity extends AppCompatActivity {
         item.setContent_id(content_id);
         item.setContent_title(content_title);
         item.setContent_context(content_context);
-        item.setContent_date(content_date);
         item.setContent_md_id1(content_md_id1);
         item.setContent_md_id2(content_md_id2);
 

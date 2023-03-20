@@ -66,50 +66,51 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/content_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="30dp"
-                android:text="콘텐츠 이름"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/content_main_photo" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/white"
+                android:layout_marginTop="-30dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="vertical"
+                android:background="@drawable/border_md">
 
-            <TextView
-                android:id="@+id/content_context"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8sp"
-                android:text="콘텐츠 내용"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/content_title" />
+                <TextView
+                    android:id="@+id/content_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="20dp"
+                    android:text="콘텐츠 이름"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/content_main_photo" />
+
+                <TextView
+                    android:id="@+id/content_context"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8sp"
+                    android:layout_marginBottom="10dp"
+                    android:text="콘텐츠 내용"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/content_title" />
+
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/content_photo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="5dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/kakaotalk_20220324_152807451"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/content_context" />
-
-            <TextView
-                android:id="@+id/content_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="5dp"
-                android:text="2023-02-04"
-                android:textColor="#A3A3A3"
-                android:textSize="11sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/content_context" />
 
