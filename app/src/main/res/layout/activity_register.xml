@@ -124,10 +124,10 @@
         android:layout_marginTop="150dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/button_round2"
-        android:enabled="false"
+        android:background="@drawable/button_enable_false"        android:enabled="false"
         android:text="공동장 시작하기"
-        android:textColor="#FFFFFF"
+        android:clickable="false"
+        android:textColor="#BEBEBE"
         android:textSize="16sp"
         android:textStyle="bold" />
 
