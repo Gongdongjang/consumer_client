@@ -50,6 +50,7 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
             });
 
             content_thumbnail = (ImageView) itemView.findViewById(R.id.content_thumbnail);
+            content_thumbnail.setClipToOutline(true);
             content_list_title = (TextView) itemView.findViewById(R.id.content_list_title);
         }
     }

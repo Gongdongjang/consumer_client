@@ -159,14 +159,14 @@ public class Home extends Fragment {
                     }
                 });
 
-        if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
-            } else {
-                // 안드로이드 12 이하는 알림에 런타임 퍼미션 없으니, 설정가서 켜보라고 권해볼 수 있겠다.
-
-            }
-        }
+//        if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+//            } else {
+//                // 안드로이드 12 이하는 알림에 런타임 퍼미션 없으니, 설정가서 켜보라고 권해볼 수 있겠다.
+//
+//            }
+//        }
 
         //상단바 주소변경 누르면 주소변경/선택 페이지로
         JsonObject body = new JsonObject();
@@ -188,6 +188,7 @@ public class Home extends Fragment {
                     myTownLat = location.getLatitude();
                     myTownLong = location.getLongitude();
 
+                    Log.d("근처동네-Lat", String.valueOf(myTownLat));
                     Log.d("근처동네", String.valueOf(address_count));
 
                 } catch (IOException e) {
@@ -389,8 +390,9 @@ public class Home extends Fragment {
                         //자신이 설정한 위치와 스토어 거리 distance 구하기
                         double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
 
-                        if (Double.compare(1, distanceKilo) > 0) { //4km 이내 제품들만 보이기
+                       // if (Double.compare(1, distanceKilo) > 0) { //4km 이내 제품들만 보이기
                             //(스토어 데이터가 많이 없으므로 0.4대신 1로 test 중, 기능은 완료)
+                        Log.d("거리: ", String.valueOf(distanceKilo));
 
                             String realIf0;
                             if (dDay.get(i).getAsString().equals("0")) realIf0 = "D - day";
@@ -401,12 +403,12 @@ public class Home extends Fragment {
                                     "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                     jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                     jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
-                                    String.format("%.2f", distanceKilo), //+"km",
+                                    String.format("%.2f", distanceKilo) + "km",
                                     jsonArray.get(i).getAsJsonObject().get("pay_price").getAsString(),
                                     realIf0,
                                     pu_start.get(i).getAsString()
                             );
-                        }
+                       // }
                     }
 
                     //거리 가까운순으로 정렬
@@ -414,8 +416,10 @@ public class Home extends Fragment {
                         @Override
                         public int compare(HomeProductItem o1, HomeProductItem o2) {
                             int ret;
-                            Double distance1 = Double.valueOf(o1.getHomeDistance().substring(o1.getHomeDistance().length() - 2));
-                            Double distance2 = Double.valueOf(o2.getHomeDistance().substring(o2.getHomeDistance().length() - 2));
+                            Log.d("거리 km: ", o1.getHomeDistance());
+                            Log.d("거리 km: ", o2.getHomeDistance());
+                            Double distance1 = Double.valueOf(o1.getHomeDistance().substring(0,o1.getHomeDistance().length() - 2));
+                            Double distance2 = Double.valueOf(o2.getHomeDistance().substring(0,o2.getHomeDistance().length() - 2));
                             //거리비교
                             ret = distance1.compareTo(distance2);
                             Log.d("ret", String.valueOf(distance1));
@@ -612,7 +616,7 @@ public class Home extends Fragment {
         item.setHomeProdImg(imgName);
         item.setHomeProdName(mainText);
         item.setHomeProdEx(subText);
-        item.setHomeDistance(String.valueOf(distanceKilo));
+        item.setHomeDistance(distanceKilo);
         item.setHomeMdPrice(mdPrice);
         item.setHomeDday(dDay);
         item.setHomePuTime(puTime);

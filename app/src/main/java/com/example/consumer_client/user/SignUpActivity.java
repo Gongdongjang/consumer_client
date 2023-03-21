@@ -1,5 +1,6 @@
 package com.example.consumer_client.user;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.consumer_client.R;
 import com.google.gson.JsonObject;
@@ -46,6 +48,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     SignUpService service;
     JsonParser jsonParser;
+    Context mContext;
 
     private EditText id, password, pwConfirm;
     private Button signUpBtn, ID_Dup_Check;
@@ -63,6 +66,8 @@ public class SignUpActivity extends AppCompatActivity {
                 .build();
         service = retrofit.create(SignUpService.class);
         jsonParser = new JsonParser();
+
+        mContext = this;
 
         id = findViewById(R.id.userId);
         password = findViewById(R.id.password);
@@ -125,6 +130,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 //텍스트가 변경 후 발생할 이벤트
                 password.setTextColor(Color.parseColor("#1EAA95"));
+                password.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.main_1));
             }
         };
 
@@ -164,9 +170,11 @@ public class SignUpActivity extends AppCompatActivity {
                 if (!is_id_dup) {
                     //텍스트가 변경될 때마다 발생할 이벤트
                     if (password.getText().toString().equals(pwConfirm.getText().toString())) {
+                        pwConfirm.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.main_1));
                         pwConfirm.setTextColor(Color.parseColor("#1EAA95"));
                         signUpBtn.setEnabled(true);
                     } else {
+                        pwConfirm.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.main_4));
                         pwConfirm.setTextColor(Color.parseColor("#F75D39"));
                         signUpBtn.setEnabled(false);
                     }
@@ -174,9 +182,11 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "ID 중복을 확인해주세요.", Toast.LENGTH_LONG).show();
                     //텍스트가 변경될 때마다 발생할 이벤트
                     if (password.getText().toString().equals(pwConfirm.getText().toString())) {
+                        pwConfirm.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.main_1));
                         pwConfirm.setTextColor(Color.parseColor("#1EAA95"));
                         signUpBtn.setEnabled(true);
                     } else {
+                        pwConfirm.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.main_4));
                         pwConfirm.setTextColor(Color.parseColor("#F75D39"));
                         signUpBtn.setEnabled(false);
                     }
@@ -207,28 +217,30 @@ public class SignUpActivity extends AppCompatActivity {
         body.addProperty("password", pwd);
         Log.d("body_check", body.toString());
 
-        Call<ResponseBody> call = service.signUp(body);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    try {
-                        JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-                        Toast.makeText(SignUpActivity.this, res.get("message").getAsString(), Toast.LENGTH_LONG).show();
-                        //회원가입 버튼 클릭시, 회원가입 완료 페이지로 이동
-                        Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-                        startActivity(intent);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    try {
-                        Log.d(TAG, "Fail " + response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
+            Call<ResponseBody> call = service.signUp(body);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        try {
+                            JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                            Toast.makeText(SignUpActivity.this, res.get("message").getAsString(), Toast.LENGTH_LONG).show();
+                            //회원가입 버튼 클릭시, 회원가입 완료 페이지로 이동
+                            Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                            intent.putExtra("sns_login","no");
+                            intent.putExtra("name",name);
+                            startActivity(intent);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        try {
+                            Log.d(TAG, "Fail " + response.errorBody().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-            }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {

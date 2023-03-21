@@ -1,6 +1,8 @@
 package com.example.consumer_client.user;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.consumer_client.R;
 import com.example.consumer_client.agree.Agree1;
@@ -47,7 +50,7 @@ public class AccountInfoActivity extends AppCompatActivity {
 
     RegisterService service;
     JsonParser jsonParser;
-
+    Context mContext;
     private EditText code_verify_input, name, mobile_no;
     private Button nextStep, phone_verify_btn;
     String code_ver;
@@ -65,10 +68,55 @@ public class AccountInfoActivity extends AppCompatActivity {
         service = retrofit.create(RegisterService.class);
         jsonParser = new JsonParser();
 
+        mContext = this;
+
         name = (EditText) findViewById(R.id.inputName);
         phone_verify_btn = findViewById(R.id.mobileAuth);
         nextStep = findViewById(R.id.nextStep);
         mobile_no = (EditText) findViewById(R.id.inputCall);
+        code_verify_input = findViewById(R.id.inputNum);
+
+        // 연락처 EditText 색 바꾸기
+        TextWatcher watcher1 = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //EditText 변경 전 발생할 이벤트=
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //텍스트의 길이가 변경되었을 경우 발생할 이벤트
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //텍스트가 변경 후 발생할 이벤트
+                mobile_no.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.main_1));
+            }
+        };
+        mobile_no.addTextChangedListener(watcher1);
+
+        // 인증번호 EditText 색 바꾸기
+        TextWatcher watcher2 = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //EditText 변경 전 발생할 이벤트=
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //텍스트의 길이가 변경되었을 경우 발생할 이벤트
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //텍스트가 변경 후 발생할 이벤트
+                code_verify_input.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.main_1));
+            }
+        };
+        code_verify_input.addTextChangedListener(watcher2);
 
         phone_verify_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +156,6 @@ public class AccountInfoActivity extends AppCompatActivity {
                 if (!checkBox1.isChecked() || !checkBox2.isChecked()) {
                     Toast.makeText(getApplicationContext(), "약관 동의 체크해주세요.", Toast.LENGTH_SHORT).show();
                 } else {
-                    code_verify_input = findViewById(R.id.inputNum);
                     phoneVerify(code_verify_input.getText().toString(), mobile_no.getText().toString());
                 }
             }
