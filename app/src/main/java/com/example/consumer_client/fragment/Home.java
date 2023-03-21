@@ -559,7 +559,7 @@ public class Home extends Fragment {
         FragPagerAdapter SetPagerAdapter = new FragPagerAdapter(getActivity());
         viewPageSetUp.setAdapter(SetPagerAdapter);
         viewPageSetUp.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        viewPageSetUp.setOffscreenPageLimit(2); //페이지 한계 지정 개수
+        viewPageSetUp.setOffscreenPageLimit(4); //페이지 한계 지정 개수
         viewPageSetUp.setCurrentItem(1000); //무한처럼 보이도록 하려고
 
         //페이지끼리 간격
