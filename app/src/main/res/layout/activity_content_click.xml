@@ -90,11 +90,12 @@
 
                 <TextView
                     android:id="@+id/content_context"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="8sp"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginRight="16dp"
                     android:text="콘텐츠 내용"
                     android:textColor="@color/black"
                     android:textSize="12sp"
