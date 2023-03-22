@@ -49,6 +49,7 @@
                 android:background="@drawable/md_item_rectangle"
                 android:backgroundTint="@color/main_1"
                 android:text="D-99"
+                android:gravity="center"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="10sp" />
@@ -59,9 +60,10 @@
                 android:layout_height="21dp"
                 android:background="@drawable/md_list_rectangle2"
                 android:text="888m"
+                android:gravity="center"
                 android:textAlignment="center"
                 android:textColor="#000000"
-                android:textSize="10sp" />
+                android:textSize="8sp" />
         </LinearLayout>
 
 
