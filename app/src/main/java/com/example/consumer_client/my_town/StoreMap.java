@@ -6,7 +6,9 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,8 +16,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.ProgressDialog;
 import com.example.consumer_client.R;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.store.StoreDetailActivity;
 
 import com.google.gson.JsonArray;
@@ -99,6 +103,28 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
         standard_address=intent.getStringExtra("standard_address");
         TextView myaddress = (TextView) findViewById(R.id.myaddress);
         myaddress.setText(standard_address);
+
+        //상단바 뒤로가기
+        ImageView gotoBack = findViewById(R.id.gotoBack);
+        gotoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(StoreMap.this, MainActivity.class);
+                intent1.putExtra("user_id", user_id);
+                startActivity(intent1);
+            }
+        });
+
+        //상단바 장바구니
+        ImageView gotoCart = findViewById(R.id.gotoCart);
+        gotoCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(StoreMap.this, CartListActivity.class);
+                intent1.putExtra("user_id", user_id);
+                startActivity(intent1);
+            }
+        });
 
         final Geocoder geocoder = new Geocoder(getApplicationContext());
         List<Address> address = null;
