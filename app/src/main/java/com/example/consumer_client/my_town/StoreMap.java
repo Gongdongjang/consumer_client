@@ -2,7 +2,6 @@ package com.example.consumer_client.my_town;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -118,13 +117,6 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
         StoreData data = new StoreData();
         ArrayList<MapPOIItem> storeLoc_marker= new ArrayList<>();
 
-        //로딩창 객체 생성
-        customProgressDialog = new ProgressDialog(mContext);
-        //로딩창을 투명하게
-        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        //로딩창 보여주기
-        customProgressDialog.show();
-
         Call<ResponseBody> call = service.getStoreData();
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -181,7 +173,6 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
                         storeLoc_marker.add(marker);
                     }
                     mapView.addPOIItems(storeLoc_marker.toArray(new MapPOIItem[storeLoc_marker.size()]));
-                    customProgressDialog.dismiss();
 
                 } catch (IOException e) {
                     e.printStackTrace();
