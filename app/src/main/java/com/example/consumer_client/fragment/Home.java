@@ -20,10 +20,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -112,7 +114,7 @@ public class Home extends Fragment {
 
     String user_id, address;
 
-    private List<String> list = new ArrayList<>();
+    //private List<String> list = new ArrayList<>();
     private Spinner spinner;
     private CustomSpinnerAdapter adapter;
     private String selectedItem;
@@ -159,14 +161,14 @@ public class Home extends Fragment {
                     }
                 });
 
-//        if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
-//            } else {
-//                // 안드로이드 12 이하는 알림에 런타임 퍼미션 없으니, 설정가서 켜보라고 권해볼 수 있겠다.
-//
-//            }
-//        }
+        if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+            } else {
+                // 안드로이드 12 이하는 알림에 런타임 퍼미션 없으니, 설정가서 켜보라고 권해볼 수 있겠다.
+
+            }
+        }
 
         //상단바 주소변경 누르면 주소변경/선택 페이지로
         JsonObject body = new JsonObject();
@@ -188,17 +190,19 @@ public class Home extends Fragment {
                     myTownLat = location.getLatitude();
                     myTownLong = location.getLongitude();
 
-                    Log.d("근처동네-Lat", String.valueOf(myTownLat));
                     Log.d("근처동네", String.valueOf(address_count));
+                    Log.d("근처동네-Lat", String.valueOf(myTownLat));
+                    Log.d("근처동네-Long", String.valueOf(myTownLong));
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
                 spinner = view.findViewById(R.id.change_address);
-                Log.d("근처동네", String.valueOf(addressArray));
-
                 //사용자가 등록한 주소 불러오기
+
+                List<String> list = new ArrayList<>();
+                adapter = new CustomSpinnerAdapter(getContext(), list);
                 if (address_count==0){
                     list.add(addressArray.get(0).getAsJsonObject().get("loc0").getAsString());
                     list.add("내 동네 설정하기");
@@ -253,8 +257,8 @@ public class Home extends Fragment {
                 }
 
                 // 스피너에 붙일 어댑터 초기화
-                adapter = new CustomSpinnerAdapter(getContext(), list);
                 spinner.setAdapter(adapter);
+                //spinner.setSelection(0, false);
 
                 // 스피너 클릭 리스너
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -262,8 +266,7 @@ public class Home extends Fragment {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         // 어댑터에서 정의한 메서드를 통해 스피너에서 선택한 아이템의 이름을 받아온다
-
-                        if (isFirstSelected) {
+                        if (isFirstSelected) {  // 맨 첨 실행
                             isFirstSelected = false;
                         } else {
                             // 로직
@@ -274,13 +277,15 @@ public class Home extends Fragment {
                                 Intent intent = new Intent(mActivity, FindTownActivity.class);
                                 intent.putExtra("user_id", user_id);
                                 startActivity(intent);
-                            } else {
-                                Log.d("근처동네 246", "여기오니//?");
+                            } else if (Objects.equals(selectedItem, list.get(0))) {
+                                //spinner.setSelection(0, false);
+                            }else {
+                                //Log.d("근처동네 246", "여기오니//?");
                                 postStdAddress2(user_id, selectedItem);
-                                isFirstSelected=true;
                                 Intent intent = new Intent(mActivity, MainActivity.class);
                                 intent.putExtra("user_id", user_id);
                                 startActivity(intent);
+
                             }
                         }
                     }
@@ -370,19 +375,31 @@ public class Home extends Fragment {
                     pu_start = res.get("pu_start").getAsJsonArray();
                     dDay = res.get("dDay").getAsJsonArray();
 
+                    Handler mHandler = new Handler();
+                    mHandler.postDelayed( new Runnable() {
+                        public void run() { // 3초 후에 현재위치를 받아오도록 설정 , 바로 시작 시 에러남
+
                     //어뎁터 적용
                     mHomeProductAdapter = new HomeProductAdapter(mList);
                     mRecyclerView.setAdapter(mHomeProductAdapter);
 
                     //가로로 세팅
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
-                    linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                    mRecyclerView.setLayoutManager(linearLayoutManager);
+//                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+//                    linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+//                    mRecyclerView.setLayoutManager(linearLayoutManager);
+
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity, 2, GridLayoutManager.VERTICAL, false);
+                    mRecyclerView.setLayoutManager(gridLayoutManager);
 
                     final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
 
                     for (int i = 0; i < jsonArray.size(); i++) {
-                        List<Address> address = geocoder.getFromLocationName(jsonArray.get(i).getAsJsonObject().get("store_loc").getAsString(), 8);
+                        List<Address> address = null;
+                        try {
+                            address = geocoder.getFromLocationName(jsonArray.get(i).getAsJsonObject().get("store_loc").getAsString(), 8);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         Address location = address.get(0);
                         double store_lat = location.getLatitude();
                         double store_long = location.getLongitude();
@@ -390,9 +407,11 @@ public class Home extends Fragment {
                         //자신이 설정한 위치와 스토어 거리 distance 구하기
                         double distanceKilo = distance(myTownLat, myTownLong, store_lat, store_long, "kilometer");
 
-                       // if (Double.compare(1, distanceKilo) > 0) { //4km 이내 제품들만 보이기
+                        //if (Double.compare(1, distanceKilo) > 0) { //4km 이내 제품들만 보이기
                             //(스토어 데이터가 많이 없으므로 0.4대신 1로 test 중, 기능은 완료)
-                        Log.d("거리: ", String.valueOf(distanceKilo));
+                        Log.d("근처동네-395Lat", String.valueOf(myTownLat));
+                        Log.d("근처동네-396Long", String.valueOf(myTownLong));
+                        Log.d("근처동네 거리: ", String.valueOf(distanceKilo));
 
                             String realIf0;
                             if (dDay.get(i).getAsString().equals("0")) realIf0 = "D - day";
@@ -408,7 +427,7 @@ public class Home extends Fragment {
                                     realIf0,
                                     pu_start.get(i).getAsString()
                             );
-                       // }
+                        //}
                     }
 
                     //거리 가까운순으로 정렬
@@ -416,13 +435,12 @@ public class Home extends Fragment {
                         @Override
                         public int compare(HomeProductItem o1, HomeProductItem o2) {
                             int ret;
-                            Log.d("거리 km: ", o1.getHomeDistance());
-                            Log.d("거리 km: ", o2.getHomeDistance());
+                            //Log.d("거리 km: ", o1.getHomeDistance());
                             Double distance1 = Double.valueOf(o1.getHomeDistance().substring(0,o1.getHomeDistance().length() - 2));
                             Double distance2 = Double.valueOf(o2.getHomeDistance().substring(0,o2.getHomeDistance().length() - 2));
                             //거리비교
                             ret = distance1.compareTo(distance2);
-                            Log.d("ret", String.valueOf(distance1));
+                            Log.d("근처동네 km차이", String.valueOf(distance1));
                             return ret;
                         }
                     });
@@ -440,6 +458,9 @@ public class Home extends Fragment {
                                 }
                             }
                     );
+
+
+                } }, 1000 ); // 1000 = 1초
                 } catch (Exception e) {
                     e.printStackTrace();
                     try {
@@ -546,6 +567,7 @@ public class Home extends Fragment {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -554,6 +576,7 @@ public class Home extends Fragment {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
 
             }
+
         });
     }
 

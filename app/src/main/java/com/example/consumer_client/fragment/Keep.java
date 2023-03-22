@@ -141,21 +141,11 @@ public class Keep extends Fragment {
                     res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
                     JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
                     standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
-//                    if(standard_address.equals("현재위치")){
-//                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-//                        myTownLat=mCurrentLat;
-//                        myTownLong=mCurrentLng;
-//                    }else{
-//                        //mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOff );  //현재위치 탐색 중지
-                    final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
+                    Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
                     List<Address> address = geocoder.getFromLocationName(standard_address, 10);
                     Address location = address.get(0);
                     myTownLat = location.getLatitude();
                     myTownLong = location.getLongitude();
-//                        // 중심점 변경
-//                        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(myTownLat, myTownLong), true);
-//                    }
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -179,12 +169,10 @@ public class Keep extends Fragment {
                 try {
                     res = (JsonObject) jsonParser.parse(response.body().string());
                     jsonArray = res.get("keep_list_result").getAsJsonArray();
-//                    pay_schedule = res.get("pay_schedule").getAsJsonArray();
                     pu_start = res.get("pu_start").getAsJsonArray();
                     dDay = res.get("dDay").getAsJsonArray();
 
                     noKeep = view.findViewById(R.id.noKeep);
-//                    Log.d("jsonArray: ", jsonArray.toString());
                     if (jsonArray.size() == 0) noKeep.setText("찜한 상품이 없습니다.");
                     else noKeep.setText("");
 
@@ -195,9 +183,7 @@ public class Keep extends Fragment {
                     GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2, GridLayoutManager.VERTICAL, false);
                     mMdListRecyclerView.setLayoutManager(gridLayoutManager);
 
-
-                    final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
-
+                    Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
 
                     for (int i = 0; i < jsonArray.size(); i++) {
                         keep_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
