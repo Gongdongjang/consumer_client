@@ -25,10 +25,6 @@ public class AlarmList extends AppCompatActivity {
             Log.i("#########Alarm title: ",psuhIntent.getExtras().get("title").toString());
             title = psuhIntent.getExtras().get("title").toString();
             body = psuhIntent.getExtras().get("body").toString();
-
-            //AlarmBody= (TextView) findViewById(R.id.AlarmBody);
-            //AlarmTitle.setText(title);
-            //AlarmBody.setText(body);
         }
 
         catch (Exception e){

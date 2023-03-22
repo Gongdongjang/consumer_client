@@ -2,15 +2,12 @@ package com.example.consumer_client.md;
 
 import static com.example.consumer_client.address.LocationDistance.distance;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -19,7 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_client.CustomSpinnerAdapter;
@@ -27,19 +23,14 @@ import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.R;
 import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.farm.FarmDetailAdapter;
-import com.example.consumer_client.review.ReviewListAdapter;
-import com.example.consumer_client.review.ReviewListInfo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -133,17 +124,6 @@ public class MdListMainActivity extends AppCompatActivity {
         myTownLat = location.getLatitude();
         myTownLong = location.getLongitude();
 
-        //spinner = findViewById(R.id.spinner);
-        // 스피너 안에 넣을 데이터 임의 생성
-        //list.add("0.5km");
-        //list.add("1km");
-       // list.add("2km");
-       // list.add("4km");
-
-        // 스피너에 붙일 어댑터 초기화
-        //adapter = new CustomSpinnerAdapter(getApplicationContext(), list);
-        //spinner.setAdapter(adapter);
-
         Call<ResponseBody> call = service.getMdMainData();
         call.enqueue(new Callback<ResponseBody>() {
 
@@ -162,41 +142,6 @@ public class MdListMainActivity extends AppCompatActivity {
 
                     GridLayoutManager gridLayoutManager = new GridLayoutManager(MdListMainActivity.this, 2, GridLayoutManager.VERTICAL, false);
                     mMdListRecyclerView.setLayoutManager(gridLayoutManager);
-
-                    // 스피너 클릭 리스너
-                   /* spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @SuppressLint("DefaultLocale")
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            // 어댑터에서 정의한 메서드를 통해 스피너에서 선택한 아이템의 이름을 받아온다
-                            selectedItem = adapter.getItem();
-                            Toast.makeText(MdListMainActivity.this, "선택한 거리 : " + selectedItem, Toast.LENGTH_SHORT).show();
-
-                            // 어댑터에서 정의하는 게 귀찮다면 아래처럼 구할 수도 있다
-                            // getItemAtPosition()의 리턴형은 Object이므로 String 캐스팅이 필요하다
-                            String otherItem = (String) spinner.getItemAtPosition(position);
-                            //Log.e(TAG, "getItemAtPosition() - 선택한 아이템 : " + otherItem);
-
-                            if (Objects.equals(selectedItem, "0.5km")) {
-                                //distance_what="ki"
-                                distance_std = 0.05;
-                            } else if (Objects.equals(selectedItem, "1km")) {
-                                distance_std = 0.1;
-                            } else if (Objects.equals(selectedItem, "2km")) {
-                                distance_std = 0.2;
-                            } else {
-                                distance_std = 0.4;
-                            }
-
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-                            //
-                        }
-                    });
-
-                    */
 
                     for (int i = 0; i < jsonArray.size(); i++) {
                         List<Address> address = null;
@@ -230,10 +175,7 @@ public class MdListMainActivity extends AppCompatActivity {
                                 realIf0,
                                 pu_start.get(i).getAsString()
                         );
-
-
                     }
-
 
                     //거리 가까운순으로 정렬
                     mList.sort(new Comparator<MdDetailInfo>() {
