@@ -130,7 +130,12 @@ public class CartListActivity extends AppCompatActivity {
                         res =  (JsonObject) jsonParser.parse(response.body().string());
                         cart_detail = res.get("cart_detail").getAsJsonArray();
                         store_count = res.get("store_count").getAsJsonArray();
-                        if (cart_detail.size() != 0){
+
+                        if (cart_detail.size() == 0){
+                            TextView CartTextId = findViewById(R.id.CartTextId);
+                            CartTextId.setVisibility(View.VISIBLE);
+                        }
+                        else if (cart_detail.size() != 0){
                             store_name = cart_detail.get(0).getAsJsonObject().get("store_name").getAsString();
                             select_qty = cart_detail.get(0).getAsJsonObject().get("select_qty").getAsString();
                             pay_price = cart_detail.get(0).getAsJsonObject().get("pay_price").getAsString();

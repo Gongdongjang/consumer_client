@@ -13,9 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,15 +71,12 @@ public class Keep extends Fragment {
     private ArrayList<MdDetailInfo> mList;
     private FarmDetailAdapter mMdListMainAdapter;
 
-    JsonObject body;
     JsonObject res;
     JsonArray jsonArray, pu_start, dDay;
 
     String user_id, standard_address;
     TextView noKeep;
     double myTownLat, myTownLong;
-
-    ArrayList<String> keep_list = new ArrayList<String>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -141,21 +138,11 @@ public class Keep extends Fragment {
                     res = (JsonObject) jsonParser.parse(response.body().string());  //json응답
                     JsonArray addressArray = res.get("std_address_result").getAsJsonArray();  //json배열
                     standard_address = addressArray.get(0).getAsJsonObject().get("standard_address").getAsString();
-//                    if(standard_address.equals("현재위치")){
-//                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-//                        myTownLat=mCurrentLat;
-//                        myTownLong=mCurrentLng;
-//                    }else{
-//                        //mapView.setCurrentLocationTrackingMode( MapView.CurrentLocationTrackingMode.TrackingModeOff );  //현재위치 탐색 중지
-                    final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
+                    Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
                     List<Address> address = geocoder.getFromLocationName(standard_address, 10);
                     Address location = address.get(0);
                     myTownLat = location.getLatitude();
                     myTownLong = location.getLongitude();
-//                        // 중심점 변경
-//                        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(myTownLat, myTownLong), true);
-//                    }
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -179,15 +166,16 @@ public class Keep extends Fragment {
                 try {
                     res = (JsonObject) jsonParser.parse(response.body().string());
                     jsonArray = res.get("keep_list_result").getAsJsonArray();
-//                    pay_schedule = res.get("pay_schedule").getAsJsonArray();
                     pu_start = res.get("pu_start").getAsJsonArray();
                     dDay = res.get("dDay").getAsJsonArray();
 
                     noKeep = view.findViewById(R.id.noKeep);
-//                    Log.d("jsonArray: ", jsonArray.toString());
                     if (jsonArray.size() == 0) noKeep.setText("찜한 상품이 없습니다.");
                     else noKeep.setText("");
 
+                    Handler mHandler = new Handler();
+                    mHandler.postDelayed( new Runnable() {
+                        public void run() { //주소 거리 구할 때까지 기다리기
                     //어뎁터 적용
                     mMdListMainAdapter = new FarmDetailAdapter(mList);
                     mMdListRecyclerView.setAdapter(mMdListMainAdapter);
@@ -195,14 +183,16 @@ public class Keep extends Fragment {
                     GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2, GridLayoutManager.VERTICAL, false);
                     mMdListRecyclerView.setLayoutManager(gridLayoutManager);
 
-
-                    final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
-
+                    Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
 
                     for (int i = 0; i < jsonArray.size(); i++) {
-                        keep_list.add(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString());
 
-                        List<Address> address = geocoder.getFromLocationName(jsonArray.get(i).getAsJsonObject().get("store_loc").getAsString(), 8);
+                        List<Address> address = null;
+                        try {
+                            address = geocoder.getFromLocationName(jsonArray.get(i).getAsJsonObject().get("store_loc").getAsString(), 8);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         Address location = address.get(0);
                         double store_lat = location.getLatitude();
                         double store_long = location.getLongitude();
@@ -216,7 +206,8 @@ public class Keep extends Fragment {
                             realIf0 = "D + " + Math.abs(dDay.get(i).getAsInt());
                         else realIf0 = "D - " + dDay.get(i).getAsString();
 
-                        addKeepList("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
+                        addKeepList(jsonArray.get(i).getAsJsonObject().get("md_id").getAsString(),
+                                "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonArray.get(i).getAsJsonObject().get("mdimg_thumbnail").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("md_name").getAsString(),
                                 jsonArray.get(i).getAsJsonObject().get("store_name").getAsString(),
                                 String.format("%.2f", distanceKilo)+ "km",
@@ -244,13 +235,14 @@ public class Keep extends Fragment {
                                 @Override
                                 public void onItemClick(View v, int pos) {
                                     Intent intent = new Intent(mActivity, JointPurchaseActivity.class);
-                                    intent.putExtra("md_id", keep_list.get(pos));
+                                    intent.putExtra("md_id", mList.get(pos).getMdId()); //md_id 넘기기
                                     intent.putExtra("user_id", user_id);
                                     startActivity(intent);
                                 }
                             }
                     );
 
+                } }, 1000 ); // 1000 = 1초
                 } catch (Exception e) {
                     e.printStackTrace();
                     try {
@@ -269,8 +261,9 @@ public class Keep extends Fragment {
         return view;
     }
 
-    public void addKeepList(String mdProdImg, String prodName, String storeName, String distance, String mdPrice, String dDay, String puTime) {
+    public void addKeepList(String mdId, String mdProdImg, String prodName, String storeName, String distance, String mdPrice, String dDay, String puTime) {
         MdDetailInfo mdDetail = new MdDetailInfo();
+        mdDetail.setMdId(mdId);
         mdDetail.setProdImg(mdProdImg);
         mdDetail.setProdName(prodName);
         mdDetail.setStoreName(storeName);

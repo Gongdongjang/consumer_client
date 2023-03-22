@@ -2,12 +2,13 @@ package com.example.consumer_client.my_town;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,8 +16,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.consumer_client.MainActivity;
 import com.example.consumer_client.ProgressDialog;
 import com.example.consumer_client.R;
+import com.example.consumer_client.cart.CartListActivity;
 import com.example.consumer_client.store.StoreDetailActivity;
 
 import com.google.gson.JsonArray;
@@ -101,6 +104,28 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
         TextView myaddress = (TextView) findViewById(R.id.myaddress);
         myaddress.setText(standard_address);
 
+        //상단바 뒤로가기
+        ImageView gotoBack = findViewById(R.id.gotoBack);
+        gotoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(StoreMap.this, MainActivity.class);
+                intent1.putExtra("user_id", user_id);
+                startActivity(intent1);
+            }
+        });
+
+        //상단바 장바구니
+        ImageView gotoCart = findViewById(R.id.gotoCart);
+        gotoCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(StoreMap.this, CartListActivity.class);
+                intent1.putExtra("user_id", user_id);
+                startActivity(intent1);
+            }
+        });
+
         final Geocoder geocoder = new Geocoder(getApplicationContext());
         List<Address> address = null;
         try {
@@ -117,13 +142,6 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
         //StoreData
         StoreData data = new StoreData();
         ArrayList<MapPOIItem> storeLoc_marker= new ArrayList<>();
-
-        //로딩창 객체 생성
-        customProgressDialog = new ProgressDialog(mContext);
-        //로딩창을 투명하게
-        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        //로딩창 보여주기
-        customProgressDialog.show();
 
         Call<ResponseBody> call = service.getStoreData();
         call.enqueue(new Callback<ResponseBody>() {
@@ -181,7 +199,6 @@ public class StoreMap extends AppCompatActivity implements MapView.POIItemEventL
                         storeLoc_marker.add(marker);
                     }
                     mapView.addPOIItems(storeLoc_marker.toArray(new MapPOIItem[storeLoc_marker.size()]));
-                    customProgressDialog.dismiss();
 
                 } catch (IOException e) {
                     e.printStackTrace();
