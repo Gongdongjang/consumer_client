@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--    <RelativeLayout-->
+<!--        android:id="@+id/find_map_view"-->
+<!--        android:layout_width="445dp"-->
+<!--        android:layout_height="324dp"-->
+<!--        android:layout_marginTop="88dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="1.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+
+<!--    </RelativeLayout>-->
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="기준 주소지 설정 (임시)"
+
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="531dp"
+        android:layout_height="432dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!--        사실 123은 버튼 아니어도 된다...-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            tools:layout_editor_absoluteY="80dp">
+
+            <TextView
+                android:id="@+id/txt_address0"
+                android:layout_width="276dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="124dp"
+                android:layout_marginTop="16dp"
+                android:background="#D3D3D3"
+                android:gravity="center"
+                android:text="현재위치로 설정"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txt_address1"
+                android:layout_width="276dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="124dp"
+                android:layout_marginTop="60dp"
+                android:background="#D3D3D3"
+                android:gravity="center"
+                android:text="주소1"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txt_address2"
+                android:layout_width="276dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="124dp"
+                android:layout_marginBottom="60dp"
+                android:background="#D3D3D3"
+                android:gravity="center"
+                android:text="주소2"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/txt_address3"
+                android:layout_width="276dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="124dp"
+                android:layout_marginBottom="16dp"
+                android:background="#D3D3D3"
+                android:gravity="center"
+                android:text="주소3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!--            <Button-->
+            <!--                android:id="@+id/btn_addAdress"-->
+            <!--                android:layout_width="113dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginEnd="304dp"-->
+            <!--                android:layout_marginBottom="16dp"-->
+            <!--                android:backgroundTint="@color/white"-->
+            <!--                android:text="(수정/삭제)"-->
+            <!--                android:textColor="@color/black"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent" />-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="5dp"
+            android:text="기준주소지 설정하기"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btn_finish_address"
+            android:layout_width="389dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/white"
+            android:layout_marginTop="50dp"
+            android:text="기준 동네로 설정하기"
+            android:textColor="@color/main_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

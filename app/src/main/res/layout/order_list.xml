@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/border">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/UserId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/ProdImg"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="top"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="8dp"
+                android:adjustViewBounds="true"
+                android:scaleType = "fitXY"
+                android:background="@drawable/border"
+                android:src="@drawable/img_gongdongjang_logo" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="14dp">
+
+                        <TextView
+                            android:id="@+id/StoreName"
+                            android:layout_width="160dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:text="스토어명"
+                            android:textColor="@color/text_3"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/StoreLocationFromMe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="주문상세"
+                            android:textSize="12sp"
+                            android:layout_gravity="right"/>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="right"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:layout_marginTop="5dp">
+
+                            <TextView
+                                android:id="@+id/MdName"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="제품명"
+                                android:textSize="14sp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="2dp">
+                                <TextView
+                                    android:id="@+id/MdQty"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:text= "3"
+                                    android:layout_marginTop="2dp"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/black" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:text= "세트"
+                                    android:layout_marginTop="2dp"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/MdPrice"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:text= "119,900"
+                                    android:layout_marginLeft="8dp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:text= "원"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+
+                            <TextView
+                            android:id="@+id/mdStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="10sp"
+                            android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/Pudate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="픽업 예정일 2023.01.31"
+                                android:textSize="10sp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:textColor="@color/main_1" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/OrderReview"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="-4dp"
+        android:background="@drawable/review_btn"
+        android:enabled="true"
+        android:text="리뷰 작성하기"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textFontWeight="30"
+        android:textSize="14sp"
+        android:visibility="gone"/>
+
+</LinearLayout>
