@@ -351,29 +351,29 @@ public class FarmDetailActivity extends AppCompatActivity {
                         if (avg == 0) rating.setText("0");
                         else if (avg / reviewArray.size() == 1) {
                             Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
-                            rating.setText(String.valueOf((double) avg / reviewArray.size()));
+                            rating.setText(String.format("%.1f", (double) avg / reviewArray.size()));
                         } else if (avg / reviewArray.size() == 2) {
                             Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
                             Star_2.setImageResource(R.drawable.ic_product_review_list_on_14px);
-                            rating.setText(String.valueOf((double) avg / reviewArray.size()));
+                            rating.setText(String.format("%.1f", (double) avg / reviewArray.size()));
                         } else if (avg / reviewArray.size() == 3) {
                             Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
                             Star_2.setImageResource(R.drawable.ic_product_review_list_on_14px);
                             Star_3.setImageResource(R.drawable.ic_product_review_list_on_14px);
-                            rating.setText(String.valueOf((double) avg / reviewArray.size()));
+                            rating.setText(String.format("%.1f", (double) avg / reviewArray.size()));
                         } else if (avg / reviewArray.size() == 4) {
                             Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
                             Star_2.setImageResource(R.drawable.ic_product_review_list_on_14px);
                             Star_3.setImageResource(R.drawable.ic_product_review_list_on_14px);
                             Star_4.setImageResource(R.drawable.ic_product_review_list_on_14px);
-                            rating.setText(String.valueOf((double) avg / reviewArray.size()));
+                            rating.setText(String.format("%.1f", (double) avg / reviewArray.size()));
                         } else if (avg / reviewArray.size() == 5) {
                             Star_1.setImageResource(R.drawable.ic_product_review_list_on_14px);
                             Star_2.setImageResource(R.drawable.ic_product_review_list_on_14px);
                             Star_3.setImageResource(R.drawable.ic_product_review_list_on_14px);
                             Star_4.setImageResource(R.drawable.ic_product_review_list_on_14px);
                             Star_5.setImageResource(R.drawable.ic_product_review_list_on_14px);
-                            rating.setText(String.valueOf((double) avg / reviewArray.size()));
+                            rating.setText(String.format("%.1f", (double) avg / reviewArray.size()));
                         }
 
                         mReviewListAdapter.setOnItemClickListener(
