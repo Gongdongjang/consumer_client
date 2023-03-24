@@ -133,9 +133,10 @@
                 android:background="#F6F6F6" />
 
             <LinearLayout
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="12dp">
 
                 <TextView
                     android:id="@+id/Dday"
@@ -417,6 +418,7 @@
                         android:background="@drawable/border_round_diagonal"
                         android:backgroundTint="#6765D6"
                         android:text="농가"
+                        android:gravity="center"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="10sp" />
@@ -471,6 +473,7 @@
                         android:background="@drawable/border_round_diagonal"
                         android:backgroundTint="#F75D39"
                         android:text="스토어"
+                        android:gravity="center"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="10sp" />

@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/homeBanner2"
-        android:layout_width="400dp"
+        android:layout_width="wrap_content"
         android:layout_height="400dp"
-        app:srcCompat="@drawable/img_gongdongjang_logo" />
+        app:srcCompat="@drawable/banner2" />
 
 </LinearLayout>

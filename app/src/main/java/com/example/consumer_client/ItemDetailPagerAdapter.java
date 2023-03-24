@@ -35,7 +35,7 @@ public class ItemDetailPagerAdapter extends FragmentStateAdapter {
             case 2 : return new MdPicture3(pic3);
             case 3 : return new MdPicture4(pic4);
             case 4 : return new MdPicture5(pic5);
-            default: return new Bannar2();
+            default: return new MdPicture1(pic1);
         }
     }
 

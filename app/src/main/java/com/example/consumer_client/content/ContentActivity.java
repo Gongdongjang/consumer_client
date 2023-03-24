@@ -55,7 +55,8 @@ public class ContentActivity extends AppCompatActivity {
     ArrayList<String> bannerMainPhotos = new ArrayList<>();
     ArrayList<String> bannerPhotos = new ArrayList<>();
     ArrayList<String> bannerContexts = new ArrayList<>();
-    ArrayList<String> bannerDates = new ArrayList<>();
+    ArrayList<String> bannerMdId1 = new ArrayList<>();
+    ArrayList<String> bannerMdId2 = new ArrayList<>();
 
     LinearLayoutManager linearLayoutManager;
 
@@ -70,20 +71,23 @@ public class ContentActivity extends AppCompatActivity {
                 .build();
         ContentService contentService = retrofit.create(ContentService.class);
 
-        mContentRecyclerView = findViewById(R.id.content_listview);
-        mList = new ArrayList<>();
-
-        bannerList = findViewById(R.id.content_banner_view);
-        bannerListAdapter = new BannerListAdapter(this, bannerThumbnails,
-                bannerIds, bannerTitles, bannerMainPhotos, bannerPhotos,
-                bannerContexts, bannerDates);
-        bannerList.setAdapter(bannerListAdapter);
-
         Intent intent;
         intent = getIntent();
 
         user_id = intent.getStringExtra("user_id");
         standard_address = intent.getStringExtra("standard_address");
+
+        mContentRecyclerView = findViewById(R.id.content_listview);
+        mList = new ArrayList<>();
+
+        bannerList = findViewById(R.id.content_banner_view);
+        bannerListAdapter = new BannerListAdapter(this,
+                user_id, standard_address, bannerThumbnails,
+                bannerIds, bannerTitles, bannerMainPhotos, bannerPhotos,
+                bannerContexts, bannerMdId1, bannerMdId2);
+        bannerList.setAdapter(bannerListAdapter);
+
+
 
         //뒤로가기
         ImageView gotoBack = findViewById(R.id.gotoBack);
@@ -186,7 +190,7 @@ public class ContentActivity extends AppCompatActivity {
                     try {
                         JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
                         JsonArray data = res.getAsJsonArray("data");
-                        for (int i = 0; i < 3; i++) {
+                        for (int i = 0; i < data.size(); i++) {
                             JsonObject jsonObject = (JsonObject) data.get(i);
                             String thumbnailUrl = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_thumbnail").getAsString();
                             bannerThumbnails.add(thumbnailUrl);
@@ -195,7 +199,8 @@ public class ContentActivity extends AppCompatActivity {
                             bannerContexts.add(jsonObject.get("content_context").getAsString());
                             bannerPhotos.add("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_photo").getAsString());
                             bannerMainPhotos.add("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_main").getAsString());
-                            bannerDates.add(jsonObject.get("upload_date").getAsString());
+                            bannerMdId1.add(jsonObject.get("content_md_id1").getAsString());
+                            bannerMdId2.add(jsonObject.get("content_md_id2").getAsString());
                         }
                         System.out.println("banner " + bannerThumbnails);
                         bannerListAdapter.notifyDataSetChanged();
@@ -217,6 +222,7 @@ public class ContentActivity extends AppCompatActivity {
             }
         });
     }
+
     //콘텐츠 어뎁터 연결
     public void addContent(String thumbnailUrl, String photo_url, String mainPhotoUrl, int content_id, String content_title, String content_context, String content_md_id1, String content_md_id2) {
         ContentItem item = new ContentItem();
