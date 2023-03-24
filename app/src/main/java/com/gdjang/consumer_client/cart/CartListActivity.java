@@ -53,7 +53,7 @@ public class CartListActivity extends AppCompatActivity {
     public static Context mContext;
     JsonArray cart_detail, store_count, cart_checked;
 
-    String select_qty, pay_price, pay_comp;
+    String select_qty, pay_price, pay_comp, mdimg_thumbnail;
 
     private RecyclerView mCartRecyclerView;
     private ArrayList<CartListInfo> mList, mList2;
@@ -240,6 +240,7 @@ public class CartListActivity extends AppCompatActivity {
                                         pu_time = cart_checked.get(0).getAsJsonObject().get("cart_pu_time").getAsString();
                                         pu_date = cart_checked.get(0).getAsJsonObject().get("cart_pu_date").getAsString();
                                         store_loc = cart_checked.get(0).getAsJsonObject().get("store_loc").getAsString();
+                                        mdimg_thumbnail = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/"+ cart_checked.get(0).getAsJsonObject().get("mdimg_thumbnail").getAsString();
 
                                         Intent i = new Intent(v.getContext(), ToPayActivity.class);// 넘어감
                                         i.putExtra("user_id",user_id);
@@ -252,6 +253,7 @@ public class CartListActivity extends AppCompatActivity {
                                         i.putExtra("store_loc",store_loc);
                                         i.putExtra("pickupDate", pu_date);
                                         i.putExtra("pickupTime", pu_time);
+                                        i.putExtra("mdimg_thumbnail", mdimg_thumbnail);
                                         v.getContext().startActivity(i);
                                     }
                                 } catch (IOException e) {
