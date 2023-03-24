@@ -99,7 +99,7 @@ public class StandardLoginActivity extends AppCompatActivity {
                     //입력 중 호출
                     if (charSequence.length() > 0) {
                         //하나라도 작성했다면
-                        loginbutton.setClickable(true);
+                        loginbutton.setEnabled(true);
                         loginbutton.setBackgroundResource(R.drawable.button_round2);
                         loginbutton.setTextColor(0xFFFFFFFF);
                     }
@@ -115,7 +115,7 @@ public class StandardLoginActivity extends AppCompatActivity {
                     //입력 후 호출
                     if (editable.length() > 0) {
                         //하나라도 작성했다면
-                        loginbutton.setClickable(true);
+                        loginbutton.setEnabled(true);
                         loginbutton.setBackgroundResource(R.drawable.button_round2);
                         loginbutton.setTextColor(0xFFFFFFFF);
                     }
