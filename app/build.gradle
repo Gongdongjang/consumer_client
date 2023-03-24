@@ -8,7 +8,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.consumer_client"
+        applicationId "com.gdjang.consumer_client"
         minSdk 30
         targetSdk 33
         versionCode 1
