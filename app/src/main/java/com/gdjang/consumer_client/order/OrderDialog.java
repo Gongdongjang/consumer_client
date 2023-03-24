@@ -48,9 +48,7 @@ public class OrderDialog extends Dialog {
     boolean basketChek = false;
 
     DatePickerDialog datePickerDialog;
-    TimePickerDialog timePickerDialog;
 
-    //Spinner PurchaseNumSpinner;
     ImageView mdPlusBtn, mdMinusBtn;
     EditText PurchaseNum;
     int count;
@@ -62,8 +60,6 @@ public class OrderDialog extends Dialog {
     Context mContext;
 
     CartDialog cartDialog;
-    OrderDialog orderDialog;
-    //popuporderActivitiy
 
     JsonObject body;
     JsonParser jsonParser;
@@ -71,9 +67,6 @@ public class OrderDialog extends Dialog {
 
     BottomSheetDialog bottomSheetDialog;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener;
-//    CustomTimePickerDialog customTimePickerDialog;
-//    private final static int TIME_PICKER_INTERVAL = 10;
-//    private TimePicker mTimePicker;
 
     public OrderDialog(@NonNull Context context, String mdName, String prodPrice,
                        String StkRemain, String pu_start, String pu_end, String pickup_start, String pickup_end, String store_name,
@@ -83,8 +76,6 @@ public class OrderDialog extends Dialog {
         bottomSheetDialog = new BottomSheetDialog(context);
         bottomSheetDialog.setContentView(R.layout.activity_payment_popup2);
         bottomSheetDialog.show();
-
-//        setContentView(R.layout.activity_payment_popup2);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(context.getString(R.string.baseurl))
@@ -98,32 +89,18 @@ public class OrderDialog extends Dialog {
         body.addProperty("md_id", md_id);
         body.addProperty("store_id", store_id);
 
-//        orderDialog = this;
         Log.d("유저아이디", user_id);
-
-//        //상품명 + n개 000원 추가했음.
-//        PopupProdName=findViewById(R.id.PopupProdName);
-//        PopupProdName.setText(mdName);
-//        PopupProdNum=findViewById(R.id.PopupProdNum);
-//        PopupProdNum.setText(prodNum);
-//        PopupProdPrice=findViewById(R.id.PopupProdPrice);
-//        PopupProdPrice.setText(prodPrice);
 
         //픽업기간 세팅하기
         PickUpDate=bottomSheetDialog.findViewById(R.id.PickUpDate);
         PickUpTime=bottomSheetDialog.findViewById(R.id.PickUpTime);
         btn_date=bottomSheetDialog.findViewById(R.id.btn_date);
         btn_time=bottomSheetDialog.findViewById(R.id.btn_time);
-        Log.d("주문하기_기간:",pu_start); //2022. 8. 28.
+//        Log.d("주문하기_기간:",pu_start); //2022. 8. 28.
 
-        String[] startDay = pu_start.split("\\.");  // .으로 자르고 싶을땐 \\. 이라고 해야함
-        String[] endDay = pu_end.split("\\.");
-
-        //month,day 한자리수 공백제거
-        for(int i=1;i<3;i++){
-            startDay[i]=startDay[i].trim();
-            endDay[i]=endDay[i].trim();
-        }
+        Log.d("주문하기_기간:",pu_start); //   3/9/2023
+        String[] startDay = pu_start.split("/");  // .으로 자르고 싶을땐 \\. 이라고 해야함
+        String[] endDay = pu_end.split("/");
 
         mdPlusBtn=bottomSheetDialog.findViewById(R.id.mdPlusBtn);
         PurchaseNum=bottomSheetDialog.findViewById(R.id.PurchaseNum);
@@ -217,7 +194,7 @@ public class OrderDialog extends Dialog {
                         },pYear,pMonth,pDay);
 
                 //픽업 시작날짜와 현재시간 비교한 후 오늘 이전의 날짜는 선택 불가능 하도록 하기
-                minDate.set(Integer.parseInt(startDay[0]),Integer.parseInt(startDay[1])-1,Integer.parseInt(startDay[2]));
+                minDate.set(Integer.parseInt(startDay[2]),Integer.parseInt(startDay[0])-1,Integer.parseInt(startDay[1]));
                 calendar.set(pYear,pMonth,pDay);
 
                 if (calendar.getTimeInMillis()< minDate.getTimeInMillis()) {
@@ -228,7 +205,7 @@ public class OrderDialog extends Dialog {
                 }
 
                 //픽업 마감날짜까지 선택가능
-                maxDate.set(Integer.parseInt(endDay[0]),Integer.parseInt(endDay[1])-1,Integer.parseInt(endDay[2]));
+                maxDate.set(Integer.parseInt(endDay[2]),Integer.parseInt(endDay[0])-1,Integer.parseInt(endDay[1]));
                 datePickerDialog.getDatePicker().setMaxDate(maxDate.getTimeInMillis());
 
                 datePickerDialog.show();
