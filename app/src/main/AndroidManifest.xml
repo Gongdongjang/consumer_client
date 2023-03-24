@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.consumer_client"
+    package="com.gdjang.consumer_client"
     tools:ignore="CoarseFineLocation">
 
     <!-- 인터넷 사용 권한& 장소 권한-->
@@ -17,7 +17,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
-        android:name=".user.KakaoApplication"
+        android:name="com.gdjang.consumer_client.user.KakaoApplication"
         android:allowBackup="true"
         android:icon="@drawable/appicon"
         android:label="@string/app_name"
@@ -30,11 +30,11 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key"/>
         <meta-data android:name="android.max_aspect" android:value="2.1" />
-        <activity android:name=".user.IntegratedLoginActivity"/>
-        <activity android:name=".tutorial.TutorialActivity"
+        <activity android:name="com.gdjang.consumer_client.user.IntegratedLoginActivity"/>
+        <activity android:name="com.gdjang.consumer_client.tutorial.TutorialActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity
-            android:name=".tutorial.SplashActivity"
+            android:name="com.gdjang.consumer_client.tutorial.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -42,20 +42,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".address.FindTownActivity"/>
-        <activity android:name=".address.PlusAddressActivity"/>
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".md.MdListMainActivity"/>
-        <activity android:name=".user.SignUpActivity"/>
-        <activity android:name=".user.StandardLoginActivity"/>
-        <activity android:name=".user.AccountInfoActivity"/>
-        <activity android:name=".user.StartActivity" />
-        <activity android:name=".farm.FarmActivity" />
-        <activity android:name=".store.StoreActivity"
+        <activity android:name="com.gdjang.consumer_client.address.FindTownActivity"/>
+        <activity android:name="com.gdjang.consumer_client.address.PlusAddressActivity"/>
+        <activity android:name="com.gdjang.consumer_client.MainActivity"/>
+        <activity android:name="com.gdjang.consumer_client.md.MdListMainActivity"/>
+        <activity android:name="com.gdjang.consumer_client.user.SignUpActivity"/>
+        <activity android:name="com.gdjang.consumer_client.user.StandardLoginActivity"/>
+        <activity android:name="com.gdjang.consumer_client.user.AccountInfoActivity"/>
+        <activity android:name="com.gdjang.consumer_client.user.StartActivity" />
+        <activity android:name="com.gdjang.consumer_client.farm.FarmActivity" />
+        <activity android:name="com.gdjang.consumer_client.store.StoreActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".farm.FarmDetailActivity" />
-        <activity android:name=".store.StoreDetailActivity" />
-        <activity android:name=".md.JointPurchaseActivity"
+        <activity android:name="com.gdjang.consumer_client.farm.FarmDetailActivity" />
+        <activity android:name="com.gdjang.consumer_client.store.StoreDetailActivity" />
+        <activity android:name="com.gdjang.consumer_client.md.JointPurchaseActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -66,18 +66,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".order.ToPayActivity" />
-        <activity android:name=".order.PaidActivity" />
+        <activity android:name="com.gdjang.consumer_client.order.ToPayActivity" />
+        <activity android:name="com.gdjang.consumer_client.order.PaidActivity" />
 
-        <activity android:name=".order.OrderDetailActivity" />
-        <activity android:name=".review.ReviewActivity" />
-        <activity android:name=".review.ReviewMyDetailActivity" />
-        <activity android:name=".review.ReviewDetailActivity" />
+        <activity android:name="com.gdjang.consumer_client.order.OrderDetailActivity" />
+        <activity android:name="com.gdjang.consumer_client.review.ReviewActivity" />
+        <activity android:name="com.gdjang.consumer_client.review.ReviewMyDetailActivity" />
 
-        <activity android:name=".cart.CartListActivity" />
+        <activity android:name="com.gdjang.consumer_client.cart.CartListActivity" />
 
         <activity
-            android:name=".alarm.Alarm"
+            android:name="com.gdjang.consumer_client.alarm.Alarm"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
@@ -95,40 +94,39 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".shopping_info.ShoppingInfoActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".shopping_info.OrderList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".shopping_info.ReviewList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".shopping_info.ShoppingInfo2Activity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".shopping_info.CancelList" android:theme="@style/Theme.Design.NoActionBar"/>
+        <activity android:name="com.gdjang.consumer_client.shopping_info.ShoppingInfoActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name="com.gdjang.consumer_client.shopping_info.OrderList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name="com.gdjang.consumer_client.shopping_info.ReviewList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name="com.gdjang.consumer_client.shopping_info.ShoppingInfo2Activity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name="com.gdjang.consumer_client.shopping_info.CancelList" android:theme="@style/Theme.Design.NoActionBar"/>
 
-        <activity android:name=".my_town.StoreMap" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".address.EditTownActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name="com.gdjang.consumer_client.my_town.StoreMap" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
-        <activity android:name=".alarm.AlarmList" />
-        <service android:name=".alarm.FCMService"
+        <activity android:name="com.gdjang.consumer_client.alarm.AlarmList" />
+        <service android:name="com.gdjang.consumer_client.alarm.FCMService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <activity android:name=".mypage.AboutGDJActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".mypage.AccountSettingActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".mypage.AboutCompanyActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".mypage.LoginSettingActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".mypage.ChangeActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".notification.NotificationList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name="com.gdjang.consumer_client.mypage.AboutGDJActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name="com.gdjang.consumer_client.mypage.AccountSettingActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name="com.gdjang.consumer_client.mypage.AboutCompanyActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name="com.gdjang.consumer_client.mypage.LoginSettingActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name="com.gdjang.consumer_client.mypage.ChangeActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name="com.gdjang.consumer_client.notification.NotificationList" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity
-            android:name=".content.ContentDetailActivity"
+            android:name="com.gdjang.consumer_client.content.ContentDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".content.ContentActivity"
+            android:name="com.gdjang.consumer_client.content.ContentActivity"
             android:exported="true" />
 
-        <activity android:name=".agree.Agree1" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".agree.Agree2" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".agree.Agree3" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".agree.Agree4" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name="com.gdjang.consumer_client.agree.Agree1" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name="com.gdjang.consumer_client.agree.Agree2" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name="com.gdjang.consumer_client.agree.Agree3" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name="com.gdjang.consumer_client.agree.Agree4" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
 
     </application>

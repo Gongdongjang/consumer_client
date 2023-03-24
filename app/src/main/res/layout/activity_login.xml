@@ -102,7 +102,7 @@
         android:stateListAnimator="@null"
         android:background="@drawable/button_enable_false"
         android:text="공동장 시작하기"
-        android:clickable="false"
+        android:enabled="false"
         android:textColor="#BEBEBE"
         android:textSize="16sp"
         android:textStyle="bold" />

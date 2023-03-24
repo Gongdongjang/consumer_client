@@ -1,11 +1,10 @@
-package com.example.consumer_client;
+package com.gdjang.consumer_client;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.gdjang.consumer_client.content.Bannar2;
 import com.gdjang.consumer_client.md.MdPicture1;
 import com.gdjang.consumer_client.md.MdPicture2;
 import com.gdjang.consumer_client.md.MdPicture3;
