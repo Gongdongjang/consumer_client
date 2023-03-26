@@ -339,7 +339,10 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                     Log.d("@@@lat", String.valueOf(latitude));
                     Log.d("@@@long", String.valueOf(longitude));
                     currentAddr=getCurrentAddress(latitude,longitude);
-                    currentAddr=currentAddr.substring(5);   //대한민국 없애기
+                    String korea=getCurrentAddress(latitude,longitude).substring(0,4);
+                    if(korea.equals("대한민국")){
+                        currentAddr=currentAddr.substring(5);   //대한민국 없애기
+                    }
                     txt_address0.setText(currentAddr); //현재위치 입력하기
                     checkRunTimePermission();
                 }
@@ -456,7 +459,10 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
                 double latitude=gpsTracker.getLatitude();
                 double longitude= gpsTracker.getLongitude();
                 currentAddr=getCurrentAddress(latitude,longitude);
-                currentAddr=currentAddr.substring(5);   //대한민국 없애기
+                String korea=getCurrentAddress(latitude,longitude).substring(0,4);
+                if(korea.equals("대한민국")){
+                    currentAddr=currentAddr.substring(5);   //대한민국 없애기
+                }
                 txt_address0.setText(currentAddr); //현재위치 입력하기
 
             } else {
@@ -552,7 +558,10 @@ public class FindTownActivity extends AppCompatActivity implements MapView.Curre
             double latitude=gpsTracker.getLatitude();
             double longitude= gpsTracker.getLongitude();
             currentAddr=getCurrentAddress(latitude,longitude);
-            currentAddr=currentAddr.substring(5);   //대한민국 없애기
+            String korea=getCurrentAddress(latitude,longitude).substring(0,4);
+            if(korea.equals("대한민국")){
+                currentAddr=currentAddr.substring(5);   //대한민국 없애기
+            }
             txt_address0.setText(currentAddr); //현재위치 입력하기
         }else{
             if(ActivityCompat.shouldShowRequestPermissionRationale(this,REQUIRED_PERMISSIONS[0])){
