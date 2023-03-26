@@ -10,6 +10,6 @@
         android:id="@+id/homeBanner2"
         android:layout_width="wrap_content"
         android:layout_height="400dp"
-        app:srcCompat="@drawable/banner2" />
+        app:srcCompat="@drawable/banner3" />
 
 </LinearLayout>
