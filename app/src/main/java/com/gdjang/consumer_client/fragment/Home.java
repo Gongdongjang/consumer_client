@@ -382,12 +382,12 @@ public class Home extends Fragment {
                     mRecyclerView.setAdapter(mHomeProductAdapter);
 
                     //가로로 세팅
-//                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
-//                    linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//                    mRecyclerView.setLayoutManager(linearLayoutManager);
-
-                    GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity, 2, GridLayoutManager.VERTICAL, false);
-                    mRecyclerView.setLayoutManager(gridLayoutManager);
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+                    linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                    mRecyclerView.setLayoutManager(linearLayoutManager);
+//
+//                    GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity, 2, GridLayoutManager.VERTICAL, false);
+//                    mRecyclerView.setLayoutManager(gridLayoutManager);
 
                     final Geocoder geocoder = new Geocoder(mActivity.getApplicationContext());
 
