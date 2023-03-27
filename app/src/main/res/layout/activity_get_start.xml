@@ -9,8 +9,9 @@
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="510dp"
-        android:alpha="0.5"
-        app:srcCompat="@drawable/complete_signup" />
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/complete_signup_image" />
 
     <TextView
         android:layout_width="match_parent"
