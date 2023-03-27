@@ -190,7 +190,7 @@
                     android:id="@+id/Content_Today_Farm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="오늘의 농가 어쩌구"
+                    android:text="공동장 콘텐츠"
                     android:textColor="#000000" />
                 <TextView
                     android:id="@+id/Content_Company_info"
