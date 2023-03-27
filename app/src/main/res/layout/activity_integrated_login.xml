@@ -33,19 +33,10 @@
 
             </FrameLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/textView5"
-                android:layout_width="150dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/button_round"
-                android:text="3초 만에 간편 로그인하기"
-                android:textAlignment="center"
-                android:stateListAnimator="@null"
-                android:textColor="@color/purple_700"
-                android:textSize="11dp" />
+            <ImageView
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:background="@drawable/easylogin" />
 
             <LinearLayout
                 android:layout_width="match_parent"
