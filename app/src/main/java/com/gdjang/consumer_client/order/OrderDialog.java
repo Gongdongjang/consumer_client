@@ -56,7 +56,7 @@ public class OrderDialog extends Dialog {
     TextView PickUpDate, PickUpTime, JP_Remain_Count;
     TextView JP_ToTalPrice, JP_SelectCount;
     Button JP_OrderBtn;
-    ImageView JP_CartBtn;
+    Button JP_CartBtn;
     Context mContext;
 
     CartDialog cartDialog;
