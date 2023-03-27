@@ -1,8 +1,12 @@
 package com.gdjang.consumer_client.user;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +43,8 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
 interface IntegratedLoginService {
@@ -120,6 +126,10 @@ public class IntegratedLoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
+        //Log.d("@@@@keyHash", getKeyHash());
 
         //간편로그인(카카오)
         Function2<OAuthToken, Throwable, Unit> callback = new Function2<OAuthToken, Throwable, Unit>() {
@@ -233,6 +243,11 @@ public class IntegratedLoginActivity extends AppCompatActivity {
 //                try{
 //                    MessageDigest md = MessageDigest.getInstance("SHA");
 //                    md.update(signature.toByteArray());
+//                    String something= new String(Base64.encode(md.digest(),0));
+//
+//                    Log.d("@@@@@@something:",something);
+//                    TextView textView4=findViewById(R.id.textView4);
+//                    textView4.setText(something);
 //                    return android.util.Base64.encodeToString(md.digest(), Base64.NO_WRAP);
 //                }catch (NoSuchAlgorithmException e){
 //                    Log.w("getKeyHash", "Unable to get MessageDigest. signature="+signature, e);
