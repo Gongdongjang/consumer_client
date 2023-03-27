@@ -31,31 +31,25 @@
                     android:background="@drawable/img_login_clear"
                     android:gravity="center_horizontal" />
 
+                <ImageView
+                    android:layout_width = "200dp"
+                    android:layout_height = "50dp"
+                    android:layout_marginTop = "460dp"
+                    android:layout_gravity = "center_horizontal"
+                    android:background="@drawable/easy_login" />
+
             </FrameLayout>
-
-            <ImageView
-                android:layout_width = "200dp"
-                android:layout_height = "50dp"
-                android:layout_marginTop = "10dp"
-                android:background="@drawable/easy_login" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/kakaobutton"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="370dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center"
                     android:backgroundTint="#FFFFFF"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginTop="10dp"
                     android:scaleType="fitStart"
                     android:stateListAnimator="@null"
-                    app:srcCompat="@drawable/kakaotalk_icon" />
+                    app:srcCompat="@drawable/kakao_login_large_wide" />
   <!--              <ImageButton
                     android:id="@+id/googleBtn"
                     android:layout_width="100dp"
@@ -64,34 +58,33 @@
                     android:scaleType="centerInside"
                     android:stateListAnimator="@null"
                     app:srcCompat="@drawable/btn_google_light_normal_xhdpi" />-->
-            </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/loginbutton"
-                android:layout_width="match_parent"
+                android:layout_width="345dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginRight = "20dp"
+                android:layout_marginTop = "2dp"
                 android:layout_marginLeft = "20dp"
                 android:background="@drawable/button_round2"
                 android:text="아이디로 로그인"
                 android:stateListAnimator="@null"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/signupBtn"
-                android:layout_width="match_parent"
+                android:layout_width="345dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginRight = "20dp"
                 android:layout_marginLeft = "20dp"
                 android:background="@drawable/button_round"
                 android:text="회원가입"
                 android:stateListAnimator="@null"
                 android:textColor="#1EAA95"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
             <!--        <ImageView-->
             <!--            android:id="@+id/ll_naver_login"-->
