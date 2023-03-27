@@ -8,7 +8,6 @@
     android:layout_gravity="clip_vertical"
     android:background="#ffffff">
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +33,7 @@
                 <ImageView
                     android:layout_width = "200dp"
                     android:layout_height = "50dp"
-                    android:layout_marginTop = "460dp"
+                    android:layout_marginTop = "430dp"
                     android:layout_gravity = "center_horizontal"
                     android:background="@drawable/easy_login" />
 
@@ -46,7 +45,6 @@
                     android:layout_height="75dp"
                     android:layout_gravity="center"
                     android:backgroundTint="#FFFFFF"
-                    android:layout_marginTop="10dp"
                     android:scaleType="fitStart"
                     android:stateListAnimator="@null"
                     app:srcCompat="@drawable/kakao_login_large_wide" />
@@ -64,7 +62,7 @@
                 android:layout_width="345dp"
                 android:layout_height="50dp"
                 android:layout_marginRight = "20dp"
-                android:layout_marginTop = "2dp"
+                android:layout_marginTop = "1dp"
                 android:layout_marginLeft = "20dp"
                 android:background="@drawable/button_round2"
                 android:text="아이디로 로그인"
