@@ -8,6 +8,8 @@
     <ImageView
         android:id="@+id/homeBanner"
         app:srcCompat="@drawable/banner2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType = "fitXY"
         android:layout_height="400dp" />
 </LinearLayout>

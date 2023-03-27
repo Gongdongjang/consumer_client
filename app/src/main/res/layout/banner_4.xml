@@ -7,7 +7,9 @@
 
     <ImageView
         android:id="@+id/homeBanner"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType = "fitXY"
         android:layout_height="400dp"
         app:srcCompat="@drawable/banner1" />
 
