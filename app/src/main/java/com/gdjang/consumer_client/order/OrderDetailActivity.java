@@ -92,6 +92,8 @@ public class OrderDetailActivity extends AppCompatActivity {
         order_id = intent.getStringExtra("order_id");
         mdimg_thumbnail = intent.getStringExtra("mdimg_thumbnail");
 
+        //Log.d("@@@@user_id:", user_id);
+
         //주문취소 버튼, 리뷰하기 버튼 활성&비활성화
         Button btn_orderDetail = (Button) findViewById(R.id.btn_orderDetail);
 
@@ -164,10 +166,17 @@ public class OrderDetailActivity extends AppCompatActivity {
                         StoreName0.setText(store_name);
                         StoreAddr.setText(store_loc);
 
+                        //실제 소비자의 픽업유무 파악하기
+                        if (Objects.equals(isPickedUp, "1")) {
+                            //리뷰버튼 활성화
+                            btn_orderDetail.setVisibility(View.VISIBLE);
+                            btn_orderDetail.setText("리뷰 작성");
+                        }
+
                         //상품 현재 픽업 상태 세팅
                         md_status = res.get("md_status").getAsJsonObject().get("stk_confirm").getAsString();
                         switch (md_status) {
-                            case "공동구매 중":
+                            case "공동구매 진행중":
                                 order_status.setText("픽업 예정일 : " + pu_date);
                                 order_status1.setImageResource(R.drawable.order_status_off);
                                 txt_order_status1.setTextColor(Color.parseColor("#1EAA95"));
@@ -176,17 +185,17 @@ public class OrderDetailActivity extends AppCompatActivity {
                                 btn_orderDetail.setVisibility(View.VISIBLE);
                                 btn_orderDetail.setText("주문 취소하기");
                                 break;
-                            case "공동구매 완료":
+                            case "공동구매 종료":
                                 order_status.setText("픽업 예정일 : " + pu_date);
                                 order_status2.setImageResource(R.drawable.order_status_off);
                                 txt_order_status2.setTextColor(Color.parseColor("#1EAA95"));
                                 break;
-                            case "상품 준비 중":
+                            case "상품 준비중":
                                 order_status.setText("픽업 예정일 : " + pu_date);
                                 order_status3.setImageResource(R.drawable.order_status_off);
                                 txt_order_status3.setTextColor(Color.parseColor("#1EAA95"));
                                 break;
-                            case "배송 중":
+                            case "상품 배송중":
                                 order_status.setText("픽업 예정일 : " + pu_date);
                                 order_status4.setImageResource(R.drawable.order_status_off);
                                 txt_order_status4.setTextColor(Color.parseColor("#1EAA95"));
@@ -197,27 +206,11 @@ public class OrderDetailActivity extends AppCompatActivity {
                                 txt_order_status5.setTextColor(Color.parseColor("#1EAA95"));
                                 break;
                             case "픽업완료":
-                                //실제 소비자의 픽업유무 파악하기
-                                if (Objects.equals(isPickedUp, "1")) {
-                                    order_status.setText("픽업 완료");
-                                    order_status6.setImageResource(R.drawable.order_status_off);
-                                    txt_order_status6.setTextColor(Color.parseColor("#1EAA95"));
-                                    //리뷰버튼 활성화
-                                    btn_orderDetail.setVisibility(View.VISIBLE);
-                                    btn_orderDetail.setText("리뷰 작성");
-                                }
-                                else if (Objects.equals(isPickedUp, "2")) {
-                                    order_status.setText("픽업 완료");
-                                    order_status6.setImageResource(R.drawable.order_status_off);
-                                    txt_order_status6.setTextColor(Color.parseColor("#1EAA95"));
-                                }
-                                else {
-                                    order_status.setText("픽업 예정일 : " + pu_date);
-                                    order_status5.setImageResource(R.drawable.order_status_off);
-                                    txt_order_status5.setTextColor(Color.parseColor("#1EAA95"));
-                                }
-
+                                order_status.setText("픽업 완료");
+                                order_status6.setImageResource(R.drawable.order_status_off);
+                                txt_order_status6.setTextColor(Color.parseColor("#1EAA95"));
                                 break;
+
                             default:  //아마 공구 취소..?
                                 order_status.setText(md_status);
                                 break;
