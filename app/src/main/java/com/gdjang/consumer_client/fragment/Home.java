@@ -596,6 +596,7 @@ public class Home extends Fragment {
                 super.onPageSelected(position);
             }
         });
+        // 바운스 현상
 //        viewPageSetUp.setPageTransformer(new ViewPager2.PageTransformer() {
 //            @Override
 //            public void transformPage(@NonNull View page, float position) {

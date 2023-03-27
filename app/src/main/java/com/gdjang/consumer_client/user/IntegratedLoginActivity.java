@@ -88,15 +88,15 @@ public class IntegratedLoginActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        google_sign_in_button = findViewById(R.id.googleBtn);
-
-        //구글 로그인
-        google_sign_in_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                googleSignIn();
-            }
-        });
+//        google_sign_in_button = findViewById(R.id.googleBtn);
+//
+//        //구글 로그인
+//        google_sign_in_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                googleSignIn();
+//            }
+//        });
 
         //기본 로그인
         loginbutton.setOnClickListener(new View.OnClickListener() {
