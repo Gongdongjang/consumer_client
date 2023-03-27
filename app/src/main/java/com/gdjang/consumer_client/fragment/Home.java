@@ -596,23 +596,24 @@ public class Home extends Fragment {
                 super.onPageSelected(position);
             }
         });
-        viewPageSetUp.setPageTransformer(new ViewPager2.PageTransformer() {
-            @Override
-            public void transformPage(@NonNull View page, float position) {
-                float offset = position * -(2 * pageOffset + pageMargin);
-                if (-1 > position) {
-                    page.setTranslationX(-offset);
-                } else if (1 >= position) {
-                    float scaleFactor = Math.max(0.7f, 1 - Math.abs(position - 0.14285715f));
-                    page.setTranslationX(offset);
-                    page.setScaleY(scaleFactor);
-                    page.setAlpha(scaleFactor);
-                } else {
-                    page.setAlpha(0f);
-                    page.setTranslationX(offset);
-                }
-            }
-        });
+        // 바운스 현상
+//        viewPageSetUp.setPageTransformer(new ViewPager2.PageTransformer() {
+//            @Override
+//            public void transformPage(@NonNull View page, float position) {
+//                float offset = position * -(2 * pageOffset + pageMargin);
+//                if (-1 > position) {
+//                    page.setTranslationX(-offset);
+//                } else if (1 >= position) {
+//                    float scaleFactor = Math.max(0.7f, 1 - Math.abs(position - 0.14285715f));
+//                    page.setTranslationX(offset);
+//                    page.setScaleY(scaleFactor);
+//                    page.setAlpha(scaleFactor);
+//                } else {
+//                    page.setAlpha(0f);
+//                    page.setTranslationX(offset);
+//                }
+//            }
+//        });
     }
 
     public String getAsString() {

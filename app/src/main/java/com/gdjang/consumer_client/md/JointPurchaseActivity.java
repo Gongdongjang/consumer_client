@@ -85,7 +85,6 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
     //Dialog 선언
     OrderDialog orderDialog;
-    //CartDialog cartDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -114,7 +113,6 @@ public class JointPurchaseActivity extends AppCompatActivity {
 
         //고정 하단바 (찜하기, 장바구니, 주문하기)
         ImageView Keep = (ImageView) findViewById(R.id.JP_KeepBtn);
-        ImageView Cart = (ImageView) findViewById(R.id.JP_CartBtn);
         Button Order = (Button) findViewById(R.id.JP_OrderBtn);
 
         //공유하기
@@ -422,22 +420,6 @@ public class JointPurchaseActivity extends AppCompatActivity {
             }
         });
 
-//        //다이얼로그 밖의 화면은 흐리게 만들어줌
-//        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-//        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-//        layoutParams.dimAmount = 0.8f;
-//        getWindow().setAttributes(layoutParams);
-
-        //장바구니 클릭
-//        Cart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                cartDialog = new CartDialog(mContext, (String) MdName.getText(),(String) ProdNum.getText(), (String) ProdPrice.getText()
-//                        , pu_start,pu_end, (String) StoreName.getText(), store_loc, store_lat, store_long, user_id, md_id, store_id);
-//                cartDialog.show();
-//            }
-//        });
-
         //주문 클릭
         Order.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -458,36 +440,14 @@ public class JointPurchaseActivity extends AppCompatActivity {
         viewPageSetUp.setOffscreenPageLimit(count); //페이지 한계 지정 개수
         viewPageSetUp.setCurrentItem(1000); //무한처럼 보이도록 하려고
 
-//        CircleIndicator3 indicator = findViewById(R.id.indicator);
-//        indicator.setViewPager(viewPageSetUp);
-
         //페이지끼리 간격
         final float pageMargin = (float) getResources().getDimensionPixelOffset(R.dimen.pageMargin);
-        //final float pageMaring=(float) getResources().getDimensionPixelOffset;
         //페이지 보이는 정도
         final float pageOffset = (float) getResources().getDimensionPixelOffset(R.dimen.offset);
-        //final float pageOffset=(float) getResources().getDimensionPixelOffset(2;
         viewPageSetUp.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-            }
-        });
-        viewPageSetUp.setPageTransformer(new ViewPager2.PageTransformer() {
-            @Override
-            public void transformPage(@NonNull View page, float position) {
-                float offset = position * -(2 * pageOffset + pageMargin);
-                if (-1 > position) {
-                    page.setTranslationX(-offset);
-                } else if (1 >= position) {
-                    float scaleFactor = Math.max(0.7f, 1 - Math.abs(position - 0.14285715f));
-                    page.setTranslationX(offset);
-                    page.setScaleY(scaleFactor);
-                    page.setAlpha(scaleFactor);
-                } else {
-                    page.setAlpha(0f);
-                    page.setTranslationX(offset);
-                }
             }
         });
     }
