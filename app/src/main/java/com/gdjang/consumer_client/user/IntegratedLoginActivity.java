@@ -1,12 +1,9 @@
 package com.gdjang.consumer_client.user;
 
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.gdjang.consumer_client.BackPressDialog;
 import com.gdjang.consumer_client.MainActivity;
 import com.gdjang.consumer_client.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -43,8 +41,6 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
 interface IntegratedLoginService {
@@ -68,10 +64,14 @@ public class IntegratedLoginActivity extends AppCompatActivity {
     private final int RC_SIGN_IN = 1;
     Button loginbutton, signupBtn;
 
+    public Context mContext;
+    BackPressDialog backPressDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_integrated_login);
+        mContext = this;
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseurl))
@@ -337,5 +337,10 @@ public class IntegratedLoginActivity extends AppCompatActivity {
         } catch (ApiException e) {
             Log.w("failed", "signInResult:failed code=" + e.getStatusCode());
         }
+    }
+    @Override
+    public void onBackPressed() {
+        backPressDialog = new BackPressDialog(mContext);
+        backPressDialog.show();
     }
 }

@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-//import com.example.consumer_client.cart.CartDialog;
 import com.bumptech.glide.Glide;
 import com.gdjang.consumer_client.ItemDetailPagerAdapter;
 import com.gdjang.consumer_client.cart.CartListActivity;
