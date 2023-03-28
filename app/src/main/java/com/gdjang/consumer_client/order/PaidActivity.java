@@ -115,7 +115,8 @@ public class PaidActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     try {
                         JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-                        order_id= res.get("order_id").getAsJsonObject().get("LAST_INSERT_ID()").getAsString();
+                        //order_id= res.get("order_id").getAsJsonObject().get("LAST_INSERT_ID()").getAsString();
+                        order_id= res.get("order_id").getAsString();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
