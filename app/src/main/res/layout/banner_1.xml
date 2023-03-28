@@ -11,6 +11,6 @@ android:orientation="vertical">
     android:adjustViewBounds="true"
     android:scaleType = "fitXY"
     android:layout_height="400dp"
-    app:srcCompat="@drawable/banner4" />
+    app:srcCompat="@drawable/banner1" />
 
 </LinearLayout>
