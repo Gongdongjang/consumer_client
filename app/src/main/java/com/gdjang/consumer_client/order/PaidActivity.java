@@ -16,22 +16,6 @@ import com.gdjang.consumer_client.R;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.IOException;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
-import retrofit2.http.POST;
-
-interface OrderInsertService{
-    @POST("orderInsert")
-    Call<ResponseBody> postOrderData(@Body JsonObject body);
-}
-
 public class PaidActivity extends AppCompatActivity {
 
     String user_id;
@@ -42,9 +26,6 @@ public class PaidActivity extends AppCompatActivity {
     //결제 성공시 order테이블 삽입
     String md_id, store_id, pickupDate, pickupTime, order_name; //(입금자명도 추가)
 
-    OrderInsertService service;
-    JsonParser jsonParser;
-    JsonObject res, body;
 
     //주문상세페이지로 갈떄 order_id 넘기기
     String order_id;
@@ -54,13 +35,6 @@ public class PaidActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paid_complete);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getString(R.string.baseurl))
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        service = retrofit.create(OrderInsertService.class);
-        jsonParser = new JsonParser();
-
         Intent intent = getIntent(); //intent 값 받기
         user_id = intent.getStringExtra("user_id");
         mdName = intent.getStringExtra("mdName");
@@ -68,6 +42,8 @@ public class PaidActivity extends AppCompatActivity {
         totalPrice = intent.getStringExtra("totalPrice");
         //price = Double.valueOf(totalPrice);
         // Order 테이블에 값 삽입하기 Post 요청
+
+        order_id = intent.getStringExtra("order_id");
         md_id = intent.getStringExtra("md_id");
         store_id = intent.getStringExtra("store_id");
         pickupDate = intent.getStringExtra("pickupDate");
@@ -92,43 +68,6 @@ public class PaidActivity extends AppCompatActivity {
         PurchaseNum.setText(purchaseNum+"세트");
         TotalPrice.setText(totalPrice);
         PuDate.setText("픽업 일시 "+ pickupDate+ " " + pickupTime);
-
-        int idx=totalPrice.indexOf("원"); // ex)5000원 이렇게 되어있으니 '원' 문자 자르기
-        int order_price= Integer.parseInt(totalPrice.substring(0,idx));
-
-        //주문하기-> Order테이블에 데이터 값 삽입하기Post 요청
-        body = new JsonObject();
-        body.addProperty("user_id", user_id); //
-        body.addProperty("md_id", md_id);
-        body.addProperty("store_id", store_id);
-        body.addProperty("select_qty", purchaseNum);
-        body.addProperty("order_price", order_price);
-        body.addProperty("pu_date", pickupDate);
-        body.addProperty("pu_time", pickupTime);
-        body.addProperty("order_name", order_name); //입금자명
-        body.addProperty("md_name", mdName);
-
-        Call<ResponseBody> call = service.postOrderData(body);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    try {
-                        JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-                        //order_id= res.get("order_id").getAsJsonObject().get("LAST_INSERT_ID()").getAsString();
-                        order_id= res.get("order_id").getAsString();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(PaidActivity.this, "주문하기 post 에러 발생", Toast.LENGTH_SHORT).show();
-                Log.e("주문하기 post", t.getMessage());
-            }
-        });
 
         //1. 결제 성공 후 메인페이지로
         Button goHome = (Button) findViewById(R.id.Paid_goHome);

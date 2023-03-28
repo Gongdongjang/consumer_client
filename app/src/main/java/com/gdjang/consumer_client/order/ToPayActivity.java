@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,6 +21,8 @@ import com.bumptech.glide.Glide;
 import com.gdjang.consumer_client.R;
 import com.gdjang.consumer_client.agree.Agree3;
 import com.gdjang.consumer_client.agree.Agree4;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
@@ -27,6 +30,21 @@ import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
+
+interface OrderInsertService{
+    @POST("orderInsert")
+    Call<ResponseBody> postOrderData(@Body JsonObject body);
+}
 
 public class ToPayActivity extends AppCompatActivity {
 
@@ -35,10 +53,21 @@ public class ToPayActivity extends AppCompatActivity {
     String store_id, store_name, store_loc;
     String pickupDate,pickupTime;
 
+    JsonParser jsonParser;
+    JsonObject res, body;
+    OrderInsertService service;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.baseurl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        service = retrofit.create(OrderInsertService.class);
+        jsonParser = new JsonParser();
 
         TextView ProdName=(TextView) findViewById(R.id.JP_ProdName);
         TextView OrderCount = (TextView) findViewById(R.id.ClientOrderCount);
@@ -159,22 +188,72 @@ public class ToPayActivity extends AppCompatActivity {
                         Toast.makeText(ToPayActivity.this, "입금자 명을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        Intent i= new Intent(ToPayActivity.this, PaidActivity.class);
-                        i.putExtra("user_id",user_id);
-                        i.putExtra("mdName",mdName);
-                        i.putExtra("purchaseNum",purchaseNum);
-                        i.putExtra("totalPrice",JP_ToTalPrice);
-                        i.putExtra("md_id",md_id);
-                        i.putExtra("store_id",store_id);
-                        i.putExtra("store_name",store_name);
-                        i.putExtra("store_loc",store_loc);
-                        i.putExtra("pickupDate",pickupDate);
-                        i.putExtra("pickupTime",pickupTime);
-                        i.putExtra("order_name",orderName.getText().toString());
-                        startActivity(i);
+                        Log.d("@@@ 주문하기버튼 ", "else문 들어왔는가?");
+                        int idx=JP_ToTalPrice.indexOf("원"); // ex)5000원 이렇게 되어있으니 '원' 문자 자르기
+                        int order_price= Integer.parseInt(JP_ToTalPrice.substring(0,idx));
+
+                        //주문하기-> Order테이블에 데이터 값 삽입하기Post 요청
+                        body = new JsonObject();
+                        body.addProperty("user_id", user_id); //
+                        body.addProperty("md_id", md_id);
+                        body.addProperty("store_id", store_id);
+                        body.addProperty("select_qty", purchaseNum);
+                        body.addProperty("order_price", order_price);
+                        body.addProperty("pu_date", pickupDate);
+                        body.addProperty("pu_time", pickupTime);
+                        body.addProperty("order_name", orderName.getText().toString()); //입금자명
+                        body.addProperty("md_name", mdName);
+
+                        Call<ResponseBody> call = service.postOrderData(body);
+                        call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                if (response.isSuccessful()) {
+                                    try {
+                                        JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
+                                        //order_id= res.get("order_id").getAsJsonObject().get("LAST_INSERT_ID()").getAsString();
+
+                                        if(res.get("order_id").isJsonNull()) {       //주문하기 실패 시
+                                            Toast.makeText(ToPayActivity.this, "주문하기 오류가 발생했으니 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                                            // 뒤로가기
+
+                                        }else{  //주문 성공
+                                            String order_id= res.get("order_id").getAsString();
+                                            Log.d("@@@ order_id:", order_id);
+
+                                            Intent i= new Intent(ToPayActivity.this, PaidActivity.class);
+                                            i.putExtra("user_id",user_id);
+                                            i.putExtra("order_id",order_id);
+                                            i.putExtra("mdName",mdName);
+                                            i.putExtra("purchaseNum",purchaseNum);
+                                            i.putExtra("totalPrice",JP_ToTalPrice);
+                                            i.putExtra("md_id",md_id);
+                                            i.putExtra("store_id",store_id);
+                                            i.putExtra("store_name",store_name);
+                                            i.putExtra("store_loc",store_loc);
+                                            i.putExtra("pickupDate",pickupDate);
+                                            i.putExtra("pickupTime",pickupTime);
+                                            i.putExtra("order_name",orderName.getText().toString());
+                                            startActivity(i);
+                                        }
+
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Toast.makeText(ToPayActivity.this, "주문하기 post 에러 발생", Toast.LENGTH_SHORT).show();
+                                Log.e("주문하기 post", t.getMessage());
+                            }
+                        });
+
                     }
                 }
             }
+
         });
     }
 
