@@ -97,23 +97,23 @@ public class CancelList extends AppCompatActivity {
                                     pickupDate);
                     }
 
-                    mOrderListAdapter.setOnItemClickListener (
-                            new OrderList2Adapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View v, int pos) {
-                                    Intent intent = new Intent(CancelList.this, OrderDetailActivity.class);
-                                    intent.putExtra("user_id", user_id);
-                                    intent.putExtra("md_img", mList.get(pos).getStoreProdImgView());
-                                    intent.putExtra("store_loc", mList.get(pos).getStoreLoc());
-                                    intent.putExtra("store_name", mList.get(pos).getStoreName());
-                                    intent.putExtra("md_name", mList.get(pos).getMdName());
-                                    intent.putExtra("md_comp", mList.get(pos).getMdQty());
-                                    intent.putExtra("md_price", mList.get(pos).getMdPrice());
-                                    intent.putExtra("order_id", mList.get(pos).getOrderId());
-                                    startActivity(intent);
-                                }
-                            }
-                    );
+//                    mOrderListAdapter.setOnItemClickListener (
+//                            new OrderList2Adapter.OnItemClickListener() {
+//                                @Override
+//                                public void onItemClick(View v, int pos) {
+//                                    Intent intent = new Intent(CancelList.this, OrderDetailActivity.class);
+//                                    intent.putExtra("user_id", user_id);
+//                                    intent.putExtra("md_img", mList.get(pos).getStoreProdImgView());
+//                                    intent.putExtra("store_loc", mList.get(pos).getStoreLoc());
+//                                    intent.putExtra("store_name", mList.get(pos).getStoreName());
+//                                    intent.putExtra("md_name", mList.get(pos).getMdName());
+//                                    intent.putExtra("md_comp", mList.get(pos).getMdQty());
+//                                    intent.putExtra("md_price", mList.get(pos).getMdPrice());
+//                                    intent.putExtra("order_id", mList.get(pos).getOrderId());
+//                                    startActivity(intent);
+//                                }
+//                            }
+//                    );
 
                 } catch (IOException e) {
                     e.printStackTrace();
