@@ -74,7 +74,7 @@ public class OrderDialog extends Dialog {
         super(context);
 
         bottomSheetDialog = new BottomSheetDialog(context);
-        bottomSheetDialog.setContentView(R.layout.activity_payment_popup2);
+        bottomSheetDialog.setContentView(R.layout.activity_payment_popup);
         bottomSheetDialog.show();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -98,9 +98,21 @@ public class OrderDialog extends Dialog {
         btn_time=bottomSheetDialog.findViewById(R.id.btn_time);
 //        Log.d("주문하기_기간:",pu_start); //2022. 8. 28.
 
-        Log.d("주문하기_기간:",pu_start); //   3/9/2023
-        String[] startDay = pu_start.split("/");  // .으로 자르고 싶을땐 \\. 이라고 해야함
-        String[] endDay = pu_end.split("/");
+        Log.d("주문하기_기간:",pu_start); //2022. 8. 28.
+
+        String[] startDay = pu_start.split("\\.");  // .으로 자르고 싶을땐 \\. 이라고 해야함
+        String[] endDay = pu_end.split("\\.");
+
+        //month,day 한자리수 공백제거
+        for(int i=1;i<3;i++){
+            startDay[i]=startDay[i].trim();
+            endDay[i]=endDay[i].trim();
+        }
+
+//        Log.d("주문하기_기간:",pu_start); //   3/9/2023
+//        String[] startDay = pu_start.split("/");  // .으로 자르고 싶을땐 \\. 이라고 해야함
+//        String[] endDay = pu_end.split("/");
+
 
         mdPlusBtn=bottomSheetDialog.findViewById(R.id.mdPlusBtn);
         PurchaseNum=bottomSheetDialog.findViewById(R.id.PurchaseNum);
@@ -194,7 +206,8 @@ public class OrderDialog extends Dialog {
                         },pYear,pMonth,pDay);
 
                 //픽업 시작날짜와 현재시간 비교한 후 오늘 이전의 날짜는 선택 불가능 하도록 하기
-                minDate.set(Integer.parseInt(startDay[2]),Integer.parseInt(startDay[0])-1,Integer.parseInt(startDay[1]));
+               //minDate.set(Integer.parseInt(startDay[2]),Integer.parseInt(startDay[0])-1, Integer.parseInt(startDay[1]));
+                minDate.set(Integer.parseInt(startDay[0]),Integer.parseInt(startDay[1])-1,Integer.parseInt(startDay[2]));
                 calendar.set(pYear,pMonth,pDay);
 
                 if (calendar.getTimeInMillis()< minDate.getTimeInMillis()) {
@@ -205,7 +218,9 @@ public class OrderDialog extends Dialog {
                 }
 
                 //픽업 마감날짜까지 선택가능
-                maxDate.set(Integer.parseInt(endDay[2]),Integer.parseInt(endDay[0])-1,Integer.parseInt(endDay[1]));
+                //maxDate.set(Integer.parseInt(endDay[2]),Integer.parseInt(endDay[0])-1,Integer.parseInt(endDay[1]));
+                //maxDate.set(Integer.parseInt(endDay[2]),Integer.parseInt(endDay[0])-1,Integer.parseInt(endDay[1]));
+                maxDate.set(Integer.parseInt(endDay[0]),Integer.parseInt(endDay[1])-1,Integer.parseInt(endDay[2]));
                 datePickerDialog.getDatePicker().setMaxDate(maxDate.getTimeInMillis());
 
                 datePickerDialog.show();
