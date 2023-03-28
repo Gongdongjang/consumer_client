@@ -1,10 +1,12 @@
 package com.gdjang.consumer_client.order;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -98,16 +100,16 @@ public class OrderDialog extends Dialog {
         btn_time=bottomSheetDialog.findViewById(R.id.btn_time);
 //        Log.d("주문하기_기간:",pu_start); //2022. 8. 28.
 
-        //Log.d("주문하기_기간:",pu_start); //2022. 8. 28.
+   //     Log.d("주문하기_기간:",pu_start); //2022. 8. 28.
 
-//        String[] startDay = pu_start.split("\\.");  // .으로 자르고 싶을땐 \\. 이라고 해야함
-//        String[] endDay = pu_end.split("\\.");
+        //String[] startDay = pu_start.split("\\.");  // .으로 자르고 싶을땐 \\. 이라고 해야함
+        //String[] endDay = pu_end.split("\\.");
 
         //month,day 한자리수 공백제거
-//        for(int i=1;i<3;i++){
-//            startDay[i]=startDay[i].trim();
-//            endDay[i]=endDay[i].trim();
-//        }
+        //for(int i=1;i<3;i++){
+         //   startDay[i]=startDay[i].trim();
+        //    endDay[i]=endDay[i].trim();
+       // }
 
         Log.d("주문하기_기간:",pu_start); //   3/9/2023
         String[] startDay = pu_start.split("/");  // .으로 자르고 싶을땐 \\. 이라고 해야함
@@ -183,6 +185,7 @@ public class OrderDialog extends Dialog {
 
        //픽업날짜선택
         btn_date.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
 
@@ -223,6 +226,9 @@ public class OrderDialog extends Dialog {
                 datePickerDialog.getDatePicker().setMaxDate(maxDate.getTimeInMillis());
 
                 datePickerDialog.show();
+
+                datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(R.color.black);
+                datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(R.color.black);
             }
         });
 
