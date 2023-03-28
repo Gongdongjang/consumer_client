@@ -55,6 +55,8 @@ import com.gdjang.consumer_client.my_town.StoreMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.normal.TedPermission;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -159,11 +161,32 @@ public class Home extends Fragment {
                     }
                 });
 
+        //안드로이드 13: 알림팝업 창 보여준다.
+        //안드로이드 12: 자동으로 알림팝업 허용으로 설정된다.
         if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
             } else {
                 // 안드로이드 12 이하는 알림에 런타임 퍼미션 없으니, 설정가서 켜보라고 권해볼 수 있겠다.
+                PermissionListener permissionlistener = new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted() {
+                        //Toast.makeText(mContext, "Permission Granted", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(List<String> deniedPermissions) {
+                        //Toast.makeText(mContext, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                };
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    TedPermission.create()
+                            .setPermissionListener(permissionlistener)
+                            .setDeniedMessage("공동장의 알림을 받고 싶다면 \n\n [설정]>[권한]에서 알림을 허용해주세요.")
+                            .setPermissions(Manifest.permission.READ_CONTACTS, Manifest.permission.ACCESS_FINE_LOCATION)
+                            .check();
+                }
 
             }
         }
