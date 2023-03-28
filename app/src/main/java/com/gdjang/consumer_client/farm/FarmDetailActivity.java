@@ -214,7 +214,6 @@ public class FarmDetailActivity extends AppCompatActivity {
                                                             .setMobileWebUrl("https://developers.kakao.com").build())
                                                     .setDescrption("근처에서 직접 픽업하고 소포장을 줄여 환경도 지키자!")
                                                     .build())
-                                            .addButton(new ButtonObject("웹에서 보기", LinkObject.newBuilder().setWebUrl("https://developers.kakao.com").setMobileWebUrl("https://developers.kakao.com").build()))
                                             .addButton(new ButtonObject("앱에서 보기", LinkObject.newBuilder()
                                                     .setWebUrl("https://developers.kakao.com")
                                                     .setMobileWebUrl("https://developers.kakao.com")
