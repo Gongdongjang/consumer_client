@@ -62,7 +62,7 @@ android:background="#FFFFFF">
             android:layout_height="wrap_content"
             android:text="주문 진행 상황"
             android:textColor="#151515"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:textStyle="bold" />
 
         <TextView
@@ -73,7 +73,7 @@ android:background="#FFFFFF">
             android:gravity="left"
             android:text="픽업 예정일/ 픽업완료"
             android:textColor="#1EAA95"
-            android:textSize="12sp" />
+            android:textSize="12dp" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -144,7 +144,7 @@ android:background="#FFFFFF">
                 android:layout_height="wrap_content"
                 android:text="공동구매 중"
                 android:textColor="#A3A3A3"
-                android:textSize="10sp" />
+                android:textSize="10dp" />
 
             <TextView
                 android:id="@+id/txt_order_status2"
@@ -153,16 +153,16 @@ android:background="#FFFFFF">
                 android:layout_marginLeft="11dp"
                 android:text="공동구매 완료"
                 android:textColor="#A3A3A3"
-                android:textSize="10sp" />
+                android:textSize="10dp" />
 
             <TextView
                 android:id="@+id/txt_order_status3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:text="상품 준비 중"
                 android:textColor="#A3A3A3"
-                android:textSize="10sp" />
+                android:textSize="10dp" />
 
             <TextView
                 android:id="@+id/txt_order_status4"
@@ -171,7 +171,7 @@ android:background="#FFFFFF">
                 android:layout_marginLeft="25dp"
                 android:text="배송 중"
                 android:textColor="#A3A3A3"
-                android:textSize="10sp" />
+                android:textSize="10dp" />
 
             <TextView
                 android:id="@+id/txt_order_status5"
@@ -180,7 +180,7 @@ android:background="#FFFFFF">
                 android:layout_marginLeft="26dp"
                 android:text="스토어 도착"
                 android:textColor="#A3A3A3"
-                android:textSize="10sp" />
+                android:textSize="10dp" />
 
             <TextView
                 android:id="@+id/txt_order_status6"
@@ -189,7 +189,7 @@ android:background="#FFFFFF">
                 android:layout_marginLeft="23dp"
                 android:text="픽업 완료"
                 android:textColor="#A3A3A3"
-                android:textSize="10sp" />
+                android:textSize="10dp" />
         </LinearLayout>
 
         <ImageView
@@ -205,7 +205,7 @@ android:background="#FFFFFF">
             android:layout_height="wrap_content"
             android:text="제품 정보"
             android:textColor="#151515"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -237,7 +237,7 @@ android:background="#FFFFFF">
                     android:layout_height="wrap_content"
                     android:text="스토어 명"
                     android:textColor="#848484"
-                    android:textSize="12sp" />
+                    android:textSize="12dp" />
 
                 <TextView
                     android:id="@+id/JP_ProdName"
@@ -246,7 +246,7 @@ android:background="#FFFFFF">
                     android:layout_marginTop="10dp"
                     android:text="제품명"
                     android:textColor="#151515"
-                    android:textSize="14sp" />
+                    android:textSize="14dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -260,14 +260,14 @@ android:background="#FFFFFF">
                         android:layout_height="wrap_content"
                         android:text="n"
                         android:textColor="#151515"
-                        android:textSize="12sp" />
+                        android:textSize="12dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="세트"
                         android:textColor="#151515"
-                        android:textSize="12sp" />
+                        android:textSize="12dp" />
 
                     <TextView
                         android:id="@+id/ClientOrderPrice"
@@ -276,14 +276,14 @@ android:background="#FFFFFF">
                         android:layout_marginLeft="8dp"
                         android:text="20000"
                         android:textColor="#151515"
-                        android:textSize="12sp"
+                        android:textSize="12dp"
                         android:textStyle="bold" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="원"
                         android:textColor="#151515"
-                        android:textSize="12sp"
+                        android:textSize="12dp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
@@ -322,7 +322,7 @@ android:background="#FFFFFF">
             android:layout_height="wrap_content"
             android:text="픽업 장소"
             android:textColor="#151515"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:textStyle="bold" />
 
         <TextView
@@ -332,7 +332,7 @@ android:background="#FFFFFF">
             android:layout_marginTop="10dp"
             android:text="스토어 명"
             android:textColor="#444444"
-            android:textSize="14sp" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/OrderStoreAddr"
@@ -341,7 +341,7 @@ android:background="#FFFFFF">
             android:layout_marginTop="2dp"
             android:text="스토어 상세위치 "
             android:textColor="#A3A3A3"
-            android:textSize="12sp" />
+            android:textSize="12dp" />
 
         <RelativeLayout
             android:id="@+id/store_map_view"
@@ -362,7 +362,7 @@ android:background="#FFFFFF">
             android:layout_marginTop="20dp"
             android:text="문의하기"
             android:textColor="#151515"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:textStyle="bold" />
 
         <Button
@@ -374,6 +374,7 @@ android:background="#FFFFFF">
             android:text="고객센터 연결\n(취소/교환/반품)"
             android:stateListAnimator="@null"
             android:textColor="@color/white"
+            android:textSize="14dp"
             android:textStyle="bold" />
 
     </LinearLayout>

@@ -71,14 +71,14 @@
             android:layout_height="wrap_content"
             android:text="최종 주문 내역"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="주문 내역을 확인해주세요"
-            android:textSize="12sp"
+            android:textSize="12dp"
             android:textStyle="bold"
             android:layout_marginTop="8dp"
             android:textColor="@color/text_2"/>
@@ -93,6 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="픽업 예정일   2023-09-23(00:00)"
+            android:textSize="14dp"
             android:layout_marginTop="20dp"
             android:textColor="@color/black" />
 
@@ -151,6 +152,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="n"
+                                android:textSize="14dp"
                                 android:textColor="@color/black"
                                 android:textStyle="bold" />
 
@@ -159,6 +161,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:text="세트"
+                                android:textSize="14dp"
                                 android:textColor="@color/black"
                                 android:textStyle="bold" />
 
@@ -166,6 +169,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="총 금액"
+                                android:textSize="14dp"
                                 android:layout_marginLeft="130dp"
                                 android:textColor="@color/black" />
 
@@ -175,6 +179,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="12dp"
                                 android:text="n원"
+                                android:textSize="14dp"
                                 android:textStyle="bold"
                                 android:textColor="@color/black" />
                             <!--                            <TextView-->
@@ -200,7 +205,7 @@
             android:text="픽업 장소"
             android:textColor="@color/black"
             android:layout_marginTop="15dp"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -220,7 +225,7 @@
                     android:text="스토어명"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/text_4"
-                    android:textSize="14sp" />
+                    android:textSize="14dp" />
 
                 <TextView
                     android:id="@+id/Pay_Store_Addr"
@@ -229,7 +234,7 @@
                     android:layout_marginTop="2dp"
                     android:text="스토어주소"
                     android:textColor="@color/text_2"
-                    android:textSize="12sp" />
+                    android:textSize="12dp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -254,7 +259,7 @@
             android:textColor="@color/black"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="5dp"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:textStyle="bold" />
 
         <TextView
@@ -264,7 +269,7 @@
             android:textColor="#A3A3A3"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="5dp"
-            android:textSize="12sp"
+            android:textSize="12dp"
             android:textStyle="bold" />
 
         <Button
@@ -274,7 +279,7 @@
             android:stateListAnimator="@null"
             android:backgroundTint="#F0F0F0"
             android:text="무통장 입금"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -284,16 +289,17 @@
             android:text="입금 계좌 안내"
             android:textColor="#A3A3A3"
             android:layout_marginTop="20dp"
-            android:textSize="12sp"
+            android:textSize="12dp"
             android:textStyle="bold" />
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_marginTop="6dp"
             android:backgroundTint="#F0F0F0"
             android:stateListAnimator="@null"
             android:text="우리  1002-363-127161  김민서 "
+            android:textSize="14dp"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -303,7 +309,7 @@
             android:text="입금자 명"
             android:textColor="#A3A3A3"
             android:layout_marginTop="8dp"
-            android:textSize="12sp"
+            android:textSize="12dp"
             android:textStyle="bold" />
 
         <EditText
@@ -315,7 +321,7 @@
             android:textColorHint="#B4B4B4"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:textStyle="bold"
             android:background="@drawable/border"/>
 
@@ -336,7 +342,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="최종 결제 금액"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:textStyle="bold"
                 android:layout_gravity="center"
                 android:textColor="#F75D39"/>
@@ -344,7 +350,7 @@
                 android:id="@+id/MdTotalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:text="n0000원"
                 android:textStyle="bold"
                 android:layout_marginLeft="192dp"
@@ -456,6 +462,7 @@
             android:textStyle="bold"
             android:stateListAnimator="@null"
             android:backgroundTint="#F1F1F1"
+            android:textSize="14dp"
             android:text="결제하기" />
         <Button
             android:id="@+id/Pay_On_Btn"
@@ -467,6 +474,7 @@
             android:stateListAnimator="@null"
             android:textStyle="bold"
             android:backgroundTint="#1EAA95"
+            android:textSize="14dp"
             android:text="결제하기" />
 
 

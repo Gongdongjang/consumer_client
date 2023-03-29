@@ -29,7 +29,7 @@
                 android:layout_marginBottom="15dp"
                 android:text="회원가입 완료!"
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textSize="20dp"
                 android:textColor="#848484"/>
 
             <LinearLayout
@@ -80,7 +80,7 @@
                 android:background="@drawable/button_round2"
                 android:text="공동장 시작하기"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
         </LinearLayout>

@@ -21,7 +21,7 @@
                 android:layout_marginTop="20dp"
                 android:text="개인정보 제3자 제공 동의"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="20dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -76,7 +76,7 @@
         \n3.	현장 픽업이 모두 마무리 됨과 동시에 이용자의 정보는 폐기됩니다.
         \n4.	현장 픽업 시에 문제 발생 시, 문제의 원활한 해결을 위해 이용자에게 추가로 정보를 요청할 수 있습니다."
 
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:textColor="@color/text_3" />
         </LinearLayout>
     </ScrollView>

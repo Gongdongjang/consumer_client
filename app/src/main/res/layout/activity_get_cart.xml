@@ -120,10 +120,10 @@
             android:layout_marginTop="30dp"
             android:layout_marginBottom="20dp"
             android:stateListAnimator="@null"
-            android:padding="10dp"
+            android:padding="12dp"
             android:text="결제하기"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="18dp"
             android:textStyle="bold"/>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

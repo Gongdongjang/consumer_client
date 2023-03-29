@@ -35,6 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="제품명"
+                    android:textSize="14dp"
                     android:textColor="#151515"
                     android:textStyle="bold" />
 
@@ -48,7 +49,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="남은 수량" />
+                        android:text="남은 수량"
+                        android:textSize="12dp"/>
 
                     <TextView
                         android:id="@+id/JP_Remain_Count"
@@ -56,7 +58,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
-                        android:text="n개" />
+                        android:text="n개"
+                        android:textSize="12dp"/>
                 </LinearLayout>
 
 
@@ -66,6 +69,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_weight="1"
                     android:text="픽업 날짜"
+                    android:textSize="14dp"
                     android:textColor="#151515"
                     android:textStyle="bold" />
 
@@ -75,6 +79,7 @@
                     android:layout_marginTop="23dp"
                     android:layout_weight="1"
                     android:text="픽업 시간"
+                    android:textSize="14dp"
                     android:textColor="#151515"
                     android:textStyle="bold" />
 
@@ -104,6 +109,7 @@
                         android:background="@drawable/border"
                         android:gravity="center"
                         android:inputType="number"
+                        android:textSize="16dp"
                         android:text="1" />
 
                     <ImageView
@@ -126,6 +132,7 @@
                         android:layout_height="30dp"
                         android:background="@drawable/border"
                         android:gravity="center"
+                        android:textSize="14dp"
                         android:spinnerMode="dropdown"
                         android:textAlignment="center" />
 
@@ -151,6 +158,7 @@
                         android:layout_height="30dp"
                         android:background="@drawable/border"
                         android:gravity="center"
+                        android:textSize="14dp"
                         android:spinnerMode="dropdown"
                         android:textAlignment="center" />
 
@@ -203,7 +211,7 @@
             android:layout_marginBottom="12dp"
             android:gravity="top"
             android:text="본 상품 픽업 시, 현장에서 봉투 구매가 어렵습니다."
-            android:textSize="10sp" />
+            android:textSize="10dp" />
 
         <View
             android:layout_width="match_parent"
@@ -225,7 +233,7 @@
                 android:layout_weight="1"
                 android:text="총 수량"
                 android:textColor="#F75D39"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
 
             <TextView
                 android:id="@+id/JP_SelectCount"
@@ -233,7 +241,7 @@
                 android:layout_height="wrap_content"
                 android:text="n개"
                 android:textColor="#151515"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
 
         </LinearLayout>
 
@@ -251,7 +259,7 @@
                 android:layout_weight="1"
                 android:text="총 금액"
                 android:textColor="#F75D39"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
 
             <TextView
                 android:id="@+id/JP_ToTalPrice"
@@ -259,7 +267,7 @@
                 android:layout_height="wrap_content"
                 android:text="n000원"
                 android:textColor="#151515"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
 
         </LinearLayout>
 
@@ -290,6 +298,7 @@
                 android:background="@drawable/button_round"
                 android:stateListAnimator="@null"
                 android:text="장바구니"
+                android:textSize="14dp"
                 android:textColor="#1EAA95"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/JP_OrderBtn"
@@ -305,6 +314,7 @@
                 android:background="@drawable/button_round2"
                 android:stateListAnimator="@null"
                 android:text="바로구매"
+                android:textSize="14dp"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />

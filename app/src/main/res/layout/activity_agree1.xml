@@ -12,7 +12,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:text="개인정보 수집에 동의"
-        android:textSize="20sp"
+        android:textSize="20dp"
         android:textColor="@color/black"/>
 
     <TextView
@@ -32,7 +32,7 @@
 \n\n[보유기간]
 \n서비스 탈퇴 시 지체없이 파기
 "
-        android:textSize="15sp"
+        android:textSize="15dp"
         android:textColor="@color/text_3"/>
 
 </LinearLayout>

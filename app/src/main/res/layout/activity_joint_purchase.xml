@@ -146,6 +146,7 @@
                     android:background="@drawable/button_round2"
                     android:gravity="center"
                     android:text="D - 5"
+                    android:textSize="14dp"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -153,6 +154,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="구매 날짜"
+                    android:textSize="14dp"
                     android:textColor="#848484" />
 
                 <TextView
@@ -160,6 +162,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="~"
+                    android:textSize="14dp"
                     android:textColor="#848484" />
 
                 <TextView
@@ -167,6 +170,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2023.03.12"
+                    android:textSize="14dp"
                     android:textColor="#848484" />
             </LinearLayout>
 
@@ -206,12 +210,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="10"
+                            android:textSize="14dp"
                             android:textColor="#848484" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="개 구매중"
+                            android:textSize="14dp"
                             android:textColor="#848484" />
                     </LinearLayout>
                 </LinearLayout>
@@ -243,12 +249,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="30"
+                            android:textSize="14dp"
                             android:textColor="#848484" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="개"
+                            android:textSize="14dp"
                             android:textColor="#848484" />
                     </LinearLayout>
                 </LinearLayout>
@@ -280,12 +288,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="9"
+                            android:textSize="14dp"
                             android:textColor="#848484" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="개"
+                            android:textSize="14dp"
                             android:textColor="#848484" />
                     </LinearLayout>
                 </LinearLayout>
@@ -317,6 +327,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="nnnn.nn.nn"
+                            android:textSize="14dp"
                             android:textColor="#848484" />
 
                         <TextView
@@ -324,6 +335,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="~"
+                            android:textSize="14dp"
                             android:textColor="#848484" />
 
                         <TextView
@@ -331,7 +343,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="nnnn.nn.nn"
-                            android:textColor="#848484" />
+                            android:textColor="#848484"
+                            android:textSize="14dp"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -356,16 +369,6 @@
                     android:textColor="#000000"
                     android:textSize="20dp"
                     android:textStyle="bold" />
-
-                <!--<TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="25dp"
-                    android:text="전체 보기 >"
-                    android:textColor="@color/grey"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />-->
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/jp_reviewList"
@@ -421,7 +424,7 @@
                         android:gravity="center"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textSize="10sp" />
+                        android:textSize="10dp" />
 
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -457,6 +460,7 @@
                             android:layout_marginRight="10dp"
                             android:gravity="center"
                             android:text="농가설명농가설명"
+                            android:textSize="14dp"
                             android:textColor="#000000" />
                     </LinearLayout>
 
@@ -478,7 +482,7 @@
                         android:gravity="center"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textSize="10sp" />
+                        android:textSize="10dp" />
 
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -513,6 +517,7 @@
                             android:layout_marginRight="10dp"
                             android:gravity="center"
                             android:text="스토어설명스토어설명"
+                            android:textSize="14dp"
                             android:textColor="#000000" />
                     </LinearLayout>
 
@@ -549,6 +554,7 @@
             android:backgroundTint="#1EAA95"
             android:stateListAnimator="@null"
             android:text="주문하기"
+            android:textSize="16dp"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
 

@@ -58,6 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="아이디"
+            android:textSize="15dp"
             android:textColor="@color/black"
             android:textStyle="bold" />
         <FrameLayout
@@ -69,6 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:textSize="17dp"
             android:backgroundTint="#1EAA95" />
 
         <Button
@@ -80,6 +82,7 @@
             android:backgroundTint="#1EAA95"
             android:stateListAnimator="@null"
             android:text="중복확인"
+            android:textSize="12dp"
             android:textStyle="bold" />
         </FrameLayout>
 
@@ -89,7 +92,8 @@
             android:layout_marginTop="10dp"
             android:text="비밀번호"
             android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="14dp"/>
 
         <EditText
             android:id="@+id/password"
@@ -98,6 +102,7 @@
             android:layout_marginTop="10dp"
             android:inputType="textPassword"
             android:backgroundTint="@color/text_1"
+            android:textSize="17dp"
             />
 
         <TextView
@@ -105,6 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="비밀번호 확인"
+            android:textSize="14dp"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -114,6 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:backgroundTint="@color/text_1"
+            android:textSize="17dp"
             android:inputType="textPassword"/>
     </LinearLayout>
 
@@ -128,7 +135,7 @@
         android:text="공동장 시작하기"
         android:clickable="false"
         android:textColor="#BEBEBE"
-        android:textSize="16sp"
+        android:textSize="16dp"
         android:textStyle="bold" />
 
 </LinearLayout>

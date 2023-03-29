@@ -18,7 +18,7 @@
             android:gravity="center"
             android:text="제품을 장바구니에 담았습니다."
             android:textColor="#000000"
-            android:textSize="18sp"/>
+            android:textSize="16dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,6 +29,7 @@
                 android:id="@+id/Cart_GoCart"
                 android:layout_gravity="left"
                 android:layout_weight="1"
+                android:textSize="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_marginRight="7dp"
@@ -49,6 +50,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginBottom="7dp"
                 android:text="쇼핑 계속하기"
+                android:textSize="15dp"
                 android:background="@drawable/button_round2"
                 android:stateListAnimator="@null"
                 android:textColor="@color/white" />
