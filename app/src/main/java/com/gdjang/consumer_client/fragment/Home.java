@@ -52,6 +52,7 @@ import com.gdjang.consumer_client.R;
 import com.gdjang.consumer_client.home.HomeProductAdapter;
 import com.gdjang.consumer_client.home.HomeProductItem;
 import com.gdjang.consumer_client.my_town.StoreMap;
+import com.gdjang.consumer_client.notification.NotificationList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -330,7 +331,7 @@ public class Home extends Fragment {
         toolbar_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mActivity, Alarm.class);
+                Intent intent = new Intent(mActivity, NotificationList.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }

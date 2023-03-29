@@ -147,12 +147,12 @@ public class NotificationList  extends AppCompatActivity {
     }
 
     //뒤로가기 버튼 시 화면전환 (토큰 update 화면 안보이게)
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(NotificationList.this, MainActivity.class);
-        intent.putExtra("user_id", user_id);
-        startActivity(intent);
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent intent = new Intent(NotificationList.this, MainActivity.class);
+//        intent.putExtra("user_id", user_id);
+//        startActivity(intent);
+//    }
 
 }

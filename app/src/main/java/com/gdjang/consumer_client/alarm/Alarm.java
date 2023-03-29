@@ -86,17 +86,17 @@ public class Alarm extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     try {
                         JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
-                        if(Objects.equals(res.get("message").getAsString(), "토큰 업데이트")){
-                            //알림리스트 페이지로
-                            Intent intent = new Intent(Alarm.this, NotificationList.class);
-                            intent.putExtra("user_id", userid);
-                            startActivity(intent);
-                        } else{
+//                        if(Objects.equals(res.get("message").getAsString(), "토큰 업데이트")){
+//                            //알림리스트 페이지로
+//                            Intent intent = new Intent(Alarm.this, NotificationList.class);
+//                            intent.putExtra("user_id", userid);
+//                            startActivity(intent);
+//                        } else{
                             //메인 페이지로 이동
                             Intent intent = new Intent(Alarm.this, MainActivity.class);
                             intent.putExtra("user_id", userid);
                             startActivity(intent);
-                        }
+                       // }
 
                     } catch (IOException e) {
                         e.printStackTrace();

@@ -23,6 +23,7 @@ import com.gdjang.consumer_client.alarm.Alarm;
 import com.gdjang.consumer_client.cart.CartListActivity;
 import com.gdjang.consumer_client.mypage.AboutGDJActivity;
 import com.gdjang.consumer_client.mypage.ChangeActivity;
+import com.gdjang.consumer_client.notification.NotificationList;
 import com.gdjang.consumer_client.shopping_info.ShoppingInfoActivity;
 import com.gdjang.consumer_client.user.IntegratedLoginActivity;
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
@@ -132,7 +133,7 @@ public class MyPage extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(), Alarm.class);
+                Intent intent = new Intent(getActivity(), NotificationList.class);
                 intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }

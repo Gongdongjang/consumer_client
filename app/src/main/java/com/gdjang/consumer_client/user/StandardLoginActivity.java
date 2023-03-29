@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.gdjang.consumer_client.MainActivity;
 import com.gdjang.consumer_client.R;
+import com.gdjang.consumer_client.alarm.Alarm;
 import com.gdjang.consumer_client.tutorial.TutorialActivity;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -178,7 +179,7 @@ public class StandardLoginActivity extends AppCompatActivity {
                                 intent.putExtra("user_id", res.get("id").getAsString());
                                 startActivity(intent);
                             } else {
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), Alarm.class);
                                 intent.putExtra("user_id", res.get("id").getAsString());
                                 startActivity(intent);
                             }

@@ -15,8 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gdjang.consumer_client.BackPressDialog;
-import com.gdjang.consumer_client.MainActivity;
 import com.gdjang.consumer_client.R;
+import com.gdjang.consumer_client.alarm.Alarm;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -181,7 +181,8 @@ public class IntegratedLoginActivity extends AppCompatActivity {
                                                     intent.putExtra("user_id",res.get("id").getAsString());
                                                     startActivity(intent);
                                                 } else{
-                                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                    //로그인 시 토큰갱신
+                                                    Intent intent = new Intent(getApplicationContext(), Alarm.class);
                                                     intent.putExtra("user_id",res.get("id").getAsString());
                                                     startActivity(intent);
                                                 }
@@ -316,7 +317,7 @@ public class IntegratedLoginActivity extends AppCompatActivity {
                                 intent.putExtra("user_id",res.get("id").getAsString());
                                 startActivity(intent);
                             } else{
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), Alarm.class);
                                 intent.putExtra("user_id",res.get("id").getAsString());
                                 startActivity(intent);
                             }
