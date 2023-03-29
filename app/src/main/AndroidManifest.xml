@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.gdjang.consumer_client"
     tools:ignore="CoarseFineLocation">
+
+    <queries>
+        <package android:name="com.kakao.talk" />
+    </queries>
 
     <!-- 인터넷 사용 권한& 장소 권한-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -30,7 +35,19 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key"/>
         <meta-data android:name="android.max_aspect" android:value="2.1" />
-        <activity android:name="com.gdjang.consumer_client.user.IntegratedLoginActivity"/>
+
+        <activity
+            android:name="com.gdjang.consumer_client.user.IntegratedLoginActivity"
+            android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:host="@string/kakaolink_host"
+                android:scheme="@string/kakao_scheme" />
+        </intent-filter>
+        </activity>
+
         <activity android:name="com.gdjang.consumer_client.tutorial.TutorialActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity
@@ -55,16 +72,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name="com.gdjang.consumer_client.farm.FarmDetailActivity" />
         <activity android:name="com.gdjang.consumer_client.store.StoreDetailActivity" />
-        <activity android:name="com.gdjang.consumer_client.md.JointPurchaseActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="@string/kakaolink_host"
-                    android:scheme="@string/kakao_scheme" />
-            </intent-filter>
-        </activity>
+        <activity android:name="com.gdjang.consumer_client.md.JointPurchaseActivity" />
 
         <activity android:name="com.gdjang.consumer_client.order.ToPayActivity" />
         <activity android:name="com.gdjang.consumer_client.order.PaidActivity" />
