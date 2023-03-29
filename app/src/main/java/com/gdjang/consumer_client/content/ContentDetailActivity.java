@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.gdjang.consumer_client.MainActivity;
 import com.gdjang.consumer_client.R;
 import com.gdjang.consumer_client.cart.CartListActivity;
@@ -90,8 +92,14 @@ public class ContentDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         content_title.setText(intent.getStringExtra("content_title"));
         content_context.setText(intent.getStringExtra("content_context"));
-        Picasso.get().load(intent.getStringExtra("content_photo")).into(content_photo);
-        Picasso.get().load(intent.getStringExtra("contentMainPhoto")).into(contentMainPhoto);
+//        Picasso.get().load(intent.getStringExtra("content_photo")).into(content_photo);
+//        Picasso.get().load(intent.getStringExtra("contentMainPhoto")).into(contentMainPhoto);
+        Glide.with(ContentDetailActivity.this)
+                .load(intent.getStringExtra("content_photo"))
+                .into(content_photo);
+        Glide.with(ContentDetailActivity.this)
+                .load(intent.getStringExtra("contentMainPhoto"))
+                .into(contentMainPhoto);
 
         content_md_id1 = intent.getStringExtra("content_md_id1");
         content_md_id2 = intent.getStringExtra("content_md_id2");

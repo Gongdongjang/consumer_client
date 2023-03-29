@@ -2,6 +2,7 @@ package com.gdjang.consumer_client.content;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class BannerListAdapter extends RecyclerView.Adapter<BannerListAdapter.ViewHolder> {
-    final Integer NUM_PAGES = 4;
+    final Integer NUM_PAGES = 3;
 
     private Context context;
     private ArrayList<String> bannerThumbnails;
@@ -78,6 +79,7 @@ public class BannerListAdapter extends RecyclerView.Adapter<BannerListAdapter.Vi
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition() % NUM_PAGES;
+                    Log.d("position", String.valueOf(position));
                     Intent intent = new Intent(context.getApplicationContext(), ContentDetailActivity.class);
 
                     intent.putExtra("content_id", bannerIds.get(position));

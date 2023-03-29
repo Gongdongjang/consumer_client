@@ -191,6 +191,7 @@ public class ContentActivity extends AppCompatActivity {
                         JsonObject res = (JsonObject) jsonParser.parse(response.body().string());
                         JsonArray data = res.getAsJsonArray("data");
                         for (int i = 0; i < data.size(); i++) {
+                            Log.d("data.size()", String.valueOf(data.size()));
                             JsonObject jsonObject = (JsonObject) data.get(i);
                             String thumbnailUrl = "https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_thumbnail").getAsString();
                             bannerThumbnails.add(thumbnailUrl);
@@ -199,8 +200,17 @@ public class ContentActivity extends AppCompatActivity {
                             bannerContexts.add(jsonObject.get("content_context").getAsString());
                             bannerPhotos.add("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_photo").getAsString());
                             bannerMainPhotos.add("https://ggdjang.s3.ap-northeast-2.amazonaws.com/" + jsonObject.get("content_main").getAsString());
-                            bannerMdId1.add(jsonObject.get("content_md_id1").getAsString());
-                            bannerMdId2.add(jsonObject.get("content_md_id2").getAsString());
+                            if(!jsonObject.get("content_md_id1").isJsonNull()){
+                                bannerMdId1.add(jsonObject.get("content_md_id1").getAsString());
+                            }
+                            else{
+                                bannerMdId1.add("null");
+                            }
+                            if(!jsonObject.get("content_md_id2").isJsonNull()){
+                                bannerMdId2.add(jsonObject.get("content_md_id2").getAsString());
+                            }else{
+                                bannerMdId2.add("null");
+                            }
                         }
                         System.out.println("banner " + bannerThumbnails);
                         bannerListAdapter.notifyDataSetChanged();
