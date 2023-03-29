@@ -62,14 +62,14 @@
                             android:layout_marginRight="5dp"
                             android:text="스토어명"
                             android:textColor="@color/text_3"
-                            android:textSize="12sp" />
+                            android:textSize="12dp" />
 
                         <TextView
                             android:id="@+id/StoreLocationFromMe"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="주문상세"
-                            android:textSize="12sp"
+                            android:textSize="12dp"
                             android:layout_gravity="right"/>
 
                         <ImageView
@@ -93,7 +93,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:text="제품명"
-                                android:textSize="14sp"
+                                android:textSize="14dp"
                                 android:textColor="@color/black"
                                 android:textStyle="bold"/>
 
@@ -108,14 +108,14 @@
                                     android:layout_height="match_parent"
                                     android:text= "3"
                                     android:layout_marginTop="2dp"
-                                    android:textSize="12sp"
+                                    android:textSize="12dp"
                                     android:textColor="@color/black" />
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:text= "세트"
                                     android:layout_marginTop="2dp"
-                                    android:textSize="12sp"
+                                    android:textSize="12dp"
                                     android:textColor="@color/black" />
 
                                 <TextView
@@ -123,6 +123,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:text= "119,900"
+                                    android:textSize="13dp"
                                     android:layout_marginLeft="8dp"
                                     android:textStyle="bold"
                                     android:textColor="@color/black" />
@@ -130,6 +131,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:text= "원"
+                                    android:textSize="13dp"
                                     android:textStyle="bold"
                                     android:textColor="@color/black" />
 
@@ -139,7 +141,7 @@
                             android:id="@+id/mdStatus"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:textSize="10sp"
+                            android:textSize="10dp"
                             android:visibility="gone" />
 
                             <TextView
@@ -147,7 +149,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:text="픽업 예정일 2023.01.31"
-                                android:textSize="10sp"
+                                android:textSize="10dp"
                                 android:layout_marginTop="10dp"
                                 android:layout_marginBottom="10dp"
                                 android:textColor="@color/main_1" />
@@ -170,7 +172,7 @@
         android:gravity="center"
         android:textColor="#000000"
         android:textFontWeight="30"
-        android:textSize="14sp"
+        android:textSize="14dp"
         android:visibility="gone"/>
 
 </LinearLayout>

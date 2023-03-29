@@ -18,7 +18,7 @@
         android:gravity="center"
         android:text="악의적인 내용이 담긴 리뷰는\n내부 규정에 의해 삭제될 수 있습니다."
         android:textColor="@color/black"
-        android:textSize="15sp"
+        android:textSize="15dp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -39,6 +39,7 @@
             android:background="@drawable/button_round"
             android:stateListAnimator="@null"
             android:text="취소"
+            android:textSize="15dp"
             android:textColor="#1EAA95" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -50,6 +51,7 @@
             android:background="@drawable/button_round2"
             android:stateListAnimator="@null"
             android:text="등록하기"
+            android:textSize="15dp"
             android:textColor="#FFFFFF" />
     </LinearLayout>
 </LinearLayout>

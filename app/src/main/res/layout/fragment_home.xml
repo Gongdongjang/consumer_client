@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_alignParentLeft="true"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:layout_alignParentTop="true"
                 android:text="공동구매 추천 리스트"
                 android:textColor="#000000"
@@ -87,7 +87,7 @@
                 android:text="더보기 > "
                 android:textColor="#B4B4B4"
                 android:textStyle="bold"
-                android:textSize="12sp" />
+                android:textSize="12dp" />
 
         </LinearLayout>
 
@@ -112,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_alignParentLeft="true"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:layout_alignParentTop="true"
                 android:text="오늘의 공동장"
                 android:textColor="#000000"
@@ -135,7 +135,7 @@
                 android:text="더보기 > "
                 android:textColor="#B4B4B4"
                 android:textStyle="bold"
-                android:textSize="12sp" />
+                android:textSize="12dp" />
 
         </LinearLayout>
 

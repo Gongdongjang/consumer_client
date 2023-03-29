@@ -27,7 +27,7 @@
         android:gravity="center"
         android:text="원하는 농가, 픽업 스토어를 선택하고\n진행 중인 공동구매를 찾아봐요."
         android:textColor="@color/main_1"
-        android:textSize="20sp"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

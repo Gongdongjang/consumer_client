@@ -20,34 +20,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:textColor="@color/black"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="원"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:textColor="@color/black"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:text="X "
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/CLP_EachMdCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/CLP_EachMdTotalPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:text="0"
                     android:layout_weight="1"
                     android:gravity="right"/>
@@ -55,7 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:text="원"/>
         </LinearLayout>
     </LinearLayout>

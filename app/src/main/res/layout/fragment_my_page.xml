@@ -30,7 +30,7 @@
             android:gravity="center"
             android:text="마이페이지"
             android:textColor="#151515"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:textStyle="bold"
             android:maxLines="1"
             android:ellipsize="end"
@@ -80,14 +80,14 @@
                         android:text="User"
                         android:textColor="@color/black"
                         android:textStyle="bold"
-                        android:textSize="24sp"/>
+                        android:textSize="24dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="님"
                         android:textColor="@color/black"
-                        android:textSize="24sp"
+                        android:textSize="24dp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -124,7 +124,7 @@
                                 android:layout_weight="1"
                                 android:text="알림센터"
                                 android:textColor="@color/black"
-                                android:textSize="16sp"
+                                android:textSize="16dp"
                                 android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout
@@ -149,7 +149,7 @@
                                 android:layout_weight="1"
                                 android:text="찜한 상품"
                                 android:textColor="@color/black"
-                                android:textSize="16sp"
+                                android:textSize="16dp"
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </LinearLayout>
@@ -215,7 +215,7 @@
                     android:text="나의 쇼핑정보"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="50px"/>
+                    android:textSize="18dp"/>
 
                 <View
                     android:layout_width="0dp"
@@ -240,7 +240,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="주문내역"
-                    android:textSize="40px"
+                    android:textSize="15dp"
                     android:textColor="@color/black"
                     android:layout_marginBottom="5dp"/>
                 <TextView
@@ -248,7 +248,7 @@
                     android:layout_height="wrap_content"
                     android:text="취소 / 교환 / 반품"
                     android:textColor="@color/black"
-                    android:textSize="40px"
+                    android:textSize="15dp"
                     android:layout_marginBottom="5dp"/>
 
                 <TextView
@@ -257,7 +257,7 @@
                     android:layout_marginBottom="15dp"
                     android:textColor="@color/black"
                     android:text="상품리뷰"
-                    android:textSize="40px" />
+                    android:textSize="15dp" />
 
             </LinearLayout>
 
@@ -282,7 +282,7 @@
                     android:text="나의 계정설정"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="50px"/>
+                    android:textSize="18dp"/>
 
                 <View
                     android:layout_width="0dp"
@@ -307,7 +307,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="회원정보 수정"
-                    android:textSize="40px"
+                    android:textSize="15dp"
                     android:textColor="@color/black"
                     android:layout_marginBottom="5dp"/>
                 <TextView
@@ -315,7 +315,7 @@
                     android:layout_height="wrap_content"
                     android:text="알림 설정"
                     android:textColor="@color/black"
-                    android:textSize="40px"
+                    android:textSize="15dp"
                     android:layout_marginBottom="15dp"/>
 
             </LinearLayout>
@@ -341,7 +341,7 @@
                     android:text="about 공동장"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="50px"/>
+                    android:textSize="18dp"/>
 
                 <View
                     android:layout_width="0dp"
@@ -366,21 +366,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="공지사항"
-                    android:textSize="40px"
+                    android:textSize="15dp"
                     android:textColor="@color/black"
                     android:layout_marginBottom="5dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="회사소개"
-                    android:textSize="40px"
+                    android:textSize="15dp"
                     android:textColor="@color/black"
                     android:layout_marginBottom="5dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="문의하기"
-                    android:textSize="40px"
+                    android:textSize="15dp"
                     android:textColor="@color/black"
                     android:layout_marginBottom="5dp"/>
                 <TextView
@@ -389,7 +389,7 @@
                     android:layout_height="wrap_content"
                     android:text="로그아웃"
                     android:textColor="@color/black"
-                    android:textSize="40px"
+                    android:textSize="15dp"
                     android:layout_marginBottom="1dp"/>
 
             </LinearLayout>
@@ -415,7 +415,7 @@
                     android:text="오픈소스 라이선스"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="50px"/>
+                    android:textSize="18dp"/>
 
                 <View
                     android:layout_width="0dp"

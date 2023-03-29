@@ -170,7 +170,7 @@
                             android:layout_marginBottom="10dp"
                             android:text="오늘 주문하면 픽업 예정일 "
                             android:textColor="@color/main_1"
-                            android:textSize="10sp" />
+                            android:textSize="10dp" />
 
                         <TextView
                             android:id="@+id/StoreProdDate"
@@ -180,7 +180,7 @@
                             android:layout_marginBottom="10dp"
                             android:text="1월 25일"
                             android:textColor="@color/main_1"
-                            android:textSize="10sp" />
+                            android:textSize="10dp" />
 
                     </LinearLayout>
                 </LinearLayout>

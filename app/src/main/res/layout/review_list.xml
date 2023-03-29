@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="110dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/button_round"
         android:padding="5dp">
@@ -44,6 +44,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -132,6 +133,9 @@
                                 android:layout_height="match_parent"
                                 android:text="일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구..."
                                 android:layout_marginTop="5dp"
+                                android:layout_marginRight="10dp"
+                                android:maxLines="1"
+                                android:ellipsize="end"
                                 android:textSize="11dp"
                                 android:textColor="@color/black" />
                         </LinearLayout>

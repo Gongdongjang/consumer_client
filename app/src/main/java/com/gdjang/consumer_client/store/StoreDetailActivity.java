@@ -73,7 +73,6 @@ public class StoreDetailActivity extends AppCompatActivity {
     private ArrayList<MdDetailInfo> mList;
     private ArrayList<StoreReviewInfo> mReviewList;
     private FarmDetailAdapter mStoreDetailAdapter;
-    private StoreReviewAdapter mStoreReviewAdapter;
 
     String user_id, standard_address, day;
     double myTownLat;

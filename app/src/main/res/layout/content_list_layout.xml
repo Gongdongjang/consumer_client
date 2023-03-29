@@ -33,7 +33,7 @@
             android:background="@drawable/button_round"
             android:padding="10dp"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:textStyle="bold"
             android:text="콘텐츠 제목" />
 

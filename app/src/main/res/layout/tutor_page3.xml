@@ -24,7 +24,7 @@
         android:gravity="center"
         android:text="주문할 때는 픽업 일정과 스토어 위치, \n장바구니까지 꼭 확인해주세요."
         android:textColor="@color/main_1"
-        android:textSize="20sp"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

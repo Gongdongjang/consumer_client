@@ -32,7 +32,7 @@
                 android:gravity="center"
                 android:text="카테고리"
                 android:textColor="#151515"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -77,7 +77,7 @@
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="18sp" />
+                    android:textSize="18dp" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -88,6 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="전체 입점 농가 보기"
+                    android:textSize="15dp"
                     android:textColor="#000000" />
                 <TextView
                     android:id="@+id/showTotalStore"
@@ -95,6 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="전체 픽업 스토어 보기"
+                    android:textSize="15dp"
                     android:textColor="#000000" />
             </LinearLayout>
         </LinearLayout>
@@ -129,7 +131,7 @@
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="18sp" />
+                    android:textSize="18dp" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -140,6 +142,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="지도로 스토어 위치 보기"
+                    android:textSize="15dp"
                     android:textColor="#000000" />
                 <TextView
                     android:id="@+id/showProduct"
@@ -147,6 +150,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="진행 중인 제품 보기"
+                    android:textSize="15dp"
                     android:textColor="#000000" />
             </LinearLayout>
         </LinearLayout>
@@ -180,7 +184,7 @@
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="18sp" />
+                    android:textSize="18dp" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -191,6 +195,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="공동장 콘텐츠"
+                    android:textSize="15dp"
                     android:textColor="#000000" />
                 <TextView
                     android:id="@+id/Content_Company_info"
@@ -198,6 +203,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="회사 소개"
+                    android:textSize="15dp"
                     android:textColor="#000000" />
             </LinearLayout>
         </LinearLayout>
@@ -231,7 +237,7 @@
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="18sp" />
+                    android:textSize="18dp" />
             </LinearLayout>
         </LinearLayout>
 

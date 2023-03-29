@@ -68,6 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="18dp"
+                    android:textSize="15dp"
                     android:text="스토어 짧은 설명"
                     android:textColor="@color/grey" />
 
@@ -92,6 +93,7 @@
                             android:id="@+id/StoreLocation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="14dp"
                             android:layout_marginLeft="10dp"
                             android:text="서울특별시 성북구 동소문로 25길" />
 
@@ -118,12 +120,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
+                                android:textSize="14dp"
                                 android:text="12:00" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
+                                android:textSize="14dp"
                                 android:text="~" />
 
                             <TextView
@@ -131,6 +135,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
+                                android:textSize="14dp"
                                 android:text="20:00" />
                         </LinearLayout>
                     </LinearLayout>
@@ -147,11 +152,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="30dp"
+                            android:textSize="14dp"
                             android:text="일" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="14dp"
                             android:text="요일 휴무" />
                     </LinearLayout>
 
@@ -172,6 +179,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
+                            android:textSize="14dp"
                             android:text="02 - 000 - 0000" />
 
                     </LinearLayout>
@@ -222,6 +230,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:textSize="14dp"
                 android:text="현재 "
                 android:textColor="#A3A3A3" />
 
@@ -230,6 +239,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:textSize="14dp"
                 android:text="4"
                 android:textColor="#1EAA95" />
 
@@ -237,6 +247,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="가지 작물을 진행 중입니다."
+                android:textSize="14dp"
                 android:textColor="#A3A3A3" />
 
         </LinearLayout>

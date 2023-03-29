@@ -24,7 +24,7 @@
         android:layout_marginTop="48dp"
         android:text="홈에서 우리 동네 공동구매를 살펴봐요."
         android:textColor="@color/main_1"
-        android:textSize="20sp"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"

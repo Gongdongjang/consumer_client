@@ -18,7 +18,7 @@
         android:gravity="center"
         android:text="작성된 리뷰를\n삭제하시겠습니까?"
         android:textColor="@color/black"
-        android:textSize="15sp"
+        android:textSize="15dp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -38,6 +38,7 @@
             android:layout_weight="1"
             android:background="@drawable/button_round"
             android:text="취소"
+            android:textSize="15dp"
             android:stateListAnimator="@null"
             android:textColor="#1EAA95" />
 
@@ -49,6 +50,7 @@
             android:layout_weight="1"
             android:background="@drawable/button_round2"
             android:text="삭제하기"
+            android:textSize="15dp"
             android:stateListAnimator="@null"
             android:textColor="#FFFFFF" />
     </LinearLayout>

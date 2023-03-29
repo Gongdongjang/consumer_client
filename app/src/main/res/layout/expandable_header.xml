@@ -15,7 +15,7 @@
     <TextView
         android:id="@+id/header_title"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="18dp"
         android:gravity="center_vertical"
         android:layout_width="0dp"
         android:layout_height="match_parent"

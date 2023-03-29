@@ -24,6 +24,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="20dp"
             android:textAlignment="center"
+            android:textSize="14dp"
             android:layout_gravity="center">
 
             <Spinner
