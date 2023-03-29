@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.gdjang.consumer_client.MainActivity;
 import com.gdjang.consumer_client.R;
 import com.gdjang.consumer_client.agree.Agree3;
 import com.gdjang.consumer_client.agree.Agree4;
@@ -214,8 +215,11 @@ public class ToPayActivity extends AppCompatActivity {
                                         //order_id= res.get("order_id").getAsJsonObject().get("LAST_INSERT_ID()").getAsString();
 
                                         if(res.get("order_id").isJsonNull()) {       //주문하기 실패 시
-                                            Toast.makeText(ToPayActivity.this, "주문하기 오류가 발생했으니 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ToPayActivity.this, "주문하기 오류가 발생하여 홈으로 이동합니다. 잠시후 다시 시도해주세요.", Toast.LENGTH_LONG).show();
                                             // 뒤로가기
+                                            Intent i= new Intent(ToPayActivity.this, MainActivity.class);
+                                            i.putExtra("user_id",user_id);
+                                            startActivity(i);
 
                                         }else{  //주문 성공
                                             String order_id= res.get("order_id").getAsString();

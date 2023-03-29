@@ -158,16 +158,17 @@
             android:text="n000원"
             android:textSize="12dp"
             android:textColor="#848484" />
-
-        <TextView
-            android:id="@+id/Paid_PU_Date"
-            android:layout_marginLeft="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="픽업 일시 2021.09.10 10:00"
-            android:textSize="12dp"
-            android:textColor="#848484" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/Paid_PU_Date"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="픽업 일시 2021.09.10 10:00"
+        android:textSize="12dp"
+        android:textColor="#848484" />
 
     <TextView
         android:layout_width="wrap_content"
