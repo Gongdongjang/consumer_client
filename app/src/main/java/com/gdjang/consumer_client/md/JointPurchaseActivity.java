@@ -96,7 +96,7 @@ public class JointPurchaseActivity extends AppCompatActivity {
         TextView up_FarmerName = (TextView) findViewById(R.id.up_FarmerName);
         TextView up_ProdName = (TextView) findViewById(R.id.up_ProdName);
         //뒤로가기
-        ImageView up_mdArrow = findViewById(R.id.up_mdArrow);
+        ImageView up_mdArrow = findViewById(R.id.toolbar_goBack);
 
         //000 농부님의 000상품 단락
         TextView FarmName = (TextView) findViewById(R.id.JP_FarmName_Main);

@@ -1,44 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/md_toolbar"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <ImageView
-        android:id="@+id/up_mdArrow"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/ic_top_arrow"/>
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-    <TextView
-        android:id="@+id/up_FarmerName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="20dp"
-        android:textColor="@color/black"
-        android:text="홍길동"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="20dp"
-        android:textColor="@color/black"
-        android:text="농부님의 " />
-    <TextView
-        android:id="@+id/up_ProdName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="20dp"
-        android:textColor="@color/black"
-        android:text="제품명" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#FFFFFF"
+        android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/toolbar_cart"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_gravity="right"
-        android:src="@drawable/ic_cart_shopping" />
+        <ImageView
+            android:id="@+id/toolbar_goBack"
+            android:layout_marginLeft="-16dp"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center|left"
+            android:layout_weight="1"
+            android:src="@drawable/ic_top_arrow" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:background="#FFFFFF"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/up_FarmerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="홍길동"
+            android:textColor="@color/black"
+            android:textSize="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="농부님의 "
+            android:textColor="@color/black"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/up_ProdName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="제품명"
+            android:textColor="@color/black"
+            android:textSize="12dp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/toolbar_cart"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center|right"
+            android:layout_weight="1"
+            android:src="@drawable/ic_cart_shopping" />
+    </LinearLayout>
 
 </androidx.appcompat.widget.Toolbar>
