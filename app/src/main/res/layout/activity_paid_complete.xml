@@ -76,14 +76,14 @@
         android:layout_marginTop="22dp"
         android:text="주문이 완료되었습니다"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="24dp"
         android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="    해당 계좌로 입금이 완료되면\n      [마이페이지 > 알림센터]로\n주문 확정 알림을 보내드리겠습니다."
-        android:textSize="14sp"
+        android:textSize="14dp"
         android:textColor="#848484"
         android:layout_marginTop="35dp"
         android:layout_gravity="center"/>
@@ -93,7 +93,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#848484"
-        android:textSize="14sp"
+        android:textSize="14dp"
         android:textStyle="bold"
         android:layout_gravity="center"
         android:layout_marginTop="17dp"
@@ -105,7 +105,7 @@
         android:layout_height="wrap_content"
         android:text="        입금 안내 및 주문 확정 사항은\n
 [마이페이지 > 알림센터]를 확인해주세요."
-        android:textSize="14sp"
+        android:textSize="14dp"
         android:textColor="#BEBEBE"
         android:layout_marginTop="44dp"
         android:layout_gravity="center"/>
@@ -125,7 +125,7 @@
         android:layout_marginLeft="16dp"
         android:text="최종 주문 내역"
         android:textColor="#151515"
-        android:textSize="14sp"
+        android:textSize="14dp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -140,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="제품명"
-            android:textSize="12sp"
+            android:textSize="12dp"
             android:textColor="#848484" />
         <TextView
             android:id="@+id/Paid_SelectCount"
@@ -148,7 +148,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="n개"
-            android:textSize="12sp"
+            android:textSize="12dp"
             android:textColor="#848484" />
         <TextView
             android:id="@+id/Paid_ToTalPrice"
@@ -156,7 +156,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="n000원"
-            android:textSize="12sp"
+            android:textSize="12dp"
             android:textColor="#848484" />
 
         <TextView
@@ -165,7 +165,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="픽업 일시 2021.09.10 10:00"
-            android:textSize="12sp"
+            android:textSize="12dp"
             android:textColor="#848484" />
     </LinearLayout>
 
@@ -176,7 +176,7 @@
         android:layout_marginLeft="16dp"
         android:text="픽업 장소 안내"
         android:textColor="#151515"
-        android:textSize="14sp"
+        android:textSize="14dp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -195,14 +195,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="픽업 매장"
-                android:textSize="12sp"
+                android:textSize="12dp"
                 android:textColor="#848484"/>
             <TextView
                 android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="매장 주소"
-                android:textSize="12sp"
+                android:textSize="12dp"
                 android:textColor="#848484"/>
         </LinearLayout>
 
@@ -217,7 +217,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="스토어명"
-                android:textSize="12sp"
+                android:textSize="12dp"
                 android:textColor="#848484" />
             <TextView
                 android:layout_marginTop="8dp"
@@ -225,7 +225,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="서울시 성북구 동서문로25길 8 1층"
-                android:textSize="12sp"
+                android:textSize="12dp"
                 android:textColor="#848484" />
         </LinearLayout>
     </LinearLayout>
@@ -241,6 +241,7 @@
         android:text="홈으로 가기"
         android:stateListAnimator="@null"
         android:textColor="#1EAA95"
+        android:textSize="14dp"
         android:textStyle="bold" />
 
 
@@ -255,6 +256,7 @@
         android:textStyle="bold"
         android:backgroundTint="#1EAA95"
         android:stateListAnimator="@null"
+        android:textSize="14dp"
         android:text="주문내역 확인" />
 
 

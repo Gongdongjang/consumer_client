@@ -51,7 +51,7 @@
                 android:gravity="center"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="10sp" />
+                android:textSize="10dp" />
 
             <TextView
                 android:id="@+id/storeLocationFromMe"
@@ -62,7 +62,7 @@
                 android:gravity="center"
                 android:textAlignment="center"
                 android:textColor="#000000"
-                android:textSize="8sp" />
+                android:textSize="8dp" />
         </LinearLayout>
 
 
@@ -83,19 +83,19 @@
             android:layout_marginTop="10dp"
             android:text="스토어명"
             android:textColor="@color/text_3"
-            android:textSize="10sp"
+            android:textSize="10dp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/homeProdEx_item"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="42dp"
             android:layout_marginLeft="14dp"
             android:layout_marginTop="4dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="10dp"
             android:text="제품명입니다. 하나둘셋넷다"
             android:textColor="#000000"
-            android:textSize="14sp" />
+            android:textSize="13dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:text="1 세트"
                 android:textColor="@color/text_3"
-                android:textSize="10sp" />
+                android:textSize="10dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -124,14 +124,14 @@
                     android:layout_marginLeft="4dp"
                     android:text="10,000"
                     android:textColor="#282828"
-                    android:textSize="12sp" />
+                    android:textSize="12dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="원"
                     android:textColor="#282828"
-                    android:textSize="12sp" />
+                    android:textSize="12dp" />
 
             </LinearLayout>
 
@@ -150,7 +150,7 @@
                 android:layout_marginBottom="10dp"
                 android:text="오늘 주문하면 픽업 예정일 "
                 android:textColor="@color/main_1"
-                android:textSize="10sp" />
+                android:textSize="10dp" />
 
             <TextView
                 android:id="@+id/StoreProdDate"
@@ -159,7 +159,7 @@
                 android:layout_marginBottom="10dp"
                 android:text="1월 25일"
                 android:textColor="@color/main_1"
-                android:textSize="10sp" />
+                android:textSize="10dp" />
 
 
         </LinearLayout>

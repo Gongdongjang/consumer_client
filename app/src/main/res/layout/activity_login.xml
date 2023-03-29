@@ -56,6 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="아이디"
+            android:textSize="15dp"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -64,6 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:textSize="18dp"
             android:backgroundTint="#1EAA95" />
 
         <TextView
@@ -71,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="비밀번호"
+            android:textSize="15dp"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -80,6 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:backgroundTint="#1EAA95"
+            android:textSize="18dp"
             android:inputType="textPassword"/>
 
     </LinearLayout>
@@ -90,6 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:textSize="15dp"
         android:text="자동 로그인" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -104,7 +109,7 @@
         android:text="공동장 시작하기"
         android:enabled="false"
         android:textColor="#BEBEBE"
-        android:textSize="16sp"
+        android:textSize="15dp"
         android:textStyle="bold" />
 
     <LinearLayout

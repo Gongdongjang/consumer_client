@@ -61,7 +61,7 @@
             android:layout_marginBottom="10dp"
             android:text="공지사항"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:text="회사소개"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:textStyle="bold" />
 
         <Button
@@ -89,7 +89,7 @@
             android:stateListAnimator="@null"
             android:text="회사소개 바로가기"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:text="문의하기"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:textStyle="bold" />
 
             <Button
@@ -115,7 +115,7 @@
                 android:stateListAnimator="@null"
                 android:text="고객센터 연결\n(취소 / 교환 / 반품)"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -145,7 +145,7 @@
                     android:gravity="left"
                     android:text="고객센터 문의 카카오톡(5시-6시)"
                     android:textColor="@color/text_2"
-                    android:textSize="14sp" />
+                    android:textSize="14dp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

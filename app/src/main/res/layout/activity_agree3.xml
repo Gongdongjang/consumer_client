@@ -21,7 +21,7 @@
                 android:layout_marginTop="20dp"
                 android:text="구매 유의 사항 확인"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="20dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -63,7 +63,7 @@
 \n4.	사전 구매 확정 후 이용자는 이틀간 진행되는 사전구매일자의 변경만 허용됩니다.
 "
 
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:textColor="@color/text_3" />
         </LinearLayout>
     </ScrollView>

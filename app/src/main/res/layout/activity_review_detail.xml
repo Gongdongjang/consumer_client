@@ -170,7 +170,7 @@
             android:gravity="left"
             android:text="상품 리뷰"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="15dp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -265,6 +265,7 @@
             android:layout_marginRight="20dp"
             android:background="@drawable/button_round2"
             android:text="홈으로 가기"
+            android:textSize="15dp"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
 
