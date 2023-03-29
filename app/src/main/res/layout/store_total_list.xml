@@ -105,8 +105,9 @@
                 android:id="@+id/StoreInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="스토어 한 줄 설명"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:text="쓰레기를 줄이는 무포장 판매를 하는 제로웨이스트 샵입니다."
                 android:textColor="#444444"
                 android:textSize="9dp" />
 

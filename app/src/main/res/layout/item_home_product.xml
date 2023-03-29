@@ -92,7 +92,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
             android:layout_marginTop="4dp"
-            android:text="제품명"
+            android:layout_marginRight="5dp"
+            android:text="제품명입니다. 하나둘셋넷다"
             android:textColor="#000000"
             android:textSize="14sp" />
 

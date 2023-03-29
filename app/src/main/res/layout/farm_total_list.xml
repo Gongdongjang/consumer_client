@@ -106,7 +106,7 @@
                     android:id="@+id/FarmFeature"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="10dp"
                     android:text="일이삼사오육칠팔구십일이삼사오육칠팔구십"
                     android:textColor="#444444"
                     android:textSize="10dp" />
