@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gdjang.consumer_client.R;
@@ -28,6 +29,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -114,6 +117,11 @@ public class Order extends Fragment {
 
                     orderDetailArray = res.get("order_detail").getAsJsonArray();
                     pu_date = res.get("pu_date").getAsJsonArray();
+
+                    if(orderDetailArray.size() != 0){
+                        TextView orderText = view.findViewById(R.id.orderText);
+                        orderText.setVisibility(View.GONE);
+                    }
 
                     //어뎁터 적용
                     mOrderListAdapter = new OrderListAdapter(mList);
